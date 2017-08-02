@@ -8,12 +8,13 @@
 [![License](https://poser.pugx.org/ecodev/graphql-doctrine/license.png)](https://packagist.org/packages/ecodev/graphql-doctrine)
 [![Join the chat at https://gitter.im/Ecodev/graphql-doctrine](https://badges.gitter.im/Ecodev/graphql-doctrine.svg)](https://gitter.im/Ecodev/graphql-doctrine)
 
-A library to declare GraphQL types from Doctrine entities and annotations.
+A library to declare GraphQL types from Doctrine entities, PHP 7.1 type hinting,
+and annotations, and to be used with [webonyx/graphql-php](https://github.com/webonyx/graphql-php).
 
 It reads most informations from type hints, complete some things from existing
 Doctrine annotations and allow further customizations with specialized annotations.
-It will then create [`ObjectType`](http://webonyx.github.io/graphql-php/type-system/object-types/#object-type-definition) instances with fields for all getter found on
-Doctrine entities.
+It will then create [`ObjectType`](http://webonyx.github.io/graphql-php/type-system/object-types/#object-type-definition)
+instances with fields for all getter found on Doctrine entities.
 
 It will **not** build the entire schema. It is up to the user to use the automated
 `ObjectType`, and other custom types, to define root queries.
@@ -145,5 +146,6 @@ and `defaultValue`.
 [Doctrine GraphQL Mapper](https://github.com/rahuljayaraman/doctrine-graphql) has
 been an inspiration to write this package. While the goals are similar, the way
 it works is different. Annotations are spread between properties and getter, but
-we work only on getter. Setup seems slighlty more complex, but might be more
-flexible. We built on conventions to have an easier out-of-the-box experience.
+we work only on getter. Setup seems slightly more complex, but might be more
+flexible. We built on conventions and widespread use of PHP 7.1 type hinting
+to have an easier out-of-the-box experience.
