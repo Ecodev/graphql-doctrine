@@ -269,7 +269,7 @@ class FieldsConfigurationFactory
     /**
      * Complete arguments configuration from existing type hints
      * @param ReflectionMethod $method
-     * @param array $argsFromAnnotations
+     * @param Argument[] $argsFromAnnotations
      * @throws Exception
      * @return array
      */

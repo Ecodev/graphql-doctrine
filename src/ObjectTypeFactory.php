@@ -82,12 +82,12 @@ class ObjectTypeFactory
 
     /**
      * Get the description of a class from the docblock
-     * @param ReflectionMethod $method
+     * @param ReflectionClass $class
      * @return string|null
      */
-    private function getDescription(ReflectionClass $method): ?string
+    private function getDescription(ReflectionClass $class): ?string
     {
-        $comment = $method->getDocComment();
+        $comment = $class->getDocComment();
 
         // Remove the comment markers
         $comment = preg_replace('~^\s*(/\*\*|\* ?|\*/)~m', '', $comment);
