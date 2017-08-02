@@ -6,7 +6,7 @@
 [![Total Downloads](https://poser.pugx.org/ecodev/graphql-doctrine/downloads.png)](https://packagist.org/packages/ecodev/graphql-doctrine)
 [![Latest Stable Version](https://poser.pugx.org/ecodev/graphql-doctrine/v/stable.png)](https://packagist.org/packages/ecodev/graphql-doctrine)
 [![License](https://poser.pugx.org/ecodev/graphql-doctrine/license.png)](https://packagist.org/packages/ecodev/graphql-doctrine)
-[![Join the chat at https://gitter.im/Ecodev/graphql-doctrine](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/Ecodev/graphql-doctrine)
+[![Join the chat at https://gitter.im/Ecodev/graphql-doctrine](https://badges.gitter.im/Ecodev/graphql-doctrine.svg)](https://gitter.im/Ecodev/graphql-doctrine)
 
 A library to declare GraphQL types from Doctrine entities and annotations.
 
