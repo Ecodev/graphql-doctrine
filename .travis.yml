@@ -2,23 +2,17 @@ language: php
 php:
   - 7.1
 
-matrix:
-  include:
-    - php: 7.1
-      env: COVERAGE=1
 cache:
   directories:
     - vendor
     - $HOME/.composer/cache
 
 before_script:
-  # Deactivate xdebug if we don't do code coverage
-  - if [ -z "$COVERAGE" ]; then rm -rfv /home/travis/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ; fi
   - composer install
 
 script:
-  - if [ -z "$COVERAGE" ]; then ./vendor/bin/php-cs-fixer fix --diff --verbose --dry-run ; fi
-  - ./vendor/bin/phpunit --coverage-clover logs/tests/coverage-clover.xml
+  - ./vendor/bin/php-cs-fixer fix --diff --verbose --dry-run
+  - ./vendor/bin/phpunit --coverage-clover coverage-clover.xml
 
 after_script:
-  - if [ -n "$COVERAGE" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover tests/coverage-clover.xml ; fi
+  - wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage-clover.xml
