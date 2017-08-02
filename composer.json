@@ -1,0 +1,25 @@
+{
+    "name": "ecodev/graphql-doctrine",
+    "description": "Declare GraphQL types from Doctrine entities and annotations",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "GraphQL\\Doctrine\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GraphQLTests\\Doctrine\\": "tests"
+        }
+    },
+    "require": {
+        "doctrine/orm": "^2.5",
+        "webonyx/graphql-php": "^0.9.13",
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.2",
+        "friendsofphp/php-cs-fixer": "^2.4"
+    },
+    "license": "MIT"
+}
