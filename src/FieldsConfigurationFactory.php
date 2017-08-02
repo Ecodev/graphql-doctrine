@@ -7,6 +7,7 @@ namespace GraphQL\Doctrine;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use GraphQL\Doctrine\Annotation\Argument;
 use GraphQL\Doctrine\Annotation\Exclude;
 use GraphQL\Doctrine\Annotation\Field;
@@ -32,7 +33,7 @@ class FieldsConfigurationFactory
 
     /**
      * Doctrine metadata for the entity
-     * @var array
+     * @var ClassMetadata
      */
     private $metadata;
 
@@ -55,18 +56,13 @@ class FieldsConfigurationFactory
      */
     public function create(string $className): array
     {
-        $this->metadata = $this->entityManager->getClassMetadata($className);
-        foreach ($this->metadata->fieldMappings as $meta) {
-            if ($meta['id'] ?? false) {
-                $this->identityField = $meta['fieldName'];
-            }
-        }
+        $this->findIdentityField($className);
 
         $class = new ReflectionClass($className);
         $methods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
         $fieldConfigurations = [];
         foreach ($methods as $method) {
-            // Skip non-callable or non-instance methods
+            // Skip non-callable, non-instance or non-getter methods
             if ($method->isAbstract() || $method->isStatic()) {
                 continue;
             }
@@ -82,10 +78,7 @@ class FieldsConfigurationFactory
                 continue;
             }
 
-            $configuraton = $this->methodToConfiguration($method);
-            if ($configuraton) {
-                $fieldConfigurations[] = $configuraton;
-            }
+            $fieldConfigurations[] = $this->methodToConfiguration($method);
         }
 
         return $fieldConfigurations;
@@ -221,7 +214,7 @@ class FieldsConfigurationFactory
         }
 
         // If still no args, look for type hint
-        $field->args = $this->getArgsFromTypeHint($method, $field->args);
+        $field->args = $this->getArgumentsFromTypeHint($method, $field->args);
 
         // If still no type, cannot continue
         if (!$field->type) {
@@ -274,39 +267,21 @@ class FieldsConfigurationFactory
     }
 
     /**
-     * Complete args configuration from existing type hints
+     * Complete arguments configuration from existing type hints
      * @param ReflectionMethod $method
      * @param array $argsFromAnnotations
      * @throws Exception
      * @return array
      */
-    private function getArgsFromTypeHint(ReflectionMethod $method, array $argsFromAnnotations): array
+    private function getArgumentsFromTypeHint(ReflectionMethod $method, array $argsFromAnnotations): array
     {
         $args = [];
         foreach ($method->getParameters() as $param) {
-            //Either get existing one, or create empty one
+            //Either get existing, or create new argument
             $arg = $argsFromAnnotations[$param->getName()] ?? new Argument();
             $args[$param->getName()] = $arg;
 
-            if (!$arg->name) {
-                $arg->name = $param->getName();
-            }
-
-            if (!$arg->description) {
-                $arg->description = $this->getArgumentDescription($param);
-            }
-
-            if (!isset($arg->defaultValue) && $param->isDefaultValueAvailable()) {
-                $arg->defaultValue = $param->getDefaultValue();
-            }
-
-            if (!$arg->type) {
-                $arg->type = $this->refelectionTypeToType($param->getType());
-            }
-
-            if (!$arg->type) {
-                throw new Exception('Could not find type for argument `' . $arg->name . '` for method `' . $method->getDeclaringClass()->getName() . '::' . $method->getName() . '()`. Either type hint the parameter, or specify the type with `@API\Argument` annotation.');
-            }
+            $this->completeArgumentFromTypeHint($method, $param, $arg);
         }
 
         $extraAnnotations = array_diff(array_keys($argsFromAnnotations), array_keys($args));
@@ -315,5 +290,50 @@ class FieldsConfigurationFactory
         }
 
         return $args;
+    }
+
+    /**
+     * Complete a single argument from its type hint
+     * @param ReflectionMethod $method
+     * @param ReflectionParameter $param
+     * @param Argument $arg
+     * @throws Exception
+     */
+    private function completeArgumentFromTypeHint(ReflectionMethod $method, ReflectionParameter $param, Argument $arg)
+    {
+        if (!$arg->name) {
+            $arg->name = $param->getName();
+        }
+
+        if (!$arg->description) {
+            $arg->description = $this->getArgumentDescription($param);
+        }
+
+        if (!isset($arg->defaultValue) && $param->isDefaultValueAvailable()) {
+            $arg->defaultValue = $param->getDefaultValue();
+        }
+
+        $type = $param->getType();
+        if (!$arg->type && $type) {
+            $arg->type = $this->refelectionTypeToType($type);
+        }
+
+        if (!$arg->type) {
+            throw new Exception('Could not find type for argument `' . $arg->name . '` for method `' . $method->getDeclaringClass()->getName() . '::' . $method->getName() . '()`. Either type hint the parameter, or specify the type with `@API\Argument` annotation.');
+        }
+    }
+
+    /**
+     * Look up which field is the ID
+     * @param string $className
+     */
+    private function findIdentityField(string $className)
+    {
+        $this->metadata = $this->entityManager->getClassMetadata($className);
+        foreach ($this->metadata->fieldMappings as $meta) {
+            if ($meta['id'] ?? false) {
+                $this->identityField = $meta['fieldName'];
+            }
+        }
     }
 }

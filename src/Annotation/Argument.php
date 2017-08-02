@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Annotation;
 
+use GraphQL\Type\Definition\Type;
+
 /**
  * Annotation used to override values for an field argument in GraphQL.
  *

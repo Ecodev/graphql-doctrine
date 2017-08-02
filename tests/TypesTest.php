@@ -252,30 +252,31 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $this->assertObjectType($expected, $actual);
     }
 
-    /**
-     * @expectedException \GraphQL\Doctrine\Exception
-     */
     public function testFieldWithoutTypeMustThrow(): void
     {
+        $this->expectExceptionMessage('Could not find type for method `GraphQLTests\Doctrine\Blog\Model\Special\NoType::getWithoutTypeHint()`. Either type hint the return value, or specify the type with `@API\Field` annotation.');
         $type = $this->types->get(Blog\Model\Special\NoType::class);
         $type->getFields();
     }
 
-    /**
-     * @expectedException \GraphQL\Doctrine\Exception
-     */
-    public function testFieldWithExtraArgumentMustThrow(): void
+    public function testFieldReturningCollectionWithoutTypeMustThrow(): void
     {
-        $type = $this->types->get(Blog\Model\Special\ExtraArgument::class);
+        $this->expectExceptionMessage('The method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeCollection::getFoos()` is type hinted with a return type of `Doctrine\Common\Collections\Collection`, but the entity contained in that collection could not be automatically detected. Either fix the type hint, fix the doctrine mapping, or specify the type with `@API\Field` annotation.');
+        $type = $this->types->get(Blog\Model\Special\NoTypeCollection::class);
         $type->getFields();
     }
 
-    /**
-     * @expectedException \GraphQL\Doctrine\Exception
-     */
-    public function testFieldReturningCollectionWithoutTypeMustThrow(): void
+    public function testArgumentWithoutTypeMustThrow(): void
     {
-        $type = $this->types->get(Blog\Model\Special\NoTypeCollection::class);
+        $this->expectExceptionMessage('Could not find type for argument `bar` for method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeArgument::getFoo()`. Either type hint the parameter, or specify the type with `@API\Argument');
+        $type = $this->types->get(Blog\Model\Special\NoTypeArgument::class);
+        $type->getFields();
+    }
+
+    public function testFieldWithExtraArgumentMustThrow(): void
+    {
+        $this->expectExceptionMessage('The following arguments were declared via `@API\Argument` annotation but do not match actual parameter names on method `GraphQLTests\Doctrine\Blog\Model\Special\ExtraArgument::getWithParams()`. Either rename or remove the annotations: misspelled_name');
+        $type = $this->types->get(Blog\Model\Special\ExtraArgument::class);
         $type->getFields();
     }
 }
