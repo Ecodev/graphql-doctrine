@@ -244,6 +244,31 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $this->assertObjectType($expected, $actual);
     }
 
+    public function testCanDeclareArrayOfEntity(): void
+    {
+        $actual = $this->types->get(Blog\Model\Special\ArrayOfEntity::class);
+        $expected = [
+            'name' => 'ArrayOfEntity',
+            'description' => null,
+            'fields' => [
+                [
+                    'name' => 'users',
+                    'type' => '[User]!',
+                    'description' => null,
+                    'args' => [],
+                ],
+                [
+                    'name' => 'id',
+                    'type' => 'ID!',
+                    'description' => null,
+                    'args' => [],
+                ],
+            ],
+        ];
+
+        $this->assertObjectType($expected, $actual);
+    }
+
     public function testFieldWithoutTypeMustThrow(): void
     {
         $this->expectExceptionMessage('Could not find type for method `GraphQLTests\Doctrine\Blog\Model\Special\NoType::getWithoutTypeHint()`. Either type hint the return value, or specify the type with `@API\Field` annotation.');

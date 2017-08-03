@@ -70,7 +70,6 @@ class Types
             'int' => Type::int(),
             'float' => Type::float(),
             'string' => Type::string(),
-            'array' => Type::listOf(Type::string()),
         ];
     }
 }

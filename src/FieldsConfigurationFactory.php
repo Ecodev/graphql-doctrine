@@ -165,7 +165,18 @@ class FieldsConfigurationFactory
     }
 
     /**
-     * Get real instance of type, possibly non-nullable according to PHP syntax (eg: `?MyType` or `null|MyType`)
+     * Get instance of GraphQL type from a PHP class name
+     *
+     * Supported syntaxes are the following:
+     *
+     *  - `?MyType`
+     *  - `null|MyType`
+     *  - `MyType|null`
+     *  - `array<MyType>`
+     *  - `?array<MyType>`
+     *  - `null|array<MyType>`
+     *  - `array<MyType>|null`
+     *
      * @param string|null $typeDeclaration
      * @return Type|null
      */
@@ -175,9 +186,18 @@ class FieldsConfigurationFactory
             return null;
         }
 
-        $name = preg_replace('~(^\?|^null\||\|null$)~', '', $typeDeclaration);
+        $isNullable = 0;
+        $name = preg_replace('~(^\?|^null\||\|null$)~', '', $typeDeclaration, -1, $isNullable);
+
+        $isList = 0;
+        $name = preg_replace('~^array<(.*)>$~', '$1', $name, -1, $isList);
         $type = $this->types->get($name);
-        if ($name === $typeDeclaration) {
+
+        if ($isList) {
+            $type = Type::listOf($type);
+        }
+
+        if (!$isNullable) {
             $type = Type::nonNull($type);
         }
 
@@ -239,7 +259,7 @@ class FieldsConfigurationFactory
         }
 
         $returnTypeName = (string) $returnType;
-        if (is_a($returnTypeName, Collection::class, true)) {
+        if (is_a($returnTypeName, Collection::class, true) || $returnTypeName === 'array') {
             $mapping = $this->metadata->associationMappings[$fieldName] ?? false;
             if (!$mapping) {
                 throw new Exception('The method `' . $method->getDeclaringClass()->getName() . '::' . $method->getName() . '()` is type hinted with a return type of `' . $returnTypeName . '`, but the entity contained in that collection could not be automatically detected. Either fix the type hint, fix the doctrine mapping, or specify the type with `@API\Field` annotation.');
