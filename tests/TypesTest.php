@@ -188,14 +188,6 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     */
-    public function testCannotGetInvalidType(): void
-    {
-        $this->types->get(\stdClass::class);
-    }
-
     public function testNonPublicGetterMustBeIgnored(): void
     {
         $actual = $this->types->get(Blog\Model\Special\IgnoredGetter::class);
@@ -264,6 +256,12 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $this->expectExceptionMessage('The method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeCollection::getFoos()` is type hinted with a return type of `Doctrine\Common\Collections\Collection`, but the entity contained in that collection could not be automatically detected. Either fix the type hint, fix the doctrine mapping, or specify the type with `@API\Field` annotation.');
         $type = $this->types->get(Blog\Model\Special\NoTypeCollection::class);
         $type->getFields();
+    }
+
+    public function testCannotGetInvalidType(): void
+    {
+        $this->expectExceptionMessage('Given class name `DateTimeImmutable` is not a Doctrine entity. Either register a custom GraphQL type for `DateTimeImmutable` when instantiating `GraphQL\Doctrine\Types`, or change the usage of that class to something else.');
+        $this->types->get(\DateTimeImmutable::class);
     }
 
     public function testArgumentWithoutTypeMustThrow(): void

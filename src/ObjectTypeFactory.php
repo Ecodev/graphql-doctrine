@@ -38,7 +38,7 @@ class ObjectTypeFactory
     public function create(string $className): ObjectType
     {
         if (!$this->isValid($className)) {
-            throw new \UnexpectedValueException('Given class name is not a Doctrine entity: ' . $className);
+            throw new \UnexpectedValueException('Given class name `' . $className . '` is not a Doctrine entity. Either register a custom GraphQL type for `' . $className . '` when instantiating `' . Types::class . '`, or change the usage of that class to something else.');
         }
 
         $class = new \ReflectionClass($className);
