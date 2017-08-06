@@ -15,6 +15,7 @@ use GraphQL\Type\Definition\Type;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
+use ReflectionType;
 
 /**
  * A factory to create a configuration for all fields of an entity
@@ -238,7 +239,7 @@ class FieldsConfigurationFactory
 
         // If still no type, cannot continue
         if (!$field->type) {
-            throw new Exception('Could not find type for method `' . $method->getDeclaringClass()->getName() . '::' . $method->getName() . '()`. Either type hint the return value, or specify the type with `@API\Field` annotation.');
+            throw new Exception('Could not find type for method ' . $this->getMethodFullName($method) . '. Either type hint the return value, or specify the type with `@API\Field` annotation.');
         }
 
         return $field->toArray();
@@ -262,7 +263,7 @@ class FieldsConfigurationFactory
         if (is_a($returnTypeName, Collection::class, true) || $returnTypeName === 'array') {
             $mapping = $this->metadata->associationMappings[$fieldName] ?? false;
             if (!$mapping) {
-                throw new Exception('The method `' . $method->getDeclaringClass()->getName() . '::' . $method->getName() . '()` is type hinted with a return type of `' . $returnTypeName . '`, but the entity contained in that collection could not be automatically detected. Either fix the type hint, fix the doctrine mapping, or specify the type with `@API\Field` annotation.');
+                throw new Exception('The method ' . $this->getMethodFullName($method) . ' is type hinted with a return type of `' . $returnTypeName . '`, but the entity contained in that collection could not be automatically detected. Either fix the type hint, fix the doctrine mapping, or specify the type with `@API\Field` annotation.');
             }
 
             return Type::listOf($this->types->get($mapping['targetEntity']));
@@ -273,13 +274,13 @@ class FieldsConfigurationFactory
 
     /**
      * Convert a reflected type to GraphQL Type
-     * @param \ReflectionType $returnType
+     * @param ReflectionType $reflectionType
      * @return Type
      */
-    private function refelectionTypeToType(\ReflectionType $returnType): Type
+    private function refelectionTypeToType(ReflectionType $reflectionType): Type
     {
-        $type = $this->types->get((string) $returnType);
-        if (!$returnType->allowsNull()) {
+        $type = $this->types->get((string) $reflectionType);
+        if (!$reflectionType->allowsNull()) {
             $type = Type::nonNull($type);
         }
 
@@ -306,7 +307,7 @@ class FieldsConfigurationFactory
 
         $extraAnnotations = array_diff(array_keys($argsFromAnnotations), array_keys($args));
         if ($extraAnnotations) {
-            throw new Exception('The following arguments were declared via `@API\Argument` annotation but do not match actual parameter names on method `' . $method->getDeclaringClass()->getName() . '::' . $method->getName() . '()`. Either rename or remove the annotations: ' . implode(', ', $extraAnnotations));
+            throw new Exception('The following arguments were declared via `@API\Argument` annotation but do not match actual parameter names on method ' . $this->getMethodFullName($method) . '. Either rename or remove the annotations: ' . implode(', ', $extraAnnotations));
         }
 
         return $args;
@@ -335,11 +336,14 @@ class FieldsConfigurationFactory
 
         $type = $param->getType();
         if (!$arg->type && $type) {
+            if ((string) ($type) === 'array') {
+                throw new Exception('The parameter `$' . $param->getName() . '` on method ' . $this->getMethodFullName($method) . ' is type hinted as `array` and is not overriden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
+            }
             $arg->type = $this->refelectionTypeToType($type);
         }
 
         if (!$arg->type) {
-            throw new Exception('Could not find type for argument `' . $arg->name . '` for method `' . $method->getDeclaringClass()->getName() . '::' . $method->getName() . '()`. Either type hint the parameter, or specify the type with `@API\Argument` annotation.');
+            throw new Exception('Could not find type for parameter `$' . $arg->name . '` for method ' . $this->getMethodFullName($method) . '. Either type hint the parameter, or specify the type with `@API\Argument` annotation.');
         }
     }
 
@@ -355,5 +359,10 @@ class FieldsConfigurationFactory
                 $this->identityField = $meta['fieldName'];
             }
         }
+    }
+
+    private function getMethodFullName(ReflectionMethod $method): string
+    {
+        return '`' . $method->getDeclaringClass()->getName() . '::' . $method->getName() . '()`';
     }
 }

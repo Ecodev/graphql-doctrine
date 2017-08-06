@@ -291,7 +291,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
 
     public function testArgumentWithoutTypeMustThrow(): void
     {
-        $this->expectExceptionMessage('Could not find type for argument `bar` for method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeArgument::getFoo()`. Either type hint the parameter, or specify the type with `@API\Argument');
+        $this->expectExceptionMessage('Could not find type for parameter `$bar` for method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeArgument::getFoo()`. Either type hint the parameter, or specify the type with `@API\Argument` annotation.');
         $type = $this->types->get(Blog\Model\Special\NoTypeArgument::class);
         $type->getFields();
     }
@@ -300,6 +300,13 @@ class TypesTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectExceptionMessage('The following arguments were declared via `@API\Argument` annotation but do not match actual parameter names on method `GraphQLTests\Doctrine\Blog\Model\Special\ExtraArgument::getWithParams()`. Either rename or remove the annotations: misspelled_name');
         $type = $this->types->get(Blog\Model\Special\ExtraArgument::class);
+        $type->getFields();
+    }
+
+    public function testFieldWithArrayArgumentMustThrow(): void
+    {
+        $this->expectExceptionMessage('The parameter `$arg1` on method `GraphQLTests\Doctrine\Blog\Model\Special\ArrayArgument::getWithParams()` is type hinted as `array` and is not overriden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
+        $type = $this->types->get(Blog\Model\Special\ArrayArgument::class);
         $type->getFields();
     }
 }
