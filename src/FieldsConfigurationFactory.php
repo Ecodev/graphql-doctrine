@@ -98,43 +98,6 @@ class FieldsConfigurationFactory
     }
 
     /**
-     * Get the description of a method from the docblock
-     * @param ReflectionMethod $method
-     * @return string|null
-     */
-    private function getFieldDescription(ReflectionMethod $method): ?string
-    {
-        $comment = $method->getDocComment();
-
-        // Remove the comment markers
-        $comment = preg_replace('~^\s*(/\*\*|\* ?|\*/)~m', '', $comment);
-
-        // Keep everything before the first annotation
-        $comment = trim(explode('@', $comment)[0]);
-
-        // Drop common "Get" or "Return" in front of comment
-        $comment = ucfirst(preg_replace('~^(get|return)s? ~i', '', $comment));
-
-        if (!$comment) {
-            $comment = null;
-        }
-
-        return $comment;
-    }
-
-    private function getArgumentDescription(ReflectionParameter $param): ?string
-    {
-        $comment = $param->getDeclaringFunction()->getDocComment();
-        $name = preg_quote($param->getName());
-
-        if ($comment && preg_match('~@param\h+\H+\h+\$' . $name . '\h+(.*)~', $comment, $m)) {
-            return ucfirst(trim($m[1]));
-        }
-
-        return null;
-    }
-
-    /**
      * Get annotation reader
      * @return Reader
      */
@@ -154,10 +117,10 @@ class FieldsConfigurationFactory
     {
         $field = $this->getAnnotationReader()->getMethodAnnotation($method, Field::class) ?? new Field();
 
-        $field->type = $this->phpDeclarationToInstance($field->type);
+        $field->type = $this->phpDeclarationToInstance($method, $field->type);
         $args = [];
         foreach ($field->args as $arg) {
-            $arg->type = $this->phpDeclarationToInstance($arg->type);
+            $arg->type = $this->phpDeclarationToInstance($method, $arg->type);
             $args[$arg->name] = $arg;
         }
         $field->args = $args;
@@ -181,7 +144,7 @@ class FieldsConfigurationFactory
      * @param string|null $typeDeclaration
      * @return Type|null
      */
-    private function phpDeclarationToInstance(?string $typeDeclaration): ?Type
+    private function phpDeclarationToInstance(ReflectionMethod $method, ?string $typeDeclaration): ?Type
     {
         if (!$typeDeclaration) {
             return null;
@@ -192,6 +155,7 @@ class FieldsConfigurationFactory
 
         $isList = 0;
         $name = preg_replace('~^(.*)\[\]$~', '$1', $name, -1, $isList);
+        $name = $this->adjustNamespace($method, $name);
         $type = $this->types->get($name);
 
         if ($isList) {
@@ -203,6 +167,17 @@ class FieldsConfigurationFactory
         }
 
         return $type;
+    }
+
+    private function adjustNamespace(ReflectionMethod $method, string $type): string
+    {
+        $namespace = $method->getDeclaringClass()->getNamespaceName();
+        if ($namespace) {
+            $namespace = $namespace . '\\';
+        }
+        $namespacedType = $namespace . $type;
+
+        return class_exists($namespacedType) ? $namespacedType : $type;
     }
 
     /**
@@ -221,12 +196,18 @@ class FieldsConfigurationFactory
             $field->name = $fieldName;
         }
 
+        $docBlock = new DocBlockReader($method);
         if (!$field->description) {
-            $field->description = $this->getFieldDescription($method);
+            $field->description = $docBlock->getMethodDescription();
         }
 
         if ($fieldName === $this->identityField) {
             $field->type = Type::nonNull(Type::id());
+        }
+
+        // If still no type, look for docblock
+        if (!$field->type) {
+            $field->type = $this->getTypeFromDocBock($method, $docBlock);
         }
 
         // If still no type, look for type hint
@@ -235,7 +216,7 @@ class FieldsConfigurationFactory
         }
 
         // If still no args, look for type hint
-        $field->args = $this->getArgumentsFromTypeHint($method, $field->args);
+        $field->args = $this->getArgumentsFromTypeHint($method, $field->args, $docBlock);
 
         // If still no type, cannot continue
         if (!$field->type) {
@@ -299,7 +280,7 @@ class FieldsConfigurationFactory
      * @throws Exception
      * @return array
      */
-    private function getArgumentsFromTypeHint(ReflectionMethod $method, array $argsFromAnnotations): array
+    private function getArgumentsFromTypeHint(ReflectionMethod $method, array $argsFromAnnotations, DocBlockReader $docBlock): array
     {
         $args = [];
         foreach ($method->getParameters() as $param) {
@@ -307,7 +288,7 @@ class FieldsConfigurationFactory
             $arg = $argsFromAnnotations[$param->getName()] ?? new Argument();
             $args[$param->getName()] = $arg;
 
-            $this->completeArgumentFromTypeHint($method, $param, $arg);
+            $this->completeArgumentFromTypeHint($method, $param, $arg, $docBlock);
         }
 
         $extraAnnotations = array_diff(array_keys($argsFromAnnotations), array_keys($args));
@@ -325,21 +306,21 @@ class FieldsConfigurationFactory
      * @param Argument $arg
      * @throws Exception
      */
-    private function completeArgumentFromTypeHint(ReflectionMethod $method, ReflectionParameter $param, Argument $arg)
+    private function completeArgumentFromTypeHint(ReflectionMethod $method, ReflectionParameter $param, Argument $arg, DocBlockReader $docBlock)
     {
         if (!$arg->name) {
             $arg->name = $param->getName();
         }
 
         if (!$arg->description) {
-            $arg->description = $this->getArgumentDescription($param);
+            $arg->description = $docBlock->getParameterDescription($param);
         }
 
         if (!isset($arg->defaultValue) && $param->isDefaultValueAvailable()) {
             $arg->defaultValue = $param->getDefaultValue();
         }
 
-        $type = $param->getType();
+        $type = $docBlock->getParameterType($param) ?? $param->getType();
         if (!$arg->type && $type) {
             if ((string) ($type) === 'array') {
                 throw new Exception('The parameter `$' . $param->getName() . '` on method ' . $this->getMethodFullName($method) . ' is type hinted as `array` and is not overriden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
@@ -369,5 +350,20 @@ class FieldsConfigurationFactory
     private function getMethodFullName(ReflectionMethod $method): string
     {
         return '`' . $method->getDeclaringClass()->getName() . '::' . $method->getName() . '()`';
+    }
+
+    private function getTypeFromDocBock(ReflectionMethod $method, DocBlockReader $docBlock): ?Type
+    {
+        $typeDeclaration = $docBlock->getReturnType();
+        $blacklist = [
+            'Collection',
+            'array',
+        ];
+
+        if ($typeDeclaration && !in_array($typeDeclaration, $blacklist, true)) {
+            return $this->phpDeclarationToInstance($method, $typeDeclaration);
+        }
+
+        return null;
     }
 }

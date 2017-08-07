@@ -59,6 +59,19 @@ $schema = new Schema([
 
 ## Usage
 
+### Information priority
+
+To avoid as much as possible code duplication, information are gathered from
+several places, where available. And each of those might be overridden. The order
+of priority, from the least to most important is:
+
+1. Type hinting
+2. Doc blocks
+3. Annotations
+
+That means it is always possible to override everything with annotations. But
+existing type hints and dock blocks should cover the majority of cases.
+
 ### Exclude a field
 
 All getters are included by default in the type. But it can be specified
@@ -140,6 +153,11 @@ public function getPosts(?string $status = Post::STATUS_PUBLIC): Collection
 
 Once again, it also allows to override other things such as `name`, `description`
 and `defaultValue`.
+
+## Limitations
+
+The `use` statement is not supported. So types in annotation or doc blocks should
+either be the FQCN or in the same namespace as the getter.
 
 ## Prior work
 

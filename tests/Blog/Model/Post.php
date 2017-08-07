@@ -158,12 +158,20 @@ class Post extends AbstractModel
     }
 
     /**
+     * @return string[]
+     */
+    public function getWords(): array
+    {
+        return explode(' ', $this->getBody());
+    }
+
+    /**
      * @API\Field(args={@API\Argument(name="words", type="string[]")})
      * @param array $words
      * @return bool
      */
     public function hasWords(array $words): bool
     {
-        return count(array_diff($words, explode(' ', $this->getBody()))) > 0;
+        return count(array_diff($words, $this->getWords())) > 0;
     }
 }

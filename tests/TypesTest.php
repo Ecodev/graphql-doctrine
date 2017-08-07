@@ -159,6 +159,12 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                     'args' => [],
                 ],
                 [
+                    'name' => 'words',
+                    'type' => '[String]!',
+                    'description' => null,
+                    'args' => [],
+                ],
+                [
                     'name' => 'hasWords',
                     'type' => 'Boolean!',
                     'description' => null,
