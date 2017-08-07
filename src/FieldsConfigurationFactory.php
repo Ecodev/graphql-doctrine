@@ -172,10 +172,10 @@ class FieldsConfigurationFactory
      *  - `?MyType`
      *  - `null|MyType`
      *  - `MyType|null`
-     *  - `array<MyType>`
-     *  - `?array<MyType>`
-     *  - `null|array<MyType>`
-     *  - `array<MyType>|null`
+     *  - `MyType[]`
+     *  - `?MyType[]`
+     *  - `null|MyType[]`
+     *  - `MyType[]|null`
      *
      * @param string|null $typeDeclaration
      * @return Type|null
@@ -190,7 +190,7 @@ class FieldsConfigurationFactory
         $name = preg_replace('~(^\?|^null\||\|null$)~', '', $typeDeclaration, -1, $isNullable);
 
         $isList = 0;
-        $name = preg_replace('~^array<(.*)>$~', '$1', $name, -1, $isList);
+        $name = preg_replace('~^(.*)\[\]$~', '$1', $name, -1, $isList);
         $type = $this->types->get($name);
 
         if ($isList) {
