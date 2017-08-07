@@ -35,7 +35,7 @@ class Types
 
         foreach ($customTypeMapping as $phpType => $graphQLType) {
             $instance = $this->createInstance($graphQLType);
-            $this->types[$phpType] = $instance;
+            $this->registerInstance($phpType, $instance);
         }
     }
 
@@ -48,6 +48,12 @@ class Types
         return $this->objectTypeFactory->create($className);
     }
 
+    private function registerInstance(string $name, Type $instance): void
+    {
+        $this->types[$name] = $instance;
+        $this->types[$instance->name] = $instance;
+    }
+
     /**
      * Always return the same instance of type for the given type name
      * @param string $className the class name of either a scalar type (`PostStatus::class`), or an entity (`Post::class`)
@@ -57,7 +63,7 @@ class Types
     {
         if (!isset($this->types[$className])) {
             $instance = $this->createInstance($className);
-            $this->types[$className] = $instance;
+            $this->registerInstance($className, $instance);
         }
 
         return $this->types[$className];

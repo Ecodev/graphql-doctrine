@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace GraphQLTests\Doctrine\Blog\Types;
 
 use GraphQL\Type\Definition\EnumType;
-use GraphQLTests\Doctrine\Blog\Model\Post;
 
-class PostStatusType extends EnumType
+class CustomType extends EnumType
 {
+    public $name = 'customName';
+
     public function __construct()
     {
         $config = [
             'values' => [
-                Post::STATUS_PRIVATE,
-                Post::STATUS_PUBLIC,
+                'foo',
+                'bar',
             ],
         ];
 

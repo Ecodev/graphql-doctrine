@@ -13,8 +13,10 @@ use GraphQL\Type\Definition\BooleanType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\User;
+use GraphQLTests\Doctrine\Blog\Types\CustomType;
 use GraphQLTests\Doctrine\Blog\Types\DateTimeType;
 use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
+use stdClass;
 
 class TypesTest extends \PHPUnit\Framework\TestCase
 {
@@ -37,6 +39,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
 
         $mapping = [
             DateTime::class => DateTimeType::class,
+            stdClass::class => CustomType::class,
         ];
         $this->types = new Types($this->entityManager, $mapping);
     }
@@ -59,6 +62,14 @@ class TypesTest extends \PHPUnit\Framework\TestCase
 
         $this->assertSame($bool, $this->types->get(BooleanType::class), 'must returns the same instance of bool');
         $this->assertSame($status, $this->types->get(PostStatusType::class), 'must returns the same instance of post status');
+    }
+
+    public function testCanGetUserMappedTypes(): void
+    {
+        $type = $this->types->get(stdClass::class);
+
+        $this->assertInstanceOf(CustomType::class, $type, 'must be a instance of CustomType');
+        $this->assertSame($type, $this->types->get('customName'));
     }
 
     public function testCanGetEntityTypes(): void
