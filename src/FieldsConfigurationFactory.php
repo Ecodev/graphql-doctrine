@@ -127,7 +127,7 @@ class FieldsConfigurationFactory
         $comment = $param->getDeclaringFunction()->getDocComment();
         $name = preg_quote($param->getName());
 
-        if ($comment && preg_match('~@param\s+\S+\s+\$' . $name . '\s+(.*)~', $comment, $m)) {
+        if ($comment && preg_match('~@param\h+\H+\h+\$' . $name . '\h+(.*)~', $comment, $m)) {
             return ucfirst(trim($m[1]));
         }
 
@@ -266,7 +266,12 @@ class FieldsConfigurationFactory
                 throw new Exception('The method ' . $this->getMethodFullName($method) . ' is type hinted with a return type of `' . $returnTypeName . '`, but the entity contained in that collection could not be automatically detected. Either fix the type hint, fix the doctrine mapping, or specify the type with `@API\Field` annotation.');
             }
 
-            return Type::listOf($this->types->get($mapping['targetEntity']));
+            $type = Type::listOf($this->types->get($mapping['targetEntity']));
+            if (!$returnType->allowsNull()) {
+                $type = Type::nonNull($type);
+            }
+
+            return $type;
         }
 
         return $this->refelectionTypeToType($returnType);

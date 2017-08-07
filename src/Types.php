@@ -66,6 +66,7 @@ class Types
     private function getPhpToGraphQLMapping(): array
     {
         return [
+            'id' => Type::id(),
             'bool' => Type::boolean(),
             'int' => Type::int(),
             'float' => Type::float(),

@@ -88,7 +88,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                 ],
                 [
                     'name' => 'posts',
-                    'type' => '[Post]',
+                    'type' => '[Post]!',
                     'description' => 'All posts of the specified status',
                     'args' => [
                         [
@@ -96,6 +96,19 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                             'type' => 'PostStatus',
                             'description' => 'The status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post',
                             'defaultValue' => 'public',
+                        ],
+                    ],
+                ],
+                [
+                    'name' => 'postsWithIds',
+                    'type' => '[Post]!',
+                    'description' => null,
+                    'args' => [
+                        [
+                            'name' => 'ids',
+                            'type' => '[ID]!',
+                            'description' => null,
+                            'defaultValue' => null,
                         ],
                     ],
                 ],
@@ -144,6 +157,19 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                     'type' => 'DateTime!',
                     'description' => 'Date of creation',
                     'args' => [],
+                ],
+                [
+                    'name' => 'hasWords',
+                    'type' => 'Boolean!',
+                    'description' => null,
+                    'args' => [
+                        [
+                            'name' => 'words',
+                            'type' => '[String]!',
+                            'description' => null,
+                            'defaultValue' => null,
+                        ],
+                    ],
                 ],
                 [
                     'name' => 'id',

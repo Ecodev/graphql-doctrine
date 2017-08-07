@@ -164,4 +164,15 @@ class User extends AbstractModel
             return $post->getStatus() === $status;
         });
     }
+
+    /**
+     * @API\Field(type="GraphQLTests\Doctrine\Blog\Model\Post[]", args={@API\Argument(name="ids", type="id[]")})
+     * @param array $ids
+     */
+    public function getPostsWithIds(array $ids): Collection
+    {
+        return $this->posts->filter(function (Post $post) use ($ids) {
+            return in_array($post->getId(), $ids, true);
+        });
+    }
 }

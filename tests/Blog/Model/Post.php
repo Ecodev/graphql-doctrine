@@ -156,4 +156,14 @@ class Post extends AbstractModel
     {
         return $this->creationDate;
     }
+
+    /**
+     * @API\Field(args={@API\Argument(name="words", type="string[]")})
+     * @param array $words
+     * @return bool
+     */
+    public function hasWords(array $words): bool
+    {
+        return count(array_diff($words, explode(' ', $this->getBody()))) > 0;
+    }
 }
