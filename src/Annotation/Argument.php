@@ -44,11 +44,16 @@ class Argument
 
     public function toArray(): array
     {
-        return [
+        $data = [
             'name' => $this->name,
             'type' => $this->type,
             'description' => $this->description,
-            'defaultValue' => $this->defaultValue,
         ];
+
+        if ($this->defaultValue !== null) {
+            $data['defaultValue'] = $this->defaultValue;
+        }
+
+        return $data;
     }
 }
