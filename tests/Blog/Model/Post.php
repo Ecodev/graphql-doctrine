@@ -166,11 +166,10 @@ class Post extends AbstractModel
     }
 
     /**
-     * @API\Field(args={@API\Argument(name="words", type="string[]")})
-     * @param array $words
+     * @param string[] $words
      * @return bool
      */
-    public function hasWords(array $words): bool
+    public function hasWords($words): bool
     {
         return count(array_diff($words, $this->getWords())) > 0;
     }

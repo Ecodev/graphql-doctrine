@@ -320,11 +320,15 @@ class FieldsConfigurationFactory
             $arg->defaultValue = $param->getDefaultValue();
         }
 
-        $type = $docBlock->getParameterType($param) ?? $param->getType();
+        if (!$arg->type) {
+            $typeDeclaration = $docBlock->getParameterType($param);
+            $this->throwIfArray($param, $typeDeclaration);
+            $arg->type = $this->phpDeclarationToInstance($method, $typeDeclaration);
+        }
+
+        $type = $param->getType();
         if (!$arg->type && $type) {
-            if ((string) ($type) === 'array') {
-                throw new Exception('The parameter `$' . $param->getName() . '` on method ' . $this->getMethodFullName($method) . ' is type hinted as `array` and is not overriden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
-            }
+            $this->throwIfArray($param, (string) $type);
             $arg->type = $this->refelectionTypeToType($type);
         }
 
@@ -365,5 +369,12 @@ class FieldsConfigurationFactory
         }
 
         return null;
+    }
+
+    private function throwIfArray(ReflectionParameter $param, ?string $type)
+    {
+        if ($type === 'array') {
+            throw new Exception('The parameter `$' . $param->getName() . '` on method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' is type hinted as `array` and is not overriden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
+        }
     }
 }
