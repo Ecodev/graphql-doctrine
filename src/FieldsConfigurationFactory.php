@@ -11,7 +11,9 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use GraphQL\Doctrine\Annotation\Argument;
 use GraphQL\Doctrine\Annotation\Exclude;
 use GraphQL\Doctrine\Annotation\Field;
+use GraphQL\Type\Definition\InputType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\WrappingType;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
@@ -169,6 +171,12 @@ class FieldsConfigurationFactory
         return $type;
     }
 
+    /**
+     * Prepend namespace of the method if the class actually exists
+     * @param ReflectionMethod $method
+     * @param string $type
+     * @return string
+     */
     private function adjustNamespace(ReflectionMethod $method, string $type): string
     {
         $namespace = $method->getDeclaringClass()->getNamespaceName();
@@ -335,6 +343,8 @@ class FieldsConfigurationFactory
         if (!$arg->type) {
             throw new Exception('Could not find type for parameter `$' . $arg->name . '` for method ' . $this->getMethodFullName($method) . '. Either type hint the parameter, or specify the type with `@API\Argument` annotation.');
         }
+
+        $this->throwIfNotInputType($method, $arg);
     }
 
     /**
@@ -351,11 +361,22 @@ class FieldsConfigurationFactory
         }
     }
 
+    /**
+     * Returns the fully qualified method name
+     * @param ReflectionMethod $method
+     * @return string
+     */
     private function getMethodFullName(ReflectionMethod $method): string
     {
         return '`' . $method->getDeclaringClass()->getName() . '::' . $method->getName() . '()`';
     }
 
+    /**
+     * Get a GraphQL type instance from dock block return type
+     * @param ReflectionMethod $method
+     * @param \GraphQL\Doctrine\DocBlockReader $docBlock
+     * @return Type|null
+     */
     private function getTypeFromDocBock(ReflectionMethod $method, DocBlockReader $docBlock): ?Type
     {
         $typeDeclaration = $docBlock->getReturnType();
@@ -371,10 +392,34 @@ class FieldsConfigurationFactory
         return null;
     }
 
+    /**
+     * Throws exception if type is an array
+     * @param ReflectionParameter $param
+     * @param string|null $type
+     * @throws Exception
+     */
     private function throwIfArray(ReflectionParameter $param, ?string $type)
     {
         if ($type === 'array') {
             throw new Exception('The parameter `$' . $param->getName() . '` on method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' is type hinted as `array` and is not overriden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
+        }
+    }
+
+    /**
+     * Throws exception if argument type is invalid
+     * @param ReflectionMethod $method
+     * @param Argument $arg
+     * @throws Exception
+     */
+    private function throwIfNotInputType(ReflectionMethod $method, Argument $arg)
+    {
+        $type = $arg->type;
+        if ($type instanceof WrappingType) {
+            $type = $type->getWrappedType(true);
+        }
+
+        if (!($type instanceof InputType)) {
+            throw new Exception('Type for parameter `$' . $arg->name . '` for method ' . $this->getMethodFullName($method) . ' must be an instance of `' . InputType::class . '`, but was `' . get_class($type) . '`. Use `@API\Argument` annotation to specify a custom InputType.');
         }
     }
 }

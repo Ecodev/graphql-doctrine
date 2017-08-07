@@ -358,4 +358,11 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $type = $this->types->get(Blog\Model\Special\ArrayArgument::class);
         $type->getFields();
     }
+
+    public function testFieldWithObjectTypeArgumentMustThrow(): void
+    {
+        $this->expectExceptionMessage('Type for parameter `$user` for method `GraphQLTests\Doctrine\Blog\Model\Special\ObjectTypeArgument::getWithParams()` must be an instance of `GraphQL\Type\Definition\InputType`, but was `GraphQL\Type\Definition\ObjectType`. Use `@API\Argument` annotation to specify a custom InputType.');
+        $type = $this->types->get(Blog\Model\Special\ObjectTypeArgument::class);
+        $type->getFields();
+    }
 }
