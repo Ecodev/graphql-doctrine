@@ -72,6 +72,12 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($type, $this->types->get('customName'));
     }
 
+    public function testCanGetTypesWithBackslashPrefix(): void
+    {
+        $type = $this->types->get(stdClass::class);
+        $this->assertSame($type, $this->types->get('\stdClass'));
+    }
+
     public function testCanGetEntityTypes(): void
     {
         $userType = $this->types->get(User::class);

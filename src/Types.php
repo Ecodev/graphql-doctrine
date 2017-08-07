@@ -61,6 +61,7 @@ class Types
      */
     public function get(string $className): Type
     {
+        $className = ltrim($className, '\\');
         if (!isset($this->types[$className])) {
             $instance = $this->createInstance($className);
             $this->registerInstance($className, $instance);
