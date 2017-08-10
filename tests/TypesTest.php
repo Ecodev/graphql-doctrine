@@ -265,7 +265,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                 ],
                 [
                     'name' => 'publicWithArgs',
-                    'type' => 'String!',
+                    'type' => '[String]!',
                     'description' => null,
                     'args' => [
                         [
@@ -279,6 +279,12 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                             'type' => 'Int!',
                             'description' => null,
                             'defaultValue' => null,
+                        ],
+                        [
+                            'name' => 'arg3',
+                            'type' => '[String]',
+                            'description' => null,
+                            'defaultValue' => ['foo'],
                         ],
                     ],
                 ],

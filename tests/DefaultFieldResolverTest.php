@@ -19,7 +19,7 @@ class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
             [null, 'private'],
             [null, 'protected'],
             ['getPublic', 'public'],
-            ['getPublicWithArgs(arg1, 123)', 'publicWithArgs', ['arg1', 123]],
+            [['value1', 2, ['foo']], 'publicWithArgs', ['arg2' => 2, 'arg1' => 'value1']],
             [null, 'nonExisting'],
             [null, '__call'],
             [true, 'isValid'],

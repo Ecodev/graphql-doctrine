@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GraphQLTests\Doctrine\Blog\Model\Special;
 
 use Doctrine\ORM\Mapping as ORM;
+use GraphQL\Doctrine\Annotation as API;
 use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 
 /**
@@ -31,9 +32,16 @@ class IgnoredGetter extends AbstractModel
         return __FUNCTION__;
     }
 
-    public function getPublicWithArgs(string $arg1, int $arg2): string
+    /**
+     * @API\Field(type="string[]")
+     * @param string $arg1
+     * @param int $arg2
+     * @param string[] $arg3
+     * @return array
+     */
+    public function getPublicWithArgs(string $arg1, int $arg2, array $arg3 = ['foo']): array
     {
-        return __FUNCTION__ . '(' . implode(', ', func_get_args()) . ')';
+        return [$arg1, $arg2, $arg3];
     }
 
     public function __call($name, $arguments): string
