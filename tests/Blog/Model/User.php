@@ -11,7 +11,7 @@ use GraphQL\Doctrine\Annotation as API;
 /**
  * A blog author or visitor
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="UserRepository")
  */
 class User extends AbstractModel
 {
@@ -53,8 +53,11 @@ class User extends AbstractModel
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(?int $id)
     {
+        // This is a bad idea in real world, but we are just testing stuff here
+        $this->id = $id;
+
         $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

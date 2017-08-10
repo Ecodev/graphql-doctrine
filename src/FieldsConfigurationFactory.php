@@ -147,7 +147,7 @@ class FieldsConfigurationFactory
      * @param string|null $typeDeclaration
      * @return Type|null
      */
-    private function phpDeclarationToInstance(ReflectionMethod $method, ?string $typeDeclaration): ?Type
+    private function phpDeclarationToInstance(ReflectionMethod $method, ?string $typeDeclaration, bool $isInputType = false): ?Type
     {
         if (!$typeDeclaration) {
             return null;
@@ -159,7 +159,7 @@ class FieldsConfigurationFactory
         $isList = 0;
         $name = preg_replace('~^(.*)\[\]$~', '$1', $name, -1, $isList);
         $name = $this->adjustNamespace($method, $name);
-        $type = $this->types->get($name);
+        $type = $this->types->get($name, $isInputType);
 
         if ($isList) {
             $type = Type::listOf($type);
@@ -272,9 +272,9 @@ class FieldsConfigurationFactory
      * @param ReflectionType $reflectionType
      * @return Type
      */
-    private function refelectionTypeToType(ReflectionType $reflectionType): Type
+    private function refelectionTypeToType(ReflectionType $reflectionType, bool $isInputType = false): Type
     {
-        $type = $this->types->get((string) $reflectionType);
+        $type = $this->types->get((string) $reflectionType, $isInputType);
         if (!$reflectionType->allowsNull()) {
             $type = Type::nonNull($type);
         }
@@ -332,15 +332,16 @@ class FieldsConfigurationFactory
         if (!$arg->type) {
             $typeDeclaration = $docBlock->getParameterType($param);
             $this->throwIfArray($param, $typeDeclaration);
-            $arg->type = $this->phpDeclarationToInstance($method, $typeDeclaration);
+            $arg->type = $this->phpDeclarationToInstance($method, $typeDeclaration, true);
         }
 
         $type = $param->getType();
         if (!$arg->type && $type) {
             $this->throwIfArray($param, (string) $type);
-            $arg->type = $this->refelectionTypeToType($type);
+            $arg->type = $this->refelectionTypeToType($type, true);
         }
 
+        // Argument with default values cannot be non-null
         if ($arg->type instanceof NonNull && $param->isDefaultValueAvailable()) {
             $arg->type = $arg->type->getWrappedType();
         }

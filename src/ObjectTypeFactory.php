@@ -37,13 +37,9 @@ class ObjectTypeFactory
      */
     public function create(string $className): ObjectType
     {
-        if (!$this->isValid($className)) {
-            throw new \UnexpectedValueException('Given class name `' . $className . '` is not a Doctrine entity. Either register a custom GraphQL type for `' . $className . '` when instantiating `' . Types::class . '`, or change the usage of that class to something else.');
-        }
-
         $class = new \ReflectionClass($className);
 
-        $typeName = $this->getTypeName($class);
+        $typeName = Utils::getTypeName($className);
         $description = $this->getDescription($class);
 
         $fieldGetter = function () use ($className): array {
@@ -58,26 +54,6 @@ class ObjectTypeFactory
             'description' => $description,
             'fields' => $fieldGetter,
         ]);
-    }
-
-    /**
-     * Checks if a className is a valid doctrine entity
-     *
-     * @return bool
-     */
-    private function isValid(string $className): bool
-    {
-        return !$this->entityManager->getMetadataFactory()->isTransient($className);
-    }
-
-    /**
-     * Get the GraphQL type name from the PHP class
-     * @param ReflectionClass $class
-     * @return string
-     */
-    private function getTypeName(ReflectionClass $class): string
-    {
-        return $class->getShortName();
     }
 
     /**

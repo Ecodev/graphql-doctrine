@@ -178,4 +178,9 @@ class Post extends AbstractModel
     {
         return count($this->getWords()) > $wordLimit;
     }
+
+    public function isAllowedEditing(User $user): bool
+    {
+        return $this->getUser() === $user;
+    }
 }

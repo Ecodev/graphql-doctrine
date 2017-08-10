@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace GraphQLTests\Doctrine;
 
 use DateTime;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaValidator;
 use Doctrine\ORM\Tools\Setup;
 use GraphQL\Doctrine\Types;
@@ -20,10 +19,7 @@ use stdClass;
 
 class TypesTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var EntityManager
-     */
-    private $entityManager;
+    use EntityManagerTrait;
 
     /**
      * @var Types
@@ -32,10 +28,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
 
     public function setUp(): void
     {
-        // Create the entity manager
-        $config = Setup::createAnnotationMetadataConfiguration([__DIR__ . '/Blog/Model'], true, null, null, false);
-        $conn = ['url' => 'sqlite:///:memory:'];
-        $this->entityManager = EntityManager::create($conn, $config);
+        $this->setUpEntityManager();
 
         $mapping = [
             DateTime::class => DateTimeType::class,
@@ -204,6 +197,19 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                             'type' => 'Int',
                             'description' => null,
                             'defaultValue' => 50,
+                        ],
+                    ],
+                ],
+                [
+                    'name' => 'isAllowedEditing',
+                    'type' => 'Boolean!',
+                    'description' => null,
+                    'args' => [
+                        [
+                            'name' => 'user',
+                            'type' => 'UserID!',
+                            'description' => null,
+                            'defaultValue' => null,
                         ],
                     ],
                 ],

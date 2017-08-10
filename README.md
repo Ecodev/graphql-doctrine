@@ -154,10 +154,40 @@ public function getPosts(?string $status = Post::STATUS_PUBLIC): Collection
 Once again, it also allows to override other things such as `name`, `description`
 and `defaultValue`.
 
+### Entities as input arguments
+
+If a getter takes and entity as parameter, then a specialized `InputType` will
+be created automatically to accept an `ID`. The entity will then be automatically
+fetched from the database and forwarded to the getter. So this will work out of
+the box:
+
+```php
+public function isAllowedEditing(User $user): bool
+{
+    return $this->getUser() === $user;
+}
+```
+
+You may also get an input type for an entity by using the second parameter of
+`Types::get()`:
+
+```php
+// Standard ObjectType
+$userType = $types->get(User::class);
+
+// Custom InputType
+$userIdType = $types->get(User::class, true);
+```
+
 ## Limitations
 
 The `use` statement is not supported. So types in annotation or doc blocks should
 either be the FQCN or in the same namespace as the getter.
+
+Entities with composite identifiers are not supported for automatic creation of
+input types. Possible workarounds are to change input argument to be something
+else than an entity, write custom input types and use them via annotations, or
+adapt the database schema.
 
 ## Prior work
 
