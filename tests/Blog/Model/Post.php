@@ -173,4 +173,9 @@ class Post extends AbstractModel
     {
         return count(array_diff($words, $this->getWords())) > 0;
     }
+
+    public function isLong(int $wordLimit = 50): bool
+    {
+        return count($this->getWords()) > $wordLimit;
+    }
 }

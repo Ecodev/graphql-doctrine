@@ -195,6 +195,19 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                     ],
                 ],
                 [
+                    'name' => 'isLong',
+                    'type' => 'Boolean!',
+                    'description' => null,
+                    'args' => [
+                        [
+                            'name' => 'wordLimit',
+                            'type' => 'Int',
+                            'description' => null,
+                            'defaultValue' => 50,
+                        ],
+                    ],
+                ],
+                [
                     'name' => 'id',
                     'type' => 'ID!',
                     'description' => null,

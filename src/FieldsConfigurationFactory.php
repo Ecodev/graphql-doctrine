@@ -12,6 +12,7 @@ use GraphQL\Doctrine\Annotation\Argument;
 use GraphQL\Doctrine\Annotation\Exclude;
 use GraphQL\Doctrine\Annotation\Field;
 use GraphQL\Type\Definition\InputType;
+use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\WrappingType;
 use ReflectionClass;
@@ -338,6 +339,10 @@ class FieldsConfigurationFactory
         if (!$arg->type && $type) {
             $this->throwIfArray($param, (string) $type);
             $arg->type = $this->refelectionTypeToType($type);
+        }
+
+        if ($arg->type instanceof NonNull && $param->isDefaultValueAvailable()) {
+            $arg->type = $arg->type->getWrappedType();
         }
 
         if (!$arg->type) {
