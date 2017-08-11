@@ -61,7 +61,7 @@ $schema = new Schema([
 
 ### Information priority
 
-To avoid as much as possible code duplication, information are gathered from
+To avoid code duplication as much as possible, information are gathered from
 several places, where available. And each of those might be overridden. The order
 of priority, from the least to most important is:
 
@@ -156,7 +156,7 @@ and `defaultValue`.
 
 ### Entities as input arguments
 
-If a getter takes and entity as parameter, then a specialized `InputType` will
+If a getter takes an entity as parameter, then a specialized `InputType` will
 be created automatically to accept an `ID`. The entity will then be automatically
 fetched from the database and forwarded to the getter. So this will work out of
 the box:
