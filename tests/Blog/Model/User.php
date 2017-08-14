@@ -84,13 +84,13 @@ class User extends AbstractModel
     }
 
     /**
-     * Set email
+     * Set a valid email or null
      *
-     * @param string $email
+     * @param string|null $email
      *
      * @return User
      */
-    public function setEmail(string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }
@@ -129,8 +129,9 @@ class User extends AbstractModel
     }
 
     /**
-     * Set isAdministrator
+     * Set whether the user is an administrator
      *
+     * @API\Exclude
      * @param bool $isAdministrator
      *
      * @return User

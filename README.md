@@ -13,11 +13,12 @@ and annotations, and to be used with [webonyx/graphql-php](https://github.com/we
 
 It reads most informations from type hints, complete some things from existing
 Doctrine annotations and allow further customizations with specialized annotations.
-It will then create [`ObjectType`](http://webonyx.github.io/graphql-php/type-system/object-types/#object-type-definition)
-instances with fields for all getter found on Doctrine entities.
+It will then create [`ObjectType`](https://webonyx.github.io/graphql-php/type-system/object-types/#object-type-definition) and
+ [`InputObjectType`](https://webonyx.github.io/graphql-php/type-system/input-types/#input-object-type)
+instances with fields for all getter and setter respectively found on Doctrine entities.
 
-It will **not** build the entire schema. It is up to the user to use the automated
-`ObjectType`, and other custom types, to define root queries.
+It will **not** build the entire schema. It is up to the user to use automated
+types, and other custom types, to define root queries.
 
 ## Quick start
 
@@ -30,34 +31,74 @@ composer require ecodev/graphql-doctrine
 And start using it:
 
 ```php
+<?php
+
+use Blog\Model\Post;
+use Blog\Model\User;
+use Blog\Type\DateTimeType;
+use GraphQL\Type\Definition\Type;
+use GraphQL\Doctrine\DefaultFieldResolver;
+
+// Define custom types mapping
+$mapping = [
+    DateTime::class => DateTimeType::class,
+];
+
 // Configure the type registry
-$types = new Types($entityManager);
+$types = new Types($entityManager, $mapping);
 
 // Configure default field resolver to be able to use getters
-GraphQL::setDefaultFieldResolver(new \GraphQL\Doctrine\DefaultFieldResolver());
+GraphQL::setDefaultFieldResolver(new DefaultFieldResolver());
 
 // Build your Schema
 $schema = new Schema([
     'Query' => [
         'fields' => [
-            'users' => [
-                'type' => $types->get(\Blog\Model\User::class),
-                'resolve' => function ($root, $args) {
-                    // call to repository...
-                }
-            ],
             'posts' => [
-                'type' => $types->get(\Blog\Model\Post::class),
+                'type' => Type::listOf($types->get(Post::class)), // Use automated ObjectType for output
                 'resolve' => function ($root, $args) {
                     // call to repository...
                 }
             ],
         ],
     ],
-    ]);
+    'Mutation' => [
+        'fields' => [
+            'createPost' => [
+                'type' => Type::nonNull($types->get(Post::class)),
+                'args' => [
+                    'input' => Type::nonNull($types->getInput(Post::class)), // Use automated InputObjectType for input
+                ],
+                'resolve' => function ($root, $args) {
+                    // create new post and flush...
+                }
+            ],
+            'updatePost' => [
+                'type' => Type::nonNull($types->get(Post::class)),
+                'args' => [
+                    'id' => Type::nonNull(Type::id()), // Use standard API when needed
+                    'input' => $types->getInput(Post::class),
+                ],
+                'resolve' => function ($root, $args) {
+                    // update existing post and flush...
+                }
+            ],
+        ],
+    ],
+]);
 ```
 
 ## Usage
+
+The public API is limited to the public methods on `Types` and the annotations.
+So the it's the constructor and;
+
+- `$types->get()` to get either an `ObjectType` from an entity or any other
+ custom types (eg: `string` or mapped type)
+- `$types->getInput()` to get an `InputObjectType` to be used in mutations
+- `$types->getId()` to get an `EntityIDType` which should usually not be
+necessary for common usages and is used internally to be able to pass an object
+to a getter
 
 ### Information priority
 

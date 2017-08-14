@@ -6,10 +6,11 @@ namespace GraphQLTests\Doctrine;
 
 use DateTime;
 use Doctrine\ORM\Tools\SchemaValidator;
-use Doctrine\ORM\Tools\Setup;
 use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\BooleanType;
+use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\Type;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\User;
 use GraphQLTests\Doctrine\Blog\Types\CustomType;
@@ -71,7 +72,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($type, $this->types->get('\stdClass'));
     }
 
-    public function testCanGetEntityTypes(): void
+    public function testCanGetOutputTypes(): void
     {
         $userType = $this->types->get(User::class);
         $expected = [
@@ -225,26 +226,103 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($postType, $this->types->get(Post::class), 'must returns the same instance of post type');
     }
 
-    private function assertObjectType(array $expected, ObjectType $type): void
+    public function testCanGetInputTypes(): void
+    {
+        $userType = $this->types->getInput(User::class);
+        $expected = [
+            'name' => 'UserInput',
+            'description' => 'A blog author or visitor',
+            'fields' => [
+                [
+                    'name' => 'name',
+                    'type' => 'String!',
+                    'description' => 'Name',
+                    'defaultValue' => null,
+                ],
+                [
+                    'name' => 'email',
+                    'type' => 'String',
+                    'description' => 'A valid email or null',
+                    'defaultValue' => null,
+                ],
+                [
+                    'name' => 'password',
+                    'type' => 'String!',
+                    'description' => 'Encrypt and change the user password',
+                    'defaultValue' => null,
+                ],
+            ],
+        ];
+        $this->assertInputType($expected, $userType);
+        $this->assertSame($userType, $this->types->getInput(User::class), 'must returns the same instance of user type');
+
+        $postType = $this->types->getInput(Post::class);
+        $expected = [
+            'name' => 'PostInput',
+            'description' => 'A blog post with title and body',
+            'fields' => [
+                [
+                    'name' => 'title',
+                    'type' => 'String!',
+                    'description' => 'Title',
+                    'defaultValue' => null,
+                ],
+                [
+                    'name' => 'body',
+                    'type' => 'String!',
+                    'description' => 'The body',
+                    'defaultValue' => null,
+                ],
+                [
+                    'name' => 'status',
+                    'type' => 'PostStatus',
+                    'description' => 'Status',
+                    'defaultValue' => 'public',
+                ],
+                [
+                    'name' => 'user',
+                    'type' => 'UserID!',
+                    'description' => 'Author of post',
+                    'defaultValue' => null,
+                ],
+                [
+                    'name' => 'creationDate',
+                    'type' => 'DateTime!',
+                    'description' => 'Date of creation',
+                    'defaultValue' => null,
+                ],
+            ],
+        ];
+        $this->assertInputType($expected, $postType);
+        $this->assertSame($postType, $this->types->getInput(Post::class), 'must returns the same instance of post type');
+    }
+
+    private function assertType(array $expected, Type $type, bool $assertArgs): void
     {
         $fields = [];
         foreach ($type->getFields() as $field) {
-            $args = [];
-            foreach ($field->args as $arg) {
-                $args[] = [
-                    'name' => $arg->name,
-                    'type' => $arg->getType()->toString(),
-                    'description' => $arg->description,
-                    'defaultValue' => $arg->defaultValue,
-                ];
-            }
-
-            $fields[] = [
+            $data = [
                 'name' => $field->name,
                 'type' => $field->getType()->toString(),
                 'description' => $field->description,
-                'args' => $args,
             ];
+
+            if ($assertArgs) {
+                $args = [];
+                foreach ($field->args as $arg) {
+                    $args[] = [
+                        'name' => $arg->name,
+                        'type' => $arg->getType()->toString(),
+                        'description' => $arg->description,
+                        'defaultValue' => $arg->defaultValue,
+                    ];
+                }
+                $data['args'] = $args;
+            } else {
+                $data['defaultValue'] = $field->defaultValue;
+            }
+
+            $fields[] = $data;
         }
 
         $actual = [
@@ -254,6 +332,16 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         ];
         //        var_export($actual);
         $this->assertEquals($expected, $actual);
+    }
+
+    private function assertInputType(array $expected, InputObjectType $type): void
+    {
+        $this->assertType($expected, $type, false);
+    }
+
+    private function assertObjectType(array $expected, ObjectType $type): void
+    {
+        $this->assertType($expected, $type, true);
     }
 
     public function testNonPublicGetterMustBeIgnored(): void
@@ -367,6 +455,13 @@ class TypesTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectExceptionMessage('Could not find type for parameter `$bar` for method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeArgument::getFoo()`. Either type hint the parameter, or specify the type with `@API\Argument` annotation.');
         $type = $this->types->get(Blog\Model\Special\NoTypeArgument::class);
+        $type->getFields();
+    }
+
+    public function testInputWithoutTypeMustThrow(): void
+    {
+        $this->expectExceptionMessage('Could not find type for parameter `$bar` for method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeInput::setFoo()`. Either type hint the parameter, or specify the type with `@API\Input` annotation.');
+        $type = $this->types->getInput(Blog\Model\Special\NoTypeInput::class);
         $type->getFields();
     }
 

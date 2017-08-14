@@ -30,4 +30,14 @@ abstract class Utils
     {
         return self::getTypeName($className) . 'ID';
     }
+
+    /**
+     * Get the GraphQL type name for an Input type from the PHP class
+     * @param string $className
+     * @return string
+     */
+    public static function getInputTypeName(string $className): string
+    {
+        return self::getTypeName($className) . 'Input';
+    }
 }

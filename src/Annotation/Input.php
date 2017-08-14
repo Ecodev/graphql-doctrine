@@ -7,7 +7,7 @@ namespace GraphQL\Doctrine\Annotation;
 use GraphQL\Type\Definition\Type;
 
 /**
- * Annotation used to override values for an output field in GraphQL.
+ * Annotation used to override values for an input field in GraphQL.
  *
  * All values are optional and should only be used to override
  * what is declared by the original method.
@@ -15,7 +15,7 @@ use GraphQL\Type\Definition\Type;
  * @Annotation
  * @Target({"METHOD"})
  */
-class Field
+class Input
 {
     /**
      * @var string
@@ -35,22 +35,22 @@ class Field
     public $description;
 
     /**
-     * @var array<GraphQL\Doctrine\Annotation\Argument>
+     * @var mixed
      */
-    public $args = [];
+    public $defaultValue;
 
     public function toArray(): array
     {
-        $args = [];
-        foreach ($this->args as $arg) {
-            $args[] = $arg->toArray();
-        }
-
-        return [
+        $data = [
             'name' => $this->name,
             'type' => $this->type,
             'description' => $this->description,
-            'args' => $args,
         ];
+
+        if ($this->defaultValue !== null) {
+            $data['defaultValue'] = $this->defaultValue;
+        }
+
+        return $data;
     }
 }

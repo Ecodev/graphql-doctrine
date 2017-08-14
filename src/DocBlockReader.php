@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine;
 
-use Doctrine\Common\Annotations\Reader;
 use ReflectionMethod;
 use ReflectionParameter;
 
@@ -31,13 +30,14 @@ class DocBlockReader
     public function getMethodDescription(): ?string
     {
         // Remove the comment markers
-        $description = preg_replace('~^\s*(/\*\*|\* ?|\*/)~m', '', $this->comment);
+        $description = preg_replace('~\*/$~', '', $this->comment);
+        $description = preg_replace('~^\s*(/\*\*|\* ?|\*/)~m', '', $description);
 
         // Keep everything before the first annotation
         $description = trim(explode('@', $description)[0]);
 
         // Drop common "Get" or "Return" in front of comment
-        $description = ucfirst(preg_replace('~^(get|return)s? ~i', '', $description));
+        $description = ucfirst(preg_replace('~^(set|get|return)s? ~i', '', $description));
 
         return $description ?: null;
     }
@@ -59,7 +59,7 @@ class DocBlockReader
     }
 
     /**
-     * Get the parameter description
+     * Get the parameter type
      * @param ReflectionParameter $param
      * @return string|null
      */
@@ -74,6 +74,10 @@ class DocBlockReader
         return null;
     }
 
+    /**
+     * Get the return type
+     * @return string|null
+     */
     public function getReturnType(): ?string
     {
         if (preg_match('~@return\h+(\H+)(\h|\n)~', $this->comment, $m)) {

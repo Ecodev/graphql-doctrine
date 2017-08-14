@@ -101,11 +101,12 @@ class Post extends AbstractModel
     /**
      * Set status
      *
+     * @API\Input(type="GraphQLTests\Doctrine\Blog\Types\PostStatusType")
      * @param string $status
      *
      * @return User
      */
-    public function setStatus(string $status): void
+    public function setStatus(string $status = self::STATUS_PUBLIC): void
     {
         $this->status = $status;
     }
@@ -122,7 +123,7 @@ class Post extends AbstractModel
     }
 
     /**
-     * Set user
+     * Set author of post
      * @param User $user
      */
     public function setUser(User $user): void
@@ -140,8 +141,7 @@ class Post extends AbstractModel
     }
 
     /**
-     * Set creation date
-     * @param DateTime $creationDate
+     * Set date of creation
      */
     public function setCreationDate(DateTime $creationDate): void
     {
@@ -182,5 +182,12 @@ class Post extends AbstractModel
     public function isAllowedEditing(User $user): bool
     {
         return $this->getUser() === $user;
+    }
+
+    /**
+     * This should be silently ignored
+     */
+    public function setNothing(): void
+    {
     }
 }
