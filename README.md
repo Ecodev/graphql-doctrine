@@ -91,7 +91,7 @@ $schema = new Schema([
 ## Usage
 
 The public API is limited to the public methods on `Types` and the annotations.
-So the it's the constructor and;
+So the it's the constructor and:
 
 - `$types->get()` to get either an `ObjectType` from an entity or any other
  custom types (eg: `string` or mapped type)
@@ -222,10 +222,10 @@ $userIdType = $types->get(User::class, true);
 
 ## Limitations
 
-The `use` statement is not supported. So types in annotation or doc blocks should
+- The `use` statement is not supported. So types in annotation or doc blocks should
 either be the FQCN or in the same namespace as the getter.
 
-Entities with composite identifiers are not supported for automatic creation of
+- Entities with composite identifiers are not supported for automatic creation of
 input types. Possible workarounds are to change input argument to be something
 else than an entity, write custom input types and use them via annotations, or
 adapt the database schema.
