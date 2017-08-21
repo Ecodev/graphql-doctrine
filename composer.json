@@ -14,8 +14,8 @@
     },
     "require": {
         "doctrine/orm": "^2.5",
-        "webonyx/graphql-php": "^0.9.13",
-        "php": "^7.1"
+        "php": "^7.1",
+        "webonyx/graphql-php": "^0.10.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.2",
