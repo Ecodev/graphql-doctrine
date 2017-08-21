@@ -11,6 +11,7 @@ use GraphQL\Type\Definition\BooleanType;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Schema;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\User;
 use GraphQLTests\Doctrine\Blog\Types\CustomType;
@@ -44,6 +45,50 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $errors = $validator->validateMapping();
 
         $this->assertEmpty($errors, 'doctrine annotations should be valid');
+    }
+
+    public function testGraphQLSchemaFromDocumentationMustBeValid(): void
+    {
+        $schema = new Schema([
+            'query' => new ObjectType([
+                'name' => 'query',
+                'fields' => [
+                    'posts' => [
+                        'type' => Type::listOf($this->types->get(Post::class)), // Use automated ObjectType for output
+                        'resolve' => function ($root, $args) {
+                            // call to repository...
+                        },
+                    ],
+                ],
+                ]),
+            'mutation' => new ObjectType([
+                'name' => 'mutation',
+                'fields' => [
+                    'createPost' => [
+                        'type' => Type::nonNull($this->types->get(Post::class)),
+                        'args' => [
+                            'input' => Type::nonNull($this->types->getInput(Post::class)), // Use automated InputObjectType for input
+                        ],
+                        'resolve' => function ($root, $args) {
+                            // create new post and flush...
+                        },
+                    ],
+                    'updatePost' => [
+                        'type' => Type::nonNull($this->types->get(Post::class)),
+                        'args' => [
+                            'id' => Type::nonNull(Type::id()), // Use standard API when needed
+                            'input' => $this->types->getInput(Post::class),
+                        ],
+                        'resolve' => function ($root, $args) {
+                            // update existing post and flush...
+                        },
+                    ],
+                ],
+                ]),
+        ]);
+
+        $schema->assertValid();
+        $this->assertTrue(true, 'passed validation successfully');
     }
 
     public function testCanGetUserDefinedScalarTypes(): void

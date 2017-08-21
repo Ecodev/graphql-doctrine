@@ -36,12 +36,15 @@ And start using it:
 use Blog\Model\Post;
 use Blog\Model\User;
 use Blog\Type\DateTimeType;
+use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Schema;
 use GraphQL\Doctrine\DefaultFieldResolver;
+use GraphQL\Doctrine\Types;
 
 // Define custom types mapping
 $mapping = [
-    DateTime::class => DateTimeType::class,
+    \DateTime::class => DateTimeType::class,
 ];
 
 // Configure the type registry
@@ -52,39 +55,41 @@ GraphQL::setDefaultFieldResolver(new DefaultFieldResolver());
 
 // Build your Schema
 $schema = new Schema([
-    'Query' => [
+    'query' => new ObjectType([
+        'name' => 'query',
         'fields' => [
             'posts' => [
-                'type' => Type::listOf($types->get(Post::class)), // Use automated ObjectType for output
+                'type' => Type::listOf($this->types->get(Post::class)), // Use automated ObjectType for output
                 'resolve' => function ($root, $args) {
                     // call to repository...
                 }
             ],
         ],
-    ],
-    'Mutation' => [
+        ]),
+    'mutation' => new ObjectType([
+        'name' => 'mutation',
         'fields' => [
             'createPost' => [
-                'type' => Type::nonNull($types->get(Post::class)),
+                'type' => Type::nonNull($this->types->get(Post::class)),
                 'args' => [
-                    'input' => Type::nonNull($types->getInput(Post::class)), // Use automated InputObjectType for input
+                    'input' => Type::nonNull($this->types->getInput(Post::class)), // Use automated InputObjectType for input
                 ],
                 'resolve' => function ($root, $args) {
                     // create new post and flush...
                 }
             ],
             'updatePost' => [
-                'type' => Type::nonNull($types->get(Post::class)),
+                'type' => Type::nonNull($this->types->get(Post::class)),
                 'args' => [
                     'id' => Type::nonNull(Type::id()), // Use standard API when needed
-                    'input' => $types->getInput(Post::class),
+                    'input' => $this->types->getInput(Post::class),
                 ],
                 'resolve' => function ($root, $args) {
                     // update existing post and flush...
                 }
             ],
         ],
-    ],
+        ]),
 ]);
 ```
 
