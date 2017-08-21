@@ -209,15 +209,11 @@ public function isAllowedEditing(User $user): bool
 }
 ```
 
-You may also get an input type for an entity by using the second parameter of
-`Types::get()`:
+You may also get an input type for an entity by using `Types::getInput()`:
 
 ```php
-// Standard ObjectType
-$userType = $types->get(User::class);
-
 // Custom InputType
-$userIdType = $types->get(User::class, true);
+$userIdType = $types->getInput(User::class);
 ```
 
 ## Limitations
