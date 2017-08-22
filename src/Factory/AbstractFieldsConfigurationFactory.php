@@ -125,15 +125,19 @@ abstract class AbstractFieldsConfigurationFactory
     protected function getAnnotationReader(): Reader
     {
         $driver = $this->entityManager->getConfiguration()->getMetadataDriverImpl();
-        if (is_a($driver, MappingDriverChain::class)) {
+        if ($driver instanceof MappingDriverChain::class) {
             $drivers = $driver->getDrivers();
             foreach ($drivers as $driver) {
-                if (is_a($driver, AnnotationDriver::class))
-                    return $driver->getReader();
+                if ($driver instanceof AnnotationDriver::class) {
+                    break;
+                }
             }
         }
-        if (method_exists($driver, 'getReader'))
+        
+        if ($driver instanceof AnnotationDriver::class) {
             return $driver->getReader();
+        }
+        
         return new AnnotationReader();
     }
 
