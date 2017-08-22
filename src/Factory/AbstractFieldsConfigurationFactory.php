@@ -133,11 +133,11 @@ abstract class AbstractFieldsConfigurationFactory
                 }
             }
         }
-        
+
         if ($driver instanceof AnnotationDriver) {
             return $driver->getReader();
         }
-        
+
         return new AnnotationReader();
     }
 
