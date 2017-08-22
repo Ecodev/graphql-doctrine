@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Factory;
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver;
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use GraphQL\Doctrine\Annotation\Exclude;
@@ -121,7 +124,17 @@ abstract class AbstractFieldsConfigurationFactory
      */
     protected function getAnnotationReader(): Reader
     {
-        return $this->entityManager->getConfiguration()->getMetadataDriverImpl()->getReader();
+        $driver = $this->entityManager->getConfiguration()->getMetadataDriverImpl();
+        if (is_a($driver, MappingDriverChain::class)) {
+            $drivers = $driver->getDrivers();
+            foreach ($drivers as $driver) {
+                if (is_a($driver, AnnotationDriver::class))
+                    return $driver->getReader();
+            }
+        }
+        if (method_exists($driver, 'getReader'))
+            return $driver->getReader();
+        return new AnnotationReader();
     }
 
     /**
