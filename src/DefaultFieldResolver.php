@@ -70,11 +70,11 @@ class DefaultFieldResolver
      */
     private function getGetter($source, string $name): ?ReflectionMethod
     {
-        if (!preg_match('~^(is|has)[A-Z]~', $name)) {
-            $name = 'get' . ucfirst($name);
-        }
-
         $class = new ReflectionClass($source);
+
+        if (!preg_match('~^(is|has)[A-Z]~', $name) ||  !$class->hasMethod($name))
+            $name = 'get' . ucfirst($name);
+
         if ($class->hasMethod($name)) {
             $method = $class->getMethod($name);
             if ($method->getModifiers() & ReflectionMethod::IS_PUBLIC) {
