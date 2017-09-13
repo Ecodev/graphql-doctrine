@@ -530,4 +530,11 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $type = $this->types->get(Blog\Model\Special\ObjectTypeArgument::class);
         $type->getFields();
     }
+
+    public function testCanGetMappedTypesEitherByMappedPhpClassOrDirectTypeClass()
+    {
+        $viaPhp = $this->types->get(DateTime::class);
+        $viaType = $this->types->get(DateTimeType::class);
+        $this->assertSame($viaPhp, $viaType);
+    }
 }

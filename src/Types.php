@@ -52,6 +52,7 @@ class Types
         foreach ($customTypeMapping as $phpType => $graphQLType) {
             $instance = $this->createInstance($graphQLType);
             $this->registerInstance($phpType, $instance);
+            $this->registerInstance($graphQLType, $instance);
         }
     }
 
