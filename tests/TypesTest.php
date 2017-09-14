@@ -53,6 +53,12 @@ class TypesTest extends \PHPUnit\Framework\TestCase
             'query' => new ObjectType([
                 'name' => 'query',
                 'fields' => [
+                    'users' => [
+                        'type' => Type::listOf($this->types->get(User::class)), // Use automated ObjectType for output
+                        'resolve' => function ($root, $args) {
+                            // call to repository...
+                        },
+                    ],
                     'posts' => [
                         'type' => Type::listOf($this->types->get(Post::class)), // Use automated ObjectType for output
                         'resolve' => function ($root, $args) {
@@ -139,253 +145,27 @@ class TypesTest extends \PHPUnit\Framework\TestCase
     public function testCanGetOutputTypes(): void
     {
         $userType = $this->types->get(User::class);
-        $expected = [
-            'name' => 'User',
-            'description' => 'A blog author or visitor',
-            'fields' => [
-                [
-                    'name' => 'name',
-                    'type' => 'String!',
-                    'description' => 'The user real name',
-                    'args' => [],
-                ],
-                [
-                    'name' => 'email',
-                    'type' => 'String',
-                    'description' => 'The validated email or null',
-                    'args' => [],
-                ],
-                [
-                    'name' => 'isAdministrator',
-                    'type' => 'Boolean!',
-                    'description' => 'Whether the user is an administrator',
-                    'args' => [],
-                ],
-                [
-                    'name' => 'posts',
-                    'type' => '[Post]!',
-                    'description' => 'All posts of the specified status',
-                    'args' => [
-                        [
-                            'name' => 'status',
-                            'type' => 'PostStatus',
-                            'description' => 'The status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post',
-                            'defaultValue' => 'public',
-                        ],
-                    ],
-                ],
-                [
-                    'name' => 'postsWithIds',
-                    'type' => '[Post]!',
-                    'description' => null,
-                    'args' => [
-                        [
-                            'name' => 'ids',
-                            'type' => '[ID]!',
-                            'description' => null,
-                            'defaultValue' => null,
-                        ],
-                    ],
-                ],
-                [
-                    'name' => 'id',
-                    'type' => 'ID!',
-                    'description' => null,
-                    'args' => [],
-                ],
-                [
-                    'name' => 'creationDate',
-                    'type' => 'DateTime!',
-                    'description' => null,
-                    'args' => [],
-                ],
-            ],
-        ];
-        $this->assertObjectType($expected, $userType);
+
+        $this->assertObjectType('data/UserOutput.php', $userType);
         $this->assertSame($userType, $this->types->get(User::class), 'must returns the same instance of user type');
 
         $postType = $this->types->get(Post::class);
-        $expected = [
-            'name' => 'Post',
-            'description' => 'A blog post with title and body',
-            'fields' => [
-                [
-                    'name' => 'title',
-                    'type' => 'String!',
-                    'description' => 'Title',
-                    'args' => [],
-                ],
-                [
-                    'name' => 'content',
-                    'type' => 'String!',
-                    'description' => 'The post content',
-                    'args' => [],
-                ],
-                [
-                    'name' => 'status',
-                    'type' => 'PostStatus!',
-                    'description' => 'Status',
-                    'args' => [],
-                ],
-                [
-                    'name' => 'user',
-                    'type' => 'User!',
-                    'description' => 'Author of post',
-                    'args' => [],
-                ],
-                [
-                    'name' => 'publicationDate',
-                    'type' => 'DateTime!',
-                    'description' => 'Date of publication',
-                    'args' => [],
-                ],
-                [
-                    'name' => 'words',
-                    'type' => '[String]!',
-                    'description' => null,
-                    'args' => [],
-                ],
-                [
-                    'name' => 'hasWords',
-                    'type' => 'Boolean!',
-                    'description' => null,
-                    'args' => [
-                        [
-                            'name' => 'words',
-                            'type' => '[String]!',
-                            'description' => null,
-                            'defaultValue' => null,
-                        ],
-                    ],
-                ],
-                [
-                    'name' => 'isLong',
-                    'type' => 'Boolean!',
-                    'description' => null,
-                    'args' => [
-                        [
-                            'name' => 'wordLimit',
-                            'type' => 'Int',
-                            'description' => null,
-                            'defaultValue' => 50,
-                        ],
-                    ],
-                ],
-                [
-                    'name' => 'isAllowedEditing',
-                    'type' => 'Boolean!',
-                    'description' => null,
-                    'args' => [
-                        [
-                            'name' => 'user',
-                            'type' => 'UserID!',
-                            'description' => null,
-                            'defaultValue' => null,
-                        ],
-                    ],
-                ],
-                [
-                    'name' => 'id',
-                    'type' => 'ID!',
-                    'description' => null,
-                    'args' => [],
-                ],
-                [
-                    'name' => 'creationDate',
-                    'type' => 'DateTime!',
-                    'description' => null,
-                    'args' => [],
-                ],
-            ],
-        ];
-        $this->assertObjectType($expected, $postType);
+        $this->assertObjectType('data/PostOutput.php', $postType);
         $this->assertSame($postType, $this->types->get(Post::class), 'must returns the same instance of post type');
     }
 
     public function testCanGetInputTypes(): void
     {
         $userType = $this->types->getInput(User::class);
-        $expected = [
-            'name' => 'UserInput',
-            'description' => 'A blog author or visitor',
-            'fields' => [
-                [
-                    'name' => 'name',
-                    'type' => 'String!',
-                    'description' => 'Name',
-                    'defaultValue' => null,
-                ],
-                [
-                    'name' => 'email',
-                    'type' => 'String',
-                    'description' => 'A valid email or null',
-                    'defaultValue' => null,
-                ],
-                [
-                    'name' => 'password',
-                    'type' => 'String!',
-                    'description' => 'Encrypt and change the user password',
-                    'defaultValue' => null,
-                ],
-                [
-                    'name' => 'creationDate',
-                    'type' => 'DateTime!',
-                    'description' => null,
-                    'defaultValue' => null,
-                ],
-            ],
-        ];
-        $this->assertInputType($expected, $userType);
+        $this->assertInputType('data/UserInput.php', $userType);
         $this->assertSame($userType, $this->types->getInput(User::class), 'must returns the same instance of user type');
 
         $postType = $this->types->getInput(Post::class);
-        $expected = [
-            'name' => 'PostInput',
-            'description' => 'A blog post with title and body',
-            'fields' => [
-                [
-                    'name' => 'title',
-                    'type' => 'String!',
-                    'description' => 'Title',
-                    'defaultValue' => null,
-                ],
-                [
-                    'name' => 'body',
-                    'type' => 'String!',
-                    'description' => 'The body',
-                    'defaultValue' => null,
-                ],
-                [
-                    'name' => 'status',
-                    'type' => 'PostStatus',
-                    'description' => 'Status',
-                    'defaultValue' => 'public',
-                ],
-                [
-                    'name' => 'user',
-                    'type' => 'UserID!',
-                    'description' => 'Author of post',
-                    'defaultValue' => null,
-                ],
-                [
-                    'name' => 'publicationDate',
-                    'type' => 'DateTime!',
-                    'description' => 'Date of publication',
-                    'defaultValue' => null,
-                ],
-                [
-                    'name' => 'creationDate',
-                    'type' => 'DateTime!',
-                    'description' => null,
-                    'defaultValue' => null,
-                ],
-            ],
-        ];
-        $this->assertInputType($expected, $postType);
+        $this->assertInputType('data/PostInput.php', $postType);
         $this->assertSame($postType, $this->types->getInput(Post::class), 'must returns the same instance of post type');
     }
 
-    private function assertType(array $expected, Type $type, bool $assertArgs): void
+    private function assertType(string $expectedFile, Type $type, bool $assertArgs): void
     {
         $fields = [];
         foreach ($type->getFields() as $field) {
@@ -419,116 +199,30 @@ class TypesTest extends \PHPUnit\Framework\TestCase
             'fields' => $fields,
         ];
 
-        $this->assertEquals($expected, $actual);
+        $expected = require $expectedFile;
+        $this->assertEquals($expected, $actual, 'Should equals expectation from: ' . $expectedFile);
     }
 
-    private function assertInputType(array $expected, InputObjectType $type): void
+    private function assertInputType(string $expectedFile, InputObjectType $type): void
     {
-        $this->assertType($expected, $type, false);
+        $this->assertType($expectedFile, $type, false);
     }
 
-    private function assertObjectType(array $expected, ObjectType $type): void
+    private function assertObjectType(string $expectedFile, ObjectType $type): void
     {
-        $this->assertType($expected, $type, true);
+        $this->assertType($expectedFile, $type, true);
     }
 
     public function testNonPublicGetterMustBeIgnored(): void
     {
         $actual = $this->types->get(Blog\Model\Special\IgnoredGetter::class);
-        $expected = [
-            'name' => 'IgnoredGetter',
-            'description' => null,
-            'fields' => [
-                [
-                    'name' => 'public',
-                    'type' => 'String!',
-                    'description' => null,
-                    'args' => [],
-                ],
-                [
-                    'name' => 'publicWithArgs',
-                    'type' => '[String]!',
-                    'description' => null,
-                    'args' => [
-                        [
-                            'name' => 'arg1',
-                            'type' => 'String!',
-                            'description' => null,
-                            'defaultValue' => null,
-                        ],
-                        [
-                            'name' => 'arg2',
-                            'type' => 'Int!',
-                            'description' => null,
-                            'defaultValue' => null,
-                        ],
-                        [
-                            'name' => 'arg3',
-                            'type' => '[String]',
-                            'description' => null,
-                            'defaultValue' => ['foo'],
-                        ],
-                    ],
-                ],
-                [
-                    'name' => 'isValid',
-                    'type' => 'Boolean!',
-                    'description' => null,
-                    'args' => [],
-                ],
-                [
-                    'name' => 'hasMoney',
-                    'type' => 'Boolean!',
-                    'description' => null,
-                    'args' => [],
-                ],
-                [
-                    'name' => 'id',
-                    'type' => 'ID!',
-                    'description' => null,
-                    'args' => [],
-                ],
-                [
-                    'name' => 'creationDate',
-                    'type' => 'DateTime!',
-                    'description' => null,
-                    'args' => [],
-                ],
-            ],
-        ];
-
-        $this->assertObjectType($expected, $actual);
+        $this->assertObjectType('data/IgnoredGetter.php', $actual);
     }
 
     public function testCanDeclareArrayOfEntity(): void
     {
         $actual = $this->types->get(Blog\Model\Special\ArrayOfEntity::class);
-        $expected = [
-            'name' => 'ArrayOfEntity',
-            'description' => null,
-            'fields' => [
-                [
-                    'name' => 'users',
-                    'type' => '[User]!',
-                    'description' => null,
-                    'args' => [],
-                ],
-                [
-                    'name' => 'id',
-                    'type' => 'ID!',
-                    'description' => null,
-                    'args' => [],
-                ],
-                [
-                    'name' => 'creationDate',
-                    'type' => 'DateTime!',
-                    'description' => null,
-                    'args' => [],
-                ],
-            ],
-        ];
-
-        $this->assertObjectType($expected, $actual);
+        $this->assertObjectType('data/ArrayOfEntity.php', $actual);
     }
 
     public function testFieldWithoutTypeMustThrow(): void
