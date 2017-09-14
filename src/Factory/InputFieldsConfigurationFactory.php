@@ -6,12 +6,12 @@ namespace GraphQL\Doctrine\Factory;
 
 use GraphQL\Doctrine\Annotation\Input;
 use GraphQL\Doctrine\DocBlockReader;
-use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\Type;
 use ReflectionMethod;
+use ReflectionParameter;
 
 /**
- * A factory to create a configuration for all fields of an entity
+ * A factory to create a configuration for all setters of an entity
  */
 class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
 {
@@ -34,9 +34,36 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
         }
         $param = reset($params);
 
-        // First get user specified values
-        $field = $this->getInputFieldFromAnnotation($method);
+        // Get a field from annotation, or an empty one
+        $field = $this->getAnnotationReader()->getMethodAnnotation($method, Input::class) ?? new Input();
 
+        if (!$field->type instanceof Type) {
+            $this->convertTypeDeclarationsToInstances($method, $field);
+            $this->completeField($method, $param, $field);
+        }
+
+        return $field->toArray();
+    }
+
+    /**
+     * All its types will be converted from string to real instance of Type
+     *
+     * @param ReflectionMethod $method
+     * @param Field $field
+     */
+    private function convertTypeDeclarationsToInstances(ReflectionMethod $method, Input $field): void
+    {
+        $field->type = $this->getTypeFromPhpDeclaration($method, $field->type);
+    }
+
+    /**
+     * Complete field with info from doc blocks and type hints
+     * @param ReflectionMethod $method
+     * @param ReflectionParameter $param
+     * @param Field $field
+     */
+    private function completeField(ReflectionMethod $method, ReflectionParameter $param, Input $field): void
+    {
         $fieldName = lcfirst(preg_replace('~^set~', '', $method->getName()));
         if (!$field->name) {
             $field->name = $fieldName;
@@ -69,22 +96,5 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
 
         // If still no type, cannot continue
         $this->throwIfNotInputType($param, $field->type, 'Input');
-
-        return $field->toArray();
-    }
-
-    /**
-     * Get a field from annotation, or an empty one
-     * All its types will be converted from string to real instance of Type
-     *
-     * @param ReflectionMethod $method
-     * @return Input
-     */
-    private function getInputFieldFromAnnotation(ReflectionMethod $method): Input
-    {
-        $field = $this->getAnnotationReader()->getMethodAnnotation($method, Input::class) ?? new Input();
-        $field->type = $this->getTypeFromPhpDeclaration($method, $field->type);
-
-        return $field;
     }
 }

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine\Blog\Model;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use GraphQL\Doctrine\Annotation as API;
 
 /**
  * Base class for all objects stored in database.
@@ -22,8 +24,29 @@ abstract class AbstractModel
      */
     protected $id;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @API\Field(type="GraphQLTests\Doctrine\Blog\Types\DateTimeType")
+     */
+    public function getCreationDate(): DateTime
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * @API\Input(type="GraphQLTests\Doctrine\Blog\Types\DateTimeType")
+     */
+    public function setCreationDate(DateTime $creationDate)
+    {
+        $this->creationDate = $creationDate;
     }
 }

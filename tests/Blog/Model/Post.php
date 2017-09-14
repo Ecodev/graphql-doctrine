@@ -37,7 +37,7 @@ class Post extends AbstractModel
      *
      * @ORM\Column(type="datetime")
      */
-    private $creationDate;
+    private $publicationDate;
 
     /**
      * @var bool
@@ -141,20 +141,20 @@ class Post extends AbstractModel
     }
 
     /**
-     * Set date of creation
+     * Set date of publication
      */
-    public function setCreationDate(DateTime $creationDate): void
+    public function setPublicationDate(DateTime $publicationDate): void
     {
-        $this->creationDate = $creationDate;
+        $this->publicationDate = $publicationDate;
     }
 
     /**
-     * Get date of creation
+     * Get date of publication
      * @return DateTime
      */
-    public function getCreationDate(): DateTime
+    public function getPublicationDate(): DateTime
     {
-        return $this->creationDate;
+        return $this->publicationDate;
     }
 
     /**

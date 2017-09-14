@@ -64,6 +64,25 @@ class TypesTest extends \PHPUnit\Framework\TestCase
             'mutation' => new ObjectType([
                 'name' => 'mutation',
                 'fields' => [
+                    'createUser' => [
+                        'type' => Type::nonNull($this->types->get(User::class)),
+                        'args' => [
+                            'input' => Type::nonNull($this->types->getInput(User::class)), // Use automated InputObjectType for input
+                        ],
+                        'resolve' => function ($root, $args) {
+                            // create new user and flush...
+                        },
+                    ],
+                    'updateUser' => [
+                        'type' => Type::nonNull($this->types->get(User::class)),
+                        'args' => [
+                            'id' => Type::nonNull(Type::id()), // Use standard API when needed
+                            'input' => $this->types->getInput(User::class),
+                        ],
+                        'resolve' => function ($root, $args) {
+                            // update existing user and flush...
+                        },
+                    ],
                     'createPost' => [
                         'type' => Type::nonNull($this->types->get(Post::class)),
                         'args' => [
@@ -174,6 +193,12 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                     'description' => null,
                     'args' => [],
                 ],
+                [
+                    'name' => 'creationDate',
+                    'type' => 'DateTime!',
+                    'description' => null,
+                    'args' => [],
+                ],
             ],
         ];
         $this->assertObjectType($expected, $userType);
@@ -209,9 +234,9 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                     'args' => [],
                 ],
                 [
-                    'name' => 'creationDate',
+                    'name' => 'publicationDate',
                     'type' => 'DateTime!',
-                    'description' => 'Date of creation',
+                    'description' => 'Date of publication',
                     'args' => [],
                 ],
                 [
@@ -265,6 +290,12 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                     'description' => null,
                     'args' => [],
                 ],
+                [
+                    'name' => 'creationDate',
+                    'type' => 'DateTime!',
+                    'description' => null,
+                    'args' => [],
+                ],
             ],
         ];
         $this->assertObjectType($expected, $postType);
@@ -294,6 +325,12 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                     'name' => 'password',
                     'type' => 'String!',
                     'description' => 'Encrypt and change the user password',
+                    'defaultValue' => null,
+                ],
+                [
+                    'name' => 'creationDate',
+                    'type' => 'DateTime!',
+                    'description' => null,
                     'defaultValue' => null,
                 ],
             ],
@@ -331,9 +368,15 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                     'defaultValue' => null,
                 ],
                 [
+                    'name' => 'publicationDate',
+                    'type' => 'DateTime!',
+                    'description' => 'Date of publication',
+                    'defaultValue' => null,
+                ],
+                [
                     'name' => 'creationDate',
                     'type' => 'DateTime!',
-                    'description' => 'Date of creation',
+                    'description' => null,
                     'defaultValue' => null,
                 ],
             ],
@@ -375,7 +418,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
             'description' => $type->description,
             'fields' => $fields,
         ];
-        //        var_export($actual);
+
         $this->assertEquals($expected, $actual);
     }
 
@@ -445,6 +488,12 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                     'description' => null,
                     'args' => [],
                 ],
+                [
+                    'name' => 'creationDate',
+                    'type' => 'DateTime!',
+                    'description' => null,
+                    'args' => [],
+                ],
             ],
         ];
 
@@ -467,6 +516,12 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                 [
                     'name' => 'id',
                     'type' => 'ID!',
+                    'description' => null,
+                    'args' => [],
+                ],
+                [
+                    'name' => 'creationDate',
+                    'type' => 'DateTime!',
                     'description' => null,
                     'args' => [],
                 ],

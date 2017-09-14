@@ -13,7 +13,7 @@ use ReflectionMethod;
 use ReflectionParameter;
 
 /**
- * A factory to create a configuration for all fields of an entity
+ * A factory to create a configuration for all getters of an entity
  */
 class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
 {
@@ -25,14 +25,46 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
     /**
      * Get the entire configuration for a method
      * @param ReflectionMethod $method
-     * @throws Exception
      * @return array
      */
     protected function methodToConfiguration(ReflectionMethod $method): ?array
     {
-        // First get user specified values
-        $field = $this->getFieldFromAnnotation($method);
+        // Get a field from annotation, or an empty one
+        $field = $this->getAnnotationReader()->getMethodAnnotation($method, Field::class) ?? new Field();
 
+        if (!$field->type instanceof Type) {
+            $this->convertTypeDeclarationsToInstances($method, $field);
+            $this->completeField($method, $field);
+        }
+
+        return $field->toArray();
+    }
+
+    /**
+     * All its types will be converted from string to real instance of Type
+     *
+     * @param ReflectionMethod $method
+     * @param Field $field
+     */
+    private function convertTypeDeclarationsToInstances(ReflectionMethod $method, Field $field): void
+    {
+        $field->type = $this->getTypeFromPhpDeclaration($method, $field->type);
+        $args = [];
+        foreach ($field->args as $arg) {
+            $arg->type = $this->getTypeFromPhpDeclaration($method, $arg->type);
+            $args[$arg->name] = $arg;
+        }
+        $field->args = $args;
+    }
+
+    /**
+     * Complete field with info from doc blocks and type hints
+     * @param ReflectionMethod $method
+     * @param Field $field
+     * @throws Exception
+     */
+    private function completeField(ReflectionMethod $method, Field $field): void
+    {
         $fieldName = lcfirst(preg_replace('~^get~', '', $method->getName()));
         if (!$field->name) {
             $field->name = $fieldName;
@@ -64,30 +96,6 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
         if (!$field->type) {
             throw new Exception('Could not find type for method ' . $this->getMethodFullName($method) . '. Either type hint the return value, or specify the type with `@API\Field` annotation.');
         }
-
-        return $field->toArray();
-    }
-
-    /**
-     * Get a field from annotation, or an empty one
-     * All its types will be converted from string to real instance of Type
-     *
-     * @param ReflectionMethod $method
-     * @return Field
-     */
-    private function getFieldFromAnnotation(ReflectionMethod $method): Field
-    {
-        $field = $this->getAnnotationReader()->getMethodAnnotation($method, Field::class) ?? new Field();
-
-        $field->type = $this->getTypeFromPhpDeclaration($method, $field->type);
-        $args = [];
-        foreach ($field->args as $arg) {
-            $arg->type = $this->getTypeFromPhpDeclaration($method, $arg->type);
-            $args[$arg->name] = $arg;
-        }
-        $field->args = $args;
-
-        return $field;
     }
 
     /**
