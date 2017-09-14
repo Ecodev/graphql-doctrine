@@ -74,7 +74,7 @@ class DefaultFieldResolver
      * @param mixed $source
      * @param string $name
      *
-     * @return return ReflectionMethod|null
+     * @return null|ReflectionMethod
      */
     private function getGetter($source, string $name): ?ReflectionMethod
     {
