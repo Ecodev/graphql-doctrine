@@ -31,14 +31,18 @@ abstract class AbstractTypeFactory
 
     /**
      * Create an ObjectType from a Doctrine entity
+     *
      * @param string $className class name of Doctrine entity
+     *
      * @return ObjectType
      */
     abstract public function create(string $className): Type;
 
     /**
      * Get the description of a class from the doc block
+     *
      * @param string $className
+     *
      * @return null|string
      */
     protected function getDescription(string $className): ?string

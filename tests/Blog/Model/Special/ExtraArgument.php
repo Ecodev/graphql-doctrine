@@ -15,7 +15,9 @@ class ExtraArgument extends AbstractModel
 {
     /**
      * @API\Field(args={@API\Argument(name="misspelled_name")})
+     *
      * @param string $arg1
+     *
      * @return string
      */
     public function getWithParams(string $arg1): string

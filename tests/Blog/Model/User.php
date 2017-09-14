@@ -121,6 +121,7 @@ class User extends AbstractModel
      * Returns the hashed password
      *
      * @API\Exclude
+     *
      * @return string
      */
     public function getPassword(): string
@@ -132,6 +133,7 @@ class User extends AbstractModel
      * Set whether the user is an administrator
      *
      * @API\Exclude
+     *
      * @param bool $isAdministrator
      *
      * @return User
@@ -153,8 +155,11 @@ class User extends AbstractModel
 
     /**
      * Returns all posts of the specified status
+     *
      * @API\Field(args={@API\Argument(name="status", type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")})
+     *
      * @param string $status the status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post
+     *
      * @return Collection
      */
     public function getPosts(?string $status = Post::STATUS_PUBLIC): Collection
@@ -171,6 +176,7 @@ class User extends AbstractModel
 
     /**
      * @API\Field(type="GraphQLTests\Doctrine\Blog\Model\Post[]", args={@API\Argument(name="ids", type="id[]")})
+     *
      * @param array $ids
      */
     public function getPostsWithIds(array $ids): Collection

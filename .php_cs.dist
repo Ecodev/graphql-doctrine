@@ -120,7 +120,7 @@ return PhpCsFixer\Config::create()
             'phpdoc_order' => true,
             'phpdoc_return_self_reference' => true,
             'phpdoc_scalar' => true,
-            'phpdoc_separation' => false, // Nope, annotations are easy to read enough, no need to split them with blank lines
+            'phpdoc_separation' => true,
             'phpdoc_single_line_var_spacing' => true,
             'phpdoc_summary' => false, // We usually don't generate documentation so punctuation is not important
             'phpdoc_to_comment' => true,

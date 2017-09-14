@@ -14,6 +14,7 @@ class ArrayArgument extends AbstractModel
 {
     /**
      * @param array $arg1
+     *
      * @return string
      */
     public function getWithParams(array $arg1): string

@@ -19,7 +19,9 @@ class ObjectTypeArgument extends AbstractModel
      * system auto-create an input type matching the entity
      *
      * @API\Field(args={@API\Argument(name="user", type="GraphQLTests\Doctrine\Blog\Model\User")})
+     *
      * @param User $user
+     *
      * @return string
      */
     public function getWithParams(User $user): string

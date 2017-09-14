@@ -63,6 +63,7 @@ class Types
      * with annotations.
      *
      * @param string $className the class name of either a scalar type (`PostStatus::class`), or an entity (`Post::class`)
+     *
      * @return Type
      */
     public function get(string $className): Type
@@ -84,6 +85,7 @@ class Types
      * with annotations.
      *
      * @param string $className the class name of an entity (`Post::class`)
+     *
      * @return InputObjectType
      */
     public function getInput(string $className): InputObjectType
@@ -107,6 +109,7 @@ class Types
      * the resolve functions can use a real instance of entity instead of an ID.
      *
      * @param string $className the class name of an entity (`Post::class`)
+     *
      * @return EntityIDType
      */
     public function getId(string $className): EntityIDType
@@ -124,6 +127,7 @@ class Types
 
     /**
      * Register the given type in our internal registry
+     *
      * @param string $key
      * @param Type $instance
      */
@@ -135,7 +139,9 @@ class Types
 
     /**
      * Create an instance of either a custom, scalar or ObjectType
+     *
      * @param string $className
+     *
      * @return Type
      */
     private function createInstance(string $className): Type
@@ -161,6 +167,7 @@ class Types
 
     /**
      * Returns the list of native GraphQL types
+     *
      * @return array
      */
     private function getPhpToGraphQLMapping(): array
@@ -176,7 +183,9 @@ class Types
 
     /**
      * Throw an exception if the class name is not Doctrine entity
+     *
      * @param string $className
+     *
      * @throws \UnexpectedValueException
      */
     private function throwIfNotEntity(string $className): void
@@ -188,7 +197,9 @@ class Types
 
     /**
      * Remove the leading `\` that may exists in FQCN
+     *
      * @param string $className
+     *
      * @return string
      */
     private function normalizedClassName(string $className): string

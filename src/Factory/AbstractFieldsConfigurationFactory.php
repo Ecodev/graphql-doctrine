@@ -37,12 +37,14 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Doctrine metadata for the entity
+     *
      * @var ClassMetadata
      */
     private $metadata;
 
     /**
      * The identity field name, eg: "id"
+     *
      * @var string
      */
     private $identityField;
@@ -60,14 +62,18 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Get the entire configuration for a method
+     *
      * @param ReflectionMethod $method
+     *
      * @return null|array
      */
     abstract protected function methodToConfiguration(ReflectionMethod $method): ?array;
 
     /**
      * Create a configuration for all fields of Doctrine entity
+     *
      * @param string $className
+     *
      * @return array
      */
     public function create(string $className): array
@@ -105,7 +111,9 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Returns whether the getter is excluded
+     *
      * @param ReflectionMethod $method
+     *
      * @return bool
      */
     private function isExcluded(ReflectionMethod $method): bool
@@ -117,6 +125,7 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Get annotation reader
+     *
      * @return Reader
      */
     protected function getAnnotationReader(): Reader
@@ -140,6 +149,7 @@ abstract class AbstractFieldsConfigurationFactory
      * @param ReflectionMethod $method
      * @param null|string $typeDeclaration
      * @param bool $isEntityId
+     *
      * @return null|Type
      */
     protected function getTypeFromPhpDeclaration(ReflectionMethod $method, ?string $typeDeclaration, bool $isEntityId = false): ?Type
@@ -169,8 +179,10 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Prepend namespace of the method if the class actually exists
+     *
      * @param ReflectionMethod $method
      * @param string $type
+     *
      * @return string
      */
     private function adjustNamespace(ReflectionMethod $method, string $type): string
@@ -186,9 +198,12 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Get a GraphQL type instance from PHP type hinted type, possibly looking up the content of collections
+     *
      * @param ReflectionMethod $method
      * @param string $fieldName
+     *
      * @throws Exception
+     *
      * @return null|Type
      */
     protected function getTypeFromReturnTypeHint(ReflectionMethod $method, string $fieldName): ?Type
@@ -218,8 +233,10 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Convert a reflected type to GraphQL Type
+     *
      * @param ReflectionType $reflectionType
      * @param bool $isEntityId
+     *
      * @return Type
      */
     protected function refelectionTypeToType(ReflectionType $reflectionType, bool $isEntityId = false): Type
@@ -234,6 +251,7 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Look up which field is the ID
+     *
      * @param string $className
      */
     private function findIdentityField(string $className): void
@@ -248,7 +266,9 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Returns the fully qualified method name
+     *
      * @param ReflectionMethod $method
+     *
      * @return string
      */
     protected function getMethodFullName(ReflectionMethod $method): string
@@ -258,8 +278,10 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Throws exception if type is an array
+     *
      * @param ReflectionParameter $param
      * @param null|string $type
+     *
      * @throws Exception
      */
     protected function throwIfArray(ReflectionParameter $param, ?string $type): void
@@ -271,7 +293,9 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Returns whether the given field name is the identity for the entity
+     *
      * @param string $fieldName
+     *
      * @return bool
      */
     protected function isIdentityField(string $fieldName): bool
@@ -281,7 +305,9 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Finds the target entity in the given association
+     *
      * @param string $fieldName
+     *
      * @return null|string
      */
     private function getTargetEntity(string $fieldName): ?string
@@ -291,8 +317,10 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Returns a type from our registry
+     *
      * @param string $type
      * @param bool $isEntityid
+     *
      * @return Type
      */
     private function getTypeFromRegistry(string $type, bool $isEntityid): Type
@@ -306,8 +334,10 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Input with default values cannot be non-null
+     *
      * @param ReflectionParameter $param
      * @param Type $type
+     *
      * @return Type
      */
     protected function nonNullIfHasDefault(ReflectionParameter $param, ?Type $type): ?Type
@@ -321,8 +351,10 @@ abstract class AbstractFieldsConfigurationFactory
 
     /**
      * Throws exception if argument type is invalid
+     *
      * @param ReflectionParameter $param
      * @param Type $type
+     *
      * @throws Exception
      */
     protected function throwIfNotInputType(ReflectionParameter $param, ?Type $type, string $annotation): void

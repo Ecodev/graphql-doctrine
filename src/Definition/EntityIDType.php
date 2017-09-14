@@ -21,6 +21,7 @@ class EntityIDType extends IDType
 
     /**
      * The entity class name
+     *
      * @var string
      */
     private $className;
@@ -39,6 +40,7 @@ class EntityIDType extends IDType
      * Serializes an internal value to include in a response.
      *
      * @param mixed $value
+     *
      * @return string
      */
     public function serialize($value)
@@ -52,6 +54,7 @@ class EntityIDType extends IDType
      * Parses an externally provided value (query variable) to use as an input
      *
      * @param mixed $value
+     *
      * @return mixed A Doctrine entity
      */
     public function parseValue($value)
@@ -63,6 +66,7 @@ class EntityIDType extends IDType
 
     /**
      * Get the repository for our entity
+     *
      * @return EntityRepository
      */
     private function getRepository(): EntityRepository

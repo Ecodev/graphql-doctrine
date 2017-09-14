@@ -91,6 +91,7 @@ class Post extends AbstractModel
      * Returns the body
      *
      * @API\Field(name="content", description="The post content")
+     *
      * @return string
      */
     public function getBody(): string
@@ -102,6 +103,7 @@ class Post extends AbstractModel
      * Set status
      *
      * @API\Input(type="GraphQLTests\Doctrine\Blog\Types\PostStatusType")
+     *
      * @param string $status
      *
      * @return User
@@ -115,6 +117,7 @@ class Post extends AbstractModel
      * Get status
      *
      * @API\Field(type="GraphQLTests\Doctrine\Blog\Types\PostStatusType")
+     *
      * @return string
      */
     public function getStatus(): string
@@ -124,6 +127,7 @@ class Post extends AbstractModel
 
     /**
      * Set author of post
+     *
      * @param User $user
      */
     public function setUser(User $user): void
@@ -133,6 +137,7 @@ class Post extends AbstractModel
 
     /**
      * Get author of post
+     *
      * @return User
      */
     public function getUser(): User
@@ -150,6 +155,7 @@ class Post extends AbstractModel
 
     /**
      * Get date of publication
+     *
      * @return DateTime
      */
     public function getPublicationDate(): DateTime
@@ -167,6 +173,7 @@ class Post extends AbstractModel
 
     /**
      * @param string[] $words
+     *
      * @return bool
      */
     public function hasWords($words): bool

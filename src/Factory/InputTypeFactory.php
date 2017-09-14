@@ -15,7 +15,9 @@ class InputTypeFactory extends AbstractTypeFactory
 {
     /**
      * Create an InputObjectType from a Doctrine entity
+     *
      * @param string $className class name of Doctrine entity
+     *
      * @return InputObjectType
      */
     public function create(string $className): Type

@@ -15,7 +15,9 @@ class ObjectTypeFactory extends AbstractTypeFactory
 {
     /**
      * Create an ObjectType from a Doctrine entity
+     *
      * @param string $className class name of Doctrine entity
+     *
      * @return ObjectType
      */
     public function create(string $className): Type

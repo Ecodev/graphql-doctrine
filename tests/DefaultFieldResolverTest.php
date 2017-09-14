@@ -29,6 +29,7 @@ class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider providerDefaultFieldResolver
+     *
      * @param mixed $expected
      */
     public function testDefaultFieldResolver($expected, string $fieldName, array $args = null): void

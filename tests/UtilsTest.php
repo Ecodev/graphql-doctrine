@@ -56,6 +56,7 @@ class UtilsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider providerGetInputTypeName
+     *
      * @return voInput
      */
     public function testGetInputTypeName(string $input, string $expected): void

@@ -34,9 +34,11 @@ class IgnoredGetter extends AbstractModel
 
     /**
      * @API\Field(type="string[]")
+     *
      * @param string $arg1
      * @param int $arg2
      * @param string[] $arg3
+     *
      * @return array
      */
     public function getPublicWithArgs(string $arg1, int $arg2, array $arg3 = ['foo']): array

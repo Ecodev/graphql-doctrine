@@ -24,7 +24,9 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
 
     /**
      * Get the entire configuration for a method
+     *
      * @param ReflectionMethod $method
+     *
      * @return null|array
      */
     protected function methodToConfiguration(ReflectionMethod $method): ?array
@@ -59,8 +61,10 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
 
     /**
      * Complete field with info from doc blocks and type hints
+     *
      * @param ReflectionMethod $method
      * @param Field $field
+     *
      * @throws Exception
      */
     private function completeField(ReflectionMethod $method, Field $field): void
@@ -100,9 +104,12 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
 
     /**
      * Complete arguments configuration from existing type hints
+     *
      * @param ReflectionMethod $method
      * @param Argument[] $argsFromAnnotations
+     *
      * @throws Exception
+     *
      * @return array
      */
     private function getArgumentsFromTypeHint(ReflectionMethod $method, array $argsFromAnnotations, DocBlockReader $docBlock): array
@@ -126,6 +133,7 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
 
     /**
      * Complete a single argument from its type hint
+     *
      * @param ReflectionMethod $method
      * @param ReflectionParameter $param
      * @param Argument $arg
@@ -163,8 +171,10 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
 
     /**
      * Get a GraphQL type instance from dock block return type
+     *
      * @param ReflectionMethod $method
      * @param \GraphQL\Doctrine\DocBlockReader $docBlock
+     *
      * @return null|Type
      */
     private function getTypeFromDocBock(ReflectionMethod $method, DocBlockReader $docBlock): ?Type

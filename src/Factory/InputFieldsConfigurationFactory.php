@@ -22,7 +22,9 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
 
     /**
      * Get the entire configuration for a method
+     *
      * @param ReflectionMethod $method
+     *
      * @return null|array
      */
     protected function methodToConfiguration(ReflectionMethod $method): ?array
@@ -58,6 +60,7 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
 
     /**
      * Complete field with info from doc blocks and type hints
+     *
      * @param ReflectionMethod $method
      * @param ReflectionParameter $param
      * @param Input $field
