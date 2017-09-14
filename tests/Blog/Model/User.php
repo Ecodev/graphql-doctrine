@@ -27,7 +27,7 @@ class User extends AbstractModel
      *
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $email = null;
+    private $email;
 
     /**
      * @var string
@@ -86,7 +86,7 @@ class User extends AbstractModel
     /**
      * Set a valid email or null
      *
-     * @param string|null $email
+     * @param null|string $email
      *
      * @return User
      */
@@ -98,7 +98,7 @@ class User extends AbstractModel
     /**
      * Get the validated email or null
      *
-     * @return string|null
+     * @return null|string
      */
     public function getEmail(): ?string
     {

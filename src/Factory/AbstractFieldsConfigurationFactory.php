@@ -138,9 +138,9 @@ abstract class AbstractFieldsConfigurationFactory
      *  - `MyType[]|null`
      *
      * @param ReflectionMethod $method
-     * @param string|null $typeDeclaration
+     * @param null|string $typeDeclaration
      * @param bool $isEntityId
-     * @return Type|null
+     * @return null|Type
      */
     protected function getTypeFromPhpDeclaration(ReflectionMethod $method, ?string $typeDeclaration, bool $isEntityId = false): ?Type
     {
@@ -189,7 +189,7 @@ abstract class AbstractFieldsConfigurationFactory
      * @param ReflectionMethod $method
      * @param string $fieldName
      * @throws Exception
-     * @return Type|null
+     * @return null|Type
      */
     protected function getTypeFromReturnTypeHint(ReflectionMethod $method, string $fieldName): ?Type
     {
@@ -236,7 +236,7 @@ abstract class AbstractFieldsConfigurationFactory
      * Look up which field is the ID
      * @param string $className
      */
-    private function findIdentityField(string $className)
+    private function findIdentityField(string $className): void
     {
         $this->metadata = $this->entityManager->getClassMetadata($className);
         foreach ($this->metadata->fieldMappings as $meta) {
@@ -259,10 +259,10 @@ abstract class AbstractFieldsConfigurationFactory
     /**
      * Throws exception if type is an array
      * @param ReflectionParameter $param
-     * @param string|null $type
+     * @param null|string $type
      * @throws Exception
      */
-    protected function throwIfArray(ReflectionParameter $param, ?string $type)
+    protected function throwIfArray(ReflectionParameter $param, ?string $type): void
     {
         if ($type === 'array') {
             throw new Exception('The parameter `$' . $param->getName() . '` on method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' is type hinted as `array` and is not overriden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
@@ -282,7 +282,7 @@ abstract class AbstractFieldsConfigurationFactory
     /**
      * Finds the target entity in the given association
      * @param string $fieldName
-     * @return string|null
+     * @return null|string
      */
     private function getTargetEntity(string $fieldName): ?string
     {
@@ -325,7 +325,7 @@ abstract class AbstractFieldsConfigurationFactory
      * @param Type $type
      * @throws Exception
      */
-    protected function throwIfNotInputType(ReflectionParameter $param, ?Type $type, string $annotation)
+    protected function throwIfNotInputType(ReflectionParameter $param, ?Type $type, string $annotation): void
     {
         if (!$type) {
             throw new Exception('Could not find type for parameter `$' . $param->name . '` for method ' . $this->getMethodFullName($param->getDeclaringFunction()) . '. Either type hint the parameter, or specify the type with `@API\\' . $annotation . '` annotation.');

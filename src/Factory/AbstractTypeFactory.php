@@ -39,7 +39,7 @@ abstract class AbstractTypeFactory
     /**
      * Get the description of a class from the doc block
      * @param string $className
-     * @return string|null
+     * @return null|string
      */
     protected function getDescription(string $className): ?string
     {

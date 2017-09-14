@@ -130,7 +130,7 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
      * @param ReflectionParameter $param
      * @param Argument $arg
      */
-    private function completeArgumentFromTypeHint(ReflectionMethod $method, ReflectionParameter $param, Argument $arg, DocBlockReader $docBlock)
+    private function completeArgumentFromTypeHint(ReflectionMethod $method, ReflectionParameter $param, Argument $arg, DocBlockReader $docBlock): void
     {
         if (!$arg->name) {
             $arg->name = $param->getName();
@@ -165,7 +165,7 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
      * Get a GraphQL type instance from dock block return type
      * @param ReflectionMethod $method
      * @param \GraphQL\Doctrine\DocBlockReader $docBlock
-     * @return Type|null
+     * @return null|Type
      */
     private function getTypeFromDocBock(ReflectionMethod $method, DocBlockReader $docBlock): ?Type
     {

@@ -55,13 +55,13 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                 'fields' => [
                     'users' => [
                         'type' => Type::listOf($this->types->get(User::class)), // Use automated ObjectType for output
-                        'resolve' => function ($root, $args) {
+                        'resolve' => function ($root, $args): void {
                             // call to repository...
                         },
                     ],
                     'posts' => [
                         'type' => Type::listOf($this->types->get(Post::class)), // Use automated ObjectType for output
-                        'resolve' => function ($root, $args) {
+                        'resolve' => function ($root, $args): void {
                             // call to repository...
                         },
                     ],
@@ -75,7 +75,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                         'args' => [
                             'input' => Type::nonNull($this->types->getInput(User::class)), // Use automated InputObjectType for input
                         ],
-                        'resolve' => function ($root, $args) {
+                        'resolve' => function ($root, $args): void {
                             // create new user and flush...
                         },
                     ],
@@ -85,7 +85,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                             'id' => Type::nonNull(Type::id()), // Use standard API when needed
                             'input' => $this->types->getInput(User::class),
                         ],
-                        'resolve' => function ($root, $args) {
+                        'resolve' => function ($root, $args): void {
                             // update existing user and flush...
                         },
                     ],
@@ -94,7 +94,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                         'args' => [
                             'input' => Type::nonNull($this->types->getInput(Post::class)), // Use automated InputObjectType for input
                         ],
-                        'resolve' => function ($root, $args) {
+                        'resolve' => function ($root, $args): void {
                             // create new post and flush...
                         },
                     ],
@@ -104,7 +104,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                             'id' => Type::nonNull(Type::id()), // Use standard API when needed
                             'input' => $this->types->getInput(Post::class),
                         ],
-                        'resolve' => function ($root, $args) {
+                        'resolve' => function ($root, $args): void {
                             // update existing post and flush...
                         },
                     ],
@@ -280,7 +280,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $type->getFields();
     }
 
-    public function testCanGetMappedTypesEitherByMappedPhpClassOrDirectTypeClass()
+    public function testCanGetMappedTypesEitherByMappedPhpClassOrDirectTypeClass(): void
     {
         $viaPhp = $this->types->get(DateTime::class);
         $viaType = $this->types->get(DateTimeType::class);

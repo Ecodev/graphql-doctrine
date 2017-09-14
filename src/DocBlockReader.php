@@ -25,7 +25,7 @@ class DocBlockReader
     /**
      * Get the description of a method from the doc block
      * @param ReflectionMethod $method
-     * @return string|null
+     * @return null|string
      */
     public function getMethodDescription(): ?string
     {
@@ -45,7 +45,7 @@ class DocBlockReader
     /**
      * Get the parameter description
      * @param ReflectionParameter $param
-     * @return string|null
+     * @return null|string
      */
     public function getParameterDescription(ReflectionParameter $param): ?string
     {
@@ -61,7 +61,7 @@ class DocBlockReader
     /**
      * Get the parameter type
      * @param ReflectionParameter $param
-     * @return string|null
+     * @return null|string
      */
     public function getParameterType(ReflectionParameter $param): ?string
     {
@@ -76,7 +76,7 @@ class DocBlockReader
 
     /**
      * Get the return type
-     * @return string|null
+     * @return null|string
      */
     public function getReturnType(): ?string
     {

@@ -45,7 +45,7 @@ abstract class AbstractModel
     /**
      * @API\Input(type="GraphQLTests\Doctrine\Blog\Types\DateTimeType")
      */
-    public function setCreationDate(DateTime $creationDate)
+    public function setCreationDate(DateTime $creationDate): void
     {
         $this->creationDate = $creationDate;
     }

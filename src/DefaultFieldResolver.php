@@ -44,7 +44,9 @@ class DefaultFieldResolver
             $args = $this->orderArguments($getter, $args);
 
             return $getter->invoke($source, ...$args);
-        } elseif (isset($source->{$fieldName})) {
+        }
+
+        if (isset($source->{$fieldName})) {
             return $source->{$fieldName};
         }
 

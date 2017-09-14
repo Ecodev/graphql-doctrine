@@ -18,26 +18,26 @@ class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
      */
     private $type;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->setUpEntityManager();
         $this->type = new EntityIDType($this->entityManager, User::class);
     }
 
-    public function testMetadata()
+    public function testMetadata(): void
     {
         $this->assertSame('UserID', $this->type->name);
         $this->assertSame('Automatically generated type to be used as input where an object of type `User` is needed', $this->type->description);
     }
 
-    public function testCanGetEntityFromRepository()
+    public function testCanGetEntityFromRepository(): void
     {
         $actual = $this->type->parseValue('123');
         $this->assertInstanceOf(User::class, $actual);
         $this->assertSame(123, $actual->getId());
     }
 
-    public function testCanGetIdFromEntity()
+    public function testCanGetIdFromEntity(): void
     {
         $user = new User(456);
 
