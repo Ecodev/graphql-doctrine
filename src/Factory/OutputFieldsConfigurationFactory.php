@@ -25,7 +25,7 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
     /**
      * Get the entire configuration for a method
      * @param ReflectionMethod $method
-     * @return array
+     * @return null|array
      */
     protected function methodToConfiguration(ReflectionMethod $method): ?array
     {

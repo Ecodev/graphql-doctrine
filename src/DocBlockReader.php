@@ -24,7 +24,6 @@ class DocBlockReader
 
     /**
      * Get the description of a method from the doc block
-     * @param ReflectionMethod $method
      * @return null|string
      */
     public function getMethodDescription(): ?string

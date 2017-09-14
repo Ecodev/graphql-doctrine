@@ -68,7 +68,7 @@ class DefaultFieldResolver
      * Return the getter/isser method if any valid one exists
      * @param mixed $source
      * @param string $name
-     * @return string
+     * @return return ReflectionMethod|null
      */
     private function getGetter($source, string $name): ?ReflectionMethod
     {

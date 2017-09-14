@@ -61,7 +61,7 @@ abstract class AbstractFieldsConfigurationFactory
     /**
      * Get the entire configuration for a method
      * @param ReflectionMethod $method
-     * @return array
+     * @return null|array
      */
     abstract protected function methodToConfiguration(ReflectionMethod $method): ?array;
 

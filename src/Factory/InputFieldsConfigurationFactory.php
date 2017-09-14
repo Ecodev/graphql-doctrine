@@ -23,7 +23,7 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
     /**
      * Get the entire configuration for a method
      * @param ReflectionMethod $method
-     * @return array
+     * @return null|array
      */
     protected function methodToConfiguration(ReflectionMethod $method): ?array
     {
@@ -49,7 +49,7 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
      * All its types will be converted from string to real instance of Type
      *
      * @param ReflectionMethod $method
-     * @param Field $field
+     * @param Input $field
      */
     private function convertTypeDeclarationsToInstances(ReflectionMethod $method, Input $field): void
     {
@@ -60,7 +60,7 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
      * Complete field with info from doc blocks and type hints
      * @param ReflectionMethod $method
      * @param ReflectionParameter $param
-     * @param Field $field
+     * @param Input $field
      */
     private function completeField(ReflectionMethod $method, ReflectionParameter $param, Input $field): void
     {

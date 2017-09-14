@@ -39,7 +39,7 @@ class EntityIDType extends IDType
      * Serializes an internal value to include in a response.
      *
      * @param mixed $value
-     * @return mixed
+     * @return string
      */
     public function serialize($value)
     {
