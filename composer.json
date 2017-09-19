@@ -2,6 +2,12 @@
     "name": "ecodev/graphql-doctrine",
     "description": "Declare GraphQL types from Doctrine entities and annotations",
     "type": "library",
+    "scripts": {
+        "check": [
+            "php-cs-fixer fix --ansi --dry-run --diff",
+            "phpunit --color=always"
+        ]
+    },
     "autoload": {
         "psr-4": {
             "GraphQL\\Doctrine\\": "src"
