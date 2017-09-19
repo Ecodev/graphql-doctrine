@@ -65,6 +65,20 @@ class EntityIDType extends IDType
     }
 
     /**
+     * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input
+     *
+     * @param \GraphQL\Language\AST\Node $valueNode
+     *
+     * @return mixed
+     */
+    public function parseLiteral($valueNode)
+    {
+        $value = parent::parseLiteral($valueNode);
+
+        return $this->getRepository()->find($value);
+    }
+
+    /**
      * Get the repository for our entity
      *
      * @return EntityRepository

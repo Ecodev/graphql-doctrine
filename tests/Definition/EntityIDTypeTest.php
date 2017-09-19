@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine\Definition;
 
-use Doctrine\ORM\Tools\Setup;
 use GraphQL\Doctrine\Definition\EntityIDType;
+use GraphQL\Language\AST\StringValueNode;
 use GraphQLTests\Doctrine\Blog\Model\User;
 use GraphQLTests\Doctrine\EntityManagerTrait;
 
@@ -30,9 +30,17 @@ class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('Automatically generated type to be used as input where an object of type `User` is needed', $this->type->description);
     }
 
-    public function testCanGetEntityFromRepository(): void
+    public function testCanGetEntityFromRepositoryWhenReadingVariable(): void
     {
         $actual = $this->type->parseValue('123');
+        $this->assertInstanceOf(User::class, $actual);
+        $this->assertSame(123, $actual->getId());
+    }
+
+    public function testCanGetEntityFromRepositoryWhenReadingLiteral(): void
+    {
+        $ast = new StringValueNode(['value' => '123']);
+        $actual = $this->type->parseLiteral($ast);
         $this->assertInstanceOf(User::class, $actual);
         $this->assertSame(123, $actual->getId());
     }

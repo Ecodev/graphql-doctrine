@@ -101,9 +101,8 @@ So the it's the constructor and:
 - `$types->get()` to get either an `ObjectType` from an entity or any other
  custom types (eg: `string` or mapped type)
 - `$types->getInput()` to get an `InputObjectType` to be used in mutations
-- `$types->getId()` to get an `EntityIDType` which should usually not be
-necessary for common usages and is used internally to be able to pass an object
-to a getter
+- `$types->getId()` to get an `EntityIDType` which may be used to directly
+receive and object from database instead of a scalar
 
 ### Information priority
 

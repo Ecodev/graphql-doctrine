@@ -107,6 +107,8 @@ class Types
      * This is mostly useful for internal usage when a getter has an entity
      * as parameter. This type will automatically load the entity from DB, so
      * the resolve functions can use a real instance of entity instead of an ID.
+     * But this can also be used to build your own schema and thus avoid
+     * manually fetching objects from database for simple cases.
      *
      * @param string $className the class name of an entity (`Post::class`)
      *
