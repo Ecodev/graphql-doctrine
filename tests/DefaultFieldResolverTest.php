@@ -39,7 +39,7 @@ class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
         $resolver = new DefaultFieldResolver();
         $info = new ResolveInfo(['fieldName' => $fieldName]);
         $actual = $resolver($object, $args, null, $info);
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testDefaultFieldResolverOnArray(): void
@@ -51,6 +51,6 @@ class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
         $resolver = new DefaultFieldResolver();
         $info = new ResolveInfo(['fieldName' => 'foo']);
         $actual = $resolver($array, null, null, $info);
-        $this->assertSame('bar', $actual);
+        self::assertSame('bar', $actual);
     }
 }

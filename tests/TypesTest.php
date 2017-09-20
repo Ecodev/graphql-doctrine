@@ -44,7 +44,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $validator = new SchemaValidator($this->entityManager);
         $errors = $validator->validateMapping();
 
-        $this->assertEmpty($errors, 'doctrine annotations should be valid');
+        self::assertEmpty($errors, 'doctrine annotations should be valid');
     }
 
     public function testGraphQLSchemaFromDocumentationMustBeValid(): void
@@ -113,7 +113,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $schema->assertValid();
-        $this->assertTrue(true, 'passed validation successfully');
+        self::assertTrue(true, 'passed validation successfully');
     }
 
     public function testCanGetUserDefinedScalarTypes(): void
@@ -121,25 +121,25 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $bool = $this->types->get(BooleanType::class);
         $status = $this->types->get(PostStatusType::class);
 
-        $this->assertInstanceOf(BooleanType::class, $bool, 'must be a instance of bool');
-        $this->assertInstanceOf(PostStatusType::class, $status, 'must be an instance of post status');
+        self::assertInstanceOf(BooleanType::class, $bool, 'must be a instance of bool');
+        self::assertInstanceOf(PostStatusType::class, $status, 'must be an instance of post status');
 
-        $this->assertSame($bool, $this->types->get(BooleanType::class), 'must returns the same instance of bool');
-        $this->assertSame($status, $this->types->get(PostStatusType::class), 'must returns the same instance of post status');
+        self::assertSame($bool, $this->types->get(BooleanType::class), 'must returns the same instance of bool');
+        self::assertSame($status, $this->types->get(PostStatusType::class), 'must returns the same instance of post status');
     }
 
     public function testCanGetUserMappedTypes(): void
     {
         $type = $this->types->get(stdClass::class);
 
-        $this->assertInstanceOf(CustomType::class, $type, 'must be a instance of CustomType');
-        $this->assertSame($type, $this->types->get('customName'));
+        self::assertInstanceOf(CustomType::class, $type, 'must be a instance of CustomType');
+        self::assertSame($type, $this->types->get('customName'));
     }
 
     public function testCanGetTypesWithBackslashPrefix(): void
     {
         $type = $this->types->get(stdClass::class);
-        $this->assertSame($type, $this->types->get('\stdClass'));
+        self::assertSame($type, $this->types->get('\stdClass'));
     }
 
     public function testCanGetOutputTypes(): void
@@ -147,22 +147,22 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $userType = $this->types->get(User::class);
 
         $this->assertObjectType('data/UserOutput.php', $userType);
-        $this->assertSame($userType, $this->types->get(User::class), 'must returns the same instance of user type');
+        self::assertSame($userType, $this->types->get(User::class), 'must returns the same instance of user type');
 
         $postType = $this->types->get(Post::class);
         $this->assertObjectType('data/PostOutput.php', $postType);
-        $this->assertSame($postType, $this->types->get(Post::class), 'must returns the same instance of post type');
+        self::assertSame($postType, $this->types->get(Post::class), 'must returns the same instance of post type');
     }
 
     public function testCanGetInputTypes(): void
     {
         $userType = $this->types->getInput(User::class);
         $this->assertInputType('data/UserInput.php', $userType);
-        $this->assertSame($userType, $this->types->getInput(User::class), 'must returns the same instance of user type');
+        self::assertSame($userType, $this->types->getInput(User::class), 'must returns the same instance of user type');
 
         $postType = $this->types->getInput(Post::class);
         $this->assertInputType('data/PostInput.php', $postType);
-        $this->assertSame($postType, $this->types->getInput(Post::class), 'must returns the same instance of post type');
+        self::assertSame($postType, $this->types->getInput(Post::class), 'must returns the same instance of post type');
     }
 
     private function assertType(string $expectedFile, Type $type, bool $assertArgs): void
@@ -200,7 +200,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         ];
 
         $expected = require $expectedFile;
-        $this->assertEquals($expected, $actual, 'Should equals expectation from: ' . $expectedFile);
+        self::assertEquals($expected, $actual, 'Should equals expectation from: ' . $expectedFile);
     }
 
     private function assertInputType(string $expectedFile, InputObjectType $type): void
@@ -284,6 +284,6 @@ class TypesTest extends \PHPUnit\Framework\TestCase
     {
         $viaPhp = $this->types->get(DateTime::class);
         $viaType = $this->types->get(DateTimeType::class);
-        $this->assertSame($viaPhp, $viaType);
+        self::assertSame($viaPhp, $viaType);
     }
 }

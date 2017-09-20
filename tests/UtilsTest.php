@@ -23,7 +23,7 @@ class UtilsTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetTypeName(string $input, string $expected): void
     {
-        $this->assertSame($expected, Utils::getTypeName($input));
+        self::assertSame($expected, Utils::getTypeName($input));
     }
 
     public function providerGetIDTypeName(): array
@@ -41,7 +41,7 @@ class UtilsTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetIDTypeName(string $input, string $expected): void
     {
-        $this->assertSame($expected, Utils::getIDTypeName($input));
+        self::assertSame($expected, Utils::getIDTypeName($input));
     }
 
     public function providerGetInputTypeName(): array
@@ -61,6 +61,6 @@ class UtilsTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetInputTypeName(string $input, string $expected): void
     {
-        $this->assertSame($expected, Utils::getInputTypeName($input));
+        self::assertSame($expected, Utils::getInputTypeName($input));
     }
 }

@@ -26,23 +26,23 @@ class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
 
     public function testMetadata(): void
     {
-        $this->assertSame('UserID', $this->type->name);
-        $this->assertSame('Automatically generated type to be used as input where an object of type `User` is needed', $this->type->description);
+        self::assertSame('UserID', $this->type->name);
+        self::assertSame('Automatically generated type to be used as input where an object of type `User` is needed', $this->type->description);
     }
 
     public function testCanGetEntityFromRepositoryWhenReadingVariable(): void
     {
         $actual = $this->type->parseValue('123');
-        $this->assertInstanceOf(User::class, $actual);
-        $this->assertSame(123, $actual->getId());
+        self::assertInstanceOf(User::class, $actual);
+        self::assertSame(123, $actual->getId());
     }
 
     public function testCanGetEntityFromRepositoryWhenReadingLiteral(): void
     {
         $ast = new StringValueNode(['value' => '123']);
         $actual = $this->type->parseLiteral($ast);
-        $this->assertInstanceOf(User::class, $actual);
-        $this->assertSame(123, $actual->getId());
+        self::assertInstanceOf(User::class, $actual);
+        self::assertSame(123, $actual->getId());
     }
 
     public function testCanGetIdFromEntity(): void
@@ -50,6 +50,6 @@ class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
         $user = new User(456);
 
         $actual = $this->type->serialize($user);
-        $this->assertSame('456', $actual);
+        self::assertSame('456', $actual);
     }
 }
