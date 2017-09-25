@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace GraphQL\Doctrine\Definition;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use GraphQL\Doctrine\Utils;
+use GraphQL\Error\Error;
 use GraphQL\Type\Definition\IDType;
 
 /**
@@ -61,7 +61,7 @@ class EntityIDType extends IDType
     {
         $value = parent::parseValue($value);
 
-        return $this->getRepository()->find($value);
+        return $this->find($value);
     }
 
     /**
@@ -75,16 +75,21 @@ class EntityIDType extends IDType
     {
         $value = parent::parseLiteral($valueNode);
 
-        return $this->getRepository()->find($value);
+        return $this->find($value);
     }
 
     /**
-     * Get the repository for our entity
+     * Get the entity from DB
      *
-     * @return EntityRepository
+     * @return mixed entity
      */
-    private function getRepository(): EntityRepository
+    private function find(string $id)
     {
-        return $this->entityManager->getRepository($this->className);
+        $entity = $this->entityManager->getRepository($this->className)->find($id);
+        if (!$entity) {
+            throw new Error('Entity not found for class `' . $this->className . '` and ID `' . $id . '`');
+        }
+
+        return $entity;
     }
 }

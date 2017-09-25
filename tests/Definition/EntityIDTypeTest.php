@@ -37,12 +37,25 @@ class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
         self::assertSame(123, $actual->getId());
     }
 
+    public function testNonExistingEntityThrowErrorWhenReadingVariable(): void
+    {
+        $this->expectExceptionMessage('Entity not found for class `GraphQLTests\Doctrine\Blog\Model\User` and ID `non-existing-id`');
+        $this->type->parseValue('non-existing-id');
+    }
+
     public function testCanGetEntityFromRepositoryWhenReadingLiteral(): void
     {
         $ast = new StringValueNode(['value' => '123']);
         $actual = $this->type->parseLiteral($ast);
         self::assertInstanceOf(User::class, $actual);
         self::assertSame(123, $actual->getId());
+    }
+
+    public function testNonExistingEntityThrowErrorWhenReadingLiteral(): void
+    {
+        $this->expectExceptionMessage('Entity not found for class `GraphQLTests\Doctrine\Blog\Model\User` and ID `non-existing-id`');
+        $ast = new StringValueNode(['value' => 'non-existing-id']);
+        $this->type->parseLiteral($ast);
     }
 
     public function testCanGetIdFromEntity(): void
