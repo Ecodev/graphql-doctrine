@@ -59,7 +59,7 @@ $schema = new Schema([
         'name' => 'query',
         'fields' => [
             'posts' => [
-                'type' => Type::listOf($this->types->get(Post::class)), // Use automated ObjectType for output
+                'type' => Type::listOf($types->get(Post::class)), // Use automated ObjectType for output
                 'resolve' => function ($root, $args) {
                     // call to repository...
                 }
@@ -70,19 +70,19 @@ $schema = new Schema([
         'name' => 'mutation',
         'fields' => [
             'createPost' => [
-                'type' => Type::nonNull($this->types->get(Post::class)),
+                'type' => Type::nonNull($types->get(Post::class)),
                 'args' => [
-                    'input' => Type::nonNull($this->types->getInput(Post::class)), // Use automated InputObjectType for input
+                    'input' => Type::nonNull($types->getInput(Post::class)), // Use automated InputObjectType for input
                 ],
                 'resolve' => function ($root, $args) {
                     // create new post and flush...
                 }
             ],
             'updatePost' => [
-                'type' => Type::nonNull($this->types->get(Post::class)),
+                'type' => Type::nonNull($types->get(Post::class)),
                 'args' => [
                     'id' => Type::nonNull(Type::id()), // Use standard API when needed
-                    'input' => $this->types->getInput(Post::class),
+                    'input' => $types->getInput(Post::class),
                 ],
                 'resolve' => function ($root, $args) {
                     // update existing post and flush...
@@ -101,8 +101,8 @@ So the it's the constructor and:
 - `$types->get()` to get either an `ObjectType` from an entity or any other
  custom types (eg: `string` or mapped type)
 - `$types->getInput()` to get an `InputObjectType` to be used in mutations
-- `$types->getId()` to get an `EntityIDType` which may be used to directly
-receive and object from database instead of a scalar
+- `$types->getId()` to get an `EntityIDType` which may be used to receive an
+object from database instead of a scalar
 
 ### Information priority
 
@@ -218,6 +218,22 @@ You may also get an input type for an entity by using `Types::getInput()`:
 ```php
 // Custom InputType
 $userIdType = $types->getInput(User::class);
+```
+
+And then use it like so in your resolver:
+
+```php
+[
+    // ...
+    'args' => [
+        'id' => $types->getId(Post::class),
+    ],
+    'resolve' => function ($root, array $args) {
+        $post = $args['id']->getEntity();
+
+        // ...
+    },
+]
 ```
 
 ## Limitations

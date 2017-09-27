@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GraphQLTests\Doctrine;
 
 use GraphQL\Doctrine\DefaultFieldResolver;
+use GraphQL\Doctrine\Definition\EntityID;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQLTests\Doctrine\Blog\Model\Special\IgnoredGetter;
 
@@ -12,6 +13,17 @@ class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
 {
     public function providerDefaultFieldResolver(): array
     {
+        $entityID = new class() extends EntityID {
+            public function __construct()
+            {
+            }
+
+            public function getEntity()
+            {
+                return 'real entity';
+            }
+        };
+
         return [
             [null, 'privateProperty'],
             [null, 'protectedProperty'],
@@ -19,7 +31,7 @@ class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
             [null, 'private'],
             [null, 'protected'],
             ['getPublic', 'public'],
-            [['value1', 2, ['foo']], 'publicWithArgs', ['arg2' => 2, 'arg1' => 'value1']],
+            [['real entity', 2, ['foo']], 'publicWithArgs', ['arg2' => 2, 'arg1' => $entityID]],
             [null, 'nonExisting'],
             [null, '__call'],
             [true, 'isValid'],

@@ -6,6 +6,7 @@ namespace GraphQL\Doctrine;
 
 use ArrayAccess;
 use Closure;
+use GraphQL\Doctrine\Definition\EntityID;
 use GraphQL\Type\Definition\ResolveInfo;
 use ReflectionClass;
 use ReflectionMethod;
@@ -106,7 +107,14 @@ class DefaultFieldResolver
         $result = [];
         foreach ($method->getParameters() as $param) {
             if (array_key_exists($param->getName(), $args)) {
-                $result[] = $args[$param->getName()];
+                $arg = $args[$param->getName()];
+
+                // Fetch entity from DB
+                if ($arg instanceof EntityID) {
+                    $arg = $arg->getEntity();
+                }
+
+                $result[] = $arg;
             }
         }
 

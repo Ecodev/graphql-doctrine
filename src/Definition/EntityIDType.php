@@ -6,7 +6,6 @@ namespace GraphQL\Doctrine\Definition;
 
 use Doctrine\ORM\EntityManager;
 use GraphQL\Doctrine\Utils;
-use GraphQL\Error\Error;
 use GraphQL\Type\Definition\IDType;
 
 /**
@@ -61,7 +60,7 @@ class EntityIDType extends IDType
     {
         $value = parent::parseValue($value);
 
-        return $this->find($value);
+        return $this->createEntityID($value);
     }
 
     /**
@@ -75,21 +74,16 @@ class EntityIDType extends IDType
     {
         $value = parent::parseLiteral($valueNode);
 
-        return $this->find($value);
+        return $this->createEntityID($value);
     }
 
     /**
-     * Get the entity from DB
+     * Create EntityID to retrieve entity from DB later on
      *
      * @return mixed entity
      */
-    private function find(string $id)
+    private function createEntityID(string $id)
     {
-        $entity = $this->entityManager->getRepository($this->className)->find($id);
-        if (!$entity) {
-            throw new Error('Entity not found for class `' . $this->className . '` and ID `' . $id . '`');
-        }
-
-        return $entity;
+        return new EntityID($this->entityManager, $this->className, $id);
     }
 }
