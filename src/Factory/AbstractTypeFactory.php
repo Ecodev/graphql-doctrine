@@ -34,7 +34,7 @@ abstract class AbstractTypeFactory
      *
      * @param string $className class name of Doctrine entity
      *
-     * @return ObjectType
+     * @return Type
      */
     abstract public function create(string $className): Type;
 

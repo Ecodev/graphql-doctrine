@@ -40,7 +40,7 @@ class Post extends AbstractModel
     private $publicationDate;
 
     /**
-     * @var bool
+     * @var string
      *
      * @ORM\Column(type="string", options={"default" = Post::STATUS_PRIVATE})
      */
@@ -57,8 +57,6 @@ class Post extends AbstractModel
      * Set title
      *
      * @param string $title
-     *
-     * @return User
      */
     public function setTitle(string $title): void
     {
@@ -79,8 +77,6 @@ class Post extends AbstractModel
      * Set the body
      *
      * @param string $body
-     *
-     * @return User
      */
     public function setBody(string $body): void
     {
@@ -105,8 +101,6 @@ class Post extends AbstractModel
      * @API\Input(type="GraphQLTests\Doctrine\Blog\Types\PostStatusType")
      *
      * @param string $status
-     *
-     * @return User
      */
     public function setStatus(string $status = self::STATUS_PUBLIC): void
     {

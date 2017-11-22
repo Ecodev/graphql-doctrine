@@ -20,6 +20,9 @@ class UtilsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider providerGetTypeName
+     *
+     * @param string $input
+     * @param string $expected
      */
     public function testGetTypeName(string $input, string $expected): void
     {
@@ -38,6 +41,9 @@ class UtilsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider providerGetIDTypeName
+     *
+     * @param string $input
+     * @param string $expected
      */
     public function testGetIDTypeName(string $input, string $expected): void
     {
@@ -57,7 +63,8 @@ class UtilsTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider providerGetInputTypeName
      *
-     * @return voInput
+     * @param string $input
+     * @param string $expected
      */
     public function testGetInputTypeName(string $input, string $expected): void
     {

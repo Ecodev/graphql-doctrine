@@ -41,6 +41,8 @@ class EntityID
     /**
      * Get the entity from DB
      *
+     * @throws Error
+     *
      * @return mixed entity
      */
     public function getEntity()

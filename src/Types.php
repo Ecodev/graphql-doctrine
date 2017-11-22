@@ -160,6 +160,8 @@ class Types
     /**
      * Checks if a className is a valid doctrine entity
      *
+     * @param string $className
+     *
      * @return bool
      */
     public function isEntity(string $className): bool

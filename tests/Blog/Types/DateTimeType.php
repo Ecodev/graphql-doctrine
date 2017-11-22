@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine\Blog\Types;
 
+use DateTime;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\ScalarType;

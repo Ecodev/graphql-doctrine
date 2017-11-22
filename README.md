@@ -11,7 +11,7 @@
 A library to declare GraphQL types from Doctrine entities, PHP 7.1 type hinting,
 and annotations, and to be used with [webonyx/graphql-php](https://github.com/webonyx/graphql-php).
 
-It reads most informations from type hints, complete some things from existing
+It reads most information from type hints, complete some things from existing
 Doctrine annotations and allow further customizations with specialized annotations.
 It will then create [`ObjectType`](https://webonyx.github.io/graphql-php/type-system/object-types/#object-type-definition) and
  [`InputObjectType`](https://webonyx.github.io/graphql-php/type-system/input-types/#input-object-type)

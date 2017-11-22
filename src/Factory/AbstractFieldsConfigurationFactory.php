@@ -228,7 +228,7 @@ abstract class AbstractFieldsConfigurationFactory
             return $type;
         }
 
-        return $this->refelectionTypeToType($returnType);
+        return $this->reflectionTypeToType($returnType);
     }
 
     /**
@@ -239,7 +239,7 @@ abstract class AbstractFieldsConfigurationFactory
      *
      * @return Type
      */
-    protected function refelectionTypeToType(ReflectionType $reflectionType, bool $isEntityId = false): Type
+    protected function reflectionTypeToType(ReflectionType $reflectionType, bool $isEntityId = false): Type
     {
         $type = $this->getTypeFromRegistry((string) $reflectionType, $isEntityId);
         if (!$reflectionType->allowsNull()) {
@@ -287,7 +287,7 @@ abstract class AbstractFieldsConfigurationFactory
     protected function throwIfArray(ReflectionParameter $param, ?string $type): void
     {
         if ($type === 'array') {
-            throw new Exception('The parameter `$' . $param->getName() . '` on method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' is type hinted as `array` and is not overriden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
+            throw new Exception('The parameter `$' . $param->getName() . '` on method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' is type hinted as `array` and is not overridden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
         }
     }
 
@@ -319,13 +319,13 @@ abstract class AbstractFieldsConfigurationFactory
      * Returns a type from our registry
      *
      * @param string $type
-     * @param bool $isEntityid
+     * @param bool $isEntityId
      *
      * @return Type
      */
-    private function getTypeFromRegistry(string $type, bool $isEntityid): Type
+    private function getTypeFromRegistry(string $type, bool $isEntityId): Type
     {
-        if (!$this->types->isEntity($type) || !$isEntityid) {
+        if (!$this->types->isEntity($type) || !$isEntityId) {
             return $this->types->get($type);
         }
 
@@ -354,6 +354,7 @@ abstract class AbstractFieldsConfigurationFactory
      *
      * @param ReflectionParameter $param
      * @param Type $type
+     * @param string $annotation
      *
      * @throws Exception
      */

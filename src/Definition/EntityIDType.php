@@ -80,6 +80,8 @@ class EntityIDType extends IDType
     /**
      * Create EntityID to retrieve entity from DB later on
      *
+     * @param string $id
+     *
      * @return mixed entity
      */
     private function createEntityID(string $id)

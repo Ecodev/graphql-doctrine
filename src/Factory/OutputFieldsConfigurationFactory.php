@@ -107,6 +107,7 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
      *
      * @param ReflectionMethod $method
      * @param Argument[] $argsFromAnnotations
+     * @param DocBlockReader $docBlock
      *
      * @throws Exception
      *
@@ -161,7 +162,7 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
         $type = $param->getType();
         if (!$arg->type && $type) {
             $this->throwIfArray($param, (string) $type);
-            $arg->type = $this->refelectionTypeToType($type, true);
+            $arg->type = $this->reflectionTypeToType($type, true);
         }
 
         $arg->type = $this->nonNullIfHasDefault($param, $arg->type);

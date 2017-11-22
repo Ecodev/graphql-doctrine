@@ -51,7 +51,7 @@ class IgnoredGetter extends AbstractModel
         return __FUNCTION__;
     }
 
-    public static function getSaticPublic(): string
+    public static function getStaticPublic(): string
     {
         return __FUNCTION__;
     }

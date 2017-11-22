@@ -6,6 +6,9 @@
         "check": [
             "php-cs-fixer fix --ansi --dry-run --diff",
             "phpunit --color=always"
+        ],
+        "fix": [
+            "php-cs-fixer fix --ansi"
         ]
     },
     "autoload": {

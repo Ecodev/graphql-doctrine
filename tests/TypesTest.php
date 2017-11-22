@@ -268,7 +268,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
 
     public function testFieldWithArrayArgumentMustThrow(): void
     {
-        $this->expectExceptionMessage('The parameter `$arg1` on method `GraphQLTests\Doctrine\Blog\Model\Special\ArrayArgument::getWithParams()` is type hinted as `array` and is not overriden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
+        $this->expectExceptionMessage('The parameter `$arg1` on method `GraphQLTests\Doctrine\Blog\Model\Special\ArrayArgument::getWithParams()` is type hinted as `array` and is not overridden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
         $type = $this->types->get(Blog\Model\Special\ArrayArgument::class);
         $type->getFields();
     }

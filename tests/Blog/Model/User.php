@@ -52,8 +52,10 @@ class User extends AbstractModel
 
     /**
      * Constructor
+     *
+     * @param null|int $id
      */
-    public function __construct(?int $id)
+    public function __construct(?int $id = null)
     {
         // This is a bad idea in real world, but we are just testing stuff here
         $this->id = $id;
@@ -65,8 +67,6 @@ class User extends AbstractModel
      * Set name
      *
      * @param string $name
-     *
-     * @return User
      */
     public function setName(string $name): void
     {
@@ -87,8 +87,6 @@ class User extends AbstractModel
      * Set a valid email or null
      *
      * @param null|string $email
-     *
-     * @return User
      */
     public function setEmail(?string $email): void
     {
@@ -109,8 +107,6 @@ class User extends AbstractModel
      * Encrypt and change the user password
      *
      * @param string $password
-     *
-     * @return User
      */
     public function setPassword(string $password): void
     {
@@ -135,8 +131,6 @@ class User extends AbstractModel
      * @API\Exclude
      *
      * @param bool $isAdministrator
-     *
-     * @return User
      */
     public function setIsAdministrator(bool $isAdministrator): void
     {

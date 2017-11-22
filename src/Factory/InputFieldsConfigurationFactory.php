@@ -92,7 +92,7 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
         $type = $param->getType();
         if (!$field->type && $type) {
             $this->throwIfArray($param, (string) $type);
-            $field->type = $this->refelectionTypeToType($type, true);
+            $field->type = $this->reflectionTypeToType($type, true);
         }
 
         $field->type = $this->nonNullIfHasDefault($param, $field->type);
