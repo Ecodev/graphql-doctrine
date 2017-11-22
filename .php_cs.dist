@@ -18,7 +18,6 @@ return PhpCsFixer\Config::create()
             'binary_operator_spaces' => true,
             'blank_line_after_namespace' => true,
             'blank_line_after_opening_tag' => true,
-            'blank_line_before_return' => true,
             'blank_line_before_statement' => true,
             'braces' => true,
             'cast_spaces' => true,
@@ -26,6 +25,7 @@ return PhpCsFixer\Config::create()
             'class_keyword_remove' => false, // ::class keyword gives us beter support in IDE
             'combine_consecutive_issets' => true,
             'combine_consecutive_unsets' => true,
+            'compact_nullable_typehint' => true,
             'concat_space' => ['spacing' => 'one'],
             'declare_equal_normalize' => true,
             'declare_strict_types' => true,
@@ -46,6 +46,7 @@ return PhpCsFixer\Config::create()
             'header_comment' => false, // We don't use common header in all our files
             'heredoc_to_nowdoc' => false, // Not sure about this one
             'include' => true,
+            'increment_style' => true,
             'indentation_type' => true,
             'is_null' => ['use_yoda_style' => false],
             'linebreak_after_opening_tag' => true,
@@ -130,11 +131,14 @@ return PhpCsFixer\Config::create()
             'phpdoc_var_without_name' => true,
             'php_unit_construct' => true,
             'php_unit_dedicate_assert' => true,
+            'php_unit_expectation' => true,
+            'php_unit_mock' => true,
+            'php_unit_namespaced' => true,
+            'php_unit_no_expectation_annotation' => true,
             'php_unit_fqcn_annotation' => true,
             'php_unit_strict' => false, // We sometime actually need assertEquals
             'php_unit_test_class_requires_covers' => false, // We don't care as much as we should about coverage
             'pow_to_exponentiation' => true,
-            'pre_increment' => true,
             'protected_to_private' => true,
             'psr0' => true,
             'psr4' => true,
