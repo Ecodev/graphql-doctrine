@@ -71,7 +71,7 @@ class DocBlockReader
     {
         $name = preg_quote($param->getName());
 
-        if (preg_match('~@param\h+(\H+)\h+\$' . $name . '(\h|\n)~', $this->comment, $m)) {
+        if (preg_match('~@param\h+(\H+)\h+\$' . $name . '(\h|\n|\r\n)~', $this->comment, $m)) {
             return trim($m[1]);
         }
 
@@ -85,7 +85,7 @@ class DocBlockReader
      */
     public function getReturnType(): ?string
     {
-        if (preg_match('~@return\h+(\H+)(\h|\n)~', $this->comment, $m)) {
+        if (preg_match('~@return\h+(\H+)(\h|\n|\r\n)~', $this->comment, $m)) {
             return trim($m[1]);
         }
 
