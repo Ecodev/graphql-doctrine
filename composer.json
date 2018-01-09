@@ -2,6 +2,7 @@
     "name": "ecodev/graphql-doctrine",
     "description": "Declare GraphQL types from Doctrine entities and annotations",
     "type": "library",
+    "keywords": ["api", "graphql", "doctrine", "doctrine-orm"],
     "scripts": {
         "check": [
             "php-cs-fixer fix --ansi --dry-run --diff",
