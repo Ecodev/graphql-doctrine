@@ -96,7 +96,7 @@ $schema = new Schema([
 ## Usage
 
 The public API is limited to the public methods on `Types` and the annotations.
-So the it's the constructor and:
+So that's the constructor and:
 
 - `$types->get()` to get either an `ObjectType` from an entity or any other
  custom types (eg: `string` or mapped type)
@@ -119,8 +119,8 @@ existing type hints and dock blocks should cover the majority of cases.
 
 ### Exclude a field
 
-All getters are included by default in the type. But it can be specified
-otherwise for each getter. To exclude a sensitive field from ever being exposed
+All getters, and setters, are included by default in the type. But it can be specified
+otherwise for each method. To exclude a sensitive field from ever being exposed
 through the API, use `@API\Exclude`:
 
 ```php
@@ -136,7 +136,7 @@ public function getPassword(): string
 }
 ```
 
-### Override scalar types
+### Override output types
 
 Even if a getter returns a PHP scalar type, such as `string`, it might be preferable
 to override the type with a custom GraphQL type. This is typically useful for enum
@@ -156,29 +156,23 @@ public function getStatus(): string
 }
 ```
 
-That annotation can be used to override other things, such as `name`, `description`
+The type must be the PHP class implementing the GraphQL type (see
+[limitations](#limitations)). The declaration can be defined as nullable and/or as
+an array with one the following syntaxes (PHP style or GraphQL style):
+
+- `?MyType`
+- `null|MyType`
+- `MyType|null`
+- `MyType[]`
+- `?MyType[]`
+- `null|MyType[]`
+- `MyType[]|null`
+
+This annotation can be used to override other things, such as `name`, `description`
 and `args`.
 
-### Custom types
 
-By default all PHP scalar types and Doctrine collection are automatically detected
-and mapped to a GraphQL type. However if some getter return custom types, such
-as `DateTime`, or a custom class, then it will have to be configured beforehand:
-
-```php
-$mapping = [
-    DateTime::class => DateTimeType::class,
-];
-
-$types = new Types($entityManager, $mapping);
-
-// Build schema...
-```
-
-That way it is not necessary to annotate every single getter returning one of the
-configured type. It will be mapped automatically.
-
-### Override arguments
+#### Override arguments
 
 Similarly to `@API\Field`, `@API\Argument` allows to override the type of argument
 if the PHP type hint is not enough:
@@ -199,6 +193,46 @@ public function getPosts(?string $status = Post::STATUS_PUBLIC): Collection
 Once again, it also allows to override other things such as `name`, `description`
 and `defaultValue`.
 
+### Override input types
+
+`@API\Input` is the opposite of `@API\Field` and can be used to override things for
+input types (setters), typically for validations purpose. This would look like:
+
+```php
+/**
+ * Set status
+ *
+ * @API\Input(type="GraphQLTests\Doctrine\Blog\Types\PostStatusType")
+ *
+ * @param string $status
+ */
+public function setStatus(string $status = self::STATUS_PUBLIC): void
+{
+    $this->status = $status;
+}
+```
+
+This annotation also supports `name`, `description`, and `defaultValue`.
+
+### Custom types
+
+By default all PHP scalar types and Doctrine collection are automatically detected
+and mapped to a GraphQL type. However if some getter return custom types, such
+as `DateTime`, or a custom class, then it will have to be configured beforehand:
+
+```php
+$mapping = [
+    DateTime::class => DateTimeType::class,
+];
+
+$types = new Types($entityManager, $mapping);
+
+// Build schema...
+```
+
+That way it is not necessary to annotate every single getter returning one of the
+configured type. It will be mapped automatically.
+
 ### Entities as input arguments
 
 If a getter takes an entity as parameter, then a specialized `InputType` will
@@ -217,7 +251,7 @@ You may also get an input type for an entity by using `Types::getInput()`:
 
 ```php
 // Custom InputType
-$userIdType = $types->getInput(User::class);
+$userInputType = $types->getInput(User::class);
 ```
 
 And then use it like so in your resolver:
@@ -250,7 +284,7 @@ adapt the database schema.
 
 [Doctrine GraphQL Mapper](https://github.com/rahuljayaraman/doctrine-graphql) has
 been an inspiration to write this package. While the goals are similar, the way
-it works is different. Annotations are spread between properties and getter, but
-we work only on getter. Setup seems slightly more complex, but might be more
-flexible. We built on conventions and widespread use of PHP 7.1 type hinting
-to have an easier out-of-the-box experience.
+it works is different. In Doctrine GraphQL Mapper, annotations are spread between
+properties and methods, but we work only on methods. Setup seems slightly more complex,
+but might be more flexible. We built on conventions and widespread use of PHP 7.1
+type hinting to have an easier out-of-the-box experience.
