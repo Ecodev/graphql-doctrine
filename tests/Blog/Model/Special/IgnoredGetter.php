@@ -14,7 +14,9 @@ use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 class IgnoredGetter extends AbstractModel
 {
     private $privateProperty = 'privateProperty';
+
     protected $protectedProperty = 'protectedProperty';
+
     public $publicProperty = 'publicProperty';
 
     private function getPrivate(): string
