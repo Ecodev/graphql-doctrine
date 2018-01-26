@@ -241,7 +241,12 @@ abstract class AbstractFieldsConfigurationFactory
      */
     protected function reflectionTypeToType(ReflectionType $reflectionType, bool $isEntityId = false): Type
     {
-        $type = $this->getTypeFromRegistry((string) $reflectionType, $isEntityId);
+        $name = $reflectionType->getName();
+        if ($name === 'self') {
+            $name = $this->metadata->name;
+        }
+
+        $type = $this->getTypeFromRegistry($name, $isEntityId);
         if (!$reflectionType->allowsNull()) {
             $type = Type::nonNull($type);
         }

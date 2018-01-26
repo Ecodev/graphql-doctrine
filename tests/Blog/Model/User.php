@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine\Blog\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
@@ -51,6 +52,13 @@ class User extends AbstractModel
     private $posts;
 
     /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="GraphQLTests\Doctrine\Blog\Model\User")
+     */
+    private $manager;
+
+    /**
      * Constructor
      *
      * @param null|int $id
@@ -60,7 +68,7 @@ class User extends AbstractModel
         // This is a bad idea in real world, but we are just testing stuff here
         $this->id = $id;
 
-        $this->posts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     /**
@@ -178,5 +186,15 @@ class User extends AbstractModel
         return $this->posts->filter(function (Post $post) use ($ids) {
             return in_array($post->getId(), $ids, true);
         });
+    }
+
+    public function setManager(?self $manager): void
+    {
+        $this->manager = $manager;
+    }
+
+    public function getManager(): ?self
+    {
+        return $this->manager;
     }
 }

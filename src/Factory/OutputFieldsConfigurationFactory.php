@@ -138,6 +138,7 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
      * @param ReflectionMethod $method
      * @param ReflectionParameter $param
      * @param Argument $arg
+     * @param DocBlockReader $docBlock
      */
     private function completeArgumentFromTypeHint(ReflectionMethod $method, ReflectionParameter $param, Argument $arg, DocBlockReader $docBlock): void
     {

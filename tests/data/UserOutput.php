@@ -51,6 +51,12 @@ return [
             ],
         ],
         [
+            'name' => 'manager',
+            'type' => 'User',
+            'description' => null,
+            'args' => [],
+        ],
+        [
             'name' => 'id',
             'type' => 'ID!',
             'description' => null,

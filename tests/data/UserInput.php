@@ -25,6 +25,12 @@ return [
             'defaultValue' => null,
         ],
         [
+            'name' => 'manager',
+            'type' => 'UserID',
+            'description' => null,
+            'defaultValue' => null,
+        ],
+        [
             'name' => 'creationDate',
             'type' => 'DateTime!',
             'description' => null,
