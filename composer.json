@@ -25,7 +25,7 @@
     "require": {
         "doctrine/orm": "^2.5",
         "php": "^7.1",
-        "webonyx/graphql-php": "^0.10.1"
+        "webonyx/graphql-php": "^0.11.5"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "@stable",
