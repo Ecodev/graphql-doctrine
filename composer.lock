@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e133cf65d9bfe74babe646b847a372bb",
+    "content-hash": "298729b544f483a7a3e5710bedfe6b77",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -741,16 +741,16 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v0.10.2",
+            "version": "v0.11.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "7cc863df37b2270ec2b57cb9d322da064d832a59"
+                "reference": "b97cad0f4a50131c85d9224e8e36ebbcf1c6b425"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/7cc863df37b2270ec2b57cb9d322da064d832a59",
-                "reference": "7cc863df37b2270ec2b57cb9d322da064d832a59",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/b97cad0f4a50131c85d9224e8e36ebbcf1c6b425",
+                "reference": "b97cad0f4a50131c85d9224e8e36ebbcf1c6b425",
                 "shasum": ""
             },
             "require": {
@@ -784,7 +784,7 @@
                 "api",
                 "graphql"
             ],
-            "time": "2017-08-30T16:33:58+00:00"
+            "time": "2017-12-12T09:03:21+00:00"
         }
     ],
     "packages-dev": [
