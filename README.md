@@ -124,6 +124,9 @@ otherwise for each method. To exclude a sensitive field from ever being exposed
 through the API, use `@API\Exclude`:
 
 ```php
+
+use GraphQL\Doctrine\Annotation as API;
+
 /**
  * Returns the hashed password
  *
@@ -144,6 +147,8 @@ or other validation purposes, such as email address. This is done by specifying 
 GraphQL type FQCN via `@API\Field` annotation:
 
 ```php
+use GraphQL\Doctrine\Annotation as API;
+
 /**
  * Get status
  *
@@ -178,6 +183,8 @@ Similarly to `@API\Field`, `@API\Argument` allows to override the type of argume
 if the PHP type hint is not enough:
 
 ```php
+use GraphQL\Doctrine\Annotation as API;
+
 /**
  * Returns all posts of the specified status
  * @API\Field(args={@API\Argument(name="status", type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")})
@@ -199,6 +206,8 @@ and `defaultValue`.
 input types (setters), typically for validations purpose. This would look like:
 
 ```php
+use GraphQL\Doctrine\Annotation as API;
+
 /**
  * Set status
  *
