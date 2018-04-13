@@ -131,6 +131,7 @@ use GraphQL\Doctrine\Annotation as API;
  * Returns the hashed password
  *
  * @API\Exclude
+ *
  * @return string
  */
 public function getPassword(): string
@@ -153,6 +154,7 @@ use GraphQL\Doctrine\Annotation as API;
  * Get status
  *
  * @API\Field(type="GraphQLTests\Doctrine\Blog\Types\PostStatusType")
+ *
  * @return string
  */
 public function getStatus(): string
@@ -187,8 +189,11 @@ use GraphQL\Doctrine\Annotation as API;
 
 /**
  * Returns all posts of the specified status
+ *
  * @API\Field(args={@API\Argument(name="status", type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")})
+ *
  * @param string $status the status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post
+ *
  * @return Collection
  */
 public function getPosts(?string $status = Post::STATUS_PUBLIC): Collection
@@ -277,6 +282,41 @@ And then use it like so in your resolver:
         // ...
     },
 ]
+```
+
+### Default values
+
+Default values are automatically detected from arguments for getters, as seen in
+`getPosts()` example above.
+
+For setters, the default value will be looked up on the mapped property, if there is
+one matching the setter name. But if the setter itself has an argument with a default
+value, it will take precedence.
+
+So the following will make an input type with an optional field `name` with a
+default value `jane`, an optional field `foo` with a default value `defaultFoo` and
+a mandatory field `bar` without any default value:
+
+```php
+/**
+ * @ORM\Column(type="string")
+ */
+private $name = 'jane';
+
+public function setName(string $name = 'john'): void
+{
+    $this->>name = $name;
+}
+
+public function setFoo(string $foo = 'defaultFoo'): void
+{
+    // do something
+}
+
+public function setBar(string $bar): void
+{
+    // do something
+}
 ```
 
 ## Limitations

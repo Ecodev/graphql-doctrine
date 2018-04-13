@@ -81,6 +81,10 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
             $field->defaultValue = $param->getDefaultValue();
         }
 
+        if (!isset($field->defaultValue)) {
+            $field->defaultValue = $this->getPropertyDefaultValue($fieldName);
+        }
+
         // If still no type, look for docblock
         if (!$field->type) {
             $typeDeclaration = $docBlock->getParameterType($param);
@@ -95,7 +99,7 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
             $field->type = $this->reflectionTypeToType($type, true);
         }
 
-        $field->type = $this->nonNullIfHasDefault($param, $field->type);
+        $field->type = $this->nonNullIfHasDefault($field->type, $field->defaultValue);
 
         // If still no type, cannot continue
         $this->throwIfNotInputType($param, $field->type, 'Input');

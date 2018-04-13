@@ -166,7 +166,7 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
             $arg->type = $this->reflectionTypeToType($type, true);
         }
 
-        $arg->type = $this->nonNullIfHasDefault($param, $arg->type);
+        $arg->type = $this->nonNullIfHasDefault($arg->type, $arg->defaultValue);
 
         $this->throwIfNotInputType($param, $arg->type, 'Argument');
     }

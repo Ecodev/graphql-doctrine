@@ -15,9 +15,9 @@ use GraphQL\Type\Definition\InputType;
 use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\WrappingType;
-use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
+use ReflectionProperty;
 use ReflectionType;
 
 /**
@@ -80,11 +80,11 @@ abstract class AbstractFieldsConfigurationFactory
     {
         $this->findIdentityField($className);
 
-        $class = new ReflectionClass($className);
+        $class = $this->metadata->getReflectionClass();
         $methods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
         $fieldConfigurations = [];
         foreach ($methods as $method) {
-            // Skip non-callable, non-instance or non-getter methods
+            // Skip non-callable or non-instance
             if ($method->isAbstract() || $method->isStatic()) {
                 continue;
             }
@@ -321,6 +321,27 @@ abstract class AbstractFieldsConfigurationFactory
     }
 
     /**
+     * Return the default value, if any, of the property for the current entity
+     *
+     * It does take into account that the property might be defined on a parent class
+     * of entity. And it will find it if that is the case.
+     *
+     * @param string $fieldName
+     *
+     * @return mixed
+     */
+    protected function getPropertyDefaultValue(string $fieldName)
+    {
+        /** @var ReflectionProperty $property */
+        $property = $this->metadata->getReflectionProperties()[$fieldName] ?? null;
+        if (!$property) {
+            return null;
+        }
+
+        return $property->getDeclaringClass()->getDefaultProperties()[$fieldName] ?? null;
+    }
+
+    /**
      * Returns a type from our registry
      *
      * @param string $type
@@ -340,14 +361,14 @@ abstract class AbstractFieldsConfigurationFactory
     /**
      * Input with default values cannot be non-null
      *
-     * @param ReflectionParameter $param
      * @param Type $type
+     * @param mixed $defaultValue
      *
      * @return Type
      */
-    protected function nonNullIfHasDefault(ReflectionParameter $param, ?Type $type): ?Type
+    protected function nonNullIfHasDefault(?Type $type, $defaultValue): ?Type
     {
-        if ($type instanceof NonNull && $param->isDefaultValueAvailable()) {
+        if ($type instanceof NonNull && $defaultValue !== null) {
             return $type->getWrappedType();
         }
 

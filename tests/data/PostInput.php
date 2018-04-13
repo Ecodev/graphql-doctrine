@@ -7,15 +7,15 @@ return [
     'fields' => [
         [
             'name' => 'title',
-            'type' => 'String!',
+            'type' => 'String',
             'description' => 'Title',
-            'defaultValue' => null,
+            'defaultValue' => '',
         ],
         [
             'name' => 'body',
-            'type' => 'String!',
+            'type' => 'String',
             'description' => 'The body',
-            'defaultValue' => null,
+            'defaultValue' => '',
         ],
         [
             'name' => 'status',

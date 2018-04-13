@@ -35,7 +35,7 @@ class User extends AbstractModel
      *
      * @ORM\Column(name="password", type="string", length=255)
      */
-    private $password = '';
+    private $password;
 
     /**
      * @var bool

@@ -66,7 +66,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                         },
                     ],
                 ],
-                ]),
+            ]),
             'mutation' => new ObjectType([
                 'name' => 'mutation',
                 'fields' => [
@@ -109,7 +109,7 @@ class TypesTest extends \PHPUnit\Framework\TestCase
                         },
                     ],
                 ],
-                ]),
+            ]),
         ]);
 
         $schema->assertValid();
@@ -223,6 +223,18 @@ class TypesTest extends \PHPUnit\Framework\TestCase
     {
         $actual = $this->types->get(Blog\Model\Special\ArrayOfEntity::class);
         $this->assertObjectType('data/ArrayOfEntity.php', $actual);
+    }
+
+    public function testDefaultValuesInput(): void
+    {
+        $actual = $this->types->getInput(Blog\Model\Special\DefaultValue::class);
+        $this->assertInputType('data/DefaultValueInput.php', $actual);
+    }
+
+    public function testDefaultValuesOutput(): void
+    {
+        $actual = $this->types->get(Blog\Model\Special\DefaultValue::class);
+        $this->assertObjectType('data/DefaultValue.php', $actual);
     }
 
     public function testFieldWithoutTypeMustThrow(): void

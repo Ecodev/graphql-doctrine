@@ -8,9 +8,9 @@ return [
     'fields' => [
         [
             'name' => 'name',
-            'type' => 'String!',
+            'type' => 'String',
             'description' => 'Name',
-            'defaultValue' => null,
+            'defaultValue' => '',
         ],
         [
             'name' => 'email',
