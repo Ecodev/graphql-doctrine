@@ -7,6 +7,7 @@ namespace GraphQLTests\Doctrine;
 use GraphQL\Doctrine\DefaultFieldResolver;
 use GraphQL\Doctrine\Definition\EntityID;
 use GraphQL\Type\Definition\ResolveInfo;
+use GraphQLTests\Doctrine\Blog\Model\Special\DefaultValue;
 use GraphQLTests\Doctrine\Blog\Model\Special\IgnoredGetter;
 
 class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
@@ -25,17 +26,20 @@ class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
         };
 
         return [
-            [null, 'privateProperty'],
-            [null, 'protectedProperty'],
-            ['publicProperty', 'publicProperty'],
-            [null, 'private'],
-            [null, 'protected'],
-            ['getPublic', 'public'],
-            [['real entity', 2, ['foo']], 'publicWithArgs', ['arg2' => 2, 'arg1' => $entityID]],
-            [null, 'nonExisting'],
-            [null, '__call'],
-            [true, 'isValid'],
-            [true, 'hasMoney'],
+            [null, new IgnoredGetter(), 'privateProperty'],
+            [null, new IgnoredGetter(), 'protectedProperty'],
+            ['publicProperty', new IgnoredGetter(), 'publicProperty'],
+            [null, new IgnoredGetter(), 'private'],
+            [null, new IgnoredGetter(), 'protected'],
+            ['getPublic', new IgnoredGetter(), 'public'],
+            [['real entity', 2, ['foo']], new IgnoredGetter(), 'publicWithArgs', ['arg2' => 2, 'arg1' => $entityID]],
+            [null, new IgnoredGetter(), 'nonExisting'],
+            [null, new IgnoredGetter(), '__call'],
+            [true, new IgnoredGetter(), 'isValid'],
+            [true, new IgnoredGetter(), 'hasMoney'],
+            ['john', new DefaultValue(), 'nameWithDefaultValueOnArgument'],
+            ['jane', new DefaultValue(), 'nameWithDefaultValueOnArgument', ['name' => 'jane']],
+            ['bar', ['foo' => 'bar'], 'foo'],
         ];
     }
 
@@ -43,28 +47,15 @@ class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
      * @dataProvider providerDefaultFieldResolver
      *
      * @param mixed $expected
+     * @param array|object $source
      * @param string $fieldName
      * @param null|array $args
      */
-    public function testDefaultFieldResolver($expected, string $fieldName, ?array $args = null): void
+    public function testDefaultFieldResolver($expected, $source, string $fieldName, ?array $args = null): void
     {
-        $object = new IgnoredGetter();
-
         $resolver = new DefaultFieldResolver();
         $info = new ResolveInfo(['fieldName' => $fieldName]);
-        $actual = $resolver($object, $args, null, $info);
+        $actual = $resolver($source, $args, null, $info);
         self::assertSame($expected, $actual);
-    }
-
-    public function testDefaultFieldResolverOnArray(): void
-    {
-        $array = [
-            'foo' => 'bar',
-        ];
-
-        $resolver = new DefaultFieldResolver();
-        $info = new ResolveInfo(['fieldName' => 'foo']);
-        $actual = $resolver($array, null, null, $info);
-        self::assertSame('bar', $actual);
     }
 }

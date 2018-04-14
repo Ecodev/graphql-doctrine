@@ -105,6 +105,10 @@ class DefaultFieldResolver
     private function orderArguments(ReflectionMethod $method, ?array $args): array
     {
         $result = [];
+        if (!$args) {
+            return $result;
+        }
+
         foreach ($method->getParameters() as $param) {
             if (array_key_exists($param->getName(), $args)) {
                 $arg = $args[$param->getName()];
