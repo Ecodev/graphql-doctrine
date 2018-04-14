@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use GraphQL\Doctrine\Definition\EntityIDType;
 use GraphQL\Doctrine\Factory\InputTypeFactory;
 use GraphQL\Doctrine\Factory\ObjectTypeFactory;
+use GraphQL\Doctrine\Factory\PartialInputTypeFactory;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type;
 
@@ -35,6 +36,11 @@ class Types
     private $inputTypeFactory;
 
     /**
+     * @var PartialInputTypeFactory
+     */
+    private $partialInputTypeFactory;
+
+    /**
      * @var EntityManager
      */
     private $entityManager;
@@ -45,6 +51,7 @@ class Types
         $this->entityManager = $entityManager;
         $this->objectTypeFactory = new ObjectTypeFactory($this, $entityManager);
         $this->inputTypeFactory = new InputTypeFactory($this, $entityManager);
+        $this->partialInputTypeFactory = new PartialInputTypeFactory($this, $entityManager);
 
         $entityManager->getConfiguration()->newDefaultAnnotationDriver();
         AnnotationRegistry::registerLoader('class_exists');
@@ -79,7 +86,9 @@ class Types
     }
 
     /**
-     * Returns an input type for the given entity to be used in mutations
+     * Returns an input type for the given entity
+     *
+     * This would typically be used in mutations to create new entities.
      *
      * All entity setter methods will be exposed, unless specified otherwise
      * with annotations.
@@ -95,6 +104,33 @@ class Types
 
         if (!isset($this->types[$key])) {
             $instance = $this->inputTypeFactory->create($className);
+            $this->registerInstance($key, $instance);
+        }
+
+        return $this->types[$key];
+    }
+
+    /**
+     * Returns a partial input type for the given entity
+     *
+     * This would typically be used in mutations to update existing entities.
+     *
+     * All entity setter methods will be exposed, unless specified otherwise
+     * with annotations. But they will all be marked as optional and without
+     * default values. So this allow the API client to specify only some fields
+     * to be updated, and not necessarily all of them at once.
+     *
+     * @param string $className the class name of an entity (`Post::class`)
+     *
+     * @return InputObjectType
+     */
+    public function getPartialInput(string $className): InputObjectType
+    {
+        $this->throwIfNotEntity($className);
+        $key = Utils::getPartialInputTypeName($className);
+
+        if (!isset($this->types[$key])) {
+            $instance = $this->partialInputTypeFactory->create($className);
             $this->registerInstance($key, $instance);
         }
 

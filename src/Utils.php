@@ -46,4 +46,9 @@ abstract class Utils
     {
         return self::getTypeName($className) . 'Input';
     }
+
+    public static function getPartialInputTypeName($className)
+    {
+        return self::getTypeName($className) . 'PartialInput';
+    }
 }

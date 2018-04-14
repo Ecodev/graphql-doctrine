@@ -70,4 +70,25 @@ class UtilsTest extends \PHPUnit\Framework\TestCase
     {
         self::assertSame($expected, Utils::getInputTypeName($input));
     }
+
+    public function providerGetPartialInputTypeName(): array
+    {
+        return [
+            ['\Blog\Model\Post', 'PostPartialInput'],
+            ['Blog\Model\Post', 'PostPartialInput'],
+            ['\Post', 'PostPartialInput'],
+            ['Post', 'PostPartialInput'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerGetPartialInputTypeName
+     *
+     * @param string $PartialInput
+     * @param string $expected
+     */
+    public function testGetPartialInputTypeName(string $PartialInput, string $expected): void
+    {
+        self::assertSame($expected, Utils::getPartialInputTypeName($PartialInput));
+    }
 }

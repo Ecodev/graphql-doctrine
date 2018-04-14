@@ -82,7 +82,7 @@ $schema = new Schema([
                 'type' => Type::nonNull($types->get(Post::class)),
                 'args' => [
                     'id' => Type::nonNull(Type::id()), // Use standard API when needed
-                    'input' => $types->getInput(Post::class),
+                    'input' => $types->getPartialInput(Post::class),  // Use automated InputObjectType for partial input for updates
                 ],
                 'resolve' => function ($root, $args) {
                     // update existing post and flush...
@@ -100,7 +100,8 @@ So that's the constructor and:
 
 - `$types->get()` to get either an `ObjectType` from an entity or any other
  custom types (eg: `string` or mapped type)
-- `$types->getInput()` to get an `InputObjectType` to be used in mutations
+- `$types->getInput()` to get an `InputObjectType` to be used in mutations (typically for creation)
+- `$types->getPartialInput()` to get an `InputObjectType` to be used in mutations  (typically for update)
 - `$types->getId()` to get an `EntityIDType` which may be used to receive an
 object from database instead of a scalar
 
@@ -261,14 +262,8 @@ public function isAllowedEditing(User $user): bool
 }
 ```
 
-You may also get an input type for an entity by using `Types::getInput()`:
-
-```php
-// Custom InputType
-$userInputType = $types->getInput(User::class);
-```
-
-And then use it like so in your resolver:
+You may also get an input type for an entity by using `Types::getId()` to write 
+things like:
 
 ```php
 [
@@ -282,6 +277,38 @@ And then use it like so in your resolver:
         // ...
     },
 ]
+```
+
+### Partial inputs
+
+In addition to normal input types, it is possible to get a partial input type via
+`getPartialInput()`. This is especially useful for mutations that update existing
+entities and we do not want to have to re-submit all fields. By using a partial
+input, the API client is able to submit only the fields that need to be updated
+and nothing more.
+
+This potentially reduces network traffic, because the client does not need
+to fetch all fields just to be able re-submit them when he wants to modify only
+one field.
+
+And it also enable to easily design mass editing mutations where the client would
+submit only a few fields to be updated for many entities at once. This could look like:  
+
+```php
+<?php
+
+$mutations = [
+    'updatePosts' => [
+        'type' => Type::nonNull(Type::listOf(Type::nonNull($types->get(Post::class)))),
+        'args' => [
+            'ids' => Type::nonNull(Type::listOf(Type::nonNull(Type::id()))),
+            'input' => $types->getPartialInput(Post::class),  // Use automated InputObjectType for partial input for updates
+        ],
+        'resolve' => function ($root, $args) {
+            // update existing posts and flush...
+        }
+    ],
+];
 ```
 
 ### Default values

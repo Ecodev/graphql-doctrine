@@ -231,6 +231,12 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $this->assertInputType('data/DefaultValueInput.php', $actual);
     }
 
+    public function testDefaultValuesPartialInput(): void
+    {
+        $actual = $this->types->getPartialInput(Blog\Model\Special\DefaultValue::class);
+        $this->assertInputType('data/DefaultValuePartialInput.php', $actual);
+    }
+
     public function testDefaultValuesOutput(): void
     {
         $actual = $this->types->get(Blog\Model\Special\DefaultValue::class);

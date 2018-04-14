@@ -25,7 +25,7 @@ class ObjectTypeFactory extends AbstractTypeFactory
         $typeName = Utils::getTypeName($className);
         $description = $this->getDescription($className);
 
-        $fieldGetter = function () use ($className): array {
+        $fieldsGetter = function () use ($className): array {
             $factory = new OutputFieldsConfigurationFactory($this->types, $this->entityManager);
             $configuration = $factory->create($className);
 
@@ -35,7 +35,7 @@ class ObjectTypeFactory extends AbstractTypeFactory
         return new ObjectType([
             'name' => $typeName,
             'description' => $description,
-            'fields' => $fieldGetter,
+            'fields' => $fieldsGetter,
         ]);
     }
 }

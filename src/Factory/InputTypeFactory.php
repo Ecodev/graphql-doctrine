@@ -25,7 +25,7 @@ class InputTypeFactory extends AbstractTypeFactory
         $typeName = Utils::getInputTypeName($className);
         $description = $this->getDescription($className);
 
-        $fieldGetter = function () use ($className): array {
+        $fieldsGetter = function () use ($className): array {
             $factory = new InputFieldsConfigurationFactory($this->types, $this->entityManager);
             $configuration = $factory->create($className);
 
@@ -35,7 +35,7 @@ class InputTypeFactory extends AbstractTypeFactory
         return new InputObjectType([
             'name' => $typeName,
             'description' => $description,
-            'fields' => $fieldGetter,
+            'fields' => $fieldsGetter,
         ]);
     }
 }
