@@ -6,6 +6,7 @@ namespace GraphQL\Doctrine\Factory;
 
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use GraphQL\Doctrine\Annotation\Exclude;
@@ -130,7 +131,12 @@ abstract class AbstractFieldsConfigurationFactory
      */
     protected function getAnnotationReader(): Reader
     {
-        return $this->entityManager->getConfiguration()->getMetadataDriverImpl()->getReader();
+        $driver = $this->entityManager->getConfiguration()->getMetadataDriverImpl();
+        if (!$driver instanceof AnnotationDriver) {
+            throw new Exception('graphql-doctrine requires Doctrine to be configured with a ' . AnnotationDriver::class);
+        }
+
+        return $driver->getReader();
     }
 
     /**

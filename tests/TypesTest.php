@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GraphQLTests\Doctrine;
 
 use DateTime;
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\Tools\SchemaValidator;
 use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\BooleanType;
@@ -303,5 +304,19 @@ class TypesTest extends \PHPUnit\Framework\TestCase
         $viaPhp = $this->types->get(DateTime::class);
         $viaType = $this->types->get(DateTimeType::class);
         self::assertSame($viaPhp, $viaType);
+    }
+
+    public function testFeieldWithObjectTypeArgumentMustThrow(): void
+    {
+        // Replace annotation driver with a driver chain
+        $config = $this->entityManager->getConfiguration();
+        $chain = new MappingDriverChain();
+        $chain->setDefaultDriver($config->getMetadataDriverImpl());
+        $config->setMetadataDriverImpl($chain);
+
+        $type = $this->types->get(Post::class);
+
+        $this->expectExceptionMessage('graphql-doctrine requires Doctrine to be configured with a Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver');
+        $type->getFields();
     }
 }
