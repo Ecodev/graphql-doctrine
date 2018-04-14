@@ -338,7 +338,7 @@ abstract class AbstractFieldsConfigurationFactory
      */
     protected function getPropertyDefaultValue(string $fieldName)
     {
-        /** @var ReflectionProperty $property */
+        /** @var null|ReflectionProperty $property */
         $property = $this->metadata->getReflectionProperties()[$fieldName] ?? null;
         if (!$property) {
             return null;
