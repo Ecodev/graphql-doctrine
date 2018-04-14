@@ -6,7 +6,6 @@ namespace GraphQLTests\Doctrine\Blog\Model\Special;
 
 use Doctrine\ORM\Mapping as ORM;
 use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
-use GraphQLTests\Doctrine\Blog\Model\Post;
 
 /**
  * @ORM\Entity
@@ -23,19 +22,13 @@ class DefaultValue extends AbstractModel
      */
     private $nameWithDefaultValueOnArgumentOverrideField = 'field';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", options={"default" = Post::STATUS_PRIVATE})
-     */
-    private $type = Post::STATUS_PRIVATE;
-
     public function setNameWithoutDefault(string $name): void
     {
     }
 
     public function setNameWithDefaultValueOnField(string $name): void
     {
+        $this->nameWithDefaultValueOnField = $name;
     }
 
     public function setNameWithDefaultValueOnArgument(string $name = 'john'): void
@@ -44,6 +37,7 @@ class DefaultValue extends AbstractModel
 
     public function setNameWithDefaultValueOnArgumentOverrideField(string $name = 'argument'): void
     {
+        $this->nameWithDefaultValueOnArgumentOverrideField = $name;
     }
 
     public function setNameWithDefaultValueOnArgumentNullable(string $name = null): void
