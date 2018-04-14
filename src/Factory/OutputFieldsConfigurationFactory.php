@@ -99,7 +99,7 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
             $arg = $argsFromAnnotations[$param->getName()] ?? new Argument();
             $args[$param->getName()] = $arg;
 
-            $this->completeArgumentFromTypeHint($method, $param, $arg, $docBlock);
+            $this->completeArgumentFromTypeHint($arg, $method, $param, $docBlock);
         }
 
         $extraAnnotations = array_diff(array_keys($argsFromAnnotations), array_keys($args));
@@ -113,12 +113,12 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
     /**
      * Complete a single argument from its type hint
      *
+     * @param Argument $arg
      * @param ReflectionMethod $method
      * @param ReflectionParameter $param
-     * @param Argument $arg
      * @param DocBlockReader $docBlock
      */
-    private function completeArgumentFromTypeHint(ReflectionMethod $method, ReflectionParameter $param, Argument $arg, DocBlockReader $docBlock): void
+    private function completeArgumentFromTypeHint(Argument $arg, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
     {
         if (!$arg->name) {
             $arg->name = $param->getName();
@@ -132,6 +132,19 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
             $arg->defaultValue = $param->getDefaultValue();
         }
 
+        $this->completeArgumentTypeFromTypeHint($arg, $method, $param, $docBlock);
+    }
+
+    /**
+     * Complete a single argument type from its type hint and doc block
+     *
+     * @param Argument $arg
+     * @param ReflectionMethod $method
+     * @param ReflectionParameter $param
+     * @param DocBlockReader $docBlock
+     */
+    private function completeArgumentTypeFromTypeHint(Argument $arg, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
+    {
         if (!$arg->type) {
             $typeDeclaration = $docBlock->getParameterType($param);
             $this->throwIfArray($param, $typeDeclaration);
