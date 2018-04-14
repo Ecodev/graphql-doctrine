@@ -36,7 +36,7 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
 
         if (!$field->type instanceof Type) {
             $this->convertTypeDeclarationsToInstances($method, $field);
-            $this->completeField($method, $field);
+            $this->completeField($field, $method);
         }
 
         return $field->toArray();
@@ -62,12 +62,12 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
     /**
      * Complete field with info from doc blocks and type hints
      *
-     * @param ReflectionMethod $method
      * @param Field $field
+     * @param ReflectionMethod $method
      *
      * @throws Exception
      */
-    private function completeField(ReflectionMethod $method, Field $field): void
+    private function completeField(Field $field, ReflectionMethod $method): void
     {
         $fieldName = lcfirst(preg_replace('~^get~', '', $method->getName()));
         if (!$field->name) {
@@ -79,45 +79,23 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
             $field->description = $docBlock->getMethodDescription();
         }
 
-        if ($this->isIdentityField($fieldName)) {
-            $field->type = Type::nonNull(Type::id());
-        }
-
-        // If still no type, look for docblock
-        if (!$field->type) {
-            $field->type = $this->getTypeFromDocBock($method, $docBlock);
-        }
-
-        // If still no type, look for type hint
-        if (!$field->type) {
-            $field->type = $this->getTypeFromReturnTypeHint($method, $fieldName);
-        }
-
-        // If still no args, look for type hint
-        $field->args = $this->getArgumentsFromTypeHint($method, $field->args, $docBlock);
-
-        // If still no type, cannot continue
-        if (!$field->type) {
-            throw new Exception('Could not find type for method ' . $this->getMethodFullName($method) . '. Either type hint the return value, or specify the type with `@API\Field` annotation.');
-        }
+        $this->completeFieldArguments($field, $method, $docBlock);
+        $this->completeFieldType($field, $method, $fieldName, $docBlock);
     }
 
     /**
      * Complete arguments configuration from existing type hints
      *
+     * @param Field $field
      * @param ReflectionMethod $method
-     * @param Argument[] $argsFromAnnotations
      * @param DocBlockReader $docBlock
-     *
-     * @throws Exception
-     *
-     * @return array
      */
-    private function getArgumentsFromTypeHint(ReflectionMethod $method, array $argsFromAnnotations, DocBlockReader $docBlock): array
+    private function completeFieldArguments(Field $field, ReflectionMethod $method, DocBlockReader $docBlock): void
     {
+        $argsFromAnnotations = $field->args;
         $args = [];
         foreach ($method->getParameters() as $param) {
-            //Either get existing, or create new argument
+            // Either get existing, or create new argument
             $arg = $argsFromAnnotations[$param->getName()] ?? new Argument();
             $args[$param->getName()] = $arg;
 
@@ -129,7 +107,7 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
             throw new Exception('The following arguments were declared via `@API\Argument` annotation but do not match actual parameter names on method ' . $this->getMethodFullName($method) . '. Either rename or remove the annotations: ' . implode(', ', $extraAnnotations));
         }
 
-        return $args;
+        $field->args = $args;
     }
 
     /**
@@ -192,5 +170,35 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
         }
 
         return null;
+    }
+
+    /**
+     * Complete field type from doc blocks and type hints
+     *
+     * @param Field $field
+     * @param ReflectionMethod $method
+     * @param string $fieldName
+     * @param DocBlockReader $docBlock
+     */
+    private function completeFieldType(Field $field, ReflectionMethod $method, string $fieldName, DocBlockReader $docBlock): void
+    {
+        if ($this->isIdentityField($fieldName)) {
+            $field->type = Type::nonNull(Type::id());
+        }
+
+        // If still no type, look for docblock
+        if (!$field->type) {
+            $field->type = $this->getTypeFromDocBock($method, $docBlock);
+        }
+
+        // If still no type, look for type hint
+        if (!$field->type) {
+            $field->type = $this->getTypeFromReturnTypeHint($method, $fieldName);
+        }
+
+        // If still no type, cannot continue
+        if (!$field->type) {
+            throw new Exception('Could not find type for method ' . $this->getMethodFullName($method) . '. Either type hint the return value, or specify the type with `@API\Field` annotation.');
+        }
     }
 }

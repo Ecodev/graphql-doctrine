@@ -41,7 +41,7 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
 
         if (!$field->type instanceof Type) {
             $this->convertTypeDeclarationsToInstances($method, $field);
-            $this->completeField($method, $param, $field);
+            $this->completeField($field, $method, $param);
         }
 
         return $field->toArray();
@@ -61,11 +61,13 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
     /**
      * Complete field with info from doc blocks and type hints
      *
+     * @param Input $field
      * @param ReflectionMethod $method
      * @param ReflectionParameter $param
-     * @param Input $field
+     *
+     * @throws \GraphQL\Doctrine\Exception
      */
-    private function completeField(ReflectionMethod $method, ReflectionParameter $param, Input $field): void
+    private function completeField(Input $field, ReflectionMethod $method, ReflectionParameter $param): void
     {
         $fieldName = lcfirst(preg_replace('~^set~', '', $method->getName()));
         if (!$field->name) {
@@ -77,6 +79,19 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
             $field->description = $docBlock->getMethodDescription();
         }
 
+        $this->completeFieldDefaultValue($field, $param, $fieldName);
+        $this->completeFieldType($field, $method, $param, $docBlock);
+    }
+
+    /**
+     * Complete field default value from argument and property
+     *
+     * @param Input $field
+     * @param ReflectionParameter $param
+     * @param string $fieldName
+     */
+    private function completeFieldDefaultValue(Input $field, ReflectionParameter $param, string $fieldName): void
+    {
         if (!isset($field->defaultValue) && $param->isDefaultValueAvailable()) {
             $field->defaultValue = $param->getDefaultValue();
         }
@@ -84,7 +99,20 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
         if (!isset($field->defaultValue)) {
             $field->defaultValue = $this->getPropertyDefaultValue($fieldName);
         }
+    }
 
+    /**
+     * Complete field type  from doc blocks and type hints
+     *
+     * @param Input $field
+     * @param ReflectionMethod $method
+     * @param ReflectionParameter $param
+     * @param DocBlockReader $docBlock
+     *
+     * @throws \GraphQL\Doctrine\Exception
+     */
+    private function completeFieldType(Input $field, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
+    {
         // If still no type, look for docblock
         if (!$field->type) {
             $typeDeclaration = $docBlock->getParameterType($param);
