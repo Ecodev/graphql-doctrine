@@ -16,25 +16,21 @@ return [
             'name' => 'email',
             'type' => 'String',
             'description' => 'A valid email or null',
-            'defaultValue' => null,
         ],
         [
             'name' => 'password',
             'type' => 'String!',
             'description' => 'Encrypt and change the user password',
-            'defaultValue' => null,
         ],
         [
             'name' => 'manager',
             'type' => 'UserID',
             'description' => null,
-            'defaultValue' => null,
         ],
         [
             'name' => 'creationDate',
             'type' => 'DateTime!',
             'description' => null,
-            'defaultValue' => null,
         ],
     ],
 ];

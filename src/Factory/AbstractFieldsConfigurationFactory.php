@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use GraphQL\Doctrine\Annotation\AbstractAnnotation;
 use GraphQL\Doctrine\Annotation\Exclude;
 use GraphQL\Doctrine\Exception;
 use GraphQL\Doctrine\Types;
@@ -16,6 +17,7 @@ use GraphQL\Type\Definition\InputType;
 use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\WrappingType;
+use ReflectionClass;
 use ReflectionMethod;
 use ReflectionParameter;
 use ReflectionProperty;
@@ -367,33 +369,32 @@ abstract class AbstractFieldsConfigurationFactory
     /**
      * Input with default values cannot be non-null
      *
-     * @param Type $type
-     * @param mixed $defaultValue
-     *
-     * @return Type
+     * @param AbstractAnnotation $annotation
      */
-    protected function nonNullIfHasDefault(?Type $type, $defaultValue): ?Type
+    protected function nonNullIfHasDefault(AbstractAnnotation $annotation): void
     {
-        if ($type instanceof NonNull && $defaultValue !== null) {
-            return $type->getWrappedType();
+        $type = $annotation->getTypeInstance();
+        if ($type instanceof NonNull && $annotation->hasDefaultValue()) {
+            $annotation->setTypeInstance($type->getWrappedType());
         }
-
-        return $type;
     }
 
     /**
      * Throws exception if argument type is invalid
      *
      * @param ReflectionParameter $param
-     * @param Type $type
-     * @param string $annotation
+     * @param AbstractAnnotation $annotation
      *
      * @throws Exception
      */
-    protected function throwIfNotInputType(ReflectionParameter $param, ?Type $type, string $annotation): void
+    protected function throwIfNotInputType(ReflectionParameter $param, AbstractAnnotation $annotation): void
     {
+        $type = $annotation->getTypeInstance();
+        $class = new ReflectionClass($annotation);
+        $annotationName = $class->getShortName();
+
         if (!$type) {
-            throw new Exception('Could not find type for parameter `$' . $param->name . '` for method ' . $this->getMethodFullName($param->getDeclaringFunction()) . '. Either type hint the parameter, or specify the type with `@API\\' . $annotation . '` annotation.');
+            throw new Exception('Could not find type for parameter `$' . $param->name . '` for method ' . $this->getMethodFullName($param->getDeclaringFunction()) . '. Either type hint the parameter, or specify the type with `@API\\' . $annotationName . '` annotation.');
         }
 
         if ($type instanceof WrappingType) {
@@ -401,7 +402,7 @@ abstract class AbstractFieldsConfigurationFactory
         }
 
         if (!($type instanceof InputType)) {
-            throw new Exception('Type for parameter `$' . $param->name . '` for method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' must be an instance of `' . InputType::class . '`, but was `' . get_class($type) . '`. Use `@API\\' . $annotation . '` annotation to specify a custom InputType.');
+            throw new Exception('Type for parameter `$' . $param->name . '` for method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' must be an instance of `' . InputType::class . '`, but was `' . get_class($type) . '`. Use `@API\\' . $annotationName . '` annotation to specify a custom InputType.');
         }
     }
 }

@@ -35,7 +35,9 @@ class PartialInputTypeFactory extends AbstractTypeFactory
                     $field['type'] = $field['type']->getWrappedType();
                 }
 
-                $field['defaultValue'] = null;
+//                $field['defaultValue'] = null;
+                unset($field['defaultValue']);
+
                 $optionalFields[] = $field;
             }
 

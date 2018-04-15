@@ -10,7 +10,6 @@ return [
             'name' => 'nameWithoutDefault',
             'type' => 'String!',
             'description' => null,
-            'defaultValue' => null,
         ],
         [
             'name' => 'nameWithDefaultValueOnField',
@@ -40,7 +39,6 @@ return [
             'name' => 'creationDate',
             'type' => 'DateTime!',
             'description' => null,
-            'defaultValue' => null,
         ],
     ],
 ];

@@ -46,7 +46,6 @@ return [
                     'name' => 'ids',
                     'type' => '[ID]!',
                     'description' => null,
-                    'defaultValue' => null,
                 ],
             ],
         ],

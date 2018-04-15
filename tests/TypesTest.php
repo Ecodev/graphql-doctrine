@@ -179,15 +179,21 @@ class TypesTest extends \PHPUnit\Framework\TestCase
             if ($assertArgs) {
                 $args = [];
                 foreach ($field->args as $arg) {
-                    $args[] = [
+                    $argData = [
                         'name' => $arg->name,
                         'type' => $arg->getType()->toString(),
                         'description' => $arg->description,
-                        'defaultValue' => $arg->defaultValue,
+
                     ];
+
+                    if ($arg->defaultValueExists()) {
+                        $argData['defaultValue'] = $arg->defaultValue;
+                    }
+
+                    $args[] = $argData;
                 }
                 $data['args'] = $args;
-            } else {
+            } elseif ($field->defaultValueExists()) {
                 $data['defaultValue'] = $field->defaultValue;
             }
 

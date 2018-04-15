@@ -53,8 +53,8 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
         $field->type = $this->getTypeFromPhpDeclaration($method, $field->type);
         $args = [];
         foreach ($field->args as $arg) {
-            $arg->type = $this->getTypeFromPhpDeclaration($method, $arg->type);
-            $args[$arg->name] = $arg;
+            $arg->setTypeInstance($this->getTypeFromPhpDeclaration($method, $arg->getType()));
+            $args[$arg->getName()] = $arg;
         }
         $field->args = $args;
     }
@@ -120,16 +120,16 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
      */
     private function completeArgumentFromTypeHint(Argument $arg, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
     {
-        if (!$arg->name) {
-            $arg->name = $param->getName();
+        if (!$arg->getName()) {
+            $arg->setName($param->getName());
         }
 
-        if (!$arg->description) {
-            $arg->description = $docBlock->getParameterDescription($param);
+        if (!$arg->getDescription()) {
+            $arg->setDescription($docBlock->getParameterDescription($param));
         }
 
-        if (!isset($arg->defaultValue) && $param->isDefaultValueAvailable()) {
-            $arg->defaultValue = $param->getDefaultValue();
+        if (!$arg->hasDefaultValue() && $param->isDefaultValueAvailable()) {
+            $arg->setDefaultValue($param->getDefaultValue());
         }
 
         $this->completeArgumentTypeFromTypeHint($arg, $method, $param, $docBlock);
@@ -145,21 +145,21 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
      */
     private function completeArgumentTypeFromTypeHint(Argument $arg, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
     {
-        if (!$arg->type) {
+        if (!$arg->getTypeInstance()) {
             $typeDeclaration = $docBlock->getParameterType($param);
             $this->throwIfArray($param, $typeDeclaration);
-            $arg->type = $this->getTypeFromPhpDeclaration($method, $typeDeclaration, true);
+            $arg->setTypeInstance($this->getTypeFromPhpDeclaration($method, $typeDeclaration, true));
         }
 
         $type = $param->getType();
-        if (!$arg->type && $type) {
+        if (!$arg->getTypeInstance() && $type) {
             $this->throwIfArray($param, (string) $type);
-            $arg->type = $this->reflectionTypeToType($type, true);
+            $arg->setTypeInstance($this->reflectionTypeToType($type, true));
         }
 
-        $arg->type = $this->nonNullIfHasDefault($arg->type, $arg->defaultValue);
+        $this->nonNullIfHasDefault($arg);
 
-        $this->throwIfNotInputType($param, $arg->type, 'Argument');
+        $this->throwIfNotInputType($param, $arg);
     }
 
     /**

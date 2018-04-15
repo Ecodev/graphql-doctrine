@@ -39,7 +39,7 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
         // Get a field from annotation, or an empty one
         $field = $this->getAnnotationReader()->getMethodAnnotation($method, Input::class) ?? new Input();
 
-        if (!$field->type instanceof Type) {
+        if (!$field->getTypeInstance()) {
             $this->convertTypeDeclarationsToInstances($method, $field);
             $this->completeField($field, $method, $param);
         }
@@ -55,7 +55,7 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
      */
     private function convertTypeDeclarationsToInstances(ReflectionMethod $method, Input $field): void
     {
-        $field->type = $this->getTypeFromPhpDeclaration($method, $field->type);
+        $field->setTypeInstance($this->getTypeFromPhpDeclaration($method, $field->getType()));
     }
 
     /**
@@ -70,13 +70,13 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
     private function completeField(Input $field, ReflectionMethod $method, ReflectionParameter $param): void
     {
         $fieldName = lcfirst(preg_replace('~^set~', '', $method->getName()));
-        if (!$field->name) {
-            $field->name = $fieldName;
+        if (!$field->getName()) {
+            $field->setName($fieldName);
         }
 
         $docBlock = new DocBlockReader($method);
-        if (!$field->description) {
-            $field->description = $docBlock->getMethodDescription();
+        if (!$field->getDescription()) {
+            $field->setDescription($docBlock->getMethodDescription());
         }
 
         $this->completeFieldDefaultValue($field, $param, $fieldName);
@@ -92,12 +92,15 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
      */
     private function completeFieldDefaultValue(Input $field, ReflectionParameter $param, string $fieldName): void
     {
-        if (!isset($field->defaultValue) && $param->isDefaultValueAvailable()) {
-            $field->defaultValue = $param->getDefaultValue();
+        if (!$field->hasDefaultValue() && $param->isDefaultValueAvailable()) {
+            $field->setDefaultValue($param->getDefaultValue());
         }
 
-        if (!isset($field->defaultValue)) {
-            $field->defaultValue = $this->getPropertyDefaultValue($fieldName);
+        if (!$field->hasDefaultValue()) {
+            $defaultValue = $this->getPropertyDefaultValue($fieldName);
+            if ($defaultValue !== null) {
+                $field->setDefaultValue($defaultValue);
+            }
         }
     }
 
@@ -114,22 +117,22 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
     private function completeFieldType(Input $field, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
     {
         // If still no type, look for docblock
-        if (!$field->type) {
+        if (!$field->getTypeInstance()) {
             $typeDeclaration = $docBlock->getParameterType($param);
             $this->throwIfArray($param, $typeDeclaration);
-            $field->type = $this->getTypeFromPhpDeclaration($method, $typeDeclaration, true);
+            $field->setTypeInstance($this->getTypeFromPhpDeclaration($method, $typeDeclaration, true));
         }
 
         // If still no type, look for type hint
         $type = $param->getType();
-        if (!$field->type && $type) {
+        if (!$field->getTypeInstance() && $type) {
             $this->throwIfArray($param, (string) $type);
-            $field->type = $this->reflectionTypeToType($type, true);
+            $field->setTypeInstance($this->reflectionTypeToType($type, true));
         }
 
-        $field->type = $this->nonNullIfHasDefault($field->type, $field->defaultValue);
+        $this->nonNullIfHasDefault($field);
 
         // If still no type, cannot continue
-        $this->throwIfNotInputType($param, $field->type, 'Input');
+        $this->throwIfNotInputType($param, $field);
     }
 }

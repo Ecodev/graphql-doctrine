@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Annotation;
 
+use Doctrine\Common\Annotations\Annotation\Attribute;
+use Doctrine\Common\Annotations\Annotation\Attributes;
+
 /**
  * Annotation used to override values for an input field in GraphQL.
  *
@@ -12,43 +15,13 @@ namespace GraphQL\Doctrine\Annotation;
  *
  * @Annotation
  * @Target({"METHOD"})
+ * @Attributes({
+ *     @Attribute("name", required=false, type="string"),
+ *     @Attribute("type", required=false, type="string"),
+ *     @Attribute("description", required=false, type="string"),
+ *     @Attribute("defaultValue", required=false, type="mixed"),
+ * })
  */
-class Input
+class Input extends AbstractAnnotation
 {
-    /**
-     * @var string
-     */
-    public $name;
-
-    /**
-     * FQCN of PHP class implementing the GraphQL type
-     *
-     * @var string
-     */
-    public $type;
-
-    /**
-     * @var string
-     */
-    public $description;
-
-    /**
-     * @var mixed
-     */
-    public $defaultValue;
-
-    public function toArray(): array
-    {
-        $data = [
-            'name' => $this->name,
-            'type' => $this->type,
-            'description' => $this->description,
-        ];
-
-        if ($this->defaultValue !== null) {
-            $data['defaultValue'] = $this->defaultValue;
-        }
-
-        return $data;
-    }
 }

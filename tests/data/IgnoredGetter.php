@@ -21,13 +21,11 @@ return [
                     'name' => 'arg1',
                     'type' => 'String!',
                     'description' => null,
-                    'defaultValue' => null,
                 ],
                 [
                     'name' => 'arg2',
                     'type' => 'Int!',
                     'description' => null,
-                    'defaultValue' => null,
                 ],
                 [
                     'name' => 'arg3',

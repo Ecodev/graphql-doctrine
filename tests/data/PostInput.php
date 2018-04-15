@@ -28,19 +28,16 @@ return [
             'name' => 'user',
             'type' => 'UserID!',
             'description' => 'Author of post',
-            'defaultValue' => null,
         ],
         [
             'name' => 'publicationDate',
             'type' => 'DateTime!',
             'description' => 'Date of publication',
-            'defaultValue' => null,
         ],
         [
             'name' => 'creationDate',
             'type' => 'DateTime!',
             'description' => null,
-            'defaultValue' => null,
         ],
     ],
 ];

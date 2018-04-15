@@ -15,7 +15,6 @@ return [
                     'name' => 'name',
                     'type' => 'String!',
                     'description' => null,
-                    'defaultValue' => null,
                 ],
             ],
 
