@@ -42,7 +42,7 @@ class EntityIDType extends IDType
      *
      * @return string
      */
-    public function serialize($value)
+    public function serialize($value): string
     {
         $id = $this->entityManager->getClassMetadata($this->className)->getIdentifierValues($value);
 
@@ -54,9 +54,9 @@ class EntityIDType extends IDType
      *
      * @param mixed $value
      *
-     * @return mixed A Doctrine entity
+     * @return EntityID
      */
-    public function parseValue($value)
+    public function parseValue($value): EntityID
     {
         $value = parent::parseValue($value);
 
@@ -68,9 +68,9 @@ class EntityIDType extends IDType
      *
      * @param \GraphQL\Language\AST\Node $valueNode
      *
-     * @return mixed
+     * @return EntityID
      */
-    public function parseLiteral($valueNode)
+    public function parseLiteral($valueNode): EntityID
     {
         $value = parent::parseLiteral($valueNode);
 
@@ -82,9 +82,9 @@ class EntityIDType extends IDType
      *
      * @param string $id
      *
-     * @return mixed entity
+     * @return EntityID
      */
-    private function createEntityID(string $id)
+    private function createEntityID(string $id): EntityID
     {
         return new EntityID($this->entityManager, $this->className, $id);
     }

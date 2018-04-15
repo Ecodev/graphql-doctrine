@@ -35,20 +35,25 @@ And start using it:
 
 use Blog\Model\Post;
 use Blog\Model\User;
-use Blog\Type\DateTimeType;
+use Blog\Types\DateTimeType;
+use Blog\Types\PostStatusType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use GraphQL\Doctrine\DefaultFieldResolver;
 use GraphQL\Doctrine\Types;
+use Zend\ServiceManager\ServiceManager;
 
-// Define custom types mapping
-$mapping = [
-    \DateTime::class => DateTimeType::class,
-];
+// Define custom types with a PSR-11 container
+$customTypes = new ServiceManager([
+    'invokables' => [
+        DateTime::class => DateTimeType::class,
+        'PostStatus' => PostStatusType::class,
+    ],
+]);
 
 // Configure the type registry
-$types = new Types($entityManager, $mapping);
+$types = new Types($entityManager, $customTypes);
 
 // Configure default field resolver to be able to use getters
 GraphQL::setDefaultFieldResolver(new DefaultFieldResolver());
@@ -59,18 +64,18 @@ $schema = new Schema([
         'name' => 'query',
         'fields' => [
             'posts' => [
-                'type' => Type::listOf($types->get(Post::class)), // Use automated ObjectType for output
+                'type' => Type::listOf($types->getOutput(Post::class)), // Use automated ObjectType for output
                 'resolve' => function ($root, $args) {
                     // call to repository...
                 }
             ],
         ],
-        ]),
+    ]),
     'mutation' => new ObjectType([
         'name' => 'mutation',
         'fields' => [
             'createPost' => [
-                'type' => Type::nonNull($types->get(Post::class)),
+                'type' => Type::nonNull($types->getOutput(Post::class)),
                 'args' => [
                     'input' => Type::nonNull($types->getInput(Post::class)), // Use automated InputObjectType for input
                 ],
@@ -79,7 +84,7 @@ $schema = new Schema([
                 }
             ],
             'updatePost' => [
-                'type' => Type::nonNull($types->get(Post::class)),
+                'type' => Type::nonNull($types->getOutput(Post::class)),
                 'args' => [
                     'id' => Type::nonNull(Type::id()), // Use standard API when needed
                     'input' => $types->getPartialInput(Post::class),  // Use automated InputObjectType for partial input for updates
@@ -98,12 +103,13 @@ $schema = new Schema([
 The public API is limited to the public methods on `Types` and the annotations.
 So that's the constructor and:
 
-- `$types->get()` to get either an `ObjectType` from an entity or any other
- custom types (eg: `string` or mapped type)
+- `$types->get()` to get custom types
+- `$types->getOutput()` to get an `ObjectType` to be used in queries
 - `$types->getInput()` to get an `InputObjectType` to be used in mutations (typically for creation)
-- `$types->getPartialInput()` to get an `InputObjectType` to be used in mutations  (typically for update)
+- `$types->getPartialInput()` to get an `InputObjectType` to be used in mutations (typically for update)
 - `$types->getId()` to get an `EntityIDType` which may be used to receive an
-object from database instead of a scalar
+  object from database instead of a scalar
+- `$types->has()` to check whether a type exists
 
 ### Information priority
 
@@ -233,14 +239,28 @@ This annotation also supports `name`, `description`, and `defaultValue`.
 
 By default all PHP scalar types and Doctrine collection are automatically detected
 and mapped to a GraphQL type. However if some getter return custom types, such
-as `DateTime`, or a custom class, then it will have to be configured beforehand:
+as `DateTime`, or a custom class, then it will have to be configured beforehand.
+
+The configuration is done with a [PSR-11 container](https://www.php-fig.org/psr/psr-11/)
+implementation configured according to your needs. In the following example, we use
+[zendframework/zend-servicemanager](https://github.com/zendframework/zend-servicemanager),
+because it offers useful concepts such as: invokables, aliases, factories and abstract
+factories. But any other PSR-11 container implementation could be used instead.
+
+
+The keys should be the whatever you use to refer to the type in your model. Typically
+that would be either the FQCN of a PHP class "native" type such as `DateTime`, or the
+FQCN of a PHP class implementing the GraphQL type, or directly the GraphQL type name:
 
 ```php
-$mapping = [
-    DateTime::class => DateTimeType::class,
-];
+$customTypes = new ServiceManager([
+    'invokables' => [
+        DateTime::class => DateTimeType::class,
+        'PostStatus' => PostStatusType::class,
+    ],
+]);
 
-$types = new Types($entityManager, $mapping);
+$types = new Types($entityManager, $customTypes);
 
 // Build schema...
 ```

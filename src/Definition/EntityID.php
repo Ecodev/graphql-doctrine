@@ -49,7 +49,7 @@ class EntityID
     {
         $entity = $this->entityManager->getRepository($this->className)->find($this->id);
         if (!$entity) {
-            throw new Error('Entity not found for class `' . $this->className . '` and ID `' . $this->id . '`');
+            throw new Error('Entity not found for class `' . $this->className . '` and ID `' . $this->id . '`.');
         }
 
         return $entity;

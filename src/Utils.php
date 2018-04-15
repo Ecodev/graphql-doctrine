@@ -10,7 +10,7 @@ namespace GraphQL\Doctrine;
 abstract class Utils
 {
     /**
-     * Get the GraphQL type name from the PHP class
+     * Get the GraphQL type name for an output type from the PHP class
      *
      * @param string $className
      *
@@ -47,6 +47,13 @@ abstract class Utils
         return self::getTypeName($className) . 'Input';
     }
 
+    /**
+     * Get the GraphQL type name for a PartialInput type from the PHP class
+     *
+     * @param string $className
+     *
+     * @return string
+     */
     public static function getPartialInputTypeName($className)
     {
         return self::getTypeName($className) . 'PartialInput';

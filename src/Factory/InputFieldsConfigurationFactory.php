@@ -6,7 +6,6 @@ namespace GraphQL\Doctrine\Factory;
 
 use GraphQL\Doctrine\Annotation\Input;
 use GraphQL\Doctrine\DocBlockReader;
-use GraphQL\Type\Definition\Type;
 use ReflectionMethod;
 use ReflectionParameter;
 
@@ -105,7 +104,7 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
     }
 
     /**
-     * Complete field type  from doc blocks and type hints
+     * Complete field type from doc blocks and type hints
      *
      * @param Input $field
      * @param ReflectionMethod $method

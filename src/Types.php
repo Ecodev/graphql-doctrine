@@ -11,7 +11,9 @@ use GraphQL\Doctrine\Factory\InputTypeFactory;
 use GraphQL\Doctrine\Factory\ObjectTypeFactory;
 use GraphQL\Doctrine\Factory\PartialInputTypeFactory;
 use GraphQL\Type\Definition\InputObjectType;
+use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
+use Psr\Container\ContainerInterface;
 
 /**
  * Registry of types to manage all GraphQL types
@@ -20,6 +22,11 @@ use GraphQL\Type\Definition\Type;
  */
 class Types
 {
+    /**
+     * @var null|ContainerInterface
+     */
+    private $customTypes;
+
     /**
      * @var array mapping of type name to type instances
      */
@@ -45,8 +52,9 @@ class Types
      */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager, array $customTypeMapping = [])
+    public function __construct(EntityManager $entityManager, ?ContainerInterface $customTypes = null)
     {
+        $this->customTypes = $customTypes;
         $this->types = $this->getPhpToGraphQLMapping();
         $this->entityManager = $entityManager;
         $this->objectTypeFactory = new ObjectTypeFactory($this, $entityManager);
@@ -55,31 +63,65 @@ class Types
 
         $entityManager->getConfiguration()->newDefaultAnnotationDriver();
         AnnotationRegistry::registerLoader('class_exists');
-
-        foreach ($customTypeMapping as $phpType => $graphQLType) {
-            $instance = $this->createInstance($graphQLType);
-            $this->registerInstance($phpType, $instance);
-            $this->registerInstance($graphQLType, $instance);
-        }
     }
 
     /**
-     * Always return the same instance of `Type` for the given class name
+     * Returns whether a type exists for the given key
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function has(string $key): bool
+    {
+        return $this->customTypes && $this->customTypes->has($key) || array_key_exists($key, $this->types);
+    }
+
+    /**
+     * Always return the same instance of `Type` for the given key
+     *
+     * It will first look for the type in the custom types container, and then
+     * use automatically generated types. This allow for custom types to override
+     * automatic ones.
+     *
+     * @param string $key the key the type was registered with (eg: "Post", "PostInput", "PostPartialInput" or "PostStatus")
+     *
+     * @return Type
+     */
+    public function get(string $key): Type
+    {
+        if ($this->customTypes && $this->customTypes->has($key)) {
+            $t = $this->customTypes->get($key);
+            $this->registerInstance($t);
+
+            return $t;
+        }
+
+        if (array_key_exists($key, $this->types)) {
+            return $this->types[$key];
+        }
+
+        throw new Exception('No type registered with key `' . $key . '`. Either correct the usage, or register it in your custom types container when instantiating `' . self::class . '`.');
+    }
+
+    /**
+     * Returns an output type for the given entity
      *
      * All entity getter methods will be exposed, unless specified otherwise
      * with annotations.
      *
-     * @param string $className the class name of either a scalar type (`PostStatus::class`), or an entity (`Post::class`)
+     * @param string $className the class name of an entity (`Post::class`)
      *
-     * @return Type
+     * @return ObjectType
      */
-    public function get(string $className): Type
+    public function getOutput(string $className): ObjectType
     {
-        $key = $this->normalizedClassName($className);
+        $this->throwIfNotEntity($className);
+        $key = Utils::getTypeName($className);
 
         if (!isset($this->types[$key])) {
-            $instance = $this->createInstance($className);
-            $this->registerInstance($key, $instance);
+            $instance = $this->objectTypeFactory->create($className);
+            $this->registerInstance($instance);
         }
 
         return $this->types[$key];
@@ -104,7 +146,7 @@ class Types
 
         if (!isset($this->types[$key])) {
             $instance = $this->inputTypeFactory->create($className);
-            $this->registerInstance($key, $instance);
+            $this->registerInstance($instance);
         }
 
         return $this->types[$key];
@@ -131,7 +173,7 @@ class Types
 
         if (!isset($this->types[$key])) {
             $instance = $this->partialInputTypeFactory->create($className);
-            $this->registerInstance($key, $instance);
+            $this->registerInstance($instance);
         }
 
         return $this->types[$key];
@@ -157,40 +199,20 @@ class Types
 
         if (!isset($this->types[$key])) {
             $instance = new EntityIDType($this->entityManager, $className);
-            $this->registerInstance($key, $instance);
+            $this->registerInstance($instance);
         }
 
         return $this->types[$key];
     }
 
     /**
-     * Register the given type in our internal registry
+     * Register the given type in our internal registry with its name
      *
-     * @param string $key
      * @param Type $instance
      */
-    private function registerInstance(string $key, Type $instance): void
+    private function registerInstance(Type $instance): void
     {
-        $this->types[$key] = $instance;
         $this->types[$instance->name] = $instance;
-    }
-
-    /**
-     * Create an instance of either a custom, scalar or ObjectType
-     *
-     * @param string $className
-     *
-     * @return Type
-     */
-    private function createInstance(string $className): Type
-    {
-        if (is_a($className, Type::class, true)) {
-            return new $className();
-        }
-
-        $this->throwIfNotEntity($className);
-
-        return $this->objectTypeFactory->create($className);
     }
 
     /**
@@ -233,17 +255,5 @@ class Types
         if (!$this->isEntity($className)) {
             throw new \UnexpectedValueException('Given class name `' . $className . '` is not a Doctrine entity. Either register a custom GraphQL type for `' . $className . '` when instantiating `' . self::class . '`, or change the usage of that class to something else.');
         }
-    }
-
-    /**
-     * Remove the leading `\` that may exists in FQCN
-     *
-     * @param string $className
-     *
-     * @return string
-     */
-    private function normalizedClassName(string $className): string
-    {
-        return ltrim($className, '\\');
     }
 }

@@ -25,11 +25,13 @@
     "require": {
         "doctrine/orm": "^2.5",
         "php": "^7.1",
-        "webonyx/graphql-php": "^0.11.5"
+        "webonyx/graphql-php": "^0.11.5",
+        "psr/container": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "@stable",
-        "phpunit/phpunit": "@stable"
+        "phpunit/phpunit": "@stable",
+        "zendframework/zend-servicemanager": "^3.3"
     },
     "license": "MIT"
 }
