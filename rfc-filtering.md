@@ -1,4 +1,4 @@
-# RFC for filtering v2
+# RFC for filtering v3
 
 This is a RFC to support filtering features. It should let users easily create and apply generic
 filters based on the entity fields and their types.
@@ -37,11 +37,21 @@ PostQuery {
 }
 
 JoinType: ENUM(innerJoin, leftJoin)
-PostFilteringField: ENUM(title | body | status | customFilteringField ...)
 LogicalOperator: ENUM(AND | OR)
 
 PostFilter {
-    field: PostFilteringField!
+    title: PostFilteringFieldTitle
+    body: PostFilteringFieldBody
+    status: PostFilteringFieldStatus
+
+    customFieldFilter {
+        value: [String]!
+        includeSubGroup: Boolean = false
+    }
+    where: LogicalOperator = AND
+}
+
+PostFilteringFieldTitle {
     greater {
         value: String!
     }
@@ -57,11 +67,24 @@ PostFilter {
     in {
         values: [String]!
     }
-    customGroup {
-        value: [String]!
-        includeSubGroup: Boolean = false
+}
+
+PostFilteringFieldStatus {
+    greater {
+        value: PostStatus!
     }
-    where: LogicalOperator = AND
+    lesser {
+        value: PostStatus!
+    }
+    like {
+        value: PostStatus!
+    }
+    equal {
+        value: PostStatus!
+    }
+    in {
+        values: [PostStatus]!
+    }
 }
 ```
 
@@ -70,7 +93,7 @@ PostFilter {
 
 /**
  * @Api\Sorting("Application\Api\Sorting\CustomSortingField")
- * @Api\Filter("Application\Api\Filter\CustomGroup")
+ * @Api\Filter(field="customFieldFilter", "Application\Api\Filter\CustomGroup")
  */
 class Post {
 }
@@ -89,9 +112,10 @@ const example1 = {
                 query: {
                     filters: [
                         {
-                            field: 'name',
+                            name: {
                             equal: {
                                 value: 'John',
+                                }
                             }
                         }
                     ]
@@ -100,9 +124,10 @@ const example1 = {
         },
         filters: [
             {
-                field: 'title',
+                title: {
                 like: {
                     value: '%foo%',
+                    }
                 }
             }
         ]
@@ -123,15 +148,17 @@ const example2 = {
     query: {
         filters: [
             {
-                field: 'title',
+                title: {
                 like: {
                     value: '%foo%',
+                    }
                 }
             },
             {
-                field: 'status',
+                status: {
                 equal: {
                     value: 'public',
+                }
                 }
             }
         ]
@@ -139,45 +166,22 @@ const example2 = {
 }
 ```
 
-Get posts created in 2016:
+Get posts created in 2016 (directly combining operators as compared to V2):
 
 ```typescript
 const example3 = {
     query: {
         filters: [
             {
-                field: 'dateCreation',
-                greater: {
-                    value: '2016-01-01T00:00:00Z',
+                dateCreation: {
+                    greater: {
+                        value: '2016-01-01T00:00:00Z',
+                    },
+                    lesser: {
+                        value: '2017-01-01T00:00:00Z',
+                    }
                 }
             },
-            {
-                field: 'dateCreation',
-                lesser: {
-                    value: '2017-01-01T00:00:00Z',
-                }
-            }
-        ]
-    },
-}
-```
-
-
-Same but simpler, by combining operators on same field:
-
-```typescript
-const example4 = {
-    query: {
-        filters: [
-            {
-                field: 'dateCreation',
-                greater: {
-                    value: '2016-01-01T00:00:00Z',
-                },
-                lesser: {
-                    value: '2017-01-01T00:00:00Z',
-                }
-            }
         ]
     },
 }
@@ -191,10 +195,11 @@ const example5 = {
     query: {
         filters: [
             {
-                field: 'dateCreation',
+                dateCreation: {
                 between: {
                     from: '2016-01-01T00:00:00Z',
                     to: '2017-01-01T00:00:00Z',
+                    }
                 }
             }
         ]
@@ -209,16 +214,16 @@ const example6 = {
     query: {
         filters: [
             {
-                field: 'dateCreation',
+                dateCreation: {
                 between: {
                     from: '2016-01-01T00:00:00Z',
                     to: '2017-01-01T00:00:00Z',
                 }
             },
-            {
-                field: 'title',
+                title: {
                 like: {
                     value: '%foo%',
+                    },
                 },
                 where: 'OR',
             }
