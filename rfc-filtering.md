@@ -49,10 +49,7 @@ PostCondition {
         title: PostFilteringFieldTitle
         body: PostFilteringFieldBody
         status: PostFilteringFieldStatus
-        customFieldFilter {
-            value: [String]!
-            includeSubGroup: Boolean = false
-        }
+        customFieldFilter: PostFilteringFieldCustomFieldFilter
     }
 }
 
@@ -89,6 +86,13 @@ PostFilteringFieldStatus {
     }
     in {
         values: [PostStatus]!
+    }
+}
+
+PostFilteringFieldCustomFieldFilter {
+    customGroup {
+        value: [String]!
+        includeSubGroup: Boolean = false
     }
 }
 ```
