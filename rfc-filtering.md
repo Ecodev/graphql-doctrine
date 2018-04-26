@@ -110,6 +110,8 @@ The PHP interface for those classes are still to be defined...
 
 ## Usages
 
+### Example 1
+
 Get the most recent posts with a title containing 'foo' and the author name being exactly 'John':
 
 ```typescript
@@ -125,13 +127,13 @@ const example1 = {
                                 name: {
                                     equal: {
                                         value: 'John',
-                                    }
-                                }
-                            }
-                        }
-                    ]
+                                    },
+                                },
+                            },
+                        },
+                    ],
                 },
-            }
+            },
         },
         conditions: [
             {
@@ -139,20 +141,22 @@ const example1 = {
                     title: {
                         like: {
                             value: '%foo%',
-                        }
-                    }
-                }
-            }
-        ]
+                        },
+                    },
+                },
+            },
+        ],
     },
     sorting: [
         {
             field: "creationDate",
             order: "DESC",
         },
-    ]
+    ],
 }
 ```
+
+### Example 2
 
 Get posts with a title containing 'foo' and that are public:
 
@@ -165,19 +169,21 @@ const example2 = {
                     title: {
                         like: {
                             value: '%foo%',
-                        }
+                        },
                     },
                     status: {
                         equal: {
                             value: 'public',
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             },
-        ]
+        ],
     },
 }
 ```
+
+### Example 3
 
 Get posts created in 2016 (directly combining operators as compared to V2):
 
@@ -193,15 +199,16 @@ const example3 = {
                         },
                         lesser: {
                             value: '2017-01-01T00:00:00Z',
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             },
-        ]
+        ],
     },
 }
 ```
 
+### Example 5
 
 Even simpler, by using more appropriate operator:
 
@@ -215,14 +222,16 @@ const example5 = {
                         between: {
                             from: '2016-01-01T00:00:00Z',
                             to: '2017-01-01T00:00:00Z',
-                        }
-                    }
-                }
-            }
-        ]
+                        },
+                    },
+                },
+            },
+        ],
     },
 }
 ```
+
+### Example 6
 
 Get posts created in 2016 or containing 'foo':
 
@@ -237,7 +246,7 @@ const example6 = {
                         between: {
                             from: '2016-01-01T00:00:00Z',
                             to: '2017-01-01T00:00:00Z',
-                        }
+                        },
                     },
                     title: {
                         like: {
@@ -245,11 +254,13 @@ const example6 = {
                         },
                     },
                 },
-            }
-        ]
+            },
+        ],
     },
 }
 ```
+
+### Example 7
 
 Get posts created in 2016 and containing 'foo', or else only containing 'bar':
 
@@ -265,7 +276,7 @@ const example7 = {
                         between: {
                             from: '2016-01-01T00:00:00Z',
                             to: '2017-01-01T00:00:00Z',
-                        }
+                        },
                     },
                     title: {
                         like: {
@@ -283,8 +294,226 @@ const example7 = {
                         },
                     },
                 },
-            }
-        ]
+            },
+        ],
+    },
+}
+```
+
+## Additional usages
+
+This section reproduce examples from https://github.com/Ecodev/natural-search/issues/1.
+
+### Example 8
+
+Get users containing 'McClane'. This would use a custom filter `search` to handle
+splitting search words and applying it on several fields at once (eg: `firstname`,
+`lastname`, etc.).
+
+
+```typescript
+const naturalSearch1 = {
+    filter: {
+        conditions: [
+            {
+                fields: {
+                    name: {
+                        search: {
+                            value: 'McClane',
+                        },
+                    },
+                },
+            },
+        ],
+    },
+}
+```
+
+### Example 9
+
+Get users containing 'McClane' or 'foo'. That could leverage word splitting done on
+server side in the custom `search` operator:
+
+```typescript
+const example9 = {
+    filter: {
+        conditions: [
+            {
+                fields: {
+                    name: {
+                        search: {
+                            value: 'McClane foo',
+                        },
+                    },
+                },
+            },
+        ],
+    },
+}
+```
+
+### Example 10
+
+Get users containing 'McClane' whose parents have ID 1:
+
+```typescript
+const example10 = {
+    filter: {
+        conditions: [
+            {
+                fields: {
+                    name: {
+                        search: {
+                            value: 'McClane',
+                        },
+                    },
+                    parents: {
+                        contains: { // This would be a standard operator generating DQL `MEMBER OF`
+                            values: ["1"],
+                        },
+                    },
+                },
+            },
+        ],
+    },
+}
+```
+
+### Example 11
+
+Get users containing 'McClane' whose parents are either 1 or 2:
+
+```typescript
+const example11 = {
+    filter: {
+        conditions: [
+            {
+                fields: {
+                    name: {
+                        search: {
+                            value: 'McClane',
+                        },
+                    },
+                    parents: {
+                        contains: { // This would be a standard operator generating DQL `MEMBER OF`
+                            values: ["1", "2"],
+                        },
+                    },
+                },
+            },
+        ],
+    },
+}
+```
+
+### Example 12
+
+Get users containing 'McClane' whose parents are either 1 or 2, or users containing 'Rambo' 
+whose parents are 3 or 4:
+
+
+```typescript
+const example12 = {
+    filter: {
+        conditions: [
+            {
+                fields: {
+                    name: {
+                        search: {
+                            value: 'McClane',
+                        },
+                    },
+                    parents: {
+                        contains: { // This would be a standard operator generating DQL `MEMBER OF`
+                            values: ["1", "2"],
+                        },
+                    },
+                },
+            },
+            {
+                conditionLogic: 'OR',
+                fields: {
+                    name: {
+                        search: {
+                            value: 'Rambo',
+                        },
+                    },
+                    parents: {
+                        contains: { // This would be a standard operator generating DQL `MEMBER OF`
+                            values: ["3", "4"],
+                        },
+                    },
+                },
+            },
+        ],
+    },
+}
+```
+
+### Example 13
+
+Get users without parents:
+
+```typescript
+const example13 = {
+    filter: {
+        conditions: [
+            {
+                fields: {
+                    parents: {
+                        isEmpty: {
+                            not: false, // this is required, because GraphQL expect to have a scalar as leaf
+                        },
+                    },
+                },
+            },
+        ],
+    },
+}
+
+```
+
+### Example 14
+
+Get users with any parents:
+
+```typescript
+const example14 = {
+    filter: {
+        conditions: [
+            {
+                fields: {
+                    parents: {
+                        isEmpty: {
+                            not: true,
+                        },
+                    },
+                },
+            },
+        ],
+    },
+}
+```
+
+### Example 15
+
+Get things within a range:
+
+```typescript
+const example15 = {
+    filter: {
+        conditions: [
+            {
+                fields: {
+                    size: {
+                        between: {
+                            to: 2,
+                            from: 10,
+                        },
+                    },
+                },
+            },
+        ],
     },
 }
 ```
