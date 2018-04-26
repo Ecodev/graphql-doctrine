@@ -35,7 +35,6 @@ PostFilter {
             filter: [UserFilter!]
         }
     }
-    where: LogicalOperator = AND
     conditions: [PostCondition!]
 }
 
@@ -44,7 +43,8 @@ LogicalOperator: ENUM(AND | OR)
 
 
 PostCondition {
-    where: LogicalOperator = AND
+    conditionLogic: LogicalOperator = AND
+    fieldsLogic: LogicalOperator = AND
     fields {
         title: PostFilteringFieldTitle
         body: PostFilteringFieldBody
@@ -231,7 +231,7 @@ const example6 = {
     filter: {
         conditions: [
             {
-                where: 'OR',
+                fieldsLogic: 'OR',
                 fields: {
                     dateCreation: {
                         between: {
@@ -256,10 +256,10 @@ Get posts created in 2016 and containing 'foo', or else only containing 'bar':
 ```typescript
 const example7 = {
     filter: {
-        where: 'OR', // top-level will be OR conditions
         conditions: [
             {
-                where: 'AND', // this default value, but we explicitly set it for demo purpose
+                conditionLogic: 'OR', // top-level will be OR condition, this will have no effect, because it is the first condition, but keep it for demo purpose
+                fieldsLogic: 'AND', // this is default value, but we explicitly set it for demo purpose
                 fields: {
                     dateCreation: {
                         between: {
@@ -275,6 +275,7 @@ const example7 = {
                 },
             },
             {
+                conditionLogic: 'OR', // top-level will be OR condition
                 fields: {
                     title: {
                         like: {
@@ -290,28 +291,24 @@ const example7 = {
 
 ## Limitations
 
-Logical operators support only two levels. In SQL that would means only one level of parentheses.
-So you can generate SQL that would look like:
+Logical operators support only two levels, and second level cannot mix logic operators. In SQL
+that would means only one level of parentheses. So you can generate SQL that would look like:
 
 ```sql
--- only AND
-WHERE cond1 AND cond2 AND cond3 AND ...
+-- mixed top level
+WHERE cond1 AND cond2 OR cond3 AND ...
 
--- only OR
-WHERE cond1 OR cond2 OR cond3 OR ...
-
--- only AND with sublevel of only OR
-WHERE cond1 AND (cond2 OR cond3 OR ...) AND (cond4 OR cond5 OR ...) AND ...
-
--- only OR with sublevel of only AND
-WHERE cond1 OR (cond2 AND cond3 AND ...) OR (cond4 AND cond5 AND ...) OR ...
+-- mixed top level and non-mixed sublevels
+WHERE cond1 OR (cond2 OR cond3 OR ...) AND (cond4 AND cond5 AND ...) OR ...
 ```
 
 But you **cannot** generate SQL that would like that:
 
 ```sql
-WHERE cond1 AND (cond2 OR (cond3 AND cond4)) AND ...
+-- mixed sublevels does NOT work
+WHERE cond1 AND (cond2 OR cond3 AND cond4) AND ...
 
+-- more than two levels will NOT work
 WHERE cond1 OR (cond2 AND (cond3 OR cond4)) OR ...
 ```
 
