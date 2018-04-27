@@ -14,24 +14,24 @@ class InputTypesTest extends \PHPUnit\Framework\TestCase
     public function testCanGetInputTypes(): void
     {
         $userType = $this->types->getInput(User::class);
-        $this->assertInputType('data/UserInput.php', $userType);
+        $this->assertType('tests/data/UserInput.graphqls', $userType);
         self::assertSame($userType, $this->types->getInput(User::class), 'must returns the same instance of user type');
 
         $postType = $this->types->getInput(Post::class);
-        $this->assertInputType('data/PostInput.php', $postType);
+        $this->assertType('tests/data/PostInput.graphqls', $postType);
         self::assertSame($postType, $this->types->getInput(Post::class), 'must returns the same instance of post type');
     }
 
     public function testDefaultValuesInput(): void
     {
         $actual = $this->types->getInput(Blog\Model\Special\DefaultValue::class);
-        $this->assertInputType('data/DefaultValueInput.php', $actual);
+        $this->assertType('tests/data/DefaultValueInput.graphqls', $actual);
     }
 
     public function testDefaultValuesPartialInput(): void
     {
         $actual = $this->types->getPartialInput(Blog\Model\Special\DefaultValue::class);
-        $this->assertInputType('data/DefaultValuePartialInput.php', $actual);
+        $this->assertType('tests/data/DefaultValuePartialInput.graphqls', $actual);
     }
 
     public function testInputWithoutTypeMustThrow(): void

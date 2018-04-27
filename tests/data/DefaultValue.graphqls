@@ -1,0 +1,7 @@
+type DefaultValue {
+  nameWithoutDefault(name: String!): String!
+  nameWithDefaultValueOnArgument(name: String = "john"): String!
+  nameWithDefaultValueOnArgumentNullable(name: String = null): String!
+  id: ID!
+  creationDate: DateTime!
+}

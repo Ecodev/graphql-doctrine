@@ -1,0 +1,21 @@
+# A blog author or visitor
+type User {
+  # The user real name
+  name: String!
+
+  # The validated email or null
+  email: String
+
+  # Whether the user is an administrator
+  isAdministrator: Boolean!
+
+  # All posts of the specified status
+  posts(
+    # The status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post
+    status: PostStatus = public
+  ): [Post]!
+  postsWithIds(ids: [ID]!): [Post]!
+  manager: User
+  id: ID!
+  creationDate: DateTime!
+}

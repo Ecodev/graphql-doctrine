@@ -1,0 +1,8 @@
+input DefaultValuePartialInput {
+  nameWithoutDefault: String
+  nameWithDefaultValueOnField: String
+  nameWithDefaultValueOnArgument: String
+  nameWithDefaultValueOnArgumentOverrideField: String
+  nameWithDefaultValueOnArgumentNullable: String
+  creationDate: DateTime
+}

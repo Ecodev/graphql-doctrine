@@ -1,0 +1,8 @@
+input DefaultValueInput {
+  nameWithoutDefault: String!
+  nameWithDefaultValueOnField: String = "jane"
+  nameWithDefaultValueOnArgument: String = "john"
+  nameWithDefaultValueOnArgumentOverrideField: String = "argument"
+  nameWithDefaultValueOnArgumentNullable: String = null
+  creationDate: DateTime!
+}
