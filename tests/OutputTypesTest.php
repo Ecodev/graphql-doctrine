@@ -21,30 +21,30 @@ class OutputTypesTest extends \PHPUnit\Framework\TestCase
     {
         $userType = $this->types->getOutput(User::class);
 
-        $this->assertObjectType('data/UserOutput.php', $userType);
+        $this->assertType('tests/data/UserOutput.graphqls', $userType);
         self::assertSame($userType, $this->types->getOutput(User::class), 'must returns the same instance of user type');
 
         $postType = $this->types->getOutput(Post::class);
-        $this->assertObjectType('data/PostOutput.php', $postType);
+        $this->assertType('tests/data/PostOutput.graphqls', $postType);
         self::assertSame($postType, $this->types->getOutput(Post::class), 'must returns the same instance of post type');
     }
 
     public function testNonPublicGetterMustBeIgnored(): void
     {
         $actual = $this->types->getOutput(Blog\Model\Special\IgnoredGetter::class);
-        $this->assertObjectType('data/IgnoredGetter.php', $actual);
+        $this->assertType('tests/data/IgnoredGetter.graphqls', $actual);
     }
 
     public function testCanDeclareArrayOfEntity(): void
     {
         $actual = $this->types->getOutput(Blog\Model\Special\ArrayOfEntity::class);
-        $this->assertObjectType('data/ArrayOfEntity.php', $actual);
+        $this->assertType('tests/data/ArrayOfEntity.graphqls', $actual);
     }
 
     public function testDefaultValuesOutput(): void
     {
         $actual = $this->types->getOutput(Blog\Model\Special\DefaultValue::class);
-        $this->assertObjectType('data/DefaultValue.php', $actual);
+        $this->assertType('tests/data/DefaultValue.graphqls', $actual);
     }
 
     public function testFieldWithoutTypeMustThrow(): void

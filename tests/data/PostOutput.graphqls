@@ -1,0 +1,23 @@
+# A blog post with title and body
+type Post {
+  # Title
+  title: String!
+
+  # The post content
+  content: String!
+
+  # Status
+  status: PostStatus!
+
+  # Author of post
+  user: User!
+
+  # Date of publication
+  publicationDate: DateTime!
+  words: [String]!
+  hasWords(words: [String]!): Boolean!
+  isLong(wordLimit: Int = 50): Boolean!
+  isAllowedEditing(user: UserID!): Boolean!
+  id: ID!
+  creationDate: DateTime!
+}

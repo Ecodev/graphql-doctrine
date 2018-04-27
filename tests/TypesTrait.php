@@ -7,9 +7,8 @@ namespace GraphQLTests\Doctrine;
 use DateTime;
 use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\BooleanType;
-use GraphQL\Type\Definition\InputObjectType;
-use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Utils\SchemaPrinter;
 use GraphQLTests\Doctrine\Blog\Types\CustomType;
 use GraphQLTests\Doctrine\Blog\Types\DateTimeType;
 use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
@@ -17,7 +16,7 @@ use stdClass;
 use Zend\ServiceManager\ServiceManager;
 
 /**
- * Trait to easily set up types
+ * Trait to easily set up types and assert them
  */
 trait TypesTrait
 {
@@ -44,57 +43,9 @@ trait TypesTrait
         $this->types = new Types($this->entityManager, $customTypes);
     }
 
-    private function assertType(string $expectedFile, Type $type, bool $assertArgs): void
+    private function assertType(string $expectedFile, Type $type): void
     {
-        $fields = [];
-        foreach ($type->getFields() as $field) {
-            $data = [
-                'name' => $field->name,
-                'type' => $field->getType()->toString(),
-                'description' => $field->description,
-            ];
-
-            if ($assertArgs) {
-                $args = [];
-                foreach ($field->args as $arg) {
-                    $argData = [
-                        'name' => $arg->name,
-                        'type' => $arg->getType()->toString(),
-                        'description' => $arg->description,
-
-                    ];
-
-                    if ($arg->defaultValueExists()) {
-                        $argData['defaultValue'] = $arg->defaultValue;
-                    }
-
-                    $args[] = $argData;
-                }
-                $data['args'] = $args;
-            } elseif ($field->defaultValueExists()) {
-                $data['defaultValue'] = $field->defaultValue;
-            }
-
-            $fields[] = $data;
-        }
-
-        $actual = [
-            'name' => $type->name,
-            'description' => $type->description,
-            'fields' => $fields,
-        ];
-
-        $expected = require $expectedFile;
-        self::assertEquals($expected, $actual, 'Should equals expectation from: ' . $expectedFile);
-    }
-
-    private function assertInputType(string $expectedFile, InputObjectType $type): void
-    {
-        $this->assertType($expectedFile, $type, false);
-    }
-
-    private function assertObjectType(string $expectedFile, ObjectType $type): void
-    {
-        $this->assertType($expectedFile, $type, true);
+        $actual = SchemaPrinter::printType($type) . PHP_EOL;
+        self::assertStringEqualsFile($expectedFile, $actual, 'Should equals expectation from: ' . $expectedFile);
     }
 }

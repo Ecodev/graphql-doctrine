@@ -1,0 +1,18 @@
+# A blog post with title and body
+input PostInput {
+  # Title
+  title: String = ""
+
+  # The body
+  body: String = ""
+
+  # Status
+  status: PostStatus = public
+
+  # Author of post
+  user: UserID!
+
+  # Date of publication
+  publicationDate: DateTime!
+  creationDate: DateTime!
+}
