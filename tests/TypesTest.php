@@ -12,7 +12,6 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use GraphQLTests\Doctrine\Blog\Model\Post;
-use GraphQLTests\Doctrine\Blog\Model\User;
 use GraphQLTests\Doctrine\Blog\Types\CustomType;
 use GraphQLTests\Doctrine\Blog\Types\DateTimeType;
 use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
@@ -32,20 +31,27 @@ class TypesTest extends \PHPUnit\Framework\TestCase
 
     public function testGraphQLSchemaFromDocumentationMustBeValid(): void
     {
+        $types = $this->types;
         $schema = new Schema([
             'query' => new ObjectType([
                 'name' => 'query',
                 'fields' => [
-                    'users' => [
-                        'type' => Type::listOf($this->types->getOutput(User::class)), // Use automated ObjectType for output
-                        'resolve' => function ($root, $args): void {
-                            // call to repository...
-                        },
-                    ],
                     'posts' => [
-                        'type' => Type::listOf($this->types->getOutput(Post::class)), // Use automated ObjectType for output
-                        'resolve' => function ($root, $args): void {
-                            // call to repository...
+                        'type' => Type::listOf($types->getOutput(Post::class)), // Use automated ObjectType for output
+                        'args' => [
+                            [
+                                'name' => 'filter',
+                                'type' => $types->getFilter(Post::class), // Use automated filtering options
+                            ],
+                            [
+                                'name' => 'sorting',
+                                'type' => $types->getSorting(Post::class), // Use automated sorting options
+                            ],
+                        ],
+                        'resolve' => function ($root, $args) use ($types): void {
+                            $queryBuilder = $types->createFilteredQueryBuilder(Post::class, $args['filter'] ?? [], $args['sorting'] ?? []);
+
+                        // execute query...
                         },
                     ],
                 ],
@@ -53,39 +59,20 @@ class TypesTest extends \PHPUnit\Framework\TestCase
             'mutation' => new ObjectType([
                 'name' => 'mutation',
                 'fields' => [
-                    'createUser' => [
-                        'type' => Type::nonNull($this->types->getOutput(User::class)),
-                        'args' => [
-                            'input' => Type::nonNull($this->types->getInput(User::class)), // Use automated InputObjectType for input
-                        ],
-                        'resolve' => function ($root, $args): void {
-                            // create new user and flush...
-                        },
-                    ],
-                    'updateUser' => [
-                        'type' => Type::nonNull($this->types->getOutput(User::class)),
-                        'args' => [
-                            'id' => Type::nonNull(Type::id()), // Use standard API when needed
-                            'input' => $this->types->getInput(User::class),
-                        ],
-                        'resolve' => function ($root, $args): void {
-                            // update existing user and flush...
-                        },
-                    ],
                     'createPost' => [
-                        'type' => Type::nonNull($this->types->getOutput(Post::class)),
+                        'type' => Type::nonNull($types->getOutput(Post::class)),
                         'args' => [
-                            'input' => Type::nonNull($this->types->getInput(Post::class)), // Use automated InputObjectType for input
+                            'input' => Type::nonNull($types->getInput(Post::class)), // Use automated InputObjectType for input
                         ],
                         'resolve' => function ($root, $args): void {
                             // create new post and flush...
                         },
                     ],
                     'updatePost' => [
-                        'type' => Type::nonNull($this->types->getOutput(Post::class)),
+                        'type' => Type::nonNull($types->getOutput(Post::class)),
                         'args' => [
                             'id' => Type::nonNull(Type::id()), // Use standard API when needed
-                            'input' => $this->types->getInput(Post::class),
+                            'input' => $types->getPartialInput(Post::class),  // Use automated InputObjectType for partial input for updates
                         ],
                         'resolve' => function ($root, $args): void {
                             // update existing post and flush...

@@ -12,6 +12,10 @@ use GraphQL\Doctrine\Annotation as API;
  * A blog post with title and body
  *
  * @ORM\Entity
+ * @API\Sorting({"GraphQLTests\Doctrine\Blog\Sorting\UserName"})
+ * @API\Filters({
+ *     @API\Filter(field="custom", operator="GraphQLTests\Doctrine\Blog\Filtering\Search", type="string")
+ * })
  */
 class Post extends AbstractModel
 {

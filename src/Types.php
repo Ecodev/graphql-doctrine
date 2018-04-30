@@ -6,11 +6,24 @@ namespace GraphQL\Doctrine;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Definition\EntityIDType;
-use GraphQL\Doctrine\Factory\InputTypeFactory;
-use GraphQL\Doctrine\Factory\ObjectTypeFactory;
-use GraphQL\Doctrine\Factory\PartialInputTypeFactory;
+use GraphQL\Doctrine\Definition\JoinTypeType;
+use GraphQL\Doctrine\Definition\LogicalOperatorType;
+use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
+use GraphQL\Doctrine\Definition\SortingOrderType;
+use GraphQL\Doctrine\Factory\FilteredQueryBuilderFactory;
+use GraphQL\Doctrine\Factory\Type\AbstractTypeFactory;
+use GraphQL\Doctrine\Factory\Type\EntityIDTypeFactory;
+use GraphQL\Doctrine\Factory\Type\FilterTypeFactory;
+use GraphQL\Doctrine\Factory\Type\InputTypeFactory;
+use GraphQL\Doctrine\Factory\Type\JoinTypeFactory;
+use GraphQL\Doctrine\Factory\Type\ObjectTypeFactory;
+use GraphQL\Doctrine\Factory\Type\PartialInputTypeFactory;
+use GraphQL\Doctrine\Factory\Type\SortingTypeFactory;
 use GraphQL\Type\Definition\InputObjectType;
+use GraphQL\Type\Definition\LeafType;
+use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use Psr\Container\ContainerInterface;
@@ -48,21 +61,52 @@ class Types
     private $partialInputTypeFactory;
 
     /**
+     * @var FilterTypeFactory
+     */
+    private $filterTypeFactory;
+
+    /**
      * @var EntityManager
      */
     private $entityManager;
 
+    /**
+     * @var FilteredQueryBuilderFactory
+     */
+    private $filteredQueryBuilderFactory;
+
+    /**
+     * @var SortingTypeFactory
+     */
+    private $sortingTypeFactory;
+
+    /**
+     * @var EntityIDTypeFactory
+     */
+    private $entityIDTypeFactory;
+
+    /**
+     * @var JoinTypeFactory
+     */
+    private $joinTypeFactory;
+
     public function __construct(EntityManager $entityManager, ?ContainerInterface $customTypes = null)
     {
         $this->customTypes = $customTypes;
-        $this->types = $this->getPhpToGraphQLMapping();
         $this->entityManager = $entityManager;
         $this->objectTypeFactory = new ObjectTypeFactory($this, $entityManager);
         $this->inputTypeFactory = new InputTypeFactory($this, $entityManager);
         $this->partialInputTypeFactory = new PartialInputTypeFactory($this, $entityManager);
+        $this->filterTypeFactory = new FilterTypeFactory($this, $entityManager);
+        $this->sortingTypeFactory = new SortingTypeFactory($this, $entityManager);
+        $this->entityIDTypeFactory = new EntityIDTypeFactory($this, $entityManager);
+        $this->joinTypeFactory = new JoinTypeFactory($this, $entityManager);
+        $this->filteredQueryBuilderFactory = new FilteredQueryBuilderFactory($this, $entityManager, $this->sortingTypeFactory);
 
         $entityManager->getConfiguration()->newDefaultAnnotationDriver();
         AnnotationRegistry::registerLoader('class_exists');
+
+        $this->initializeInternalTypes();
     }
 
     /**
@@ -105,6 +149,27 @@ class Types
     }
 
     /**
+     * Get a type from internal registry, and create it via the factory if needed
+     *
+     * @param string $className
+     * @param string $typeName
+     * @param AbstractTypeFactory $factory
+     *
+     * @return Type
+     */
+    private function getViaFactory(string $className, string $typeName, AbstractTypeFactory $factory): Type
+    {
+        $this->throwIfNotEntity($className);
+
+        if (!isset($this->types[$typeName])) {
+            $instance = $factory->create($className, $typeName);
+            $this->registerInstance($instance);
+        }
+
+        return $this->types[$typeName];
+    }
+
+    /**
      * Returns an output type for the given entity
      *
      * All entity getter methods will be exposed, unless specified otherwise
@@ -116,15 +181,10 @@ class Types
      */
     public function getOutput(string $className): ObjectType
     {
-        $this->throwIfNotEntity($className);
-        $key = Utils::getTypeName($className);
+        /** @var ObjectType $type */
+        $type = $this->getViaFactory($className, Utils::getTypeName($className), $this->objectTypeFactory);
 
-        if (!isset($this->types[$key])) {
-            $instance = $this->objectTypeFactory->create($className);
-            $this->registerInstance($instance);
-        }
-
-        return $this->types[$key];
+        return $type;
     }
 
     /**
@@ -141,15 +201,10 @@ class Types
      */
     public function getInput(string $className): InputObjectType
     {
-        $this->throwIfNotEntity($className);
-        $key = Utils::getInputTypeName($className);
+        /** @var InputObjectType $type */
+        $type = $this->getViaFactory($className, Utils::getTypeName($className) . 'Input', $this->inputTypeFactory);
 
-        if (!isset($this->types[$key])) {
-            $instance = $this->inputTypeFactory->create($className);
-            $this->registerInstance($instance);
-        }
-
-        return $this->types[$key];
+        return $type;
     }
 
     /**
@@ -168,15 +223,61 @@ class Types
      */
     public function getPartialInput(string $className): InputObjectType
     {
-        $this->throwIfNotEntity($className);
-        $key = Utils::getPartialInputTypeName($className);
+        /** @var InputObjectType $type */
+        $type = $this->getViaFactory($className, Utils::getTypeName($className) . 'PartialInput', $this->partialInputTypeFactory);
 
-        if (!isset($this->types[$key])) {
-            $instance = $this->partialInputTypeFactory->create($className);
-            $this->registerInstance($instance);
-        }
+        return $type;
+    }
 
-        return $this->types[$key];
+    /**
+     * Returns a filter input type for the given entity
+     *
+     * This would typically be used to filter queries.
+     *
+     * @param string $className the class name of an entity (`Post::class`)
+     *
+     * @return InputObjectType
+     */
+    public function getFilter(string $className): InputObjectType
+    {
+        /** @var InputObjectType $type */
+        $type = $this->getViaFactory($className, Utils::getTypeName($className) . 'Filter', $this->filterTypeFactory);
+
+        return $type;
+    }
+
+    /**
+     * Returns a sorting input type for the given entity
+     *
+     * This would typically be used to sort queries.
+     *
+     * @param string $className the class name of an entity (`Post::class`)
+     *
+     * @return ListOfType
+     */
+    public function getSorting(string $className): ListOfType
+    {
+        /** @var InputObjectType $type */
+        $type = $this->getViaFactory($className, Utils::getTypeName($className) . 'Sorting', $this->sortingTypeFactory);
+
+        return Type::listOf(Type::nonNull($type));
+    }
+
+    /**
+     * Returns a join input type for the given entity
+     *
+     * This is for internal use only.
+     *
+     * @param string $className the class name of an entity (`Post::class`)
+     *
+     * @return InputObjectType
+     */
+    public function getJoin(string $className): InputObjectType
+    {
+        /** @var InputObjectType $type */
+        $type = $this->getViaFactory($className, 'JoinOn' . Utils::getTypeName($className), $this->joinTypeFactory);
+
+        return $type;
     }
 
     /**
@@ -194,11 +295,34 @@ class Types
      */
     public function getId(string $className): EntityIDType
     {
-        $this->throwIfNotEntity($className);
-        $key = Utils::getIDTypeName($className);
+        /** @var EntityIDType $type */
+        $type = $this->getViaFactory($className, Utils::getTypeName($className) . 'ID', $this->entityIDTypeFactory);
+
+        return $type;
+    }
+
+    /**
+     * Returns an operator input type
+     *
+     * This is for internal use only.
+     *
+     * @param string $className the class name of an operator (`EqualOperatorType::class`)
+     * @param LeafType $type
+     *
+     * @throws Exception
+     *
+     * @return AbstractOperator
+     */
+    public function getOperator(string $className, LeafType $type): AbstractOperator
+    {
+        if (!is_a($className, AbstractOperator::class, true)) {
+            throw new Exception('Expects a FQCN implementing `' . AbstractOperator::class . '`, but instead got: ' . $className);
+        }
+
+        $key = Utils::getOperatorTypeName($className, $type);
 
         if (!isset($this->types[$key])) {
-            $instance = new EntityIDType($this->entityManager, $className);
+            $instance = new $className($this, $type);
             $this->registerInstance($instance);
         }
 
@@ -208,9 +332,11 @@ class Types
     /**
      * Register the given type in our internal registry with its name
      *
+     * This is for internal use only. You should declare custom types via the constructor, not this method.
+     *
      * @param Type $instance
      */
-    private function registerInstance(Type $instance): void
+    public function registerInstance(Type $instance): void
     {
         $this->types[$instance->name] = $instance;
     }
@@ -228,19 +354,31 @@ class Types
     }
 
     /**
-     * Returns the list of native GraphQL types
-     *
-     * @return array
+     * Initialize internal types for common needs
      */
-    private function getPhpToGraphQLMapping(): array
+    private function initializeInternalTypes(): void
     {
-        return [
+        $phpToGraphQLMapping = [
+            // PHP types
             'id' => Type::id(),
             'bool' => Type::boolean(),
             'int' => Type::int(),
             'float' => Type::float(),
             'string' => Type::string(),
+
+            // Doctrine types
+            'boolean' => Type::boolean(),
+            'integer' => Type::int(),
+            'smallint' => Type::int(),
+            'bigint' => Type::int(),
+            'decimal' => Type::string(),
+            'text' => Type::string(),
         ];
+
+        $this->types = $phpToGraphQLMapping;
+        $this->registerInstance(new LogicalOperatorType());
+        $this->registerInstance(new JoinTypeType());
+        $this->registerInstance(new SortingOrderType());
     }
 
     /**
@@ -255,5 +393,27 @@ class Types
         if (!$this->isEntity($className)) {
             throw new \UnexpectedValueException('Given class name `' . $className . '` is not a Doctrine entity. Either register a custom GraphQL type for `' . $className . '` when instantiating `' . self::class . '`, or change the usage of that class to something else.');
         }
+    }
+
+    /**
+     * Create and return a query builder that is filtered and sorted for the given entity
+     *
+     * Typical usage would be to call this method in your query resolver with the filter and sorting arguments directly
+     * coming from GraphQL.
+     *
+     * You may apply further pagination according to your needs before executing the query.
+     *
+     * Filter and sorting arguments are assumed to be valid and complete as the validation should have happened when
+     * parsing the GraphQL query.
+     *
+     * @param string $className
+     * @param array $filter
+     * @param array $sorting
+     *
+     * @return QueryBuilder
+     */
+    public function createFilteredQueryBuilder(string $className, array $filter, array $sorting): QueryBuilder
+    {
+        return $this->filteredQueryBuilderFactory->create($className, $filter, $sorting);
     }
 }

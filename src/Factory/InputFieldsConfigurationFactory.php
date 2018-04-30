@@ -115,7 +115,7 @@ class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
      */
     private function completeFieldType(Input $field, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
     {
-        // If still no type, look for docblock
+        // If still no type, look for docBlock
         if (!$field->getTypeInstance()) {
             $typeDeclaration = $docBlock->getParameterType($param);
             $this->throwIfArray($param, $typeDeclaration);

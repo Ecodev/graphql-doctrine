@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Factory;
 
-use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use GraphQL\Doctrine\Annotation\AbstractAnnotation;
 use GraphQL\Doctrine\Annotation\Exclude;
 use GraphQL\Doctrine\Exception;
-use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\InputType;
 use GraphQL\Type\Definition\NonNull;
 use GraphQL\Type\Definition\Type;
@@ -26,18 +22,8 @@ use ReflectionType;
 /**
  * A factory to create a configuration for all fields of an entity
  */
-abstract class AbstractFieldsConfigurationFactory
+abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
 {
-    /**
-     * @var Types
-     */
-    private $types;
-
-    /**
-     * @var EntityManager
-     */
-    private $entityManager;
-
     /**
      * Doctrine metadata for the entity
      *
@@ -51,12 +37,6 @@ abstract class AbstractFieldsConfigurationFactory
      * @var string
      */
     private $identityField;
-
-    public function __construct(Types $types, EntityManager $entityManager)
-    {
-        $this->types = $types;
-        $this->entityManager = $entityManager;
-    }
 
     /**
      * Returns the regexp pattern to filter method names
@@ -124,21 +104,6 @@ abstract class AbstractFieldsConfigurationFactory
         $exclude = $this->getAnnotationReader()->getMethodAnnotation($method, Exclude::class);
 
         return $exclude !== null;
-    }
-
-    /**
-     * Get annotation reader
-     *
-     * @return Reader
-     */
-    protected function getAnnotationReader(): Reader
-    {
-        $driver = $this->entityManager->getConfiguration()->getMetadataDriverImpl();
-        if (!$driver instanceof AnnotationDriver) {
-            throw new Exception('graphql-doctrine requires Doctrine to be configured with a `' . AnnotationDriver::class . '`.');
-        }
-
-        return $driver->getReader();
     }
 
     /**

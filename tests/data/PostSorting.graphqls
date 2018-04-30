@@ -1,0 +1,30 @@
+schema {
+  query: query
+}
+
+input PostSorting {
+  field: PostSortingField!
+  order: SortingOrder = ASC
+}
+
+# Fields available for `PostSorting`
+enum PostSortingField {
+  creationDate
+  title
+  body
+  publicationDate
+  status
+  id
+  userName
+  pseudoRandom
+}
+
+# Order to be used in DQL
+enum SortingOrder {
+  ASC
+  DESC
+}
+
+type query {
+  defaultField: [PostSorting!]
+}

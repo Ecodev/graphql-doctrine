@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine\Definition;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use GraphQL\Doctrine\Definition\EntityIDType;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQLTests\Doctrine\Blog\Model\User;
@@ -20,8 +21,9 @@ class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
 
     public function setUp(): void
     {
+        AnnotationRegistry::registerLoader('class_exists');
         $this->setUpEntityManager();
-        $this->type = new EntityIDType($this->entityManager, User::class);
+        $this->type = new EntityIDType($this->entityManager, User::class, 'UserID');
     }
 
     public function testMetadata(): void

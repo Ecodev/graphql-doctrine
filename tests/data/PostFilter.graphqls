@@ -1,0 +1,535 @@
+schema {
+  query: query
+  mutation: mutation
+}
+
+input BetweenOperatorBoolean {
+  from: Boolean!
+  to: Boolean!
+  not: Boolean = false
+}
+
+input BetweenOperatorDateTime {
+  from: DateTime!
+  to: DateTime!
+  not: Boolean = false
+}
+
+input BetweenOperatorID {
+  from: ID!
+  to: ID!
+  not: Boolean = false
+}
+
+input BetweenOperatorInt {
+  from: Int!
+  to: Int!
+  not: Boolean = false
+}
+
+input BetweenOperatorString {
+  from: String!
+  to: String!
+  not: Boolean = false
+}
+
+input ContainOperatorID {
+  values: [ID!]!
+  not: Boolean = false
+}
+
+scalar DateTime
+
+input EmptyOperatorID {
+  not: Boolean = false
+}
+
+input EqualOperatorBoolean {
+  value: Boolean!
+  not: Boolean = false
+}
+
+input EqualOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input EqualOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input EqualOperatorInt {
+  value: Int!
+  not: Boolean = false
+}
+
+input EqualOperatorString {
+  value: String!
+  not: Boolean = false
+}
+
+input GreaterOperatorBoolean {
+  value: Boolean!
+  not: Boolean = false
+}
+
+input GreaterOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input GreaterOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input GreaterOperatorInt {
+  value: Int!
+  not: Boolean = false
+}
+
+input GreaterOperatorString {
+  value: String!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorBoolean {
+  value: Boolean!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorInt {
+  value: Int!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorString {
+  value: String!
+  not: Boolean = false
+}
+
+input InOperatorBoolean {
+  values: [Boolean!]!
+  not: Boolean = false
+}
+
+input InOperatorDateTime {
+  values: [DateTime!]!
+  not: Boolean = false
+}
+
+input InOperatorID {
+  values: [ID!]!
+  not: Boolean = false
+}
+
+input InOperatorInt {
+  values: [Int!]!
+  not: Boolean = false
+}
+
+input InOperatorString {
+  values: [String!]!
+  not: Boolean = false
+}
+
+input JoinOnPost {
+  type: JoinType = innerJoin
+  filter: PostFilter
+}
+
+input JoinOnUser {
+  type: JoinType = innerJoin
+  filter: UserFilter
+}
+
+# Join types to be used in DQL
+enum JoinType {
+  innerJoin
+  leftJoin
+}
+
+input LessOperatorBoolean {
+  value: Boolean!
+  not: Boolean = false
+}
+
+input LessOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input LessOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input LessOperatorInt {
+  value: Int!
+  not: Boolean = false
+}
+
+input LessOperatorString {
+  value: String!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorBoolean {
+  value: Boolean!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorInt {
+  value: Int!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorString {
+  value: String!
+  not: Boolean = false
+}
+
+input LikeOperatorBoolean {
+  value: Boolean!
+  not: Boolean = false
+}
+
+input LikeOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input LikeOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input LikeOperatorInt {
+  value: Int!
+  not: Boolean = false
+}
+
+input LikeOperatorString {
+  value: String!
+  not: Boolean = false
+}
+
+# Logical operator to be used in conditions
+enum LogicalOperator {
+  AND
+  OR
+}
+
+input NullOperatorBoolean {
+  not: Boolean = false
+}
+
+input NullOperatorDateTime {
+  not: Boolean = false
+}
+
+input NullOperatorID {
+  not: Boolean = false
+}
+
+input NullOperatorInt {
+  not: Boolean = false
+}
+
+input NullOperatorString {
+  not: Boolean = false
+}
+
+# To be used as a filter for objects of type `Post`
+input PostFilter {
+  # Optional joins to either filter the query or fetch related objects from DB in a single query
+  joins: PostFilterJoins
+  conditions: [PostFilterCondition!]
+}
+
+# Type to specify conditions to filter `Post`
+input PostFilterCondition {
+  # The logic operator to be used to append this condition
+  conditionLogic: LogicalOperator = AND
+
+  # The logic operator to be used within all fields below
+  fieldsLogic: LogicalOperator = AND
+
+  # Fields on which we want to apply a condition
+  fields: PostFilterConditionFields
+}
+
+# Type to specify a condition on a specific field
+input PostFilterConditionFieldBody {
+  between: BetweenOperatorString
+  equal: EqualOperatorString
+  greater: GreaterOperatorString
+  greaterOrEqual: GreaterOrEqualOperatorString
+  in: InOperatorString
+  less: LessOperatorString
+  lessOrEqual: LessOrEqualOperatorString
+  like: LikeOperatorString
+  null: NullOperatorString
+}
+
+# Type to specify a condition on a specific field
+input PostFilterConditionFieldCreationDate {
+  between: BetweenOperatorDateTime
+  equal: EqualOperatorDateTime
+  greater: GreaterOperatorDateTime
+  greaterOrEqual: GreaterOrEqualOperatorDateTime
+  in: InOperatorDateTime
+  less: LessOperatorDateTime
+  lessOrEqual: LessOrEqualOperatorDateTime
+  like: LikeOperatorDateTime
+  null: NullOperatorDateTime
+}
+
+# Type to specify a condition on a specific field
+input PostFilterConditionFieldId {
+  between: BetweenOperatorInt
+  equal: EqualOperatorInt
+  greater: GreaterOperatorInt
+  greaterOrEqual: GreaterOrEqualOperatorInt
+  in: InOperatorInt
+  less: LessOperatorInt
+  lessOrEqual: LessOrEqualOperatorInt
+  like: LikeOperatorInt
+  null: NullOperatorInt
+}
+
+# Type to specify a condition on a specific field
+input PostFilterConditionFieldPublicationDate {
+  between: BetweenOperatorDateTime
+  equal: EqualOperatorDateTime
+  greater: GreaterOperatorDateTime
+  greaterOrEqual: GreaterOrEqualOperatorDateTime
+  in: InOperatorDateTime
+  less: LessOperatorDateTime
+  lessOrEqual: LessOrEqualOperatorDateTime
+  like: LikeOperatorDateTime
+  null: NullOperatorDateTime
+}
+
+# Type to specify a condition on a specific field
+input PostFilterConditionFieldStatus {
+  between: BetweenOperatorString
+  equal: EqualOperatorString
+  greater: GreaterOperatorString
+  greaterOrEqual: GreaterOrEqualOperatorString
+  in: InOperatorString
+  less: LessOperatorString
+  lessOrEqual: LessOrEqualOperatorString
+  like: LikeOperatorString
+  null: NullOperatorString
+}
+
+# Type to specify a condition on a specific field
+input PostFilterConditionFieldTitle {
+  between: BetweenOperatorString
+  equal: EqualOperatorString
+  greater: GreaterOperatorString
+  greaterOrEqual: GreaterOrEqualOperatorString
+  in: InOperatorString
+  less: LessOperatorString
+  lessOrEqual: LessOrEqualOperatorString
+  like: LikeOperatorString
+  null: NullOperatorString
+}
+
+# Type to specify a condition on a specific field
+input PostFilterConditionFieldUser {
+  between: BetweenOperatorID
+  equal: EqualOperatorID
+  greater: GreaterOperatorID
+  greaterOrEqual: GreaterOrEqualOperatorID
+  in: InOperatorID
+  less: LessOperatorID
+  lessOrEqual: LessOrEqualOperatorID
+  like: LikeOperatorID
+  null: NullOperatorID
+}
+
+# Type to specify conditions on fields
+input PostFilterConditionFields {
+  creationDate: PostFilterConditionFieldCreationDate
+  title: PostFilterConditionFieldTitle
+  body: PostFilterConditionFieldBody
+  publicationDate: PostFilterConditionFieldPublicationDate
+  status: PostFilterConditionFieldStatus
+  id: PostFilterConditionFieldId
+  user: PostFilterConditionFieldUser
+  custom: SearchString
+}
+
+# Type to specify join tables in a filter
+input PostFilterJoins {
+  user: JoinOnUser
+}
+
+input SearchString {
+  term: String!
+}
+
+# To be used as a filter for objects of type `User`
+input UserFilter {
+  # Optional joins to either filter the query or fetch related objects from DB in a single query
+  joins: UserFilterJoins
+  conditions: [UserFilterCondition!]
+}
+
+# Type to specify conditions to filter `User`
+input UserFilterCondition {
+  # The logic operator to be used to append this condition
+  conditionLogic: LogicalOperator = AND
+
+  # The logic operator to be used within all fields below
+  fieldsLogic: LogicalOperator = AND
+
+  # Fields on which we want to apply a condition
+  fields: UserFilterConditionFields
+}
+
+# Type to specify a condition on a specific field
+input UserFilterConditionFieldCreationDate {
+  between: BetweenOperatorDateTime
+  equal: EqualOperatorDateTime
+  greater: GreaterOperatorDateTime
+  greaterOrEqual: GreaterOrEqualOperatorDateTime
+  in: InOperatorDateTime
+  less: LessOperatorDateTime
+  lessOrEqual: LessOrEqualOperatorDateTime
+  like: LikeOperatorDateTime
+  null: NullOperatorDateTime
+}
+
+# Type to specify a condition on a specific field
+input UserFilterConditionFieldEmail {
+  between: BetweenOperatorString
+  equal: EqualOperatorString
+  greater: GreaterOperatorString
+  greaterOrEqual: GreaterOrEqualOperatorString
+  in: InOperatorString
+  less: LessOperatorString
+  lessOrEqual: LessOrEqualOperatorString
+  like: LikeOperatorString
+  null: NullOperatorString
+}
+
+# Type to specify a condition on a specific field
+input UserFilterConditionFieldId {
+  between: BetweenOperatorInt
+  equal: EqualOperatorInt
+  greater: GreaterOperatorInt
+  greaterOrEqual: GreaterOrEqualOperatorInt
+  in: InOperatorInt
+  less: LessOperatorInt
+  lessOrEqual: LessOrEqualOperatorInt
+  like: LikeOperatorInt
+  null: NullOperatorInt
+}
+
+# Type to specify a condition on a specific field
+input UserFilterConditionFieldIsAdministrator {
+  between: BetweenOperatorBoolean
+  equal: EqualOperatorBoolean
+  greater: GreaterOperatorBoolean
+  greaterOrEqual: GreaterOrEqualOperatorBoolean
+  in: InOperatorBoolean
+  less: LessOperatorBoolean
+  lessOrEqual: LessOrEqualOperatorBoolean
+  like: LikeOperatorBoolean
+  null: NullOperatorBoolean
+}
+
+# Type to specify a condition on a specific field
+input UserFilterConditionFieldManager {
+  between: BetweenOperatorID
+  equal: EqualOperatorID
+  greater: GreaterOperatorID
+  greaterOrEqual: GreaterOrEqualOperatorID
+  in: InOperatorID
+  less: LessOperatorID
+  lessOrEqual: LessOrEqualOperatorID
+  like: LikeOperatorID
+  null: NullOperatorID
+}
+
+# Type to specify a condition on a specific field
+input UserFilterConditionFieldName {
+  between: BetweenOperatorString
+  equal: EqualOperatorString
+  greater: GreaterOperatorString
+  greaterOrEqual: GreaterOrEqualOperatorString
+  in: InOperatorString
+  less: LessOperatorString
+  lessOrEqual: LessOrEqualOperatorString
+  like: LikeOperatorString
+  null: NullOperatorString
+}
+
+# Type to specify a condition on a specific field
+input UserFilterConditionFieldPassword {
+  between: BetweenOperatorString
+  equal: EqualOperatorString
+  greater: GreaterOperatorString
+  greaterOrEqual: GreaterOrEqualOperatorString
+  in: InOperatorString
+  less: LessOperatorString
+  lessOrEqual: LessOrEqualOperatorString
+  like: LikeOperatorString
+  null: NullOperatorString
+}
+
+# Type to specify a condition on a specific field
+input UserFilterConditionFieldPosts {
+  contain: ContainOperatorID
+  empty: EmptyOperatorID
+}
+
+# Type to specify conditions on fields
+input UserFilterConditionFields {
+  creationDate: UserFilterConditionFieldCreationDate
+  name: UserFilterConditionFieldName
+  email: UserFilterConditionFieldEmail
+  password: UserFilterConditionFieldPassword
+  isAdministrator: UserFilterConditionFieldIsAdministrator
+  id: UserFilterConditionFieldId
+  posts: UserFilterConditionFieldPosts
+  manager: UserFilterConditionFieldManager
+}
+
+# Type to specify join tables in a filter
+input UserFilterJoins {
+  posts: JoinOnPost
+  manager: JoinOnUser
+}
+
+type mutation {
+  defaultField: PostFilter
+}
+
+type query {
+
+}
