@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GraphQL\Doctrine\Factory;
+namespace GraphQL\Doctrine\Factory\Type;
 
-use GraphQL\Doctrine\Utils;
+use GraphQL\Doctrine\Factory\InputFieldsConfigurationFactory;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type;
 
@@ -17,12 +17,12 @@ class InputTypeFactory extends AbstractTypeFactory
      * Create an InputObjectType from a Doctrine entity
      *
      * @param string $className class name of Doctrine entity
+     * @param string $typeName GraphQL type name
      *
      * @return InputObjectType
      */
-    public function create(string $className): Type
+    public function create(string $className, string $typeName): Type
     {
-        $typeName = Utils::getInputTypeName($className);
         $description = $this->getDescription($className);
 
         $fieldsGetter = function () use ($className): array {

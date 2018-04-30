@@ -12,6 +12,7 @@ use GraphQL\Doctrine\Annotation as API;
  * Base class for all objects stored in database.
  *
  * @ORM\MappedSuperclass
+ * @API\Sorting({"GraphQLTests\Doctrine\Blog\Sorting\PseudoRandom"})
  */
 abstract class AbstractModel
 {

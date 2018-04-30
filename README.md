@@ -33,10 +33,9 @@ And start using it:
 ```php
 <?php
 
-use Blog\Model\Post;
-use Blog\Model\User;
-use Blog\Types\DateTimeType;
-use Blog\Types\PostStatusType;
+use GraphQLTests\Doctrine\Blog\Model\Post;
+use GraphQLTests\Doctrine\Blog\Types\DateTimeType;
+use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -65,9 +64,21 @@ $schema = new Schema([
         'fields' => [
             'posts' => [
                 'type' => Type::listOf($types->getOutput(Post::class)), // Use automated ObjectType for output
-                'resolve' => function ($root, $args) {
-                    // call to repository...
-                }
+                'args' => [
+                    [
+                        'name' => 'filter',
+                        'type' => $types->getFilter(Post::class), // Use automated filtering options
+                    ],
+                    [
+                        'name' => 'sorting',
+                        'type' => $types->getSorting(Post::class), // Use automated sorting options
+                    ],
+                ],
+                'resolve' => function ($root, $args) use ($types): void {
+                    $queryBuilder = $types->createFilteredQueryBuilder(Post::class, $args['filter'] ?? [], $args['sorting'] ?? []);
+
+                // execute query...
+                },
             ],
         ],
     ]),
@@ -79,9 +90,9 @@ $schema = new Schema([
                 'args' => [
                     'input' => Type::nonNull($types->getInput(Post::class)), // Use automated InputObjectType for input
                 ],
-                'resolve' => function ($root, $args) {
+                'resolve' => function ($root, $args): void {
                     // create new post and flush...
-                }
+                },
             ],
             'updatePost' => [
                 'type' => Type::nonNull($types->getOutput(Post::class)),
@@ -89,9 +100,9 @@ $schema = new Schema([
                     'id' => Type::nonNull(Type::id()), // Use standard API when needed
                     'input' => $types->getPartialInput(Post::class),  // Use automated InputObjectType for partial input for updates
                 ],
-                'resolve' => function ($root, $args) {
+                'resolve' => function ($root, $args): void {
                     // update existing post and flush...
-                }
+                },
             ],
         ],
     ]),
@@ -105,11 +116,14 @@ So that's the constructor and:
 
 - `$types->get()` to get custom types
 - `$types->getOutput()` to get an `ObjectType` to be used in queries
+- `$types->getFilter()` to get an `InputObjectType` to be used in queries
+- `$types->getSorting()` to get an `InputObjectType` to be used in queries
 - `$types->getInput()` to get an `InputObjectType` to be used in mutations (typically for creation)
 - `$types->getPartialInput()` to get an `InputObjectType` to be used in mutations (typically for update)
 - `$types->getId()` to get an `EntityIDType` which may be used to receive an
   object from database instead of a scalar
 - `$types->has()` to check whether a type exists
+- `$types->createFilteredQueryBuilder()` to be used in query resolvers
 
 ### Information priority
 
@@ -131,7 +145,6 @@ otherwise for each method. To exclude a sensitive field from ever being exposed
 through the API, use `@API\Exclude`:
 
 ```php
-
 use GraphQL\Doctrine\Annotation as API;
 
 /**
@@ -282,7 +295,7 @@ public function isAllowedEditing(User $user): bool
 }
 ```
 
-You may also get an input type for an entity by using `Types::getId()` to write 
+You may also get an input type for an entity by using `Types::getId()` to write
 things like:
 
 ```php
@@ -312,7 +325,7 @@ to fetch all fields just to be able re-submit them when he wants to modify only
 one field.
 
 And it also enable to easily design mass editing mutations where the client would
-submit only a few fields to be updated for many entities at once. This could look like:  
+submit only a few fields to be updated for many entities at once. This could look like:
 
 ```php
 <?php
@@ -366,21 +379,116 @@ public function setBar(string $bar): void
 }
 ```
 
+### Filtering and sorting
+
+It is possible to expose generic filtering for entity fields and their types to let users easily
+create and apply generic filters. This expose basic SQL-like syntax that should cover most simple
+cases.
+
+In the case of the `Post` class, it would generate [that GraphQL schema](tests/data/PostFilter.graphqls)
+for filtering, and for sorting it would be [that simpler schema](tests/data/PostSorting.graphqls).
+
+For concrete example of possibilities and variables syntax, refer to the
+[test cases](tests/data/query-builder).
+
+For security and complexity reasons, it is not meant to solve advanced use cases. For those it is
+possible to write custom filters and sorting.
+
+#### Custom filters
+
+A custom filer must extend `AbstractOperator`.  This will allow to define custom arguments to for
+the API, and then a method to build the DQL condition corresponding to the argument.
+
+This would also allow to filter on joined relations by carefully adding joins when necessary.
+
+Then custom filter might used like so:
+
+```php
+use GraphQL\Doctrine\Annotation as API;
+
+/**
+ * A blog post with title and body
+ *
+ * @ORM\Entity
+ * @API\Filters({
+ *     @API\Filter(field="custom", operator="GraphQLTests\Doctrine\Blog\Filtering\Search", type="string")
+ * })
+ */
+class Post extends AbstractModel
+```
+
+#### Custom sorting
+
+A custom sorting option must implement `SortingInterface`. It has no arguments and must define
+how to apply the sorting.
+
+Similarly to custom filter, it may be possible to carefully add join if necessary.
+
+Then custom sorting might used like so:
+
+```php
+use GraphQL\Doctrine\Annotation as API;
+
+/**
+ * A blog post with title and body
+ *
+ * @ORM\Entity
+ * @API\Sorting({"GraphQLTests\Doctrine\Blog\Sorting\UserName"})
+ */
+class Post extends AbstractModel
+```
 ## Limitations
 
-- The `use` statement is not supported. So types in annotation or doc blocks should
+### Namespaces
+
+The `use` statement is not supported. So types in annotation or doc blocks should
 either be the FQCN or in the same namespace as the getter.
 
-- Entities with composite identifiers are not supported for automatic creation of
+### Composite identifiers
+
+Entities with composite identifiers are not supported for automatic creation of
 input types. Possible workarounds are to change input argument to be something
 else than an entity, write custom input types and use them via annotations, or
 adapt the database schema.
+
+### Logical operators in filtering
+
+Logical operators support only two levels, and second level cannot mix logic operators. In SQL
+that would means only one level of parentheses. So you can generate SQL that would look like:
+
+```sql
+-- mixed top level
+WHERE cond1 AND cond2 OR cond3 AND ...
+
+-- mixed top level and non-mixed sublevels
+WHERE cond1 OR (cond2 OR cond3 OR ...) AND (cond4 AND cond5 AND ...) OR ...
+```
+
+But you **cannot** generate SQL that would like that:
+
+```sql
+-- mixed sublevels does NOT work
+WHERE cond1 AND (cond2 OR cond3 AND cond4) AND ...
+
+-- more than two levels will NOT work
+WHERE cond1 OR (cond2 AND (cond3 OR cond4)) OR ...
+```
+
+Those cases would probably end up being too complex to handle on the client-side. And we recommend
+instead to implement them as a custom filter on the server side, in order to hide complexity
+from the client and benefit from Doctrine's QueryBuilder full flexibility.
+
+
+### Sorting on join
+
+Out of the box, it is not possible to sort by a field from a joined relation.
+This should be done via a custom sorting to ensure that joins are done properly.
 
 ## Prior work
 
 [Doctrine GraphQL Mapper](https://github.com/rahuljayaraman/doctrine-graphql) has
 been an inspiration to write this package. While the goals are similar, the way
 it works is different. In Doctrine GraphQL Mapper, annotations are spread between
-properties and methods, but we work only on methods. Setup seems slightly more complex,
-but might be more flexible. We built on conventions and widespread use of PHP 7.1
-type hinting to have an easier out-of-the-box experience.
+properties and methods (and classes for filtering), but we work only on methods.
+Setup seems slightly more complex, but might be more flexible. We built on conventions
+and widespread use of PHP 7.1 type hinting to have an easier out-of-the-box experience.

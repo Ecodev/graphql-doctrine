@@ -25,11 +25,11 @@ class EntityIDType extends IDType
      */
     private $className;
 
-    public function __construct(EntityManager $entityManager, string $className)
+    public function __construct(EntityManager $entityManager, string $className, string $typeName)
     {
         $this->entityManager = $entityManager;
         $this->className = $className;
-        $this->name = Utils::getIDTypeName($className);
+        $this->name = $typeName;
         $this->description = 'Automatically generated type to be used as input where an object of type `' . Utils::getTypeName($className) . '` is needed';
 
         parent::__construct();

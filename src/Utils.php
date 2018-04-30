@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine;
 
+use GraphQL\Type\Definition\EnumType;
+use GraphQL\Type\Definition\LeafType;
+use GraphQL\Type\Definition\ScalarType;
+
 /**
  * A few utils
  */
@@ -24,38 +28,15 @@ abstract class Utils
     }
 
     /**
-     * Get the GraphQL type name for an ID type from the PHP class
+     * Get the GraphQL type name for a Filter type from the PHP class
      *
      * @param string $className
+     * @param EnumType|ScalarType $type
      *
      * @return string
      */
-    public static function getIDTypeName(string $className): string
+    public static function getOperatorTypeName(string $className, LeafType $type): string
     {
-        return self::getTypeName($className) . 'ID';
-    }
-
-    /**
-     * Get the GraphQL type name for an Input type from the PHP class
-     *
-     * @param string $className
-     *
-     * @return string
-     */
-    public static function getInputTypeName(string $className): string
-    {
-        return self::getTypeName($className) . 'Input';
-    }
-
-    /**
-     * Get the GraphQL type name for a PartialInput type from the PHP class
-     *
-     * @param string $className
-     *
-     * @return string
-     */
-    public static function getPartialInputTypeName($className)
-    {
-        return self::getTypeName($className) . 'PartialInput';
+        return preg_replace('~Type$~', '', self::getTypeName($className)) . ucfirst($type->name);
     }
 }

@@ -52,6 +52,8 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
     {
         $field->type = $this->getTypeFromPhpDeclaration($method, $field->type);
         $args = [];
+
+        /** @var Argument $arg */
         foreach ($field->args as $arg) {
             $arg->setTypeInstance($this->getTypeFromPhpDeclaration($method, $arg->getType()));
             $args[$arg->getName()] = $arg;
@@ -199,7 +201,7 @@ class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactor
             $field->type = Type::nonNull(Type::id());
         }
 
-        // If still no type, look for docblock
+        // If still no type, look for docBlock
         if (!$field->type) {
             $field->type = $this->getTypeFromDocBock($method, $docBlock);
         }

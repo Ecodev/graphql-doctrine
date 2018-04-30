@@ -120,9 +120,9 @@ abstract class AbstractAnnotation
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function hasDefaultValue()
+    public function hasDefaultValue(): bool
     {
         return $this->hasDefaultValue;
     }
