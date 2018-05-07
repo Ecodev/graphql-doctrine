@@ -22,6 +22,6 @@ use Doctrine\Common\Annotations\Annotation\Attributes;
  *     @Attribute("defaultValue", required=false, type="mixed"),
  * })
  */
-class Input extends AbstractAnnotation
+final class Input extends AbstractAnnotation
 {
 }

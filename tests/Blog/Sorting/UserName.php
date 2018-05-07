@@ -7,7 +7,7 @@ namespace GraphQLTests\Doctrine\Blog\Sorting;
 use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Sorting\SortingInterface;
 
-class UserName implements SortingInterface
+final class UserName implements SortingInterface
 {
     public function __construct()
     {

@@ -12,7 +12,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * A factory to create an ObjectType from a Doctrine entity
  */
-class ObjectTypeFactory extends AbstractTypeFactory
+final class ObjectTypeFactory extends AbstractTypeFactory
 {
     /**
      * Create an ObjectType from a Doctrine entity

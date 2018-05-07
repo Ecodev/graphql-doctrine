@@ -10,7 +10,7 @@ namespace GraphQL\Doctrine\Annotation;
  * @Annotation
  * @Target({"CLASS"})
  */
-class Sorting
+final class Sorting
 {
     /**
      * FQCN of PHP class implementing `SortingInterface`

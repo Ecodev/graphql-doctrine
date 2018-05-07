@@ -15,7 +15,7 @@ use ReflectionParameter;
 /**
  * A factory to create a configuration for all getters of an entity
  */
-class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
+final class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
 {
     protected function getMethodPattern(): string
     {

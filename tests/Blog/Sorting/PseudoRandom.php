@@ -7,7 +7,7 @@ namespace GraphQLTests\Doctrine\Blog\Sorting;
 use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Sorting\SortingInterface;
 
-class PseudoRandom implements SortingInterface
+final class PseudoRandom implements SortingInterface
 {
     public function __construct()
     {

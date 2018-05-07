@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\EnumType;
 /**
  * An enum for logical operator to be used in DQL
  */
-class LogicalOperatorType extends EnumType
+final class LogicalOperatorType extends EnumType
 {
     public function __construct()
     {

@@ -16,7 +16,7 @@ use ReflectionClass;
  * A factory to create an InputObjectType from a Doctrine entity to
  * sort them by their fields and custom sorter.
  */
-class SortingTypeFactory extends AbstractTypeFactory
+final class SortingTypeFactory extends AbstractTypeFactory
 {
     /**
      * Map of entity class and their custom sorting class instances

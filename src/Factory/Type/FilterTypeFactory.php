@@ -27,7 +27,7 @@ use ReflectionClass;
 /**
  * A factory to create an InputObjectType from a Doctrine entity to filter them.
  */
-class FilterTypeFactory extends AbstractTypeFactory
+final class FilterTypeFactory extends AbstractTypeFactory
 {
     /**
      * Create an InputObjectType from a Doctrine entity

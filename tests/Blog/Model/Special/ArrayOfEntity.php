@@ -12,7 +12,7 @@ use GraphQLTests\Doctrine\Blog\Model\User;
 /**
  * @ORM\Entity
  */
-class ArrayOfEntity extends AbstractModel
+final class ArrayOfEntity extends AbstractModel
 {
     /**
      * @API\Field(type="GraphQLTests\Doctrine\Blog\Model\User[]")

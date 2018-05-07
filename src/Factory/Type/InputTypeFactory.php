@@ -11,7 +11,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * A factory to create an InputObjectType from a Doctrine entity
  */
-class InputTypeFactory extends AbstractTypeFactory
+final class InputTypeFactory extends AbstractTypeFactory
 {
     /**
      * Create an InputObjectType from a Doctrine entity

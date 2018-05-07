@@ -12,7 +12,7 @@ use ReflectionParameter;
 /**
  * A factory to create a configuration for all setters of an entity
  */
-class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
+final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
 {
     protected function getMethodPattern(): string
     {

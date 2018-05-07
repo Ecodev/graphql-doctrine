@@ -14,6 +14,6 @@ use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
  *     @API\Filter(field="custom", operator="invalid_class_name", type="string")
  * })
  */
-class InvalidFilter extends AbstractModel
+final class InvalidFilter extends AbstractModel
 {
 }

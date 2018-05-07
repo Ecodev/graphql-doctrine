@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\EnumType;
 /**
  * An enum for join types to be used in DQL
  */
-class SortingOrderType extends EnumType
+final class SortingOrderType extends EnumType
 {
     public function __construct()
     {

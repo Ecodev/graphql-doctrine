@@ -17,7 +17,7 @@ use GraphQL\Doctrine\Annotation as API;
  *     @API\Filter(field="custom", operator="GraphQLTests\Doctrine\Blog\Filtering\Search", type="string")
  * })
  */
-class Post extends AbstractModel
+final class Post extends AbstractModel
 {
     const STATUS_PRIVATE = 'private';
     const STATUS_PUBLIC = 'public';

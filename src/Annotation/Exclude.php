@@ -12,6 +12,6 @@ namespace GraphQL\Doctrine\Annotation;
  * @Annotation
  * @Target({"METHOD"})
  */
-class Exclude
+final class Exclude
 {
 }

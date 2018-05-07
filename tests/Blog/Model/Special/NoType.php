@@ -10,7 +10,7 @@ use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 /**
  * @ORM\Entity
  */
-class NoType extends AbstractModel
+final class NoType extends AbstractModel
 {
     public function getWithoutTypeHint()
     {

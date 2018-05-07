@@ -10,7 +10,7 @@ use GraphQL\Type\Definition\Type;
 /**
  * A factory to create an EntityIDType from a Doctrine entity.
  */
-class EntityIDTypeFactory extends AbstractTypeFactory
+final class EntityIDTypeFactory extends AbstractTypeFactory
 {
     /**
      * Create an EntityIDType from a Doctrine entity

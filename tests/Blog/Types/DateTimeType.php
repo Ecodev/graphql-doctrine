@@ -10,7 +10,7 @@ use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\ScalarType;
 use GraphQL\Utils;
 
-class DateTimeType extends ScalarType
+final class DateTimeType extends ScalarType
 {
     public function parseLiteral($valueNode)
     {

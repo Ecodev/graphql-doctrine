@@ -10,7 +10,7 @@ use GraphQL\Language\AST\StringValueNode;
 use GraphQLTests\Doctrine\Blog\Model\User;
 use GraphQLTests\Doctrine\EntityManagerTrait;
 
-class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
+final class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
 {
     use EntityManagerTrait;
 

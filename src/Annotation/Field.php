@@ -13,7 +13,7 @@ namespace GraphQL\Doctrine\Annotation;
  * @Annotation
  * @Target({"METHOD"})
  */
-class Field
+final class Field
 {
     /**
      * @var string

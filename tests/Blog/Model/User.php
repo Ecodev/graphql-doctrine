@@ -14,7 +14,7 @@ use GraphQL\Doctrine\Annotation as API;
  *
  * @ORM\Entity(repositoryClass="GraphQLTests\Doctrine\Blog\Repository\UserRepository")
  */
-class User extends AbstractModel
+final class User extends AbstractModel
 {
     /**
      * @var string

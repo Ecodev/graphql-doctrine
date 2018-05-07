@@ -7,7 +7,7 @@ namespace GraphQLTests\Doctrine\Blog\Types;
 use GraphQL\Type\Definition\EnumType;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 
-class PostStatusType extends EnumType
+final class PostStatusType extends EnumType
 {
     public function __construct()
     {

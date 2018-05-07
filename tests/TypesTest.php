@@ -17,7 +17,7 @@ use GraphQLTests\Doctrine\Blog\Types\DateTimeType;
 use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
 use stdClass;
 
-class TypesTest extends \PHPUnit\Framework\TestCase
+final class TypesTest extends \PHPUnit\Framework\TestCase
 {
     use TypesTrait;
 

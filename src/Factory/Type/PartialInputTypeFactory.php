@@ -12,7 +12,7 @@ use GraphQL\Type\Definition\Type;
  * A factory to create an InputObjectType from a Doctrine entity but with
  * all fields as optional and without default values.
  */
-class PartialInputTypeFactory extends AbstractTypeFactory
+final class PartialInputTypeFactory extends AbstractTypeFactory
 {
     /**
      * Create an InputObjectType from a Doctrine entity,

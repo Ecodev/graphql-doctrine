@@ -36,7 +36,7 @@ abstract class AbstractFactory
      *
      * @return Reader
      */
-    protected function getAnnotationReader(): Reader
+    final protected function getAnnotationReader(): Reader
     {
         $driver = $this->entityManager->getConfiguration()->getMetadataDriverImpl();
         if (!$driver instanceof AnnotationDriver) {

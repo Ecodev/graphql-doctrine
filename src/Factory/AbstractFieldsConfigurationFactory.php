@@ -125,7 +125,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      *
      * @return null|Type
      */
-    protected function getTypeFromPhpDeclaration(ReflectionMethod $method, ?string $typeDeclaration, bool $isEntityId = false): ?Type
+    final protected function getTypeFromPhpDeclaration(ReflectionMethod $method, ?string $typeDeclaration, bool $isEntityId = false): ?Type
     {
         if (!$typeDeclaration) {
             return null;
@@ -179,7 +179,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      *
      * @return null|Type
      */
-    protected function getTypeFromReturnTypeHint(ReflectionMethod $method, string $fieldName): ?Type
+    final protected function getTypeFromReturnTypeHint(ReflectionMethod $method, string $fieldName): ?Type
     {
         $returnType = $method->getReturnType();
         if (!$returnType) {
@@ -212,7 +212,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      *
      * @return Type
      */
-    protected function reflectionTypeToType(ReflectionType $reflectionType, bool $isEntityId = false): Type
+    final protected function reflectionTypeToType(ReflectionType $reflectionType, bool $isEntityId = false): Type
     {
         $name = $reflectionType->getName();
         if ($name === 'self') {
@@ -249,7 +249,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      *
      * @return string
      */
-    protected function getMethodFullName(ReflectionMethod $method): string
+    final protected function getMethodFullName(ReflectionMethod $method): string
     {
         return '`' . $method->getDeclaringClass()->getName() . '::' . $method->getName() . '()`';
     }
@@ -262,7 +262,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      *
      * @throws Exception
      */
-    protected function throwIfArray(ReflectionParameter $param, ?string $type): void
+    final protected function throwIfArray(ReflectionParameter $param, ?string $type): void
     {
         if ($type === 'array') {
             throw new Exception('The parameter `$' . $param->getName() . '` on method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' is type hinted as `array` and is not overridden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
@@ -276,7 +276,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      *
      * @return bool
      */
-    protected function isIdentityField(string $fieldName): bool
+    final protected function isIdentityField(string $fieldName): bool
     {
         return $this->identityField === $fieldName;
     }
@@ -303,7 +303,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      *
      * @return mixed
      */
-    protected function getPropertyDefaultValue(string $fieldName)
+    final protected function getPropertyDefaultValue(string $fieldName)
     {
         /** @var null|ReflectionProperty $property */
         $property = $this->metadata->getReflectionProperties()[$fieldName] ?? null;
@@ -340,7 +340,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      *
      * @param AbstractAnnotation $annotation
      */
-    protected function nonNullIfHasDefault(AbstractAnnotation $annotation): void
+    final protected function nonNullIfHasDefault(AbstractAnnotation $annotation): void
     {
         $type = $annotation->getTypeInstance();
         if ($type instanceof NonNull && $annotation->hasDefaultValue()) {
@@ -356,7 +356,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      *
      * @throws Exception
      */
-    protected function throwIfNotInputType(ReflectionParameter $param, AbstractAnnotation $annotation): void
+    final protected function throwIfNotInputType(ReflectionParameter $param, AbstractAnnotation $annotation): void
     {
         $type = $annotation->getTypeInstance();
         $class = new ReflectionClass($annotation);

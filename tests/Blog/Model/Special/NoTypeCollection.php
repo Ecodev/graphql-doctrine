@@ -12,7 +12,7 @@ use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 /**
  * @ORM\Entity
  */
-class NoTypeCollection extends AbstractModel
+final class NoTypeCollection extends AbstractModel
 {
     public function getFoos(): Collection
     {

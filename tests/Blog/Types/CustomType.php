@@ -6,7 +6,7 @@ namespace GraphQLTests\Doctrine\Blog\Types;
 
 use GraphQL\Type\Definition\EnumType;
 
-class CustomType extends EnumType
+final class CustomType extends EnumType
 {
     public $name = 'customName';
 

@@ -33,7 +33,7 @@ use Psr\Container\ContainerInterface;
  *
  * This is the entry point for the library.
  */
-class Types
+final class Types
 {
     /**
      * @var null|ContainerInterface

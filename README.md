@@ -414,7 +414,7 @@ use GraphQL\Doctrine\Annotation as API;
  *     @API\Filter(field="custom", operator="GraphQLTests\Doctrine\Blog\Filtering\Search", type="string")
  * })
  */
-class Post extends AbstractModel
+final class Post extends AbstractModel
 ```
 
 #### Custom sorting
@@ -435,7 +435,7 @@ use GraphQL\Doctrine\Annotation as API;
  * @ORM\Entity
  * @API\Sorting({"GraphQLTests\Doctrine\Blog\Sorting\UserName"})
  */
-class Post extends AbstractModel
+final class Post extends AbstractModel
 ```
 ## Limitations
 

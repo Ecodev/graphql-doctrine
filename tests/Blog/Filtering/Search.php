@@ -12,7 +12,7 @@ use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\LeafType;
 use GraphQL\Type\Definition\Type;
 
-class Search extends AbstractOperator
+final class Search extends AbstractOperator
 {
     protected function getConfiguration(Types $types, LeafType $leafType): array
     {
