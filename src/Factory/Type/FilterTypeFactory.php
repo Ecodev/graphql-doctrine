@@ -171,8 +171,9 @@ final class FilterTypeFactory extends AbstractTypeFactory
 
                 // Get all entity scalar fields
                 foreach ($metadata->fieldMappings as $mapping) {
-                    $fieldName = $mapping['fieldName'];
+                    /** @var LeafType $leafType */
                     $leafType = $this->types->get($mapping['type']);
+                    $fieldName = $mapping['fieldName'];
 
                     $field = [
                         'name' => $fieldName,
@@ -223,6 +224,7 @@ final class FilterTypeFactory extends AbstractTypeFactory
                 $className = $filter->operator;
                 $this->throwIfInvalidAnnotation($class, 'Filter', AbstractOperator::class, $className);
 
+                /** @var LeafType $leafType */
                 $leafType = $this->types->get($filter->type);
                 $instance = $this->types->getOperator($className, $leafType);
 

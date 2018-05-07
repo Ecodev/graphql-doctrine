@@ -120,7 +120,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
         }
 
         $class = new ReflectionClass($className);
-        $this->customSortings[$className] = $customSort = $this->getFromAnnotation($class);
+        $this->customSortings[$className] = $this->getFromAnnotation($class);
     }
 
     /**
