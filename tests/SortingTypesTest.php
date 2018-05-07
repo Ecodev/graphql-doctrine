@@ -6,7 +6,7 @@ namespace GraphQLTests\Doctrine;
 
 use GraphQLTests\Doctrine\Blog\Model\Post;
 
-class SortingTypesTest extends \PHPUnit\Framework\TestCase
+final class SortingTypesTest extends \PHPUnit\Framework\TestCase
 {
     use TypesTrait;
 

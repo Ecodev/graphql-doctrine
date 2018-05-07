@@ -10,7 +10,7 @@ use ReflectionParameter;
 /**
  * A basic doc block reader to extract
  */
-class DocBlockReader
+final class DocBlockReader
 {
     /**
      * @var string

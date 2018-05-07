@@ -15,7 +15,7 @@ use ReflectionMethod;
  * A field resolver that will allow access to public properties and getter.
  * Arguments, if any, will be forwarded as is to the method.
  */
-class DefaultFieldResolver
+final class DefaultFieldResolver
 {
     public function __invoke($source, $args, $context, ResolveInfo $info)
     {

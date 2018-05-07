@@ -11,7 +11,7 @@ use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\LeafType;
 use GraphQL\Type\Definition\Type;
 
-class InOperatorType extends AbstractOperator
+final class InOperatorType extends AbstractOperator
 {
     protected function getConfiguration(Types $types, LeafType $leafType): array
     {

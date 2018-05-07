@@ -31,7 +31,7 @@ abstract class AbstractTypeFactory extends AbstractFactory
      *
      * @return null|string
      */
-    protected function getDescription(string $className): ?string
+    final protected function getDescription(string $className): ?string
     {
         $class = new \ReflectionClass($className);
 
@@ -58,7 +58,7 @@ abstract class AbstractTypeFactory extends AbstractFactory
      * @param string $expected
      * @param string $className
      */
-    protected function throwIfInvalidAnnotation(ReflectionClass $class, string $annotation, string $expected, string $className): void
+    final protected function throwIfInvalidAnnotation(ReflectionClass $class, string $annotation, string $expected, string $className): void
     {
         if (!is_a($className, $expected, true)) {
             throw new Exception('On class `' . $class->getName() . '` the annotation `@API\\' . $annotation . '` expects a FQCN implementing `' . $expected . '`, but instead got: ' . $className);

@@ -10,7 +10,7 @@ namespace GraphQL\Doctrine\Annotation;
  * @Annotation
  * @Target({"CLASS"})
  */
-class Filters
+final class Filters
 {
     /**
      * List of all custom filters

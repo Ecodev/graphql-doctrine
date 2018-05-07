@@ -10,7 +10,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQLTests\Doctrine\Blog\Model\Special\DefaultValue;
 use GraphQLTests\Doctrine\Blog\Model\Special\IgnoredGetter;
 
-class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
+final class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
 {
     public function providerDefaultFieldResolver(): array
     {

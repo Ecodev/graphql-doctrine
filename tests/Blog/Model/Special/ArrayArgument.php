@@ -10,7 +10,7 @@ use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 /**
  * @ORM\Entity
  */
-class ArrayArgument extends AbstractModel
+final class ArrayArgument extends AbstractModel
 {
     /**
      * @param array $arg1

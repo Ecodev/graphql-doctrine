@@ -11,7 +11,7 @@ use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 /**
  * @ORM\Entity
  */
-class IgnoredGetter extends AbstractModel
+final class IgnoredGetter extends AbstractModel
 {
     private $privateProperty = 'privateProperty';
 

@@ -21,6 +21,6 @@ namespace GraphQL\Doctrine\Annotation;
  *     @Attribute("defaultValue", required=false, type="mixed"),
  * })
  */
-class Argument extends AbstractAnnotation
+final class Argument extends AbstractAnnotation
 {
 }

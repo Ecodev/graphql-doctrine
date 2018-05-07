@@ -9,7 +9,7 @@ use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\User;
 use PHPUnit\Framework\TestCase;
 
-class UniqueNameFactoryTest extends TestCase
+final class UniqueNameFactoryTest extends TestCase
 {
     public function testCreateParameterName(): void
     {

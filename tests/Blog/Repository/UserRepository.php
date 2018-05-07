@@ -9,7 +9,7 @@ use GraphQLTests\Doctrine\Blog\Model\User;
 /**
  * A fake repository so we don't have to set up a DB
  */
-class UserRepository extends \Doctrine\ORM\EntityRepository
+final class UserRepository extends \Doctrine\ORM\EntityRepository
 {
     public function find($id, $lockMode = null, $lockVersion = null): ?User
     {

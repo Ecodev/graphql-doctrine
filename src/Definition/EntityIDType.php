@@ -11,7 +11,7 @@ use GraphQL\Type\Definition\IDType;
 /**
  * A specialized ID type that allows to fetch entity from DB
  */
-class EntityIDType extends IDType
+final class EntityIDType extends IDType
 {
     /**
      * @var EntityManager

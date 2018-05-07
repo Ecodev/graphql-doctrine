@@ -11,7 +11,7 @@ use GraphQL\Type\Definition\Type;
  * A factory to create an InputObjectType from a Doctrine entity to
  * sort them by their fields and custom sorter.
  */
-class JoinTypeFactory extends AbstractTypeFactory
+final class JoinTypeFactory extends AbstractTypeFactory
 {
     /**
      * Create an InputObjectType from a Doctrine entity to

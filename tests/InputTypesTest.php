@@ -7,7 +7,7 @@ namespace GraphQLTests\Doctrine;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\User;
 
-class InputTypesTest extends \PHPUnit\Framework\TestCase
+final class InputTypesTest extends \PHPUnit\Framework\TestCase
 {
     use TypesTrait;
 

@@ -18,7 +18,7 @@ abstract class AbstractSimpleOperator extends AbstractOperator
 {
     abstract protected function getDqlOperator(bool $isNot): string;
 
-    protected function getConfiguration(Types $types, LeafType $leafType): array
+    final protected function getConfiguration(Types $types, LeafType $leafType): array
     {
         return [
             'fields' => [
@@ -35,7 +35,7 @@ abstract class AbstractSimpleOperator extends AbstractOperator
         ];
     }
 
-    public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): string
+    final public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): string
     {
         $param = $uniqueNameFactory->createParameterName();
         $queryBuilder->setParameter($param, $args['value']);

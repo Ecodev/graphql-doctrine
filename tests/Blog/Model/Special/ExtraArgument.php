@@ -11,7 +11,7 @@ use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 /**
  * @ORM\Entity
  */
-class ExtraArgument extends AbstractModel
+final class ExtraArgument extends AbstractModel
 {
     /**
      * @API\Field(args={@API\Argument(name="misspelled_name")})

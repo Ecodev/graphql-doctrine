@@ -15,7 +15,7 @@ namespace GraphQL\Doctrine\Annotation;
  * @Annotation
  * @Target({"ANNOTATION"})
  */
-class Filter
+final class Filter
 {
     /**
      * Name of the field on which to apply the operator

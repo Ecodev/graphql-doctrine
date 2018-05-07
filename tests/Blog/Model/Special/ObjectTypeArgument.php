@@ -12,7 +12,7 @@ use GraphQLTests\Doctrine\Blog\Model\User;
 /**
  * @ORM\Entity
  */
-class ObjectTypeArgument extends AbstractModel
+final class ObjectTypeArgument extends AbstractModel
 {
     /**
      * This is an incorrect annotation, it should be entirely deleted to let the

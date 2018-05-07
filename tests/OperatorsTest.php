@@ -20,7 +20,7 @@ use GraphQL\Doctrine\Factory\UniqueNameFactory;
 use GraphQL\Type\Definition\Type;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 
-class OperatorsTest extends \PHPUnit\Framework\TestCase
+final class OperatorsTest extends \PHPUnit\Framework\TestCase
 {
     use TypesTrait;
 

@@ -10,7 +10,7 @@ use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 /**
  * @ORM\Entity
  */
-class DefaultValue extends AbstractModel
+final class DefaultValue extends AbstractModel
 {
     /**
      * @ORM\Column(type="string")

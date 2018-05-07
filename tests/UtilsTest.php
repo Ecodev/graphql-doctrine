@@ -6,7 +6,7 @@ namespace GraphQLTests\Doctrine;
 
 use GraphQL\Doctrine\Utils;
 
-class UtilsTest extends \PHPUnit\Framework\TestCase
+final class UtilsTest extends \PHPUnit\Framework\TestCase
 {
     public function providerGetTypeName(): array
     {
