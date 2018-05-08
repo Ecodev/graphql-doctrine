@@ -241,6 +241,10 @@ enum LogicalOperator {
   OR
 }
 
+input ModuloOperatorInt {
+  value: Int!
+}
+
 input NullOperatorBoolean {
   not: Boolean = false
 }
@@ -307,6 +311,11 @@ input PostFilterConditionFieldCreationDate {
 }
 
 # Type to specify a condition on a specific field
+input PostFilterConditionFieldCustom {
+  search: SearchOperatorString
+}
+
+# Type to specify a condition on a specific field
 input PostFilterConditionFieldId {
   between: BetweenOperatorInt
   equal: EqualOperatorInt
@@ -317,6 +326,7 @@ input PostFilterConditionFieldId {
   lessOrEqual: LessOrEqualOperatorInt
   like: LikeOperatorInt
   null: NullOperatorInt
+  modulo: ModuloOperatorInt
 }
 
 # Type to specify a condition on a specific field
@@ -380,7 +390,7 @@ input PostFilterConditionFields {
   status: PostFilterConditionFieldStatus
   id: PostFilterConditionFieldId
   user: PostFilterConditionFieldUser
-  custom: SearchString
+  custom: PostFilterConditionFieldCustom
 }
 
 # Type to specify join tables in a filter
@@ -388,7 +398,7 @@ input PostFilterJoins {
   user: JoinOnUser
 }
 
-input SearchString {
+input SearchOperatorString {
   term: String!
 }
 
@@ -448,6 +458,7 @@ input UserFilterConditionFieldId {
   lessOrEqual: LessOrEqualOperatorInt
   like: LikeOperatorInt
   null: NullOperatorInt
+  modulo: ModuloOperatorInt
 }
 
 # Type to specify a condition on a specific field

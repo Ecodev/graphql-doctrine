@@ -12,7 +12,7 @@ use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\LeafType;
 use GraphQL\Type\Definition\Type;
 
-final class Search extends AbstractOperator
+final class SearchOperatorType extends AbstractOperator
 {
     protected function getConfiguration(Types $types, LeafType $leafType): array
     {
@@ -36,7 +36,7 @@ final class Search extends AbstractOperator
         $textType = ['string', 'text'];
         foreach ($metadata->fieldMappings as $g) {
             if (in_array($g['type'], $textType, true)) {
-                $fields[] = $alias . '.' . $g['name'];
+                $fields[] = $alias . '.' . $g['fieldName'];
             }
         }
 

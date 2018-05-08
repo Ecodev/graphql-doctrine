@@ -13,6 +13,9 @@ use GraphQL\Doctrine\Annotation as API;
  *
  * @ORM\MappedSuperclass
  * @API\Sorting({"GraphQLTests\Doctrine\Blog\Sorting\PseudoRandom"})
+ * @API\Filters({
+ *     @API\Filter(field="id", operator="GraphQLTests\Doctrine\Blog\Filtering\ModuloOperatorType", type="int")
+ * })
  */
 abstract class AbstractModel
 {

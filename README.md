@@ -411,7 +411,7 @@ use GraphQL\Doctrine\Annotation as API;
  *
  * @ORM\Entity
  * @API\Filters({
- *     @API\Filter(field="custom", operator="GraphQLTests\Doctrine\Blog\Filtering\Search", type="string")
+ *     @API\Filter(field="custom", operator="GraphQLTests\Doctrine\Blog\Filtering\SearchOperatorType", type="string")
  * })
  */
 final class Post extends AbstractModel

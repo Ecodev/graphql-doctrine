@@ -12,7 +12,6 @@ use GraphQL\Type\Definition\OutputType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use GraphQL\Utils\SchemaPrinter;
-use GraphQLTests\Doctrine\Blog\Filtering\Search;
 use GraphQLTests\Doctrine\Blog\Types\CustomType;
 use GraphQLTests\Doctrine\Blog\Types\DateTimeType;
 use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
@@ -41,7 +40,6 @@ trait TypesTrait
                 DateTime::class => DateTimeType::class,
                 stdClass::class => CustomType::class,
                 'PostStatus' => PostStatusType::class,
-                Search::class,
             ],
             'aliases' => [
                 'datetime' => DateTime::class, // Declare alias for Doctrine type to be used for filters

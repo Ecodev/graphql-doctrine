@@ -30,6 +30,11 @@ use ReflectionClass;
 final class FilterTypeFactory extends AbstractTypeFactory
 {
     /**
+     * @var Filter[][]
+     */
+    private $customOperators;
+
+    /**
      * Create an InputObjectType from a Doctrine entity
      *
      * @param string $className class name of Doctrine entity
@@ -166,37 +171,45 @@ final class FilterTypeFactory extends AbstractTypeFactory
             'name' => $typeName . 'ConditionFields',
             'description' => 'Type to specify conditions on fields',
             'fields' => function () use ($className, $typeName) {
-                $standardFilters = [];
+                $filters = [];
                 $metadata = $this->entityManager->getClassMetadata($className);
 
-                // Get all entity scalar fields
+                // Get custom operators
+                $this->customOperators = [];
+                $this->readCustomOperatorsFromAnnotation($metadata->reflClass);
+
+                // Get all scalar fields
                 foreach ($metadata->fieldMappings as $mapping) {
                     /** @var LeafType $leafType */
                     $leafType = $this->types->get($mapping['type']);
                     $fieldName = $mapping['fieldName'];
+                    $operators = $this->getOperators($fieldName, $leafType, false);
 
-                    $field = [
-                        'name' => $fieldName,
-                        'type' => $this->getFieldType($typeName, $fieldName, $leafType, false),
-                    ];
-                    $standardFilters[] = $field;
+                    $filters[] = $this->getFieldConfiguration($typeName, $fieldName, $operators);
                 }
 
-                // Get all entity collection fields
+                // Get all collection fields
                 foreach ($metadata->associationMappings as $mapping) {
                     $fieldName = $mapping['fieldName'];
+                    $operators = $this->getOperators($fieldName, Type::id(), $metadata->isCollectionValuedAssociation($fieldName));
 
-                    $field = [
-                        'name' => $fieldName,
-                        'type' => $this->getFieldType($typeName, $fieldName, Type::id(), $metadata->isCollectionValuedAssociation($fieldName)),
-                    ];
-                    $standardFilters[] = $field;
+                    $filters[] = $this->getFieldConfiguration($typeName, $fieldName, $operators);
                 }
 
-                // Get custom fields
-                $customFilters = $this->getCustomFiltersFromAnnotation($metadata->reflClass);
+                // Get all custom fields defined by custom operators
+                foreach ($this->customOperators as $fieldName => $customOperators) {
+                    $operators = [];
+                    /** @var Filter $customOperator */
+                    foreach ($customOperators as $customOperator) {
+                        /** @var LeafType $leafType */
+                        $leafType = $this->types->get($customOperator->type);
+                        $operators[$customOperator->operator] = $leafType;
+                    }
 
-                return array_merge($standardFilters, $customFilters);
+                    $filters[] = $this->getFieldConfiguration($typeName, $fieldName, $operators);
+                }
+
+                return $filters;
             },
         ]);
 
@@ -206,16 +219,72 @@ final class FilterTypeFactory extends AbstractTypeFactory
     }
 
     /**
-     * Get the custom filters declared on the class via annotations
+     * Get configuration for field
      *
-     * @param ReflectionClass $class
+     * @param string $typeName
+     * @param string $fieldName
+     * @param LeafType[] $operators
      *
      * @return array
      */
-    private function getCustomFiltersFromAnnotation(ReflectionClass $class): array
+    private function getFieldConfiguration(string $typeName, string $fieldName, array $operators): array
     {
-        $result = [];
+        return [
+            'name' => $fieldName,
+            'type' => $this->getFieldType($typeName, $fieldName, $operators),
+        ];
+    }
 
+    /**
+     * Return a map of operator class name and their leaf type, including custom operator for the given fieldName
+     *
+     * @param string $fieldName
+     * @param LeafType $leafType
+     * @param bool $isCollection
+     *
+     * @return LeafType[] indexed by operator class name
+     */
+    private function getOperators(string $fieldName, LeafType $leafType, bool $isCollection): array
+    {
+        if ($isCollection) {
+            $operators = [
+                ContainOperatorType::class => $leafType,
+                EmptyOperatorType::class => $leafType,
+            ];
+        } else {
+            $operators = [
+                BetweenOperatorType::class => $leafType,
+                EqualOperatorType::class => $leafType,
+                GreaterOperatorType::class => $leafType,
+                GreaterOrEqualOperatorType::class => $leafType,
+                InOperatorType::class => $leafType,
+                LessOperatorType::class => $leafType,
+                LessOrEqualOperatorType::class => $leafType,
+                LikeOperatorType::class => $leafType,
+                NullOperatorType::class => $leafType,
+            ];
+        }
+
+        // Add custom filters if any
+        if (isset($this->customOperators[$fieldName])) {
+            foreach ($this->customOperators[$fieldName] as $filter) {
+                $leafType = $this->types->get($filter->type);
+                $operators[$filter->operator] = $leafType;
+            }
+
+            unset($this->customOperators[$fieldName]);
+        }
+
+        return $operators;
+    }
+
+    /**
+     * Get the custom operators declared on the class via annotations indexed by their field name
+     *
+     * @param ReflectionClass $class
+     */
+    private function readCustomOperatorsFromAnnotation(ReflectionClass $class): void
+    {
         $filters = $this->getAnnotationReader()->getClassAnnotation($class, Filters::class);
         if ($filters) {
 
@@ -224,22 +293,16 @@ final class FilterTypeFactory extends AbstractTypeFactory
                 $className = $filter->operator;
                 $this->throwIfInvalidAnnotation($class, 'Filter', AbstractOperator::class, $className);
 
-                /** @var LeafType $leafType */
-                $leafType = $this->types->get($filter->type);
-                $instance = $this->types->getOperator($className, $leafType);
-
-                $result[] = [
-                    'name' => $filter->field,
-                    'type' => $instance,
-                ];
+                if (!isset($this->customOperators[$filter->field])) {
+                    $this->customOperators[$filter->field] = [];
+                }
+                $this->customOperators[$filter->field][] = $filter;
             }
         }
 
         if ($class->getParentClass()) {
-            return array_merge($result, $this->getCustomFiltersFromAnnotation($class->getParentClass()));
+            $this->readCustomOperatorsFromAnnotation($class->getParentClass());
         }
-
-        return $result;
     }
 
     /**
@@ -247,17 +310,16 @@ final class FilterTypeFactory extends AbstractTypeFactory
      *
      * @param string $typeName
      * @param string $fieldName
-     * @param LeafType $leafType
-     * @param bool $isCollection
+     * @param LeafType[] $operators
      *
      * @return InputObjectType
      */
-    private function getFieldType(string $typeName, string $fieldName, LeafType $leafType, bool $isCollection): InputObjectType
+    private function getFieldType(string $typeName, string $fieldName, array $operators): InputObjectType
     {
         $fieldType = new InputObjectType([
             'name' => $typeName . 'ConditionField' . ucfirst($fieldName),
             'description' => 'Type to specify a condition on a specific field',
-            'fields' => $this->getOperators($leafType, $isCollection),
+            'fields' => $this->getOperatorConfiguration($operators),
         ]);
 
         $this->types->registerInstance($fieldType);
@@ -266,36 +328,16 @@ final class FilterTypeFactory extends AbstractTypeFactory
     }
 
     /**
-     * Get standard operators for a specific leaf type
+     * Get operators configuration for a specific leaf type
      *
-     * @param LeafType $leafType
-     * @param bool $isCollection
+     * @param LeafType[] $operators
      *
      * @return array
      */
-    private function getOperators(LeafType $leafType, bool $isCollection): array
+    private function getOperatorConfiguration(array $operators): array
     {
-        if ($isCollection) {
-            $operators = [
-                ContainOperatorType::class,
-                EmptyOperatorType::class,
-            ];
-        } else {
-            $operators = [
-                BetweenOperatorType::class,
-                EqualOperatorType::class,
-                GreaterOperatorType::class,
-                GreaterOrEqualOperatorType::class,
-                InOperatorType::class,
-                LessOperatorType::class,
-                LessOrEqualOperatorType::class,
-                LikeOperatorType::class,
-                NullOperatorType::class,
-            ];
-        }
         $conf = [];
-
-        foreach ($operators as $operator) {
+        foreach ($operators as $operator => $leafType) {
             $instance = $this->types->getOperator($operator, $leafType);
             $field = [
                 'name' => $this->getOperatorFieldName($operator),
