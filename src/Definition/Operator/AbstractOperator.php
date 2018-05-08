@@ -50,6 +50,9 @@ abstract class AbstractOperator extends InputObjectType
     /**
      * Return the DQL condition to apply the filter
      *
+     * In most cases a DQL condition should be returned as a string, but it might be useful to
+     * return null if the filter is not applicable (eg: a search term with empty string).
+     *
      * The query builder:
      *
      * - MUST NOT be used to apply the condition directly (with `*where()` methods). Instead the condition MUST
@@ -64,7 +67,7 @@ abstract class AbstractOperator extends InputObjectType
      * @param string $field the field for the entity on which to apply the filter
      * @param array $args all arguments specific to this operator as declared in its configuration
      *
-     * @return string
+     * @return null|string
      */
-    abstract public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): string;
+    abstract public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): ?string;
 }

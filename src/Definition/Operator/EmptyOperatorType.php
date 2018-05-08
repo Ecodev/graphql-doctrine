@@ -26,7 +26,7 @@ final class EmptyOperatorType extends AbstractOperator
         ];
     }
 
-    public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): string
+    public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): ?string
     {
         $not = $args['not'] ? 'NOT ' : '';
 

@@ -26,23 +26,18 @@ final class SearchOperatorType extends AbstractOperator
         ];
     }
 
-    public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): string
+    public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): ?string
     {
-        $search = $args['term'];
-
-        $fields = [];
-
-        // Find all textual fields for the entity
-        $textType = ['string', 'text'];
-        foreach ($metadata->fieldMappings as $g) {
-            if (in_array($g['type'], $textType, true)) {
-                $fields[] = $alias . '.' . $g['fieldName'];
-            }
+        $words = preg_split('/[[:space:]]+/', $args['term'], -1, PREG_SPLIT_NO_EMPTY);
+        if (!$words) {
+            return null;
         }
+
+        $fields = $this->getSearchableFields($metadata, $alias);
 
         // Build the WHERE clause
         $wordWheres = [];
-        foreach (preg_split('/[[:space:]]+/', $search, -1, PREG_SPLIT_NO_EMPTY) as $i => $word) {
+        foreach ($words as $word) {
             $parameterName = $uniqueNameFactory->createParameterName();
 
             $fieldWheres = [];
@@ -57,5 +52,26 @@ final class SearchOperatorType extends AbstractOperator
         }
 
         return '(' . implode(' AND ', $wordWheres) . ')';
+    }
+
+    /**
+     * Find all textual fields for the entity
+     *
+     * @param ClassMetadata $metadata
+     * @param string $alias
+     *
+     * @return array
+     */
+    private function getSearchableFields(ClassMetadata $metadata, string $alias): array
+    {
+        $fields = [];
+        $textType = ['string', 'text'];
+        foreach ($metadata->fieldMappings as $g) {
+            if (in_array($g['type'], $textType, true)) {
+                $fields[] = $alias . '.' . $g['fieldName'];
+            }
+        }
+
+        return $fields;
     }
 }

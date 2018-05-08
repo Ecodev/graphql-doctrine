@@ -91,21 +91,14 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
                     /** @var AbstractOperator $operatorType */
                     $operatorType = $operatorField->type;
 
-                    $dqlConditions[] = $operatorType->getDqlCondition($this->uniqueNameFactory, $metadata, $queryBuilder, $alias, $field, $operatorConfig);
+                    $condition = $operatorType->getDqlCondition($this->uniqueNameFactory, $metadata, $queryBuilder, $alias, $field, $operatorConfig);
+                    if ($condition) {
+                        $dqlConditions[] = $condition;
+                    }
                 }
             }
 
-            if ($conditions['fieldsLogic'] === 'AND') {
-                $fieldsDql = $queryBuilder->expr()->andX(...$dqlConditions);
-            } else {
-                $fieldsDql = $queryBuilder->expr()->orX(...$dqlConditions);
-            }
-
-            if ($conditions['conditionLogic'] === 'AND') {
-                $queryBuilder->andWhere($fieldsDql);
-            } else {
-                $queryBuilder->orWhere($fieldsDql);
-            }
+            $this->applyDqlConditions($queryBuilder, $conditions, $dqlConditions);
         }
     }
 
@@ -163,6 +156,32 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
             } else {
                 $queryBuilder->addOrderBy($alias . '.' . $sort['field'], $sort['order']);
             }
+        }
+    }
+
+    /**
+     * Apply DQL conditions on the query builder
+     *
+     * @param QueryBuilder $queryBuilder
+     * @param array $conditions
+     * @param array $dqlConditions
+     */
+    private function applyDqlConditions(QueryBuilder $queryBuilder, array $conditions, array $dqlConditions): void
+    {
+        if (!$dqlConditions) {
+            return;
+        }
+
+        if ($conditions['fieldsLogic'] === 'AND') {
+            $fieldsDql = $queryBuilder->expr()->andX(...$dqlConditions);
+        } else {
+            $fieldsDql = $queryBuilder->expr()->orX(...$dqlConditions);
+        }
+
+        if ($conditions['conditionLogic'] === 'AND') {
+            $queryBuilder->andWhere($fieldsDql);
+        } else {
+            $queryBuilder->orWhere($fieldsDql);
         }
     }
 }
