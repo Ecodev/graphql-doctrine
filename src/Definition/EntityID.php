@@ -39,6 +39,16 @@ class EntityID
     }
 
     /**
+     * Get the ID
+     *
+     * @return null|string
+     */
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    /**
      * Get the entity from DB
      *
      * @throws Error

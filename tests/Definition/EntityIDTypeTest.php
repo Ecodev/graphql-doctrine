@@ -32,6 +32,12 @@ final class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
         self::assertSame('Automatically generated type to be used as input where an object of type `User` is needed', $this->type->description);
     }
 
+    public function testCanGetIdWhenReadingVariable(): void
+    {
+        $actual = $this->type->parseValue('123')->getId();
+        self::assertSame('123', $actual);
+    }
+
     public function testCanGetEntityFromRepositoryWhenReadingVariable(): void
     {
         $actual = $this->type->parseValue('123')->getEntity();
@@ -43,6 +49,13 @@ final class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectExceptionMessage('Entity not found for class `GraphQLTests\Doctrine\Blog\Model\User` and ID `non-existing-id`');
         $this->type->parseValue('non-existing-id')->getEntity();
+    }
+
+    public function testCanGetIdWhenReadingLiteral(): void
+    {
+        $ast = new StringValueNode(['value' => '123']);
+        $actual = $this->type->parseLiteral($ast)->getId();
+        self::assertSame('123', $actual);
     }
 
     public function testCanGetEntityFromRepositoryWhenReadingLiteral(): void
