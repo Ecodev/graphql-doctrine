@@ -81,6 +81,9 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
         foreach ($filter['conditions'] ?? [] as $conditions) {
             $dqlConditions = [];
             foreach ($conditions['fields'] as $field => $fieldConditions) {
+                if ($fieldConditions === null) {
+                    return;
+                }
 
                 /** @var InputObjectType $typeField */
                 $typeField = $typeFields->getField($field)->type;

@@ -65,9 +65,9 @@ abstract class AbstractOperator extends InputObjectType
      * @param QueryBuilder $queryBuilder
      * @param string $alias the alias for the entity on which to apply the filter
      * @param string $field the field for the entity on which to apply the filter
-     * @param array $args all arguments specific to this operator as declared in its configuration
+     * @param null|array $args all arguments specific to this operator as declared in its configuration
      *
      * @return null|string
      */
-    abstract public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): ?string;
+    abstract public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, ?array $args): ?string;
 }

@@ -11,7 +11,7 @@ use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 /**
  * @ORM\Entity
  * @API\Filters({
- *     @API\Filter(field="custom", operator="invalid_class_name", type="string")
+ *     @API\Filter(field="custom", operator="invalid_class_name", type="string"),
  * })
  */
 final class InvalidFilter extends AbstractModel

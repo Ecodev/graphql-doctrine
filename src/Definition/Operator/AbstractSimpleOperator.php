@@ -35,8 +35,12 @@ abstract class AbstractSimpleOperator extends AbstractOperator
         ];
     }
 
-    final public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): ?string
+    final public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, ?array $args): ?string
     {
+        if ($args === null) {
+            return null;
+        }
+
         $param = $uniqueNameFactory->createParameterName();
         $queryBuilder->setParameter($param, $args['value']);
 

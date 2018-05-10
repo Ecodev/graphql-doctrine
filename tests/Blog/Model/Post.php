@@ -14,7 +14,7 @@ use GraphQL\Doctrine\Annotation as API;
  * @ORM\Entity
  * @API\Sorting({"GraphQLTests\Doctrine\Blog\Sorting\UserName"})
  * @API\Filters({
- *     @API\Filter(field="custom", operator="GraphQLTests\Doctrine\Blog\Filtering\SearchOperatorType", type="string")
+ *     @API\Filter(field="custom", operator="GraphQLTests\Doctrine\Blog\Filtering\SearchOperatorType", type="string"),
  * })
  */
 final class Post extends AbstractModel

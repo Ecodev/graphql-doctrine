@@ -31,7 +31,7 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
      * @param string $className
      * @param array $args
      */
-    public function testOperator(string $expected, string $className, array $args): void
+    public function testOperator(?string $expected, string $className, ?array $args): void
     {
         /** @var AbstractOperator $operator */
         $operator = new $className($this->types, Type::string());
@@ -44,14 +44,20 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
         $actual = $operator->getDqlCondition($uniqueNameFactory, $metadata, $queryBuilder, $alias, $field, $args);
 
         self::assertEquals($expected, $actual, 'DQL condition should match');
-        self::assertSame(mb_substr_count($expected, ':'), $queryBuilder->getParameters()->count(), 'should declare the same number of parameters that are actually used');
+        if (is_string($expected)) {
+            self::assertSame(mb_substr_count($expected, ':'), $queryBuilder->getParameters()->count(), 'should declare the same number of parameters that are actually used');
+        }
     }
 
     public function providerOperator(): array
     {
         return [
             [
-                'alias.field BETWEEN :filter1 AND :filter2',
+                null,
+                BetweenOperatorType::class,
+                null,
+            ],
+            ['alias.field BETWEEN :filter1 AND :filter2',
                 BetweenOperatorType::class,
                 [
                     'from' => 123,
@@ -67,6 +73,11 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                     'to' => 456,
                     'not' => true,
                 ],
+            ],
+            [
+                null,
+                ContainOperatorType::class,
+                null,
             ],
             [
                 ':filter1 MEMBER OF alias.field',
@@ -85,6 +96,11 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             [
+                null,
+                EmptyOperatorType::class,
+                null,
+            ],
+            [
                 'alias.field IS EMPTY',
                 EmptyOperatorType::class,
                 [
@@ -97,6 +113,11 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                 [
                     'not' => true,
                 ],
+            ],
+            [
+                null,
+                EqualOperatorType::class,
+                null,
             ],
             [
                 'alias.field = :filter1',
@@ -115,6 +136,11 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             [
+                null,
+                GreaterOperatorType::class,
+                null,
+            ],
+            [
                 'alias.field > :filter1',
                 GreaterOperatorType::class,
                 [
@@ -131,6 +157,11 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             [
+                null,
+                GreaterOrEqualOperatorType::class,
+                null,
+            ],
+            [
                 'alias.field >= :filter1',
                 GreaterOrEqualOperatorType::class,
                 [
@@ -145,6 +176,11 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                     'value' => 123,
                     'not' => true,
                 ],
+            ],
+            [
+                null,
+                InOperatorType::class,
+                null,
             ],
             [
                 'alias.field IN (:filter1)',
@@ -163,6 +199,11 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             [
+                null,
+                LessOperatorType::class,
+                null,
+            ],
+            [
                 'alias.field < :filter1',
                 LessOperatorType::class,
                 [
@@ -177,6 +218,11 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                     'value' => 123,
                     'not' => true,
                 ],
+            ],
+            [
+                null,
+                LessOrEqualOperatorType::class,
+                null,
             ],
             [
                 'alias.field <= :filter1',
@@ -195,6 +241,11 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                 ],
             ],
             [
+                null,
+                LikeOperatorType::class,
+                null,
+            ],
+            [
                 'alias.field LIKE :filter1',
                 LikeOperatorType::class,
                 [
@@ -209,6 +260,11 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                     'value' => 123,
                     'not' => true,
                 ],
+            ],
+            [
+                null,
+                NullOperatorType::class,
+                null,
             ],
             [
                 'alias.field IS NULL',
