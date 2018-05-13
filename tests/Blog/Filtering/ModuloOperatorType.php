@@ -8,13 +8,12 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
 use GraphQL\Doctrine\Factory\UniqueNameFactory;
-use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\LeafType;
 use GraphQL\Type\Definition\Type;
 
 final class ModuloOperatorType extends AbstractOperator
 {
-    protected function getConfiguration(Types $types, LeafType $leafType): array
+    protected function getConfiguration(LeafType $leafType): array
     {
         return [
             'fields' => [

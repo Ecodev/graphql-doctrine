@@ -19,9 +19,17 @@ use GraphQL\Type\Definition\LeafType;
  */
 abstract class AbstractOperator extends InputObjectType
 {
+    /**
+     * Types registry
+     *
+     * @var Types
+     */
+    protected $types;
+
     final public function __construct(Types $types, LeafType $leafType)
     {
-        $config = $this->getConfiguration($types, $leafType);
+        $this->types = $types;
+        $config = $this->getConfiguration($leafType);
 
         // Override type name to be predictable
         $config['name'] = Utils::getOperatorTypeName(get_class($this), $leafType);
@@ -40,12 +48,11 @@ abstract class AbstractOperator extends InputObjectType
      * will be overridden in all cases. This is because we must have a predictable name
      * that is based only on the class name.
      *
-     * @param Types $types
      * @param LeafType $leafType
      *
      * @return array
      */
-    abstract protected function getConfiguration(Types $types, LeafType $leafType): array;
+    abstract protected function getConfiguration(LeafType $leafType): array;
 
     /**
      * Return the DQL condition to apply the filter

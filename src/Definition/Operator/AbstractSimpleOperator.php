@@ -7,7 +7,6 @@ namespace GraphQL\Doctrine\Definition\Operator;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Factory\UniqueNameFactory;
-use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\LeafType;
 use GraphQL\Type\Definition\Type;
 
@@ -18,17 +17,17 @@ abstract class AbstractSimpleOperator extends AbstractOperator
 {
     abstract protected function getDqlOperator(bool $isNot): string;
 
-    final protected function getConfiguration(Types $types, LeafType $leafType): array
+    final protected function getConfiguration(LeafType $leafType): array
     {
         return [
             'fields' => [
                 [
                     'name' => 'value',
-                    'type' => Type::nonNull($leafType),
+                    'type' => self::nonNull($leafType),
                 ],
                 [
                     'name' => 'not',
-                    'type' => Type::boolean(),
+                    'type' => self::boolean(),
                     'defaultValue' => false,
                 ],
             ],

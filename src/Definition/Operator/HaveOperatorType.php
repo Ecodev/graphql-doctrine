@@ -9,13 +9,17 @@ use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Factory\UniqueNameFactory;
 use GraphQL\Type\Definition\LeafType;
 
-final class EmptyOperatorType extends AbstractAssociationOperatorType
+final class HaveOperatorType extends AbstractAssociationOperatorType
 {
     protected function getConfiguration(LeafType $leafType): array
     {
         return [
-            'description' => 'When used on single valued association, it will use `IS NULL` operator. On collection valued association it will use `IS EMPTY` operator.',
+            'description' => 'When used on single valued association, it will use `IN` operator. On collection valued association it will use `MEMBER OF` operator.',
             'fields' => [
+                [
+                    'name' => 'values',
+                    'type' => self::nonNull(self::listOf(self::nonNull(self::id()))),
+                ],
                 [
                     'name' => 'not',
                     'type' => self::boolean(),
@@ -27,15 +31,17 @@ final class EmptyOperatorType extends AbstractAssociationOperatorType
 
     protected function getSingleValuedDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): ?string
     {
-        $null = $this->types->getOperator(NullOperatorType::class, self::id());
+        $in = $this->types->getOperator(InOperatorType::class, self::id());
 
-        return $null->getDqlCondition($uniqueNameFactory, $metadata, $queryBuilder, $alias, $field, $args);
+        return $in->getDqlCondition($uniqueNameFactory, $metadata, $queryBuilder, $alias, $field, $args);
     }
 
     protected function getCollectionValuedDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): ?string
     {
+        $values = $uniqueNameFactory->createParameterName();
+        $queryBuilder->setParameter($values, $args['values']);
         $not = $args['not'] ? 'NOT ' : '';
 
-        return $alias . '.' . $field . ' IS ' . $not . 'EMPTY';
+        return ':' . $values . ' ' . $not . 'MEMBER OF ' . $alias . '.' . $field;
     }
 }

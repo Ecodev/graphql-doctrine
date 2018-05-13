@@ -33,13 +33,10 @@ input BetweenOperatorString {
   not: Boolean = false
 }
 
-input ContainOperatorID {
-  values: [ID!]!
-  not: Boolean = false
-}
-
 scalar DateTime
 
+# When used on single valued association, it will use `IS NULL` operator. On
+# collection valued association it will use `IS EMPTY` operator.
 input EmptyOperatorID {
   not: Boolean = false
 }
@@ -116,6 +113,13 @@ input GreaterOrEqualOperatorInt {
 
 input GreaterOrEqualOperatorString {
   value: String!
+  not: Boolean = false
+}
+
+# When used on single valued association, it will use `IN` operator. On collection
+# valued association it will use `MEMBER OF` operator.
+input HaveOperatorID {
+  values: [ID!]!
   not: Boolean = false
 }
 
@@ -370,6 +374,8 @@ input PostFilterConditionFieldTitle {
 
 # Type to specify a condition on a specific field
 input PostFilterConditionFieldUser {
+  have: HaveOperatorID
+  empty: EmptyOperatorID
   between: BetweenOperatorID
   equal: EqualOperatorID
   greater: GreaterOperatorID
@@ -476,6 +482,8 @@ input UserFilterConditionFieldIsAdministrator {
 
 # Type to specify a condition on a specific field
 input UserFilterConditionFieldManager {
+  have: HaveOperatorID
+  empty: EmptyOperatorID
   between: BetweenOperatorID
   equal: EqualOperatorID
   greater: GreaterOperatorID
@@ -515,7 +523,7 @@ input UserFilterConditionFieldPassword {
 
 # Type to specify a condition on a specific field
 input UserFilterConditionFieldPosts {
-  contain: ContainOperatorID
+  have: HaveOperatorID
   empty: EmptyOperatorID
 }
 

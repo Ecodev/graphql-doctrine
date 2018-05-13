@@ -6,11 +6,11 @@ namespace GraphQLTests\Doctrine;
 
 use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
 use GraphQL\Doctrine\Definition\Operator\BetweenOperatorType;
-use GraphQL\Doctrine\Definition\Operator\ContainOperatorType;
 use GraphQL\Doctrine\Definition\Operator\EmptyOperatorType;
 use GraphQL\Doctrine\Definition\Operator\EqualOperatorType;
 use GraphQL\Doctrine\Definition\Operator\GreaterOperatorType;
 use GraphQL\Doctrine\Definition\Operator\GreaterOrEqualOperatorType;
+use GraphQL\Doctrine\Definition\Operator\HaveOperatorType;
 use GraphQL\Doctrine\Definition\Operator\InOperatorType;
 use GraphQL\Doctrine\Definition\Operator\LessOperatorType;
 use GraphQL\Doctrine\Definition\Operator\LessOrEqualOperatorType;
@@ -18,7 +18,7 @@ use GraphQL\Doctrine\Definition\Operator\LikeOperatorType;
 use GraphQL\Doctrine\Definition\Operator\NullOperatorType;
 use GraphQL\Doctrine\Factory\UniqueNameFactory;
 use GraphQL\Type\Definition\Type;
-use GraphQLTests\Doctrine\Blog\Model\Post;
+use GraphQLTests\Doctrine\Blog\Model\User;
 
 final class OperatorsTest extends \PHPUnit\Framework\TestCase
 {
@@ -30,16 +30,16 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
      * @param string $expected
      * @param string $className
      * @param array $args
+     * @param string $field
      */
-    public function testOperator(?string $expected, string $className, ?array $args): void
+    public function testOperator(?string $expected, string $className, ?array $args, string $field = 'field'): void
     {
         /** @var AbstractOperator $operator */
         $operator = new $className($this->types, Type::string());
         $uniqueNameFactory = new UniqueNameFactory();
-        $metadata = $this->entityManager->getClassMetadata(Post::class);
+        $metadata = $this->entityManager->getClassMetadata(User::class);
         $queryBuilder = $this->entityManager->createQueryBuilder();
         $alias = 'alias';
-        $field = 'field';
 
         $actual = $operator->getDqlCondition($uniqueNameFactory, $metadata, $queryBuilder, $alias, $field, $args);
 
@@ -76,43 +76,95 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 null,
-                ContainOperatorType::class,
+                HaveOperatorType::class,
                 null,
+                'posts',
             ],
             [
-                ':filter1 MEMBER OF alias.field',
-                ContainOperatorType::class,
+                ':filter1 MEMBER OF alias.posts',
+                HaveOperatorType::class,
                 [
                     'values' => [123, 456],
                     'not' => false,
                 ],
+                'posts',
             ],
             [
-                ':filter1 NOT MEMBER OF alias.field',
-                ContainOperatorType::class,
+                ':filter1 NOT MEMBER OF alias.posts',
+                HaveOperatorType::class,
                 [
                     'values' => [123, 456],
                     'not' => true,
                 ],
+                'posts',
+            ],
+            [
+                null,
+                HaveOperatorType::class,
+                null,
+                'manager',
+            ],
+            [
+                'alias.manager IN (:filter1)',
+                HaveOperatorType::class,
+                [
+                    'values' => [123, 456],
+                    'not' => false,
+                ],
+                'manager',
+            ],
+            [
+                'alias.manager NOT IN (:filter1)',
+                HaveOperatorType::class,
+                [
+                    'values' => [123, 456],
+                    'not' => true,
+                ],
+                'manager',
             ],
             [
                 null,
                 EmptyOperatorType::class,
                 null,
+                'posts',
             ],
             [
-                'alias.field IS EMPTY',
+                'alias.posts IS EMPTY',
                 EmptyOperatorType::class,
                 [
                     'not' => false,
                 ],
+                'posts',
             ],
             [
-                'alias.field IS NOT EMPTY',
+                'alias.posts IS NOT EMPTY',
                 EmptyOperatorType::class,
                 [
                     'not' => true,
                 ],
+                'posts',
+            ],
+            [
+                null,
+                EmptyOperatorType::class,
+                null,
+                'manager',
+            ],
+            [
+                'alias.manager IS NULL',
+                EmptyOperatorType::class,
+                [
+                    'not' => false,
+                ],
+                'manager',
+            ],
+            [
+                'alias.manager IS NOT NULL',
+                EmptyOperatorType::class,
+                [
+                    'not' => true,
+                ],
+                'manager',
             ],
             [
                 null,

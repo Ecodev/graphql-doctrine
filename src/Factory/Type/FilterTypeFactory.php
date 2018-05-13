@@ -8,11 +8,11 @@ use GraphQL\Doctrine\Annotation\Filter;
 use GraphQL\Doctrine\Annotation\Filters;
 use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
 use GraphQL\Doctrine\Definition\Operator\BetweenOperatorType;
-use GraphQL\Doctrine\Definition\Operator\ContainOperatorType;
 use GraphQL\Doctrine\Definition\Operator\EmptyOperatorType;
 use GraphQL\Doctrine\Definition\Operator\EqualOperatorType;
 use GraphQL\Doctrine\Definition\Operator\GreaterOperatorType;
 use GraphQL\Doctrine\Definition\Operator\GreaterOrEqualOperatorType;
+use GraphQL\Doctrine\Definition\Operator\HaveOperatorType;
 use GraphQL\Doctrine\Definition\Operator\InOperatorType;
 use GraphQL\Doctrine\Definition\Operator\LessOperatorType;
 use GraphQL\Doctrine\Definition\Operator\LessOrEqualOperatorType;
@@ -183,7 +183,7 @@ final class FilterTypeFactory extends AbstractTypeFactory
                     /** @var LeafType $leafType */
                     $leafType = $this->types->get($mapping['type']);
                     $fieldName = $mapping['fieldName'];
-                    $operators = $this->getOperators($fieldName, $leafType, false);
+                    $operators = $this->getOperators($fieldName, $leafType, false, false);
 
                     $filters[] = $this->getFieldConfiguration($typeName, $fieldName, $operators);
                 }
@@ -191,7 +191,7 @@ final class FilterTypeFactory extends AbstractTypeFactory
                 // Get all collection fields
                 foreach ($metadata->associationMappings as $mapping) {
                     $fieldName = $mapping['fieldName'];
-                    $operators = $this->getOperators($fieldName, Type::id(), $metadata->isCollectionValuedAssociation($fieldName));
+                    $operators = $this->getOperators($fieldName, Type::id(), true, $metadata->isCollectionValuedAssociation($fieldName));
 
                     $filters[] = $this->getFieldConfiguration($typeName, $fieldName, $operators);
                 }
@@ -240,30 +240,39 @@ final class FilterTypeFactory extends AbstractTypeFactory
      *
      * @param string $fieldName
      * @param LeafType $leafType
-     * @param bool $isCollection
+     * @param bool $isAssociation
      *
      * @return LeafType[] indexed by operator class name
      */
-    private function getOperators(string $fieldName, LeafType $leafType, bool $isCollection): array
+    private function getOperators(string $fieldName, LeafType $leafType, bool $isAssociation, bool $isCollection): array
     {
-        if ($isCollection) {
-            $operators = [
-                ContainOperatorType::class => $leafType,
-                EmptyOperatorType::class => $leafType,
-            ];
-        } else {
-            $operators = [
-                BetweenOperatorType::class => $leafType,
-                EqualOperatorType::class => $leafType,
-                GreaterOperatorType::class => $leafType,
-                GreaterOrEqualOperatorType::class => $leafType,
-                InOperatorType::class => $leafType,
-                LessOperatorType::class => $leafType,
-                LessOrEqualOperatorType::class => $leafType,
-                LikeOperatorType::class => $leafType,
-                NullOperatorType::class => $leafType,
-            ];
+        $scalarOperators = [
+            BetweenOperatorType::class,
+            EqualOperatorType::class,
+            GreaterOperatorType::class,
+            GreaterOrEqualOperatorType::class,
+            InOperatorType::class,
+            LessOperatorType::class,
+            LessOrEqualOperatorType::class,
+            LikeOperatorType::class,
+            NullOperatorType::class,
+        ];
+
+        $associationOperators = [
+            HaveOperatorType::class,
+            EmptyOperatorType::class,
+        ];
+
+        $operators = [];
+        if ($isAssociation) {
+            $operators = array_merge($operators, $associationOperators);
         }
+
+        if (!$isCollection) {
+            $operators = array_merge($operators, $scalarOperators);
+        }
+
+        $operators = array_fill_keys($operators, $leafType);
 
         // Add custom filters if any
         if (isset($this->customOperators[$fieldName])) {

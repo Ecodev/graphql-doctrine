@@ -7,23 +7,22 @@ namespace GraphQL\Doctrine\Definition\Operator;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Factory\UniqueNameFactory;
-use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\LeafType;
 use GraphQL\Type\Definition\Type;
 
 final class InOperatorType extends AbstractOperator
 {
-    protected function getConfiguration(Types $types, LeafType $leafType): array
+    protected function getConfiguration(LeafType $leafType): array
     {
         return [
             'fields' => [
                 [
                     'name' => 'values',
-                    'type' => Type::nonNull(Type::listOf(Type::nonNull($leafType))),
+                    'type' => self::nonNull(self::listOf(self::nonNull($leafType))),
                 ],
                 [
                     'name' => 'not',
-                    'type' => Type::boolean(),
+                    'type' => self::boolean(),
                     'defaultValue' => false,
                 ],
             ],
