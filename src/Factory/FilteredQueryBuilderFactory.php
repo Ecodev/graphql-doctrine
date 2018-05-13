@@ -82,7 +82,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
             $dqlConditions = [];
             foreach ($conditions['fields'] as $field => $fieldConditions) {
                 if ($fieldConditions === null) {
-                    return;
+                    continue;
                 }
 
                 /** @var InputObjectType $typeField */
