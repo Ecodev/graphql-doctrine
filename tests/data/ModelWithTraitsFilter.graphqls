@@ -3,44 +3,44 @@ schema {
   mutation: mutation
 }
 
-input BetweenOperatorInt {
-  from: Int!
-  to: Int!
+input BetweenOperatorID {
+  from: ID!
+  to: ID!
   not: Boolean = false
 }
 
-input EqualOperatorInt {
-  value: Int!
+input EqualOperatorID {
+  value: ID!
   not: Boolean = false
 }
 
-input GreaterOperatorInt {
-  value: Int!
+input GreaterOperatorID {
+  value: ID!
   not: Boolean = false
 }
 
-input GreaterOrEqualOperatorInt {
-  value: Int!
+input GreaterOrEqualOperatorID {
+  value: ID!
   not: Boolean = false
 }
 
-input InOperatorInt {
-  values: [Int!]!
+input InOperatorID {
+  values: [ID!]!
   not: Boolean = false
 }
 
-input LessOperatorInt {
-  value: Int!
+input LessOperatorID {
+  value: ID!
   not: Boolean = false
 }
 
-input LessOrEqualOperatorInt {
-  value: Int!
+input LessOrEqualOperatorID {
+  value: ID!
   not: Boolean = false
 }
 
-input LikeOperatorInt {
-  value: Int!
+input LikeOperatorID {
+  value: ID!
   not: Boolean = false
 }
 
@@ -76,15 +76,15 @@ input ModelWithTraitsFilterConditionFieldCustomFromTrait {
 
 # Type to specify a condition on a specific field
 input ModelWithTraitsFilterConditionFieldId {
-  between: BetweenOperatorInt
-  equal: EqualOperatorInt
-  greater: GreaterOperatorInt
-  greaterOrEqual: GreaterOrEqualOperatorInt
-  in: InOperatorInt
-  less: LessOperatorInt
-  lessOrEqual: LessOrEqualOperatorInt
-  like: LikeOperatorInt
-  null: NullOperatorInt
+  between: BetweenOperatorID
+  equal: EqualOperatorID
+  greater: GreaterOperatorID
+  greaterOrEqual: GreaterOrEqualOperatorID
+  in: InOperatorID
+  less: LessOperatorID
+  lessOrEqual: LessOrEqualOperatorID
+  like: LikeOperatorID
+  null: NullOperatorID
 }
 
 # Type to specify conditions on fields
@@ -98,7 +98,7 @@ input ModelWithTraitsFilterJoins {
 
 }
 
-input NullOperatorInt {
+input NullOperatorID {
   not: Boolean = false
 }
 

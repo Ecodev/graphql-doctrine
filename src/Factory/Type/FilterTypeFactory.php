@@ -179,8 +179,13 @@ final class FilterTypeFactory extends AbstractTypeFactory
 
                 // Get all scalar fields
                 foreach ($metadata->fieldMappings as $mapping) {
-                    /** @var LeafType $leafType */
-                    $leafType = $this->types->get($mapping['type']);
+                    if ($mapping['id'] ?? false) {
+                        $leafType = Type::id();
+                    } else {
+                        /** @var LeafType $leafType */
+                        $leafType = $this->types->get($mapping['type']);
+                    }
+
                     $fieldName = $mapping['fieldName'];
                     $operators = $this->getOperators($fieldName, $leafType, false, false);
 
