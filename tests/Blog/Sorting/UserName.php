@@ -18,6 +18,6 @@ final class UserName implements SortingInterface
         $alias = $queryBuilder->getRootAliases()[0];
 
         $queryBuilder->join($alias . '.user', 'sortingUser');
-        $queryBuilder->orderBy('sortingUser.name', $order);
+        $queryBuilder->addOrderBy('sortingUser.name', $order);
     }
 }

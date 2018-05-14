@@ -132,20 +132,16 @@ final class SortingTypeFactory extends AbstractTypeFactory
      */
     private function getFromAnnotation(ReflectionClass $class): array
     {
-        $result = [];
+        $sortings = Utils::getRecursiveClassAnnotations($this->getAnnotationReader(), $class, Sorting::class);
 
-        $sorting = $this->getAnnotationReader()->getClassAnnotation($class, Sorting::class);
-        if ($sorting) {
+        $result = [];
+        foreach ($sortings as $classWithAnnotation => $sorting) {
             foreach ($sorting->classes as $className) {
-                $this->throwIfInvalidAnnotation($class, 'Sorting', SortingInterface::class, $className);
+                $this->throwIfInvalidAnnotation($classWithAnnotation, 'Sorting', SortingInterface::class, $className);
 
                 $name = lcfirst(preg_replace('~Type$~', '', Utils::getTypeName($className)));
                 $result[$name] = new $className();
             }
-        }
-
-        if ($class->getParentClass()) {
-            return array_merge($result, $this->getFromAnnotation($class->getParentClass()));
         }
 
         return $result;

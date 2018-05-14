@@ -18,6 +18,6 @@ final class PseudoRandom implements SortingInterface
         $alias = $queryBuilder->getRootAliases()[0];
 
         $queryBuilder->addSelect('MOD(' . $alias . '.id, 5) AS HIDDEN score');
-        $queryBuilder->orderBy('score', $order);
+        $queryBuilder->addOrderBy('score', $order);
     }
 }

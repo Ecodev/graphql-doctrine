@@ -1,0 +1,24 @@
+schema {
+  query: query
+}
+
+input ModelWithTraitsSorting {
+  field: ModelWithTraitsSortingField!
+  order: SortingOrder = ASC
+}
+
+# Fields available for `ModelWithTraitsSorting`
+enum ModelWithTraitsSortingField {
+  id
+  userName
+}
+
+# Order to be used in DQL
+enum SortingOrder {
+  ASC
+  DESC
+}
+
+type query {
+  defaultField: [ModelWithTraitsSorting!]
+}

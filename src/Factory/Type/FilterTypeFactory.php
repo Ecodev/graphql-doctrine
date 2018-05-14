@@ -175,7 +175,6 @@ final class FilterTypeFactory extends AbstractTypeFactory
                 $metadata = $this->entityManager->getClassMetadata($className);
 
                 // Get custom operators
-                $this->customOperators = [];
                 $this->readCustomOperatorsFromAnnotation($metadata->reflClass);
 
                 // Get all scalar fields
@@ -294,23 +293,20 @@ final class FilterTypeFactory extends AbstractTypeFactory
      */
     private function readCustomOperatorsFromAnnotation(ReflectionClass $class): void
     {
-        $filters = $this->getAnnotationReader()->getClassAnnotation($class, Filters::class);
-        if ($filters) {
+        $allFilters = Utils::getRecursiveClassAnnotations($this->getAnnotationReader(), $class, Filters::class);
+        $this->customOperators = [];
+        foreach ($allFilters as $classWithAnnotation => $filters) {
 
             /** @var Filter $filter */
             foreach ($filters->filters as $filter) {
                 $className = $filter->operator;
-                $this->throwIfInvalidAnnotation($class, 'Filter', AbstractOperator::class, $className);
+                $this->throwIfInvalidAnnotation($classWithAnnotation, 'Filter', AbstractOperator::class, $className);
 
                 if (!isset($this->customOperators[$filter->field])) {
                     $this->customOperators[$filter->field] = [];
                 }
                 $this->customOperators[$filter->field][] = $filter;
             }
-        }
-
-        if ($class->getParentClass()) {
-            $this->readCustomOperatorsFromAnnotation($class->getParentClass());
         }
     }
 

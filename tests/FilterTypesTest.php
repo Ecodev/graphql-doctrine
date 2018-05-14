@@ -7,6 +7,7 @@ namespace GraphQLTests\Doctrine;
 use GraphQL\Type\Definition\Type;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilter;
+use GraphQLTests\Doctrine\Blog\Model\Special\ModelWithTraits;
 
 final class FilterTypesTest extends \PHPUnit\Framework\TestCase
 {
@@ -16,6 +17,12 @@ final class FilterTypesTest extends \PHPUnit\Framework\TestCase
     {
         $actual = $this->types->getFilter(Post::class);
         $this->assertAllTypes('tests/data/PostFilter.graphqls', $actual);
+    }
+
+    public function testCanInheritSortingFromTraits(): void
+    {
+        $actual = $this->types->getFilter(ModelWithTraits::class);
+        $this->assertAllTypes('tests/data/ModelWithTraitsFilter.graphqls', $actual);
     }
 
     public function providerFilteredQueryBuilder(): array

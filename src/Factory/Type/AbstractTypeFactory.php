@@ -7,7 +7,6 @@ namespace GraphQL\Doctrine\Factory\Type;
 use GraphQL\Doctrine\Exception;
 use GraphQL\Doctrine\Factory\AbstractFactory;
 use GraphQL\Type\Definition\Type;
-use ReflectionClass;
 
 /**
  * A factory to create an ObjectType from a Doctrine entity
@@ -53,15 +52,15 @@ abstract class AbstractTypeFactory extends AbstractFactory
     /**
      * Throw an exception if the given type does not inherit expected type
      *
-     * @param ReflectionClass $class
+     * @param string $classWithAnnotation
      * @param string $annotation
-     * @param string $expected
-     * @param string $className
+     * @param string $expectedClassName
+     * @param string $actualClassName
      */
-    final protected function throwIfInvalidAnnotation(ReflectionClass $class, string $annotation, string $expected, string $className): void
+    final protected function throwIfInvalidAnnotation(string $classWithAnnotation, string $annotation, string $expectedClassName, string $actualClassName): void
     {
-        if (!is_a($className, $expected, true)) {
-            throw new Exception('On class `' . $class->getName() . '` the annotation `@API\\' . $annotation . '` expects a FQCN implementing `' . $expected . '`, but instead got: ' . $className);
+        if (!is_a($actualClassName, $expectedClassName, true)) {
+            throw new Exception('On class `' . $classWithAnnotation . '` the annotation `@API\\' . $annotation . '` expects a FQCN implementing `' . $expectedClassName . '`, but instead got: ' . $actualClassName);
         }
     }
 }
