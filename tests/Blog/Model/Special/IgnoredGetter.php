@@ -63,6 +63,11 @@ final class IgnoredGetter extends AbstractModel
         return true;
     }
 
+    public function isIsser(): bool
+    {
+        return true;
+    }
+
     public function hasMoney(): bool
     {
         return true;

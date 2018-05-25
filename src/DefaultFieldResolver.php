@@ -81,25 +81,18 @@ final class DefaultFieldResolver
         $methods = get_class_methods($source);
         $class = new ReflectionClass($source);
 
-        if (!preg_match('~^(is|has)[A-Z]~', $fieldName)) {
-            $getter = 'get' . Inflector::classify($fieldName);
-            $isser = 'is' . Inflector::classify($fieldName);
-        } else {
-            $getter = $isser = $fieldName;
-        }
+        $getter = 'get' . Inflector::classify($fieldName);
+        $isser = 'is' . Inflector::classify($fieldName);
 
         if (in_array($getter, $methods, true)) {
             $methodName = $getter;
         } elseif (in_array($isser, $methods, true)) {
             $methodName = $isser;
-        } elseif (mb_substr($fieldName, 0, 2) === 'is'
-            && ctype_upper(mb_substr($fieldName, 2, 1))
-            && in_array($fieldName, $methods, true)
-        ) {
+        } else {
             $methodName = $fieldName;
         }
 
-        return $methodName && $class->hasMethod($methodName)
+        return $class->hasMethod($methodName)
             ? $class->getMethod($methodName)
             : null;
     }

@@ -2,6 +2,7 @@ type IgnoredGetter {
   public: String!
   publicWithArgs(arg1: String!, arg2: Int!, arg3: [String] = ["foo"]): [String]!
   isValid: Boolean!
+  isIsser: Boolean!
   hasMoney: Boolean!
   id: ID!
   creationDate: DateTime!

@@ -34,12 +34,13 @@ final class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
             ['getPublic', new IgnoredGetter(), 'public'],
             [['real entity', 2, ['foo']], new IgnoredGetter(), 'publicWithArgs', ['arg2' => 2, 'arg1' => $entityID]],
             [null, new IgnoredGetter(), 'nonExisting'],
-            [null, new IgnoredGetter(), '__call'],
+            ['__call', new IgnoredGetter(), '__call', ['name' => 'unittest', 'arguments' => 'none']],
             [true, new IgnoredGetter(), 'isValid'],
             [true, new IgnoredGetter(), 'hasMoney'],
             ['john', new DefaultValue(), 'nameWithDefaultValueOnArgument'],
             ['jane', new DefaultValue(), 'nameWithDefaultValueOnArgument', ['name' => 'jane']],
             ['bar', ['foo' => 'bar'], 'foo'],
+            [true, new IgnoredGetter(), 'isser'],
         ];
     }
 
