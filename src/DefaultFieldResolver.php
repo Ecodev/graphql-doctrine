@@ -6,6 +6,7 @@ namespace GraphQL\Doctrine;
 
 use ArrayAccess;
 use Closure;
+use Doctrine\Common\Util\Inflector;
 use GraphQL\Doctrine\Definition\EntityID;
 use GraphQL\Type\Definition\ResolveInfo;
 use ReflectionClass;
@@ -49,11 +50,7 @@ final class DefaultFieldResolver
             return $getter->invoke($source, ...$args);
         }
 
-        if (isset($source->{$fieldName})) {
-            return $source->{$fieldName};
-        }
-
-        return null;
+        return $source->{$fieldName} ?? null;
     }
 
     /**
@@ -77,21 +74,34 @@ final class DefaultFieldResolver
      *
      * @return null|ReflectionMethod
      */
-    private function getGetter($source, string $name): ?ReflectionMethod
+    private function getGetter($source, string $fieldName): ?ReflectionMethod
     {
-        if (!preg_match('~^(is|has)[A-Z]~', $name)) {
-            $name = 'get' . ucfirst($name);
-        }
-
+        $methodName = null;
+        // Note get_class_methods will only return public methods in this scope
+        $methods = get_class_methods($source);
         $class = new ReflectionClass($source);
-        if ($class->hasMethod($name)) {
-            $method = $class->getMethod($name);
-            if ($method->getModifiers() & ReflectionMethod::IS_PUBLIC) {
-                return $method;
-            }
+
+        if (!preg_match('~^(is|has)[A-Z]~', $fieldName)) {
+            $getter = 'get' . Inflector::classify($fieldName);
+            $isser = 'is' . Inflector::classify($fieldName);
+        } else {
+            $getter = $isser = $fieldName;
         }
 
-        return null;
+        if (in_array($getter, $methods, true)) {
+            $methodName = $getter;
+        } elseif (in_array($isser, $methods, true)) {
+            $methodName = $isser;
+        } elseif (mb_substr($fieldName, 0, 2) === 'is'
+            && ctype_upper(mb_substr($fieldName, 2, 1))
+            && in_array($fieldName, $methods, true)
+        ) {
+            $methodName = $fieldName;
+        }
+
+        return $methodName && $class->hasMethod($methodName)
+            ? $class->getMethod($methodName)
+            : null;
     }
 
     /**
