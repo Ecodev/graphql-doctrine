@@ -40,7 +40,8 @@ final class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
             ['john', new DefaultValue(), 'nameWithDefaultValueOnArgument'],
             ['jane', new DefaultValue(), 'nameWithDefaultValueOnArgument', ['name' => 'jane']],
             ['bar', ['foo' => 'bar'], 'foo'],
-            [true, new IgnoredGetter(), 'isser'],
+            [true, new IgnoredGetter(), 'isser'], // test is method prefix
+            [true, new IgnoredGetter(), 'money'], // test has method prefix
         ];
     }
 

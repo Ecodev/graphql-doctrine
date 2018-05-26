@@ -67,7 +67,7 @@ final class DefaultFieldResolver
     }
 
     /**
-     * Return the getter/isser method if any valid one exists
+     * Return the getter/isser/has method if any valid one exists
      *
      * @param mixed $source
      * @param string $name
@@ -76,25 +76,22 @@ final class DefaultFieldResolver
      */
     private function getGetter($source, string $fieldName): ?ReflectionMethod
     {
-        $methodName = null;
-        // Note get_class_methods will only return public methods in this scope
-        $methods = get_class_methods($source);
         $class = new ReflectionClass($source);
+        $inflection = Inflector::classify($fieldName);
 
-        $getter = 'get' . Inflector::classify($fieldName);
-        $isser = 'is' . Inflector::classify($fieldName);
+        // Note get_class_methods only returns public methods in this scope
+        $matchingMethods = array_intersect(
+            ["get${inflection}", "is${inflection}", "has${inflection}", $fieldName],
+            get_class_methods($source)
+        );
 
-        if (in_array($getter, $methods, true)) {
-            $methodName = $getter;
-        } elseif (in_array($isser, $methods, true)) {
-            $methodName = $isser;
-        } else {
-            $methodName = $fieldName;
+        $methodName = array_shift($matchingMethods);
+
+        if (!$methodName) {
+            return null;
         }
 
-        return $class->hasMethod($methodName)
-            ? $class->getMethod($methodName)
-            : null;
+        return $class->getMethod($methodName);
     }
 
     /**
