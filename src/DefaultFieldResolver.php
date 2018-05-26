@@ -6,6 +6,7 @@ namespace GraphQL\Doctrine;
 
 use ArrayAccess;
 use Closure;
+use Doctrine\Common\Util\Inflector;
 use GraphQL\Doctrine\Definition\EntityID;
 use GraphQL\Type\Definition\ResolveInfo;
 use ReflectionClass;
@@ -49,11 +50,7 @@ final class DefaultFieldResolver
             return $getter->invoke($source, ...$args);
         }
 
-        if (isset($source->{$fieldName})) {
-            return $source->{$fieldName};
-        }
-
-        return null;
+        return $source->{$fieldName} ?? null;
     }
 
     /**
@@ -70,28 +67,31 @@ final class DefaultFieldResolver
     }
 
     /**
-     * Return the getter/isser method if any valid one exists
+     * Return the getter/isser/has method if any valid one exists
      *
      * @param mixed $source
      * @param string $name
      *
      * @return null|ReflectionMethod
      */
-    private function getGetter($source, string $name): ?ReflectionMethod
+    private function getGetter($source, string $fieldName): ?ReflectionMethod
     {
-        if (!preg_match('~^(is|has)[A-Z]~', $name)) {
-            $name = 'get' . ucfirst($name);
-        }
-
         $class = new ReflectionClass($source);
-        if ($class->hasMethod($name)) {
-            $method = $class->getMethod($name);
-            if ($method->getModifiers() & ReflectionMethod::IS_PUBLIC) {
-                return $method;
-            }
+        $inflection = Inflector::classify($fieldName);
+
+        // Note get_class_methods only returns public methods in this scope
+        $matchingMethods = array_intersect(
+            ["get${inflection}", "is${inflection}", "has${inflection}", $fieldName],
+            get_class_methods($source)
+        );
+
+        $methodName = array_shift($matchingMethods);
+
+        if (!$methodName) {
+            return null;
         }
 
-        return null;
+        return $class->getMethod($methodName);
     }
 
     /**

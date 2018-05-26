@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Annotation;
 
+use Doctrine\Common\Util\Inflector;
 use GraphQL\Type\Definition\Type;
 
 /**
@@ -51,7 +52,7 @@ abstract class AbstractAnnotation
     public function __construct($values = [])
     {
         foreach ($values as $key => $value) {
-            $setter = 'set' . ucfirst($key);
+            $setter = 'set' . Inflector::classify($key);
             $this->$setter($value);
         }
     }
