@@ -4,7 +4,7 @@
     "type": "library",
     "keywords": ["api", "graphql", "doctrine", "doctrine-orm"],
     "scripts": {
-        "check": [
+        "ci-check": [
             "php-cs-fixer fix --ansi --dry-run --diff",
             "phpunit --color=always"
         ],
