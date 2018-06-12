@@ -7,13 +7,13 @@ input ModelWithTraitsSorting {
   order: SortingOrder = ASC
 }
 
-# Fields available for `ModelWithTraitsSorting`
+"""Fields available for `ModelWithTraitsSorting`"""
 enum ModelWithTraitsSortingField {
   id
   userName
 }
 
-# Order to be used in DQL
+"""Order to be used in DQL"""
 enum SortingOrder {
   ASC
   DESC

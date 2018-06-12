@@ -7,7 +7,7 @@ input PostSorting {
   order: SortingOrder = ASC
 }
 
-# Fields available for `PostSorting`
+"""Fields available for `PostSorting`"""
 enum PostSortingField {
   creationDate
   title
@@ -19,7 +19,7 @@ enum PostSortingField {
   pseudoRandom
 }
 
-# Order to be used in DQL
+"""Order to be used in DQL"""
 enum SortingOrder {
   ASC
   DESC

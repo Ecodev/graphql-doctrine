@@ -29,8 +29,10 @@ input BetweenOperatorString {
 
 scalar DateTime
 
-# When used on single valued association, it will use `IS NULL` operator. On
-# collection valued association it will use `IS EMPTY` operator.
+"""
+When used on single valued association, it will use `IS NULL` operator. On
+collection valued association it will use `IS EMPTY` operator.
+"""
 input EmptyOperatorID {
   not: Boolean = false
 }
@@ -95,8 +97,10 @@ input GreaterOrEqualOperatorString {
   not: Boolean = false
 }
 
-# When used on single valued association, it will use `IN` operator. On collection
-# valued association it will use `MEMBER OF` operator.
+"""
+When used on single valued association, it will use `IN` operator. On collection
+valued association it will use `MEMBER OF` operator.
+"""
 input HaveOperatorID {
   values: [ID!]!
   not: Boolean = false
@@ -132,7 +136,7 @@ input JoinOnUser {
   filter: UserFilter
 }
 
-# Join types to be used in DQL
+"""Join types to be used in DQL"""
 enum JoinType {
   innerJoin
   leftJoin
@@ -198,7 +202,7 @@ input LikeOperatorString {
   not: Boolean = false
 }
 
-# Logical operator to be used in conditions
+"""Logical operator to be used in conditions"""
 enum LogicalOperator {
   AND
   OR
@@ -224,26 +228,28 @@ input NullOperatorString {
   not: Boolean = false
 }
 
-# To be used as a filter for objects of type `Post`
+"""To be used as a filter for objects of type `Post`"""
 input PostFilter {
-  # Optional joins to either filter the query or fetch related objects from DB in a single query
+  """
+  Optional joins to either filter the query or fetch related objects from DB in a single query
+  """
   joins: PostFilterJoins
   conditions: [PostFilterCondition!]
 }
 
-# Type to specify conditions to filter `Post`
+"""Type to specify conditions to filter `Post`"""
 input PostFilterCondition {
-  # The logic operator to be used to append this condition
+  """The logic operator to be used to append this condition"""
   conditionLogic: LogicalOperator = AND
 
-  # The logic operator to be used within all fields below
+  """The logic operator to be used within all fields below"""
   fieldsLogic: LogicalOperator = AND
 
-  # Fields on which we want to apply a condition
+  """Fields on which we want to apply a condition"""
   fields: [PostFilterConditionFields!]
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input PostFilterConditionFieldBody {
   between: BetweenOperatorString
   equal: EqualOperatorString
@@ -256,7 +262,7 @@ input PostFilterConditionFieldBody {
   null: NullOperatorString
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input PostFilterConditionFieldCreationDate {
   between: BetweenOperatorDateTime
   equal: EqualOperatorDateTime
@@ -269,12 +275,12 @@ input PostFilterConditionFieldCreationDate {
   null: NullOperatorDateTime
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input PostFilterConditionFieldCustom {
   search: SearchOperatorString
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input PostFilterConditionFieldId {
   between: BetweenOperatorID
   equal: EqualOperatorID
@@ -288,7 +294,7 @@ input PostFilterConditionFieldId {
   modulo: ModuloOperatorInt
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input PostFilterConditionFieldPublicationDate {
   between: BetweenOperatorDateTime
   equal: EqualOperatorDateTime
@@ -301,7 +307,7 @@ input PostFilterConditionFieldPublicationDate {
   null: NullOperatorDateTime
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input PostFilterConditionFieldStatus {
   between: BetweenOperatorString
   equal: EqualOperatorString
@@ -314,7 +320,7 @@ input PostFilterConditionFieldStatus {
   null: NullOperatorString
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input PostFilterConditionFieldTitle {
   between: BetweenOperatorString
   equal: EqualOperatorString
@@ -327,7 +333,7 @@ input PostFilterConditionFieldTitle {
   null: NullOperatorString
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input PostFilterConditionFieldUser {
   have: HaveOperatorID
   empty: EmptyOperatorID
@@ -342,7 +348,7 @@ input PostFilterConditionFieldUser {
   null: NullOperatorID
 }
 
-# Type to specify conditions on fields
+"""Type to specify conditions on fields"""
 input PostFilterConditionFields {
   creationDate: PostFilterConditionFieldCreationDate
   title: PostFilterConditionFieldTitle
@@ -354,7 +360,7 @@ input PostFilterConditionFields {
   custom: PostFilterConditionFieldCustom
 }
 
-# Type to specify join tables in a filter
+"""Type to specify join tables in a filter"""
 input PostFilterJoins {
   user: JoinOnUser
 }
@@ -363,26 +369,28 @@ input SearchOperatorString {
   term: String!
 }
 
-# To be used as a filter for objects of type `User`
+"""To be used as a filter for objects of type `User`"""
 input UserFilter {
-  # Optional joins to either filter the query or fetch related objects from DB in a single query
+  """
+  Optional joins to either filter the query or fetch related objects from DB in a single query
+  """
   joins: UserFilterJoins
   conditions: [UserFilterCondition!]
 }
 
-# Type to specify conditions to filter `User`
+"""Type to specify conditions to filter `User`"""
 input UserFilterCondition {
-  # The logic operator to be used to append this condition
+  """The logic operator to be used to append this condition"""
   conditionLogic: LogicalOperator = AND
 
-  # The logic operator to be used within all fields below
+  """The logic operator to be used within all fields below"""
   fieldsLogic: LogicalOperator = AND
 
-  # Fields on which we want to apply a condition
+  """Fields on which we want to apply a condition"""
   fields: [UserFilterConditionFields!]
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input UserFilterConditionFieldCreationDate {
   between: BetweenOperatorDateTime
   equal: EqualOperatorDateTime
@@ -395,7 +403,7 @@ input UserFilterConditionFieldCreationDate {
   null: NullOperatorDateTime
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input UserFilterConditionFieldEmail {
   between: BetweenOperatorString
   equal: EqualOperatorString
@@ -408,7 +416,7 @@ input UserFilterConditionFieldEmail {
   null: NullOperatorString
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input UserFilterConditionFieldId {
   between: BetweenOperatorID
   equal: EqualOperatorID
@@ -422,7 +430,7 @@ input UserFilterConditionFieldId {
   modulo: ModuloOperatorInt
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input UserFilterConditionFieldIsAdministrator {
   between: BetweenOperatorBoolean
   equal: EqualOperatorBoolean
@@ -435,7 +443,7 @@ input UserFilterConditionFieldIsAdministrator {
   null: NullOperatorBoolean
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input UserFilterConditionFieldManager {
   have: HaveOperatorID
   empty: EmptyOperatorID
@@ -450,7 +458,7 @@ input UserFilterConditionFieldManager {
   null: NullOperatorID
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input UserFilterConditionFieldName {
   between: BetweenOperatorString
   equal: EqualOperatorString
@@ -463,7 +471,7 @@ input UserFilterConditionFieldName {
   null: NullOperatorString
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input UserFilterConditionFieldPassword {
   between: BetweenOperatorString
   equal: EqualOperatorString
@@ -476,13 +484,13 @@ input UserFilterConditionFieldPassword {
   null: NullOperatorString
 }
 
-# Type to specify a condition on a specific field
+"""Type to specify a condition on a specific field"""
 input UserFilterConditionFieldPosts {
   have: HaveOperatorID
   empty: EmptyOperatorID
 }
 
-# Type to specify conditions on fields
+"""Type to specify conditions on fields"""
 input UserFilterConditionFields {
   creationDate: UserFilterConditionFieldCreationDate
   name: UserFilterConditionFieldName
@@ -494,7 +502,7 @@ input UserFilterConditionFields {
   manager: UserFilterConditionFieldManager
 }
 
-# Type to specify join tables in a filter
+"""Type to specify join tables in a filter"""
 input UserFilterJoins {
   posts: JoinOnPost
   manager: JoinOnUser

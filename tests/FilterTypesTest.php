@@ -16,6 +16,7 @@ final class FilterTypesTest extends \PHPUnit\Framework\TestCase
     public function testCanGetPostFilter(): void
     {
         $actual = $this->types->getFilter(Post::class);
+
         $this->assertAllTypes('tests/data/PostFilter.graphqls', $actual);
     }
 

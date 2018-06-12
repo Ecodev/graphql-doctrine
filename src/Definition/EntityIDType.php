@@ -53,10 +53,11 @@ final class EntityIDType extends IDType
      * Parses an externally provided value (query variable) to use as an input
      *
      * @param mixed $value
+     * @param null|array $variables
      *
      * @return EntityID
      */
-    public function parseValue($value): EntityID
+    public function parseValue($value, array $variables = null): EntityID
     {
         $value = parent::parseValue($value);
 
@@ -67,10 +68,11 @@ final class EntityIDType extends IDType
      * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input
      *
      * @param \GraphQL\Language\AST\Node $valueNode
+     * @param null|array $variables
      *
      * @return EntityID
      */
-    public function parseLiteral($valueNode): EntityID
+    public function parseLiteral($valueNode, array $variables = null): EntityID
     {
         $value = parent::parseLiteral($valueNode);
 
