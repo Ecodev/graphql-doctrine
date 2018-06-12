@@ -12,9 +12,11 @@ return [
                 'conditionLogic' => 'AND',
                 'fieldsLogic' => 'AND',
                 'fields' => [
-                    'id' => [
-                        'modulo' => [
-                            'value' => 2,
+                    [
+                        'id' => [
+                            'modulo' => [
+                                'value' => 2,
+                            ],
                         ],
                     ],
                 ],

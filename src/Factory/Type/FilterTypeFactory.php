@@ -147,7 +147,7 @@ final class FilterTypeFactory extends AbstractTypeFactory
                 [
                     'name' => 'fields',
                     'description' => 'Fields on which we want to apply a condition',
-                    'type' => $this->getConditionFieldsType($className, $typeName),
+                    'type' => Type::listOf(Type::nonNull($this->getConditionFieldsType($className, $typeName))),
                 ],
             ],
         ]);

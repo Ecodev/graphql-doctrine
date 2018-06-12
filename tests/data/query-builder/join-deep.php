@@ -20,10 +20,12 @@ return [
                                         'conditionLogic' => 'AND',
                                         'fieldsLogic' => 'AND',
                                         'fields' => [
-                                            'title' => [
-                                                'like' => [
-                                                    'value' => '%foo%',
-                                                    'not' => false,
+                                            [
+                                                'title' => [
+                                                    'like' => [
+                                                        'value' => '%foo%',
+                                                        'not' => false,
+                                                    ],
                                                 ],
                                             ],
                                         ],

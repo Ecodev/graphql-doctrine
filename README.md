@@ -365,7 +365,7 @@ private $name = 'jane';
 
 public function setName(string $name = 'john'): void
 {
-    $this->>name = $name;
+    $this->name = $name;
 }
 
 public function setFoo(string $foo = 'defaultFoo'): void

@@ -12,16 +12,18 @@ return [
                 'conditionLogic' => 'AND',
                 'fieldsLogic' => 'OR',
                 'fields' => [
-                    'title' => [
-                        'like' => [
-                            'value' => '%foo%',
-                            'not' => false,
+                    [
+                        'title' => [
+                            'like' => [
+                                'value' => '%foo%',
+                                'not' => false,
+                            ],
                         ],
-                    ],
-                    'body' => [
-                        'like' => [
-                            'value' => '%bar%',
-                            'not' => false,
+                        'body' => [
+                            'like' => [
+                                'value' => '%bar%',
+                                'not' => false,
+                            ],
                         ],
                     ],
                 ],

@@ -16,10 +16,12 @@ return [
                             'conditionLogic' => 'AND',
                             'fieldsLogic' => 'AND',
                             'fields' => [
-                                'name' => [
-                                    'like' => [
-                                        'value' => '%john%',
-                                        'not' => false,
+                                [
+                                    'name' => [
+                                        'like' => [
+                                            'value' => '%john%',
+                                            'not' => false,
+                                        ],
                                     ],
                                 ],
                             ],

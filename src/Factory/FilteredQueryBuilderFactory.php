@@ -76,11 +76,30 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
      */
     private function applyFilters(ClassMetadata $metadata, InputObjectType $type, array $filter, QueryBuilder $queryBuilder, string $alias): void
     {
-        /** @var InputObjectType $typeFields */
-        $typeFields = $type->getField('conditions')->type->getWrappedType(true)->getField('fields')->type;
+        $typeFields = $type->getField('conditions')->type->getWrappedType(true)->getField('fields')->type->getWrappedType(true);
         foreach ($filter['conditions'] ?? [] as $conditions) {
-            $dqlConditions = [];
-            foreach ($conditions['fields'] as $field => $fieldConditions) {
+            $dqlConditions = $this->getDqlConditions($metadata, $conditions['fields'], $typeFields, $queryBuilder, $alias);
+
+            $this->applyDqlConditions($queryBuilder, $conditions, $dqlConditions);
+        }
+    }
+
+    /**
+     * Gather all DQL conditions for the given array of fields
+     *
+     * @param ClassMetadata $metadata
+     * @param array $allFields
+     * @param InputObjectType $typeFields
+     * @param QueryBuilder $queryBuilder
+     * @param string $alias
+     *
+     * @return array
+     */
+    private function getDqlConditions(ClassMetadata $metadata, array $allFields, InputObjectType $typeFields, QueryBuilder $queryBuilder, string $alias): array
+    {
+        $dqlConditions = [];
+        foreach ($allFields as $fields) {
+            foreach ($fields as $field => $fieldConditions) {
                 if ($fieldConditions === null) {
                     continue;
                 }
@@ -88,21 +107,21 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
                 /** @var InputObjectType $typeField */
                 $typeField = $typeFields->getField($field)->type;
 
-                foreach ($fieldConditions as $operator => $operatorConfig) {
+                foreach ($fieldConditions as $operator => $operatorArgs) {
                     $operatorField = $typeField->getField($operator);
 
                     /** @var AbstractOperator $operatorType */
                     $operatorType = $operatorField->type;
 
-                    $condition = $operatorType->getDqlCondition($this->uniqueNameFactory, $metadata, $queryBuilder, $alias, $field, $operatorConfig);
+                    $condition = $operatorType->getDqlCondition($this->uniqueNameFactory, $metadata, $queryBuilder, $alias, $field, $operatorArgs);
                     if ($condition) {
                         $dqlConditions[] = $condition;
                     }
                 }
             }
-
-            $this->applyDqlConditions($queryBuilder, $conditions, $dqlConditions);
         }
+
+        return $dqlConditions;
     }
 
     /**

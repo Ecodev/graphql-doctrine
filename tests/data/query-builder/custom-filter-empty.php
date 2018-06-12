@@ -12,9 +12,11 @@ return [
                 'conditionLogic' => 'AND',
                 'fieldsLogic' => 'AND',
                 'fields' => [
-                    'custom' => [
-                        'search' => [
-                            'term' => '',
+                    [
+                        'custom' => [
+                            'search' => [
+                                'term' => '',
+                            ],
                         ],
                     ],
                 ],

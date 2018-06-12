@@ -66,7 +66,7 @@ input ModelWithTraitsFilterCondition {
   fieldsLogic: LogicalOperator = AND
 
   # Fields on which we want to apply a condition
-  fields: ModelWithTraitsFilterConditionFields
+  fields: [ModelWithTraitsFilterConditionFields!]
 }
 
 # Type to specify a condition on a specific field

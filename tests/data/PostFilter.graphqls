@@ -240,7 +240,7 @@ input PostFilterCondition {
   fieldsLogic: LogicalOperator = AND
 
   # Fields on which we want to apply a condition
-  fields: PostFilterConditionFields
+  fields: [PostFilterConditionFields!]
 }
 
 # Type to specify a condition on a specific field
@@ -379,7 +379,7 @@ input UserFilterCondition {
   fieldsLogic: LogicalOperator = AND
 
   # Fields on which we want to apply a condition
-  fields: UserFilterConditionFields
+  fields: [UserFilterConditionFields!]
 }
 
 # Type to specify a condition on a specific field

@@ -12,7 +12,9 @@ return [
                 'conditionLogic' => 'AND',
                 'fieldsLogic' => 'AND',
                 'fields' => [
-                    'title' => null,
+                    [
+                        'title' => null,
+                    ],
                 ],
             ],
         ],
