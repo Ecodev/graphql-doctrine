@@ -36,6 +36,7 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
         $param = reset($params);
 
         // Get a field from annotation, or an empty one
+        /** @var Input $field */
         $field = $this->getAnnotationReader()->getMethodAnnotation($method, Input::class) ?? new Input();
 
         if (!$field->getTypeInstance()) {

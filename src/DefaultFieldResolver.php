@@ -17,7 +17,7 @@ use ReflectionMethod;
  */
 final class DefaultFieldResolver
 {
-    public function __invoke($source, $args, $context, ResolveInfo $info)
+    public function __invoke($source, array $args, $context, ResolveInfo $info)
     {
         $fieldName = $info->fieldName;
         $property = null;
@@ -35,12 +35,12 @@ final class DefaultFieldResolver
      * Resolve for an object
      *
      * @param mixed $source
-     * @param mixed $args
+     * @param array $args
      * @param string $fieldName
      *
      * @return mixed
      */
-    private function resolveObject($source, ?array $args, string $fieldName)
+    private function resolveObject($source, array $args, string $fieldName)
     {
         $getter = $this->getGetter($source, $fieldName);
         if ($getter) {
@@ -102,7 +102,7 @@ final class DefaultFieldResolver
      *
      * @return array
      */
-    private function orderArguments(ReflectionMethod $method, ?array $args): array
+    private function orderArguments(ReflectionMethod $method, array $args): array
     {
         $result = [];
         if (!$args) {

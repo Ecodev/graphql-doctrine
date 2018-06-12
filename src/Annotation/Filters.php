@@ -15,7 +15,7 @@ final class Filters
     /**
      * List of all custom filters
      *
-     * @var array<GraphQL\Doctrine\Annotation\Filter>
+     * @var array<\GraphQL\Doctrine\Annotation\Filter>
      * @Required
      */
     public $filters = [];

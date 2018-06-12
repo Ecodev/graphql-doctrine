@@ -49,9 +49,9 @@ final class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
      * @param mixed $expected
      * @param array|object $source
      * @param string $fieldName
-     * @param null|array $args
+     * @param array $args
      */
-    public function testDefaultFieldResolver($expected, $source, string $fieldName, ?array $args = null): void
+    public function testDefaultFieldResolver($expected, $source, string $fieldName, array $args = []): void
     {
         $resolver = new DefaultFieldResolver();
         $info = new ResolveInfo(['fieldName' => $fieldName]);

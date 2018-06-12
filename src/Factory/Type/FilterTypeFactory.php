@@ -245,6 +245,7 @@ final class FilterTypeFactory extends AbstractTypeFactory
      * @param string $fieldName
      * @param LeafType $leafType
      * @param bool $isAssociation
+     * @param bool $isCollection
      *
      * @return LeafType[] indexed by operator class name
      */

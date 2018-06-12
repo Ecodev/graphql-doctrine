@@ -24,7 +24,7 @@ final class User extends AbstractModel
     private $name = '';
 
     /**
-     * @var string
+     * @var null|string
      *
      * @ORM\Column(type="string", length=50, nullable=true)
      */
@@ -52,7 +52,7 @@ final class User extends AbstractModel
     private $posts;
 
     /**
-     * @var User
+     * @var null|User
      *
      * @ORM\ManyToOne(targetEntity="GraphQLTests\Doctrine\Blog\Model\User")
      */
@@ -66,7 +66,9 @@ final class User extends AbstractModel
     public function __construct(?int $id = null)
     {
         // This is a bad idea in real world, but we are just testing stuff here
-        $this->id = $id;
+        if ($id) {
+            $this->id = $id;
+        }
 
         $this->posts = new ArrayCollection();
     }
@@ -160,7 +162,7 @@ final class User extends AbstractModel
      *
      * @API\Field(args={@API\Argument(name="status", type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")})
      *
-     * @param string $status the status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post
+     * @param null|string $status the status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post
      *
      * @return Collection
      */

@@ -33,7 +33,7 @@ final class Field
     public $description;
 
     /**
-     * @var array<GraphQL\Doctrine\Annotation\Argument>
+     * @var array<\GraphQL\Doctrine\Annotation\Argument>
      */
     public $args = [];
 

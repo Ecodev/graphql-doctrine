@@ -32,6 +32,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
     protected function methodToConfiguration(ReflectionMethod $method): ?array
     {
         // Get a field from annotation, or an empty one
+        /** @var Field $field */
         $field = $this->getAnnotationReader()->getMethodAnnotation($method, Field::class) ?? new Field();
 
         if (!$field->type instanceof Type) {

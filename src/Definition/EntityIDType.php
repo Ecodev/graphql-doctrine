@@ -74,7 +74,7 @@ final class EntityIDType extends IDType
      */
     public function parseLiteral($valueNode, array $variables = null): EntityID
     {
-        $value = parent::parseLiteral($valueNode);
+        $value = (string) parent::parseLiteral($valueNode);
 
         return $this->createEntityID($value);
     }
