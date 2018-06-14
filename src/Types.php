@@ -15,9 +15,11 @@ use GraphQL\Doctrine\Definition\SortingOrderType;
 use GraphQL\Doctrine\Factory\FilteredQueryBuilderFactory;
 use GraphQL\Doctrine\Factory\Type\AbstractTypeFactory;
 use GraphQL\Doctrine\Factory\Type\EntityIDTypeFactory;
+use GraphQL\Doctrine\Factory\Type\FilterGroupConditionTypeFactory;
+use GraphQL\Doctrine\Factory\Type\FilterJoinsTypeFactory;
 use GraphQL\Doctrine\Factory\Type\FilterTypeFactory;
 use GraphQL\Doctrine\Factory\Type\InputTypeFactory;
-use GraphQL\Doctrine\Factory\Type\JoinTypeFactory;
+use GraphQL\Doctrine\Factory\Type\JoinOnTypeFactory;
 use GraphQL\Doctrine\Factory\Type\ObjectTypeFactory;
 use GraphQL\Doctrine\Factory\Type\PartialInputTypeFactory;
 use GraphQL\Doctrine\Factory\Type\SortingTypeFactory;
@@ -86,9 +88,16 @@ final class Types
     private $entityIDTypeFactory;
 
     /**
-     * @var JoinTypeFactory
+     * @var JoinOnTypeFactory
      */
-    private $joinTypeFactory;
+    private $joinOnTypeFactory;
+
+    /**
+     * @var FilterJoinsTypeFactory
+     */
+    private $filterJoinsTypeFactory;
+
+    private $filterGroupConditionTypeFactory;
 
     public function __construct(EntityManager $entityManager, ?ContainerInterface $customTypes = null)
     {
@@ -97,11 +106,13 @@ final class Types
         $this->objectTypeFactory = new ObjectTypeFactory($this, $entityManager);
         $this->inputTypeFactory = new InputTypeFactory($this, $entityManager);
         $this->partialInputTypeFactory = new PartialInputTypeFactory($this, $entityManager);
-        $this->filterTypeFactory = new FilterTypeFactory($this, $entityManager);
         $this->sortingTypeFactory = new SortingTypeFactory($this, $entityManager);
         $this->entityIDTypeFactory = new EntityIDTypeFactory($this, $entityManager);
-        $this->joinTypeFactory = new JoinTypeFactory($this, $entityManager);
+        $this->filterJoinsTypeFactory = new FilterJoinsTypeFactory($this, $entityManager);
+        $this->filterGroupConditionTypeFactory = new FilterGroupConditionTypeFactory($this, $entityManager);
         $this->filteredQueryBuilderFactory = new FilteredQueryBuilderFactory($this, $entityManager, $this->sortingTypeFactory);
+        $this->filterTypeFactory = new FilterTypeFactory($this, $entityManager, $this->filterJoinsTypeFactory, $this->filterGroupConditionTypeFactory);
+        $this->joinOnTypeFactory = new JoinOnTypeFactory($this, $entityManager, $this->filterJoinsTypeFactory, $this->filterGroupConditionTypeFactory);
 
         $entityManager->getConfiguration()->newDefaultAnnotationDriver();
         AnnotationRegistry::registerLoader('class_exists');
@@ -264,7 +275,7 @@ final class Types
     }
 
     /**
-     * Returns a join input type for the given entity
+     * Returns a joinOn input type for the given entity
      *
      * This is for internal use only.
      *
@@ -272,10 +283,44 @@ final class Types
      *
      * @return InputObjectType
      */
-    public function getJoin(string $className): InputObjectType
+    public function getJoinOn(string $className): InputObjectType
     {
         /** @var InputObjectType $type */
-        $type = $this->getViaFactory($className, 'JoinOn' . Utils::getTypeName($className), $this->joinTypeFactory);
+        $type = $this->getViaFactory($className, 'JoinOn' . Utils::getTypeName($className), $this->joinOnTypeFactory);
+
+        return $type;
+    }
+
+    /**
+     * Returns a joins input type for the given entity
+     *
+     * This is for internal use only.
+     *
+     * @param string $className the class name of an entity (`Post::class`)
+     *
+     * @return InputObjectType
+     */
+    public function getFilterJoins(string $className): InputObjectType
+    {
+        /** @var InputObjectType $type */
+        $type = $this->getViaFactory($className, Utils::getTypeName($className) . 'FilterJoins', $this->filterJoinsTypeFactory);
+
+        return $type;
+    }
+
+    /**
+     * Returns a condition input type for the given entity
+     *
+     * This is for internal use only.
+     *
+     * @param string $className the class name of an entity (`Post::class`)
+     *
+     * @return InputObjectType
+     */
+    public function getFilterGroupCondition(string $className): InputObjectType
+    {
+        /** @var InputObjectType $type */
+        $type = $this->getViaFactory($className, Utils::getTypeName($className) . 'FilterGroupCondition', $this->filterGroupConditionTypeFactory);
 
         return $type;
     }

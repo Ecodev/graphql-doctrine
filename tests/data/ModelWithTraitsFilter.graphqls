@@ -52,32 +52,39 @@ enum LogicalOperator {
 
 """To be used as a filter for objects of type `ModelWithTraits`"""
 input ModelWithTraitsFilter {
+  groups: [ModelWithTraitsFilterGroup!]
+}
+
+"""Specify a set of joins and conditions to filter `ModelWithTraits`"""
+input ModelWithTraitsFilterGroup {
+  """The logic operator to be used to append this group"""
+  groupLogic: LogicalOperator = AND
+
+  """The logic operator to be used within all conditions in this group"""
+  conditionsLogic: LogicalOperator = AND
+
   """
   Optional joins to either filter the query or fetch related objects from DB in a single query
   """
   joins: ModelWithTraitsFilterJoins
-  conditions: [ModelWithTraitsFilterCondition!]
+
+  """Conditions to be applied on fields"""
+  conditions: [ModelWithTraitsFilterGroupCondition!]
 }
 
-"""Type to specify conditions to filter `ModelWithTraits`"""
-input ModelWithTraitsFilterCondition {
-  """The logic operator to be used to append this condition"""
-  conditionLogic: LogicalOperator = AND
-
-  """The logic operator to be used within all fields below"""
-  fieldsLogic: LogicalOperator = AND
-
-  """Fields on which we want to apply a condition"""
-  fields: [ModelWithTraitsFilterConditionFields!]
+"""Type to specify conditions on fields"""
+input ModelWithTraitsFilterGroupCondition {
+  id: ModelWithTraitsFilterGroupConditionId
+  customFromTrait: ModelWithTraitsFilterGroupConditionCustomFromTrait
 }
 
 """Type to specify a condition on a specific field"""
-input ModelWithTraitsFilterConditionFieldCustomFromTrait {
+input ModelWithTraitsFilterGroupConditionCustomFromTrait {
   search: SearchOperatorString
 }
 
 """Type to specify a condition on a specific field"""
-input ModelWithTraitsFilterConditionFieldId {
+input ModelWithTraitsFilterGroupConditionId {
   between: BetweenOperatorID
   equal: EqualOperatorID
   greater: GreaterOperatorID
@@ -87,12 +94,6 @@ input ModelWithTraitsFilterConditionFieldId {
   lessOrEqual: LessOrEqualOperatorID
   like: LikeOperatorID
   null: NullOperatorID
-}
-
-"""Type to specify conditions on fields"""
-input ModelWithTraitsFilterConditionFields {
-  id: ModelWithTraitsFilterConditionFieldId
-  customFromTrait: ModelWithTraitsFilterConditionFieldCustomFromTrait
 }
 
 """Type to specify join tables in a filter"""

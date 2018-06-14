@@ -7,11 +7,11 @@ return [
     'SELECT post1 FROM GraphQLTests\Doctrine\Blog\Model\Post post1 WHERE MOD(post1.id, :filter1) = 0',
     \GraphQLTests\Doctrine\Blog\Model\Post::class,
     [
-        'conditions' => [
+        'groups' => [
             [
-                'conditionLogic' => 'AND',
-                'fieldsLogic' => 'AND',
-                'fields' => [
+                'groupLogic' => 'AND',
+                'conditionsLogic' => 'AND',
+                'conditions' => [
                     [
                         'id' => [
                             'modulo' => [

@@ -385,6 +385,10 @@ It is possible to expose generic filtering for entity fields and their types to 
 create and apply generic filters. This expose basic SQL-like syntax that should cover most simple
 cases.
 
+Filters are structured in an ordered list of groups. Each group contains an unordered set of joins
+and conditions on fields. For simple case a single group of a few conditions would probably be enough.
+But the ordered list of group allow more advanced filtering with `OR` logic between a set of conditions.
+
 In the case of the `Post` class, it would generate [that GraphQL schema](tests/data/PostFilter.graphqls)
 for filtering, and for sorting it would be [that simpler schema](tests/data/PostSorting.graphqls).
 

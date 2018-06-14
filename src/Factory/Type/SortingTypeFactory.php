@@ -38,7 +38,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
     {
         $type = new InputObjectType([
             'name' => $typeName,
-            'fields' => function () use ($className, $typeName) {
+            'fields' => function () use ($className, $typeName): array {
                 $fieldsEnum = new EnumType([
                     'name' => $typeName . 'Field',
                     'values' => $this->getPossibleValues($className),

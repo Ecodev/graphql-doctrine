@@ -7,11 +7,11 @@ return [
     'SELECT post1 FROM GraphQLTests\Doctrine\Blog\Model\Post post1 WHERE post1.title LIKE :filter1 OR post1.title LIKE :filter2',
     \GraphQLTests\Doctrine\Blog\Model\Post::class,
     [
-        'conditions' => [
+        'groups' => [
             [
-                'conditionLogic' => 'OR',
-                'fieldsLogic' => 'AND',
-                'fields' => [
+                'groupLogic' => 'OR',
+                'conditionsLogic' => 'AND',
+                'conditions' => [
                     [
                         'title' => [
                             'like' => [
@@ -23,9 +23,9 @@ return [
                 ],
             ],
             [
-                'conditionLogic' => 'OR',
-                'fieldsLogic' => 'AND',
-                'fields' => [
+                'groupLogic' => 'OR',
+                'conditionsLogic' => 'AND',
+                'conditions' => [
                     [
                         'title' => [
                             'like' => [

@@ -128,12 +128,26 @@ input InOperatorString {
 
 input JoinOnPost {
   type: JoinType = innerJoin
-  filter: PostFilter
+
+  """
+  Optional joins to either filter the query or fetch related objects from DB in a single query
+  """
+  joins: PostFilterJoins
+
+  """Conditions to be applied on fields"""
+  conditions: [PostFilterGroupCondition!]
 }
 
 input JoinOnUser {
   type: JoinType = innerJoin
-  filter: UserFilter
+
+  """
+  Optional joins to either filter the query or fetch related objects from DB in a single query
+  """
+  joins: UserFilterJoins
+
+  """Conditions to be applied on fields"""
+  conditions: [UserFilterGroupCondition!]
 }
 
 """Join types to be used in DQL"""
@@ -230,27 +244,40 @@ input NullOperatorString {
 
 """To be used as a filter for objects of type `Post`"""
 input PostFilter {
+  groups: [PostFilterGroup!]
+}
+
+"""Specify a set of joins and conditions to filter `Post`"""
+input PostFilterGroup {
+  """The logic operator to be used to append this group"""
+  groupLogic: LogicalOperator = AND
+
+  """The logic operator to be used within all conditions in this group"""
+  conditionsLogic: LogicalOperator = AND
+
   """
   Optional joins to either filter the query or fetch related objects from DB in a single query
   """
   joins: PostFilterJoins
-  conditions: [PostFilterCondition!]
+
+  """Conditions to be applied on fields"""
+  conditions: [PostFilterGroupCondition!]
 }
 
-"""Type to specify conditions to filter `Post`"""
-input PostFilterCondition {
-  """The logic operator to be used to append this condition"""
-  conditionLogic: LogicalOperator = AND
-
-  """The logic operator to be used within all fields below"""
-  fieldsLogic: LogicalOperator = AND
-
-  """Fields on which we want to apply a condition"""
-  fields: [PostFilterConditionFields!]
+"""Type to specify conditions on fields"""
+input PostFilterGroupCondition {
+  creationDate: PostFilterGroupConditionCreationDate
+  title: PostFilterGroupConditionTitle
+  body: PostFilterGroupConditionBody
+  publicationDate: PostFilterGroupConditionPublicationDate
+  status: PostFilterGroupConditionStatus
+  id: PostFilterGroupConditionId
+  user: PostFilterGroupConditionUser
+  custom: PostFilterGroupConditionCustom
 }
 
 """Type to specify a condition on a specific field"""
-input PostFilterConditionFieldBody {
+input PostFilterGroupConditionBody {
   between: BetweenOperatorString
   equal: EqualOperatorString
   greater: GreaterOperatorString
@@ -263,7 +290,7 @@ input PostFilterConditionFieldBody {
 }
 
 """Type to specify a condition on a specific field"""
-input PostFilterConditionFieldCreationDate {
+input PostFilterGroupConditionCreationDate {
   between: BetweenOperatorDateTime
   equal: EqualOperatorDateTime
   greater: GreaterOperatorDateTime
@@ -276,12 +303,12 @@ input PostFilterConditionFieldCreationDate {
 }
 
 """Type to specify a condition on a specific field"""
-input PostFilterConditionFieldCustom {
+input PostFilterGroupConditionCustom {
   search: SearchOperatorString
 }
 
 """Type to specify a condition on a specific field"""
-input PostFilterConditionFieldId {
+input PostFilterGroupConditionId {
   between: BetweenOperatorID
   equal: EqualOperatorID
   greater: GreaterOperatorID
@@ -295,7 +322,7 @@ input PostFilterConditionFieldId {
 }
 
 """Type to specify a condition on a specific field"""
-input PostFilterConditionFieldPublicationDate {
+input PostFilterGroupConditionPublicationDate {
   between: BetweenOperatorDateTime
   equal: EqualOperatorDateTime
   greater: GreaterOperatorDateTime
@@ -308,7 +335,7 @@ input PostFilterConditionFieldPublicationDate {
 }
 
 """Type to specify a condition on a specific field"""
-input PostFilterConditionFieldStatus {
+input PostFilterGroupConditionStatus {
   between: BetweenOperatorString
   equal: EqualOperatorString
   greater: GreaterOperatorString
@@ -321,7 +348,7 @@ input PostFilterConditionFieldStatus {
 }
 
 """Type to specify a condition on a specific field"""
-input PostFilterConditionFieldTitle {
+input PostFilterGroupConditionTitle {
   between: BetweenOperatorString
   equal: EqualOperatorString
   greater: GreaterOperatorString
@@ -334,7 +361,7 @@ input PostFilterConditionFieldTitle {
 }
 
 """Type to specify a condition on a specific field"""
-input PostFilterConditionFieldUser {
+input PostFilterGroupConditionUser {
   have: HaveOperatorID
   empty: EmptyOperatorID
   between: BetweenOperatorID
@@ -348,18 +375,6 @@ input PostFilterConditionFieldUser {
   null: NullOperatorID
 }
 
-"""Type to specify conditions on fields"""
-input PostFilterConditionFields {
-  creationDate: PostFilterConditionFieldCreationDate
-  title: PostFilterConditionFieldTitle
-  body: PostFilterConditionFieldBody
-  publicationDate: PostFilterConditionFieldPublicationDate
-  status: PostFilterConditionFieldStatus
-  id: PostFilterConditionFieldId
-  user: PostFilterConditionFieldUser
-  custom: PostFilterConditionFieldCustom
-}
-
 """Type to specify join tables in a filter"""
 input PostFilterJoins {
   user: JoinOnUser
@@ -369,29 +384,20 @@ input SearchOperatorString {
   term: String!
 }
 
-"""To be used as a filter for objects of type `User`"""
-input UserFilter {
-  """
-  Optional joins to either filter the query or fetch related objects from DB in a single query
-  """
-  joins: UserFilterJoins
-  conditions: [UserFilterCondition!]
-}
-
-"""Type to specify conditions to filter `User`"""
-input UserFilterCondition {
-  """The logic operator to be used to append this condition"""
-  conditionLogic: LogicalOperator = AND
-
-  """The logic operator to be used within all fields below"""
-  fieldsLogic: LogicalOperator = AND
-
-  """Fields on which we want to apply a condition"""
-  fields: [UserFilterConditionFields!]
+"""Type to specify conditions on fields"""
+input UserFilterGroupCondition {
+  creationDate: UserFilterGroupConditionCreationDate
+  name: UserFilterGroupConditionName
+  email: UserFilterGroupConditionEmail
+  password: UserFilterGroupConditionPassword
+  isAdministrator: UserFilterGroupConditionIsAdministrator
+  id: UserFilterGroupConditionId
+  posts: UserFilterGroupConditionPosts
+  manager: UserFilterGroupConditionManager
 }
 
 """Type to specify a condition on a specific field"""
-input UserFilterConditionFieldCreationDate {
+input UserFilterGroupConditionCreationDate {
   between: BetweenOperatorDateTime
   equal: EqualOperatorDateTime
   greater: GreaterOperatorDateTime
@@ -404,7 +410,7 @@ input UserFilterConditionFieldCreationDate {
 }
 
 """Type to specify a condition on a specific field"""
-input UserFilterConditionFieldEmail {
+input UserFilterGroupConditionEmail {
   between: BetweenOperatorString
   equal: EqualOperatorString
   greater: GreaterOperatorString
@@ -417,7 +423,7 @@ input UserFilterConditionFieldEmail {
 }
 
 """Type to specify a condition on a specific field"""
-input UserFilterConditionFieldId {
+input UserFilterGroupConditionId {
   between: BetweenOperatorID
   equal: EqualOperatorID
   greater: GreaterOperatorID
@@ -431,7 +437,7 @@ input UserFilterConditionFieldId {
 }
 
 """Type to specify a condition on a specific field"""
-input UserFilterConditionFieldIsAdministrator {
+input UserFilterGroupConditionIsAdministrator {
   between: BetweenOperatorBoolean
   equal: EqualOperatorBoolean
   greater: GreaterOperatorBoolean
@@ -444,7 +450,7 @@ input UserFilterConditionFieldIsAdministrator {
 }
 
 """Type to specify a condition on a specific field"""
-input UserFilterConditionFieldManager {
+input UserFilterGroupConditionManager {
   have: HaveOperatorID
   empty: EmptyOperatorID
   between: BetweenOperatorID
@@ -459,7 +465,7 @@ input UserFilterConditionFieldManager {
 }
 
 """Type to specify a condition on a specific field"""
-input UserFilterConditionFieldName {
+input UserFilterGroupConditionName {
   between: BetweenOperatorString
   equal: EqualOperatorString
   greater: GreaterOperatorString
@@ -472,7 +478,7 @@ input UserFilterConditionFieldName {
 }
 
 """Type to specify a condition on a specific field"""
-input UserFilterConditionFieldPassword {
+input UserFilterGroupConditionPassword {
   between: BetweenOperatorString
   equal: EqualOperatorString
   greater: GreaterOperatorString
@@ -485,21 +491,9 @@ input UserFilterConditionFieldPassword {
 }
 
 """Type to specify a condition on a specific field"""
-input UserFilterConditionFieldPosts {
+input UserFilterGroupConditionPosts {
   have: HaveOperatorID
   empty: EmptyOperatorID
-}
-
-"""Type to specify conditions on fields"""
-input UserFilterConditionFields {
-  creationDate: UserFilterConditionFieldCreationDate
-  name: UserFilterConditionFieldName
-  email: UserFilterConditionFieldEmail
-  password: UserFilterConditionFieldPassword
-  isAdministrator: UserFilterConditionFieldIsAdministrator
-  id: UserFilterConditionFieldId
-  posts: UserFilterConditionFieldPosts
-  manager: UserFilterConditionFieldManager
 }
 
 """Type to specify join tables in a filter"""

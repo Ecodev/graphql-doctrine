@@ -7,9 +7,13 @@ return [
     'SELECT post1, user1 FROM GraphQLTests\Doctrine\Blog\Model\Post post1 LEFT JOIN post1.user user1',
     \GraphQLTests\Doctrine\Blog\Model\Post::class,
     [
-        'joins' => [
-            'user' => [
-                'type' => 'leftJoin',
+        'groups' => [
+            [
+                'joins' => [
+                    'user' => [
+                        'type' => 'leftJoin',
+                    ],
+                ],
             ],
         ],
     ],

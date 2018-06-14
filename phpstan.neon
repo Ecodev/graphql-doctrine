@@ -10,6 +10,6 @@ parameters:
         - '~^Instanceof between string and GraphQL\\Type\\Definition\\Type will always evaluate to false\.$~'
         - '~^Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::~'
         - '~^Parameter #2 \$type of static method GraphQL\\Doctrine\\Utils::getOperatorTypeName~'
-        - '~^Method GraphQL\\Doctrine\\Factory\\Type\\FilterTypeFactory\:\:getOperators\(\) should return array\<GraphQL\\Type\\Definition\\LeafType\> but returns array\<GraphQL\\Type\\Definition\\LeafType\|GraphQL\\Type\\Definition\\Type\>\.~'
+        - '~^Method GraphQL\\Doctrine\\Factory\\Type\\FilterGroupConditionTypeFactory::getOperators\(\) should return array\<GraphQL\\Type\\Definition\\LeafType\> but returns array\<GraphQL\\Type\\Definition\\LeafType\|GraphQL\\Type\\Definition\\Type\>\.~'
         - '~::__construct\(\) does not call parent constructor from GraphQL\\Doctrine\\Definition\\EntityID\.$~'
-        - '~Property GraphQL\\Doctrine\\Annotation\\Field\:\:\$description \(string\) does not accept string\|null\.$~'
+        - '~Property GraphQL\\Doctrine\\Annotation\\Field::\$description \(string\) does not accept string\|null\.$~'
