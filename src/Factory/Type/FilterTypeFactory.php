@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace GraphQL\Doctrine\Factory\Type;
 
 use Doctrine\ORM\EntityManager;
-use GraphQL\Doctrine\Annotation\Filter;
 use GraphQL\Doctrine\Types;
 use GraphQL\Doctrine\Utils;
 use GraphQL\Type\Definition\InputObjectType;

@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Factory\UniqueNameFactory;
 use GraphQL\Type\Definition\LeafType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * A simple operator with two operands

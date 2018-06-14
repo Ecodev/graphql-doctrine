@@ -1,12 +1,7 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('library')
-    ->exclude('htdocs/data')
-    ->exclude('Data')
-    ->exclude('node_modules')
     ->exclude('vendor')
-    ->name('*.phtml')
     ->in(__DIR__);
 
 return PhpCsFixer\Config::create()
