@@ -16,19 +16,19 @@ use GraphQL\Type\Definition\Type;
 final class JoinOnTypeFactory extends AbstractTypeFactory
 {
     /**
-     * @var FilterJoinsTypeFactory
+     * @var FilterGroupJoinTypeFactory
      */
-    private $filterJoinsTypeFactory;
+    private $filterGroupJoinTypeFactory;
 
     /**
      * @var FilterGroupConditionTypeFactory
      */
     private $filterGroupConditionTypeFactory;
 
-    public function __construct(Types $types, EntityManager $entityManager, FilterJoinsTypeFactory $filterJoinsTypeFactory, FilterGroupConditionTypeFactory $filterGroupConditionTypeFactory)
+    public function __construct(Types $types, EntityManager $entityManager, FilterGroupJoinTypeFactory $filterGroupJoinTypeFactory, FilterGroupConditionTypeFactory $filterGroupConditionTypeFactory)
     {
         parent::__construct($types, $entityManager);
-        $this->filterJoinsTypeFactory = $filterJoinsTypeFactory;
+        $this->filterGroupJoinTypeFactory = $filterGroupJoinTypeFactory;
         $this->filterGroupConditionTypeFactory = $filterGroupConditionTypeFactory;
     }
 
@@ -52,7 +52,7 @@ final class JoinOnTypeFactory extends AbstractTypeFactory
                         'type' => $this->types->get('JoinType'),
                         'defaultValue' => 'innerJoin',
                     ],
-                    $this->filterJoinsTypeFactory->getField($className),
+                    $this->filterGroupJoinTypeFactory->getField($className),
                     $this->filterGroupConditionTypeFactory->getField($className),
                 ];
             },

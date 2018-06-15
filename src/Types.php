@@ -16,7 +16,7 @@ use GraphQL\Doctrine\Factory\FilteredQueryBuilderFactory;
 use GraphQL\Doctrine\Factory\Type\AbstractTypeFactory;
 use GraphQL\Doctrine\Factory\Type\EntityIDTypeFactory;
 use GraphQL\Doctrine\Factory\Type\FilterGroupConditionTypeFactory;
-use GraphQL\Doctrine\Factory\Type\FilterJoinsTypeFactory;
+use GraphQL\Doctrine\Factory\Type\FilterGroupJoinTypeFactory;
 use GraphQL\Doctrine\Factory\Type\FilterTypeFactory;
 use GraphQL\Doctrine\Factory\Type\InputTypeFactory;
 use GraphQL\Doctrine\Factory\Type\JoinOnTypeFactory;
@@ -93,10 +93,13 @@ final class Types
     private $joinOnTypeFactory;
 
     /**
-     * @var FilterJoinsTypeFactory
+     * @var FilterGroupJoinTypeFactory
      */
-    private $filterJoinsTypeFactory;
+    private $filterGroupJoinTypeFactory;
 
+    /**
+     * @var FilterGroupConditionTypeFactory
+     */
     private $filterGroupConditionTypeFactory;
 
     public function __construct(EntityManager $entityManager, ?ContainerInterface $customTypes = null)
@@ -108,11 +111,11 @@ final class Types
         $this->partialInputTypeFactory = new PartialInputTypeFactory($this, $entityManager);
         $this->sortingTypeFactory = new SortingTypeFactory($this, $entityManager);
         $this->entityIDTypeFactory = new EntityIDTypeFactory($this, $entityManager);
-        $this->filterJoinsTypeFactory = new FilterJoinsTypeFactory($this, $entityManager);
+        $this->filterGroupJoinTypeFactory = new FilterGroupJoinTypeFactory($this, $entityManager);
         $this->filterGroupConditionTypeFactory = new FilterGroupConditionTypeFactory($this, $entityManager);
         $this->filteredQueryBuilderFactory = new FilteredQueryBuilderFactory($this, $entityManager, $this->sortingTypeFactory);
-        $this->filterTypeFactory = new FilterTypeFactory($this, $entityManager, $this->filterJoinsTypeFactory, $this->filterGroupConditionTypeFactory);
-        $this->joinOnTypeFactory = new JoinOnTypeFactory($this, $entityManager, $this->filterJoinsTypeFactory, $this->filterGroupConditionTypeFactory);
+        $this->filterTypeFactory = new FilterTypeFactory($this, $entityManager, $this->filterGroupJoinTypeFactory, $this->filterGroupConditionTypeFactory);
+        $this->joinOnTypeFactory = new JoinOnTypeFactory($this, $entityManager, $this->filterGroupJoinTypeFactory, $this->filterGroupConditionTypeFactory);
 
         $entityManager->getConfiguration()->newDefaultAnnotationDriver();
         AnnotationRegistry::registerLoader('class_exists');
@@ -300,10 +303,10 @@ final class Types
      *
      * @return InputObjectType
      */
-    public function getFilterJoins(string $className): InputObjectType
+    public function getFilterGroupJoin(string $className): InputObjectType
     {
         /** @var InputObjectType $type */
-        $type = $this->getViaFactory($className, Utils::getTypeName($className) . 'FilterJoins', $this->filterJoinsTypeFactory);
+        $type = $this->getViaFactory($className, Utils::getTypeName($className) . 'FilterGroupJoin', $this->filterGroupJoinTypeFactory);
 
         return $type;
     }

@@ -132,7 +132,7 @@ input JoinOnPost {
   """
   Optional joins to either filter the query or fetch related objects from DB in a single query
   """
-  joins: PostFilterJoins
+  joins: PostFilterGroupJoin
 
   """Conditions to be applied on fields"""
   conditions: [PostFilterGroupCondition!]
@@ -144,7 +144,7 @@ input JoinOnUser {
   """
   Optional joins to either filter the query or fetch related objects from DB in a single query
   """
-  joins: UserFilterJoins
+  joins: UserFilterGroupJoin
 
   """Conditions to be applied on fields"""
   conditions: [UserFilterGroupCondition!]
@@ -258,7 +258,7 @@ input PostFilterGroup {
   """
   Optional joins to either filter the query or fetch related objects from DB in a single query
   """
-  joins: PostFilterJoins
+  joins: PostFilterGroupJoin
 
   """Conditions to be applied on fields"""
   conditions: [PostFilterGroupCondition!]
@@ -376,7 +376,7 @@ input PostFilterGroupConditionUser {
 }
 
 """Type to specify join tables in a filter"""
-input PostFilterJoins {
+input PostFilterGroupJoin {
   user: JoinOnUser
 }
 
@@ -497,7 +497,7 @@ input UserFilterGroupConditionPosts {
 }
 
 """Type to specify join tables in a filter"""
-input UserFilterJoins {
+input UserFilterGroupJoin {
   posts: JoinOnPost
   manager: JoinOnUser
 }

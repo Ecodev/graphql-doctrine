@@ -11,7 +11,7 @@ use GraphQL\Type\Definition\Type;
  * A factory to create an InputObjectType from a Doctrine entity to
  * specify joins.
  */
-final class FilterJoinsTypeFactory extends AbstractTypeFactory
+final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
 {
     /**
      * Create an InputObjectType from a Doctrine entity to
@@ -44,7 +44,7 @@ final class FilterJoinsTypeFactory extends AbstractTypeFactory
      */
     public function getField(string $className): array
     {
-        $joinsType = $this->types->getFilterJoins($className);
+        $joinsType = $this->types->getFilterGroupJoin($className);
 
         $joinsField = [
             'name' => 'joins',
