@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GraphQLTests\Doctrine;
+namespace GraphQLTests\Doctrine\Definition\Operator;
 
 use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
 use GraphQL\Doctrine\Definition\Operator\BetweenOperatorType;
@@ -10,6 +10,7 @@ use GraphQL\Doctrine\Definition\Operator\EmptyOperatorType;
 use GraphQL\Doctrine\Definition\Operator\EqualOperatorType;
 use GraphQL\Doctrine\Definition\Operator\GreaterOperatorType;
 use GraphQL\Doctrine\Definition\Operator\GreaterOrEqualOperatorType;
+use GraphQL\Doctrine\Definition\Operator\GroupOperatorType;
 use GraphQL\Doctrine\Definition\Operator\HaveOperatorType;
 use GraphQL\Doctrine\Definition\Operator\InOperatorType;
 use GraphQL\Doctrine\Definition\Operator\LessOperatorType;
@@ -19,6 +20,7 @@ use GraphQL\Doctrine\Definition\Operator\NullOperatorType;
 use GraphQL\Doctrine\Factory\UniqueNameFactory;
 use GraphQL\Type\Definition\Type;
 use GraphQLTests\Doctrine\Blog\Model\User;
+use GraphQLTests\Doctrine\TypesTrait;
 
 final class OperatorsTest extends \PHPUnit\Framework\TestCase
 {
@@ -43,9 +45,15 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
 
         $actual = $operator->getDqlCondition($uniqueNameFactory, $metadata, $queryBuilder, $alias, $field, $args);
 
-        self::assertEquals($expected, $actual, 'DQL condition should match');
+        self::assertSame($expected, $actual, 'DQL condition should match');
+
         if (is_string($expected)) {
             self::assertSame(mb_substr_count($expected, ':'), $queryBuilder->getParameters()->count(), 'should declare the same number of parameters that are actually used');
+        }
+
+        if ($className === GroupOperatorType::class) {
+            self::assertCount(1, $queryBuilder->getDQLPart('groupBy'));
+            self::assertSame(['alias.field'], $queryBuilder->getDQLPart('groupBy')[0]->getParts());
         }
     }
 
@@ -332,6 +340,25 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                 [
                     'value' => 123,
                     'not' => true,
+                ],
+            ],
+            [
+                null,
+                GroupOperatorType::class,
+                null,
+            ],
+            [
+                null,
+                GroupOperatorType::class,
+                [
+                    'value' => null,
+                ],
+            ],
+            [
+                null,
+                GroupOperatorType::class,
+                [
+                    'value' => true,
                 ],
             ],
         ];

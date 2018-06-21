@@ -98,6 +98,50 @@ input GreaterOrEqualOperatorString {
 }
 
 """
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while
+still allowing him to enter arbitrary values.
+"""
+input GroupOperatorBoolean {
+  """This field is never used and can be ignored"""
+  value: Boolean = null
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while
+still allowing him to enter arbitrary values.
+"""
+input GroupOperatorDateTime {
+  """This field is never used and can be ignored"""
+  value: Boolean = null
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while
+still allowing him to enter arbitrary values.
+"""
+input GroupOperatorID {
+  """This field is never used and can be ignored"""
+  value: Boolean = null
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while
+still allowing him to enter arbitrary values.
+"""
+input GroupOperatorString {
+  """This field is never used and can be ignored"""
+  value: Boolean = null
+}
+
+"""
 When used on single valued association, it will use `IN` operator. On collection
 valued association it will use `MEMBER OF` operator.
 """
@@ -287,6 +331,7 @@ input PostFilterGroupConditionBody {
   lessOrEqual: LessOrEqualOperatorString
   like: LikeOperatorString
   null: NullOperatorString
+  group: GroupOperatorString
 }
 
 """Type to specify a condition on a specific field"""
@@ -300,6 +345,7 @@ input PostFilterGroupConditionCreationDate {
   lessOrEqual: LessOrEqualOperatorDateTime
   like: LikeOperatorDateTime
   null: NullOperatorDateTime
+  group: GroupOperatorDateTime
 }
 
 """Type to specify a condition on a specific field"""
@@ -318,6 +364,7 @@ input PostFilterGroupConditionId {
   lessOrEqual: LessOrEqualOperatorID
   like: LikeOperatorID
   null: NullOperatorID
+  group: GroupOperatorID
   modulo: ModuloOperatorInt
 }
 
@@ -332,6 +379,7 @@ input PostFilterGroupConditionPublicationDate {
   lessOrEqual: LessOrEqualOperatorDateTime
   like: LikeOperatorDateTime
   null: NullOperatorDateTime
+  group: GroupOperatorDateTime
 }
 
 """Type to specify a condition on a specific field"""
@@ -345,6 +393,7 @@ input PostFilterGroupConditionStatus {
   lessOrEqual: LessOrEqualOperatorString
   like: LikeOperatorString
   null: NullOperatorString
+  group: GroupOperatorString
 }
 
 """Type to specify a condition on a specific field"""
@@ -358,6 +407,7 @@ input PostFilterGroupConditionTitle {
   lessOrEqual: LessOrEqualOperatorString
   like: LikeOperatorString
   null: NullOperatorString
+  group: GroupOperatorString
 }
 
 """Type to specify a condition on a specific field"""
@@ -373,6 +423,7 @@ input PostFilterGroupConditionUser {
   lessOrEqual: LessOrEqualOperatorID
   like: LikeOperatorID
   null: NullOperatorID
+  group: GroupOperatorID
 }
 
 """Type to specify join tables in a filter"""
@@ -407,6 +458,7 @@ input UserFilterGroupConditionCreationDate {
   lessOrEqual: LessOrEqualOperatorDateTime
   like: LikeOperatorDateTime
   null: NullOperatorDateTime
+  group: GroupOperatorDateTime
 }
 
 """Type to specify a condition on a specific field"""
@@ -420,6 +472,7 @@ input UserFilterGroupConditionEmail {
   lessOrEqual: LessOrEqualOperatorString
   like: LikeOperatorString
   null: NullOperatorString
+  group: GroupOperatorString
 }
 
 """Type to specify a condition on a specific field"""
@@ -433,6 +486,7 @@ input UserFilterGroupConditionId {
   lessOrEqual: LessOrEqualOperatorID
   like: LikeOperatorID
   null: NullOperatorID
+  group: GroupOperatorID
   modulo: ModuloOperatorInt
 }
 
@@ -447,6 +501,7 @@ input UserFilterGroupConditionIsAdministrator {
   lessOrEqual: LessOrEqualOperatorBoolean
   like: LikeOperatorBoolean
   null: NullOperatorBoolean
+  group: GroupOperatorBoolean
 }
 
 """Type to specify a condition on a specific field"""
@@ -462,6 +517,7 @@ input UserFilterGroupConditionManager {
   lessOrEqual: LessOrEqualOperatorID
   like: LikeOperatorID
   null: NullOperatorID
+  group: GroupOperatorID
 }
 
 """Type to specify a condition on a specific field"""
@@ -475,6 +531,7 @@ input UserFilterGroupConditionName {
   lessOrEqual: LessOrEqualOperatorString
   like: LikeOperatorString
   null: NullOperatorString
+  group: GroupOperatorString
 }
 
 """Type to specify a condition on a specific field"""
@@ -488,6 +545,7 @@ input UserFilterGroupConditionPassword {
   lessOrEqual: LessOrEqualOperatorString
   like: LikeOperatorString
   null: NullOperatorString
+  group: GroupOperatorString
 }
 
 """Type to specify a condition on a specific field"""

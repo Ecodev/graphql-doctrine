@@ -13,6 +13,7 @@ use GraphQL\Doctrine\Definition\Operator\EmptyOperatorType;
 use GraphQL\Doctrine\Definition\Operator\EqualOperatorType;
 use GraphQL\Doctrine\Definition\Operator\GreaterOperatorType;
 use GraphQL\Doctrine\Definition\Operator\GreaterOrEqualOperatorType;
+use GraphQL\Doctrine\Definition\Operator\GroupOperatorType;
 use GraphQL\Doctrine\Definition\Operator\HaveOperatorType;
 use GraphQL\Doctrine\Definition\Operator\InOperatorType;
 use GraphQL\Doctrine\Definition\Operator\LessOperatorType;
@@ -183,6 +184,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
             LessOrEqualOperatorType::class,
             LikeOperatorType::class,
             NullOperatorType::class,
+            GroupOperatorType::class,
         ];
 
         $associationOperators = [
