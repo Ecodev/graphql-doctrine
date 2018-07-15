@@ -60,7 +60,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
         $type = $this->types->getFilter($className);
 
         $this->applyGroups($metadata, $type, $filter, $alias);
-        $this->applySorting($className, $sorting, $alias);
+        $this->applySorting($metadata, $className, $sorting, $alias);
 
         return $this->queryBuilder;
     }
@@ -161,16 +161,17 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
     /**
      * Apply sorting to the query builder
      *
+     * @param ClassMetadata $metadata
      * @param string $className
      * @param array $sorting
      * @param string $alias
      */
-    private function applySorting(string $className, array $sorting, string $alias): void
+    private function applySorting(ClassMetadata $metadata, string $className, array $sorting, string $alias): void
     {
         foreach ($sorting as $sort) {
             $customSort = $this->sortingTypeFactory->getCustomSorting($className, $sort['field']);
             if ($customSort) {
-                $customSort($this->queryBuilder, $sort['order']);
+                $customSort($this->uniqueNameFactory, $metadata, $this->queryBuilder, $alias, $sort['order']);
             } else {
                 $this->queryBuilder->addOrderBy($alias . '.' . $sort['field'], $sort['order']);
             }

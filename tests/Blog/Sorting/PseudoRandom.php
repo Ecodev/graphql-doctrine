@@ -6,6 +6,8 @@ namespace GraphQLTests\Doctrine\Blog\Sorting;
 
 use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Sorting\SortingInterface;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use GraphQL\Doctrine\Factory\UniqueNameFactory;
 
 final class PseudoRandom implements SortingInterface
 {
@@ -13,10 +15,8 @@ final class PseudoRandom implements SortingInterface
     {
     }
 
-    public function __invoke(QueryBuilder $queryBuilder, string $order): void
+    public function __invoke(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $order): void
     {
-        $alias = $queryBuilder->getRootAliases()[0];
-
         $queryBuilder->addSelect('MOD(' . $alias . '.id, 5) AS HIDDEN score');
         $queryBuilder->addOrderBy('score', $order);
     }
