@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine\Blog\Sorting;
 
-use Doctrine\ORM\QueryBuilder;
-use GraphQL\Doctrine\Sorting\SortingInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Factory\UniqueNameFactory;
+use GraphQL\Doctrine\Sorting\SortingInterface;
 
 final class PseudoRandom implements SortingInterface
 {

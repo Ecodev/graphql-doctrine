@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Sorting;
 
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Factory\UniqueNameFactory;
 
 /**
