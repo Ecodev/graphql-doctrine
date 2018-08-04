@@ -354,7 +354,7 @@ one matching the setter name. But if the setter itself has an argument with a de
 value, it will take precedence.
 
 So the following will make an input type with an optional field `name` with a
-default value `jane`, an optional field `foo` with a default value `defaultFoo` and
+default value `john`, an optional field `foo` with a default value `defaultFoo` and
 a mandatory field `bar` without any default value:
 
 ```php
@@ -400,12 +400,12 @@ possible to write custom filters and sorting.
 
 #### Custom filters
 
-A custom filer must extend `AbstractOperator`.  This will allow to define custom arguments to for
+A custom filer must extend `AbstractOperator`.  This will allow to define custom arguments for
 the API, and then a method to build the DQL condition corresponding to the argument.
 
 This would also allow to filter on joined relations by carefully adding joins when necessary.
 
-Then custom filter might used like so:
+Then custom filter might be used like so:
 
 ```php
 use GraphQL\Doctrine\Annotation as API;
@@ -423,12 +423,12 @@ final class Post extends AbstractModel
 
 #### Custom sorting
 
-A custom sorting option must implement `SortingInterface`. It has no arguments and must define
-how to apply the sorting.
+A custom sorting option must implement `SortingInterface`. The constructor has no arguments and
+the `__invoke()` must define how to apply the sorting.
 
 Similarly to custom filter, it may be possible to carefully add join if necessary.
 
-Then custom sorting might used like so:
+Then custom sorting might be used like so:
 
 ```php
 use GraphQL\Doctrine\Annotation as API;
