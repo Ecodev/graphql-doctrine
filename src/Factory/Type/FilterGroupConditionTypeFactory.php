@@ -192,20 +192,21 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
             EmptyOperatorType::class,
         ];
 
-        $operators = [];
+        $operatorKeys = [];
         if ($isAssociation) {
-            $operators = array_merge($operators, $associationOperators);
+            $operatorKeys = array_merge($operatorKeys, $associationOperators);
         }
 
         if (!$isCollection) {
-            $operators = array_merge($operators, $scalarOperators);
+            $operatorKeys = array_merge($operatorKeys, $scalarOperators);
         }
 
-        $operators = array_fill_keys($operators, $leafType);
+        $operators = array_fill_keys($operatorKeys, $leafType);
 
         // Add custom filters if any
         if (isset($this->customOperators[$fieldName])) {
             foreach ($this->customOperators[$fieldName] as $filter) {
+                /** @var LeafType $leafType */
                 $leafType = $this->types->get($filter->type);
                 $operators[$filter->operator] = $leafType;
             }

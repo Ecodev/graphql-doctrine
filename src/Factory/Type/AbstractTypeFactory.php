@@ -34,7 +34,7 @@ abstract class AbstractTypeFactory extends AbstractFactory
     {
         $class = new \ReflectionClass($className);
 
-        $comment = $class->getDocComment();
+        $comment = $class->getDocComment() ?: '';
 
         // Remove the comment markers
         $comment = preg_replace('~^\s*(/\*\*|\* ?|\*/)~m', '', $comment);

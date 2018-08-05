@@ -120,7 +120,7 @@ final class User extends AbstractModel
      */
     public function setPassword(string $password): void
     {
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = password_hash($password, PASSWORD_DEFAULT) ?: '';
     }
 
     /**
