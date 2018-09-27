@@ -113,7 +113,7 @@ final class TypesTest extends \PHPUnit\Framework\TestCase
         self::assertSame($viaPhp, $viaType);
     }
 
-    public function testDoctrineWithoutAnnotationDriverMustThrow(): void
+    public function testDoctrineWithMappingDriverChainUsingDefault(): void
     {
         // Replace annotation driver with a driver chain
         $config = $this->entityManager->getConfiguration();
@@ -122,8 +122,28 @@ final class TypesTest extends \PHPUnit\Framework\TestCase
         $config->setMetadataDriverImpl($chain);
 
         $type = $this->types->getOutput(Post::class);
+        self::assertNotEmpty($type->getFields());
+    }
 
-        $this->expectExceptionMessage('graphql-doctrine requires Doctrine to be configured with a `Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver`.');
+    public function testDoctrineWithMappingDriverChainUsingNamespace(): void
+    {
+        // Replace annotation driver with a driver chain
+        $config = $this->entityManager->getConfiguration();
+        $chain = new MappingDriverChain();
+        $chain->addDriver($config->getMetadataDriverImpl(), 'GraphQLTests\Doctrine\Blog\Model');
+        $config->setMetadataDriverImpl($chain);
+
+        $type = $this->types->getOutput(Post::class);
+        self::assertNotEmpty($type->getFields());
+    }
+
+    public function testDoctrineWithMappingDriverChainMissingNamespace() {
+        $config = $this->entityManager->getConfiguration();
+        $chain = new MappingDriverChain();
+        $type = $this->types->getOutput(Post::class);
+
+        $config->setMetadataDriverImpl($chain);
+        $this->expectExceptionMessage('graphql-doctrine requires GraphQLTests\Doctrine\Blog\Model\Post entity to be configured with a `Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver`.');
         $type->getFields();
     }
 
