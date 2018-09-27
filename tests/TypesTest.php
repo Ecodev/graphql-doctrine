@@ -6,6 +6,7 @@ namespace GraphQLTests\Doctrine;
 
 use DateTime;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
+use Doctrine\ORM\Mapping\Driver\XmlDriver;
 use Doctrine\ORM\Tools\SchemaValidator;
 use GraphQL\Type\Definition\BooleanType;
 use GraphQL\Type\Definition\ObjectType;
@@ -113,7 +114,7 @@ final class TypesTest extends \PHPUnit\Framework\TestCase
         self::assertSame($viaPhp, $viaType);
     }
 
-    public function testDoctrineWithoutAnnotationDriverMustThrow(): void
+    public function testDoctrineWithMappingDriverChainUsingDefault(): void
     {
         // Replace annotation driver with a driver chain
         $config = $this->entityManager->getConfiguration();
@@ -122,7 +123,43 @@ final class TypesTest extends \PHPUnit\Framework\TestCase
         $config->setMetadataDriverImpl($chain);
 
         $type = $this->types->getOutput(Post::class);
+        self::assertNotEmpty($type->getFields());
+    }
 
+    public function testDoctrineWithMappingDriverChainUsingNamespace(): void
+    {
+        // Replace annotation driver with a driver chain
+        $config = $this->entityManager->getConfiguration();
+        $chain = new MappingDriverChain();
+        $driver = $config->getMetadataDriverImpl();
+        if ($driver === null) {
+            self::fail('driver missing');
+        } else {
+            $chain->addDriver($driver, 'GraphQLTests\Doctrine\Blog\Model');
+            $config->setMetadataDriverImpl($chain);
+            $type = $this->types->getOutput(Post::class);
+            self::assertNotEmpty($type->getFields());
+        }
+    }
+
+    public function testDoctrineWithMappingDriverChainMissingNamespace(): void
+    {
+        $config = $this->entityManager->getConfiguration();
+        $chain = new MappingDriverChain();
+        $type = $this->types->getOutput(Post::class);
+
+        $config->setMetadataDriverImpl($chain);
+        $this->expectExceptionMessage('graphql-doctrine requires GraphQLTests\Doctrine\Blog\Model\Post entity to be configured with a `Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver`.');
+        $type->getFields();
+    }
+
+    public function testDoctrineWithoutAnnotationDriverMustThrow(): void
+    {
+        // Replace annotation driver with a driver chain
+        $config = $this->entityManager->getConfiguration();
+        $type = $this->types->getOutput(Post::class);
+
+        $config->setMetadataDriverImpl(new XmlDriver([]));
         $this->expectExceptionMessage('graphql-doctrine requires Doctrine to be configured with a `Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver`.');
         $type->getFields();
     }
