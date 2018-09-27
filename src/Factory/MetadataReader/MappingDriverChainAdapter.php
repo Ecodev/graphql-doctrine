@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GraphQL\Doctrine\Factory\MetadataReader;
 
 use Doctrine\Common\Annotations\Reader;
@@ -9,7 +11,6 @@ use GraphQL\Doctrine\Exception;
 
 class MappingDriverChainAdapter implements Reader
 {
-
     private $chainDriver;
 
     public function __construct(MappingDriverChain $chainDriver)
@@ -19,12 +20,17 @@ class MappingDriverChainAdapter implements Reader
 
     /**
      * Find the reader for the class
-     * @return Reader
+     *
+     * @param mixed $className
+     *
      * @throws Exception
+     *
+     * @return Reader
      */
-    protected function findReader($className): Reader {
+    protected function findReader($className): Reader
+    {
         foreach ($this->chainDriver->getDrivers() as $namespace => $driver) {
-            if (stripos($className, $namespace) === 0) {
+            if (mb_stripos($className, $namespace) === 0) {
                 if ($driver instanceof AnnotationDriver) {
                     return $driver->getReader();
                 }
@@ -33,19 +39,21 @@ class MappingDriverChainAdapter implements Reader
         if ($this->chainDriver->getDefaultDriver() instanceof AnnotationDriver) {
             return $this->chainDriver->getDefaultDriver()->getReader();
         }
+
         throw new Exception('graphql-doctrine requires ' . $className . ' entity to be configured with a `' . AnnotationDriver::class . '`.');
     }
 
     /**
      * Gets the annotations applied to a class.
      *
-     * @param \ReflectionClass $class The ReflectionClass of the class from which
-     *                                the class annotations should be read.
+     * @param \ReflectionClass $class the ReflectionClass of the class from which
+     *                                the class annotations should be read
      *
-     * @return array An array of Annotations.
      * @throws Exception
+     *
+     * @return array an array of Annotations
      */
-    function getClassAnnotations(\ReflectionClass $class)
+    public function getClassAnnotations(\ReflectionClass $class)
     {
         return $this->findReader($class->getName())
             ->getClassAnnotations($class);
@@ -54,14 +62,15 @@ class MappingDriverChainAdapter implements Reader
     /**
      * Gets a class annotation.
      *
-     * @param \ReflectionClass $class The ReflectionClass of the class from which
-     *                                         the class annotations should be read.
-     * @param string $annotationName The name of the annotation.
+     * @param \ReflectionClass $class the ReflectionClass of the class from which
+     *                                         the class annotations should be read
+     * @param string $annotationName the name of the annotation
      *
-     * @return object|null The Annotation or NULL, if the requested annotation does not exist.
      * @throws Exception
+     *
+     * @return null|object the Annotation or NULL, if the requested annotation does not exist
      */
-    function getClassAnnotation(\ReflectionClass $class, $annotationName)
+    public function getClassAnnotation(\ReflectionClass $class, $annotationName)
     {
         return $this->findReader($class->getName())
             ->getClassAnnotation($class, $annotationName);
@@ -70,13 +79,14 @@ class MappingDriverChainAdapter implements Reader
     /**
      * Gets the annotations applied to a method.
      *
-     * @param \ReflectionMethod $method The ReflectionMethod of the method from which
-     *                                  the annotations should be read.
+     * @param \ReflectionMethod $method the ReflectionMethod of the method from which
+     *                                  the annotations should be read
      *
-     * @return array An array of Annotations.
      * @throws Exception
+     *
+     * @return array an array of Annotations
      */
-    function getMethodAnnotations(\ReflectionMethod $method)
+    public function getMethodAnnotations(\ReflectionMethod $method)
     {
         return $this->findReader($method->getDeclaringClass()->getName())
             ->getMethodAnnotations($method);
@@ -85,13 +95,14 @@ class MappingDriverChainAdapter implements Reader
     /**
      * Gets a method annotation.
      *
-     * @param \ReflectionMethod $method The ReflectionMethod to read the annotations from.
-     * @param string $annotationName The name of the annotation.
+     * @param \ReflectionMethod $method the ReflectionMethod to read the annotations from
+     * @param string $annotationName the name of the annotation
      *
-     * @return object|null The Annotation or NULL, if the requested annotation does not exist.
      * @throws Exception
+     *
+     * @return null|object the Annotation or NULL, if the requested annotation does not exist
      */
-    function getMethodAnnotation(\ReflectionMethod $method, $annotationName)
+    public function getMethodAnnotation(\ReflectionMethod $method, $annotationName)
     {
         return $this->findReader($method->getDeclaringClass()->getName())
             ->getMethodAnnotation($method, $annotationName);
@@ -100,13 +111,14 @@ class MappingDriverChainAdapter implements Reader
     /**
      * Gets the annotations applied to a property.
      *
-     * @param \ReflectionProperty $property The ReflectionProperty of the property
-     *                                      from which the annotations should be read.
+     * @param \ReflectionProperty $property the ReflectionProperty of the property
+     *                                      from which the annotations should be read
      *
-     * @return array An array of Annotations.
      * @throws Exception
+     *
+     * @return array an array of Annotations
      */
-    function getPropertyAnnotations(\ReflectionProperty $property)
+    public function getPropertyAnnotations(\ReflectionProperty $property)
     {
         return $this->findReader($property->getDeclaringClass()->getName())
             ->getPropertyAnnotations($property);
@@ -115,13 +127,14 @@ class MappingDriverChainAdapter implements Reader
     /**
      * Gets a property annotation.
      *
-     * @param \ReflectionProperty $property The ReflectionProperty to read the annotations from.
-     * @param string $annotationName The name of the annotation.
+     * @param \ReflectionProperty $property the ReflectionProperty to read the annotations from
+     * @param string $annotationName the name of the annotation
      *
-     * @return object|null The Annotation or NULL, if the requested annotation does not exist.
      * @throws Exception
+     *
+     * @return null|object the Annotation or NULL, if the requested annotation does not exist
      */
-    function getPropertyAnnotation(\ReflectionProperty $property, $annotationName)
+    public function getPropertyAnnotation(\ReflectionProperty $property, $annotationName)
     {
         return $this->findReader($property->getDeclaringClass()->getName())
             ->getPropertyAnnotation($property, $annotationName);
