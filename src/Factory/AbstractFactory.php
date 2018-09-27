@@ -6,8 +6,10 @@ namespace GraphQL\Doctrine\Factory;
 
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver;
+use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\EntityManager;
 use GraphQL\Doctrine\Exception;
+use GraphQL\Doctrine\Factory\MetadataReader\MappingDriverChainAdapter;
 use GraphQL\Doctrine\Types;
 
 /**
@@ -34,15 +36,21 @@ abstract class AbstractFactory
     /**
      * Get annotation reader
      *
+     * @throws Exception
+     * @throws \Doctrine\ORM\ORMException
+     *
      * @return Reader
      */
     final protected function getAnnotationReader(): Reader
     {
         $driver = $this->entityManager->getConfiguration()->getMetadataDriverImpl();
-        if (!$driver instanceof AnnotationDriver) {
-            throw new Exception('graphql-doctrine requires Doctrine to be configured with a `' . AnnotationDriver::class . '`.');
+        if ($driver instanceof AnnotationDriver) {
+            return $driver->getReader();
+        }
+        if ($driver instanceof MappingDriverChain) {
+            return new MappingDriverChainAdapter($driver);
         }
 
-        return $driver->getReader();
+        throw new Exception('graphql-doctrine requires Doctrine to be configured with a `' . AnnotationDriver::class . '`.');
     }
 }
