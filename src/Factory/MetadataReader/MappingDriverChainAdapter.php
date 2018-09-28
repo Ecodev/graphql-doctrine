@@ -10,7 +10,7 @@ use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use GraphQL\Doctrine\Exception;
 use ReflectionClass;
 
-class MappingDriverChainAdapter implements Reader
+final class MappingDriverChainAdapter implements Reader
 {
     /**
      * @var MappingDriverChain

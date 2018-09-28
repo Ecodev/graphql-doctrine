@@ -11,7 +11,7 @@ use GraphQL\Doctrine\Annotation\Field;
 use GraphQL\Doctrine\Factory\MetadataReader\MappingDriverChainAdapter;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 
-class MappingDriverChainAdapterTest extends \PHPUnit\Framework\TestCase
+final class MappingDriverChainAdapterTest extends \PHPUnit\Framework\TestCase
 {
     use TypesTrait {
         setUp as typeSetup;
