@@ -6,6 +6,7 @@ namespace GraphQL\Doctrine\Definition;
 
 use Doctrine\ORM\EntityManager;
 use GraphQL\Doctrine\Utils;
+use GraphQL\Error\Error;
 use GraphQL\Type\Definition\IDType;
 
 /**
@@ -44,9 +45,16 @@ final class EntityIDType extends IDType
      */
     public function serialize($value): string
     {
-        $id = $this->entityManager->getClassMetadata($this->className)->getIdentifierValues($value);
+        $idArray = $this->entityManager->getClassMetadata($this->className)->getIdentifierValues($value);
 
-        return (string) reset($id);
+        if (count($idArray) > 1) {
+            throw new Error(
+                'Entities with compound primary keys are not supported by EntityIDType. '
+                . 'The entity `' . $this->className . "` cannot serialize it's id."
+            );
+        }
+
+        return (string) reset($idArray);
     }
 
     /**
