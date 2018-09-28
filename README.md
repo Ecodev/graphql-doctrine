@@ -77,7 +77,7 @@ $schema = new Schema([
                 'resolve' => function ($root, $args) use ($types): void {
                     $queryBuilder = $types->createFilteredQueryBuilder(Post::class, $args['filter'] ?? [], $args['sorting'] ?? []);
 
-                // execute query...
+                    // execute query...
                 },
             ],
         ],
