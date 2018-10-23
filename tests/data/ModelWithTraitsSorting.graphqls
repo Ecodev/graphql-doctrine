@@ -20,5 +20,5 @@ enum SortingOrder {
 }
 
 type query {
-  defaultField: [ModelWithTraitsSorting!]
+  defaultField(defaultArg: [ModelWithTraitsSorting!]): Boolean
 }

@@ -1,6 +1,5 @@
 schema {
   query: query
-  mutation: mutation
 }
 
 input BetweenOperatorID {
@@ -74,11 +73,6 @@ input ModelWithTraitsFilterGroup {
   """The logic operator to be used within all conditions in this group"""
   conditionsLogic: LogicalOperator = AND
 
-  """
-  Optional joins to either filter the query or fetch related objects from DB in a single query
-  """
-  joins: ModelWithTraitsFilterGroupJoin
-
   """Conditions to be applied on fields"""
   conditions: [ModelWithTraitsFilterGroupCondition!]
 }
@@ -108,11 +102,6 @@ input ModelWithTraitsFilterGroupConditionId {
   group: GroupOperatorID
 }
 
-"""Type to specify join tables in a filter"""
-input ModelWithTraitsFilterGroupJoin {
-
-}
-
 input NullOperatorID {
   not: Boolean = false
 }
@@ -121,10 +110,6 @@ input SearchOperatorString {
   term: String!
 }
 
-type mutation {
-  defaultField: ModelWithTraitsFilter
-}
-
 type query {
-
+  defaultField(defaultArg: ModelWithTraitsFilter): Boolean
 }

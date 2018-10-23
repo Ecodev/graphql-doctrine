@@ -75,27 +75,32 @@ final class FilterTypeFactory extends AbstractTypeFactory
      */
     private function getGroupType(string $className, string $typeName): InputObjectType
     {
+        $fields = [
+            [
+                'name' => 'groupLogic',
+                'type' => $this->types->get('LogicalOperator'),
+                'description' => 'The logic operator to be used to append this group',
+                'defaultValue' => 'AND',
+            ],
+            [
+                'name' => 'conditionsLogic',
+                'type' => $this->types->get('LogicalOperator'),
+                'description' => 'The logic operator to be used within all conditions in this group',
+                'defaultValue' => 'AND',
+            ],
+            $this->filterGroupConditionTypeFactory->getField($className),
+        ];
+
+        // Only create join type, if there is anything to join on
+        if ($this->filterGroupJoinTypeFactory->canCreate($className)) {
+            $fields[] = $this->filterGroupJoinTypeFactory->getField($className);
+        }
+
         $conditionType = new InputObjectType([
             'name' => $typeName . 'Group',
             'description' => 'Specify a set of joins and conditions to filter `' . Utils::getTypeName($className) . '`',
-            'fields' => [
-                [
-                    'name' => 'groupLogic',
-                    'type' => $this->types->get('LogicalOperator'),
-                    'description' => 'The logic operator to be used to append this group',
-                    'defaultValue' => 'AND',
-                ],
-                [
-                    'name' => 'conditionsLogic',
-                    'type' => $this->types->get('LogicalOperator'),
-                    'description' => 'The logic operator to be used within all conditions in this group',
-                    'defaultValue' => 'AND',
-                ],
-                $this->filterGroupJoinTypeFactory->getField($className),
-                $this->filterGroupConditionTypeFactory->getField($className),
-            ],
+            'fields' => $fields,
         ]);
-
         $this->types->registerInstance($conditionType);
 
         return $conditionType;

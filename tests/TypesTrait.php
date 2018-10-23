@@ -7,9 +7,11 @@ namespace GraphQLTests\Doctrine;
 use DateTime;
 use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\BooleanType;
+use GraphQL\Type\Definition\InputType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\OutputType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\WrappingType;
 use GraphQL\Type\Schema;
 use GraphQL\Utils\SchemaPrinter;
 use GraphQLTests\Doctrine\Blog\Types\CustomType;
@@ -72,29 +74,39 @@ trait TypesTrait
      */
     private function getSchemaForType(Type $type): Schema
     {
-        if ($type instanceof OutputType) {
-            $config = [
-                'query' => new ObjectType([
-                    'name' => 'query',
-                    'fields' => [
-                        'defaultField' => $type,
-                    ],
-                ]),
-            ];
+        if ($type instanceof WrappingType) {
+            $wrappedType = $type->getWrappedType(true);
         } else {
-            $config = [
-                'query' => new ObjectType([
-                    'name' => 'query',
-                ]),
-                'mutation' => new ObjectType([
-                    'name' => 'mutation',
-                    'fields' => [
-                        'defaultField' => $type,
-                    ],
-                ]),
-            ];
+            $wrappedType = $type;
         }
 
-        return new Schema($config);
+        if ($wrappedType instanceof OutputType) {
+            $outputType = $type;
+            $args = [];
+        } elseif ($wrappedType instanceof InputType) {
+            $outputType = Type::boolean();
+            $args = [
+                'defaultArg' => $type,
+            ];
+        } else {
+            throw new \Exception('Unsupported type: ' . get_class($wrappedType));
+        }
+
+        $config = [
+            'query' => new ObjectType([
+                'name' => 'query',
+                'fields' => [
+                    'defaultField' => [
+                        'type' => $outputType,
+                        'args' => $args,
+                    ],
+                ],
+            ]),
+        ];
+
+        $schema = new Schema($config);
+        $schema->assertValid();
+
+        return $schema;
     }
 }

@@ -77,4 +77,16 @@ final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
 
         return $fields;
     }
+
+    /**
+     * Return whether it is possible to create a valid type for join
+     *
+     * @param string $className
+     *
+     * @return bool
+     */
+    public function canCreate(string $className): bool
+    {
+        return !empty($this->entityManager->getClassMetadata($className)->associationMappings);
+    }
 }

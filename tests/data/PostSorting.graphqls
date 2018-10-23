@@ -26,5 +26,5 @@ enum SortingOrder {
 }
 
 type query {
-  defaultField: [PostSorting!]
+  defaultField(defaultArg: [PostSorting!]): Boolean
 }

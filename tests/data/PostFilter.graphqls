@@ -1,6 +1,5 @@
 schema {
   query: query
-  mutation: mutation
 }
 
 input BetweenOperatorBoolean {
@@ -299,13 +298,13 @@ input PostFilterGroup {
   """The logic operator to be used within all conditions in this group"""
   conditionsLogic: LogicalOperator = AND
 
+  """Conditions to be applied on fields"""
+  conditions: [PostFilterGroupCondition!]
+
   """
   Optional joins to either filter the query or fetch related objects from DB in a single query
   """
   joins: PostFilterGroupJoin
-
-  """Conditions to be applied on fields"""
-  conditions: [PostFilterGroupCondition!]
 }
 
 """Type to specify conditions on fields"""
@@ -560,10 +559,6 @@ input UserFilterGroupJoin {
   manager: JoinOnUser
 }
 
-type mutation {
-  defaultField: PostFilter
-}
-
 type query {
-
+  defaultField(defaultArg: PostFilter): Boolean
 }

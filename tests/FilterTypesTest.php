@@ -20,7 +20,7 @@ final class FilterTypesTest extends \PHPUnit\Framework\TestCase
         $this->assertAllTypes('tests/data/PostFilter.graphqls', $actual);
     }
 
-    public function testCanInheritSortingFromTraits(): void
+    public function testCanInheritFilterFromTraits(): void
     {
         $actual = $this->types->getFilter(ModelWithTraits::class);
         $this->assertAllTypes('tests/data/ModelWithTraitsFilter.graphqls', $actual);
