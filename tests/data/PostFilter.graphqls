@@ -169,28 +169,35 @@ input InOperatorString {
   not: Boolean = false
 }
 
+input JoinOnNoInversedBy {
+  type: JoinType = innerJoin
+
+  """Conditions to be applied on fields"""
+  conditions: [NoInversedByFilterGroupCondition!]
+}
+
 input JoinOnPost {
   type: JoinType = innerJoin
+
+  """Conditions to be applied on fields"""
+  conditions: [PostFilterGroupCondition!]
 
   """
   Optional joins to either filter the query or fetch related objects from DB in a single query
   """
   joins: PostFilterGroupJoin
-
-  """Conditions to be applied on fields"""
-  conditions: [PostFilterGroupCondition!]
 }
 
 input JoinOnUser {
   type: JoinType = innerJoin
 
+  """Conditions to be applied on fields"""
+  conditions: [UserFilterGroupCondition!]
+
   """
   Optional joins to either filter the query or fetch related objects from DB in a single query
   """
   joins: UserFilterGroupJoin
-
-  """Conditions to be applied on fields"""
-  conditions: [UserFilterGroupCondition!]
 }
 
 """Join types to be used in DQL"""
@@ -269,6 +276,41 @@ input ModuloOperatorInt {
   value: Int!
 }
 
+"""Type to specify conditions on fields"""
+input NoInversedByFilterGroupCondition {
+  creationDate: NoInversedByFilterGroupConditionCreationDate
+  id: NoInversedByFilterGroupConditionId
+}
+
+"""Type to specify a condition on a specific field"""
+input NoInversedByFilterGroupConditionCreationDate {
+  between: BetweenOperatorDateTime
+  equal: EqualOperatorDateTime
+  greater: GreaterOperatorDateTime
+  greaterOrEqual: GreaterOrEqualOperatorDateTime
+  in: InOperatorDateTime
+  less: LessOperatorDateTime
+  lessOrEqual: LessOrEqualOperatorDateTime
+  like: LikeOperatorDateTime
+  null: NullOperatorDateTime
+  group: GroupOperatorDateTime
+}
+
+"""Type to specify a condition on a specific field"""
+input NoInversedByFilterGroupConditionId {
+  between: BetweenOperatorID
+  equal: EqualOperatorID
+  greater: GreaterOperatorID
+  greaterOrEqual: GreaterOrEqualOperatorID
+  in: InOperatorID
+  less: LessOperatorID
+  lessOrEqual: LessOrEqualOperatorID
+  like: LikeOperatorID
+  null: NullOperatorID
+  group: GroupOperatorID
+  modulo: ModuloOperatorInt
+}
+
 input NullOperatorBoolean {
   not: Boolean = false
 }
@@ -316,6 +358,7 @@ input PostFilterGroupCondition {
   status: PostFilterGroupConditionStatus
   id: PostFilterGroupConditionId
   user: PostFilterGroupConditionUser
+  noInversedBy: PostFilterGroupConditionNoInversedBy
   custom: PostFilterGroupConditionCustom
 }
 
@@ -365,6 +408,22 @@ input PostFilterGroupConditionId {
   null: NullOperatorID
   group: GroupOperatorID
   modulo: ModuloOperatorInt
+}
+
+"""Type to specify a condition on a specific field"""
+input PostFilterGroupConditionNoInversedBy {
+  have: HaveOperatorID
+  empty: EmptyOperatorID
+  between: BetweenOperatorID
+  equal: EqualOperatorID
+  greater: GreaterOperatorID
+  greaterOrEqual: GreaterOrEqualOperatorID
+  in: InOperatorID
+  less: LessOperatorID
+  lessOrEqual: LessOrEqualOperatorID
+  like: LikeOperatorID
+  null: NullOperatorID
+  group: GroupOperatorID
 }
 
 """Type to specify a condition on a specific field"""
@@ -428,6 +487,7 @@ input PostFilterGroupConditionUser {
 """Type to specify join tables in a filter"""
 input PostFilterGroupJoin {
   user: JoinOnUser
+  noInversedBy: JoinOnNoInversedBy
 }
 
 input SearchOperatorString {
