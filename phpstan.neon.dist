@@ -4,7 +4,6 @@ parameters:
         - src/
         - tests/
     ignoreErrors:
-        - '~^Call to method getWrappedType\(\) on an unknown class GraphQL\\Type\\Definition\\callback.$~'
         - '~^Property GraphQL\\Doctrine\\Annotation\\Field::\$type \(string\) does not accept GraphQL\\Type\\Definition\\~'
         - '~^Instanceof between string and GraphQL\\Type\\Definition\\Type will always evaluate to false\.$~'
         - '~^Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::~'

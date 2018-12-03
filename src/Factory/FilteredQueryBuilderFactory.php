@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GraphQL\Doctrine\Factory;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
@@ -55,7 +56,9 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
         $this->dqlConditions = [];
         $this->uniqueJoins = [];
 
-        $this->queryBuilder = $this->entityManager->getRepository($className)->createQueryBuilder($alias);
+        /** @var EntityRepository $repository */
+        $repository = $this->entityManager->getRepository($className);
+        $this->queryBuilder = $repository->createQueryBuilder($alias);
         $metadata = $this->entityManager->getClassMetadata($className);
         $type = $this->types->getFilter($className);
 

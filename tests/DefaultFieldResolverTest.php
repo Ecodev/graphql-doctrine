@@ -16,8 +16,7 @@ final class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
 {
     public function providerDefaultFieldResolver(): array
     {
-        $entityID = new class() extends EntityID
-        {
+        $entityID = new class() extends EntityID {
             public function __construct()
             {
             }
