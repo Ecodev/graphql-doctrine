@@ -32,8 +32,8 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "@stable",
         "phpunit/phpunit": "@stable",
-        "zendframework/zend-servicemanager": "^3.3",
-        "phpstan/phpstan": "^0.10.2"
+        "zendframework/zend-servicemanager":"@stable",
+        "phpstan/phpstan": "^0.10.5"
     },
     "license": "MIT"
 }
