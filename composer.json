@@ -33,7 +33,7 @@
         "friendsofphp/php-cs-fixer": "@stable",
         "phpunit/phpunit": "@stable",
         "zendframework/zend-servicemanager":"@stable",
-        "phpstan/phpstan": "^0.10.5"
+        "phpstan/phpstan": "@stable"
     },
     "license": "MIT"
 }
