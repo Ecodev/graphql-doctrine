@@ -386,13 +386,13 @@ create and apply generic filters. This expose basic SQL-like syntax that should 
 cases.
 
 Filters are structured in an ordered list of groups. Each group contains an unordered set of joins
-and conditions on fields. For simple case a single group of a few conditions would probably be enough.
+and conditions on fields. For simple cases a single group of a few conditions would probably be enough.
 But the ordered list of group allow more advanced filtering with `OR` logic between a set of conditions.
 
 In the case of the `Post` class, it would generate [that GraphQL schema](tests/data/PostFilter.graphqls)
 for filtering, and for sorting it would be [that simpler schema](tests/data/PostSorting.graphqls).
 
-For concrete example of possibilities and variables syntax, refer to the
+For concrete examples of possibilities and variables syntax, refer to the
 [test cases](tests/data/query-builder).
 
 For security and complexity reasons, it is not meant to solve advanced use cases. For those it is
@@ -405,7 +405,7 @@ the API, and then a method to build the DQL condition corresponding to the argum
 
 This would also allow to filter on joined relations by carefully adding joins when necessary.
 
-Then custom filter might be used like so:
+Then a custom filter might be used like so:
 
 ```php
 use GraphQL\Doctrine\Annotation as API;
@@ -426,9 +426,9 @@ final class Post extends AbstractModel
 A custom sorting option must implement `SortingInterface`. The constructor has no arguments and
 the `__invoke()` must define how to apply the sorting.
 
-Similarly to custom filter, it may be possible to carefully add join if necessary.
+Similarly to custom filters, it may be possible to carefully add joins if necessary.
 
-Then custom sorting might be used like so:
+Then a custom sorting might be used like so:
 
 ```php
 use GraphQL\Doctrine\Annotation as API;
