@@ -52,6 +52,12 @@ final class SortingTypeFactory extends AbstractTypeFactory
                         'type' => Type::nonNull($fieldsEnum),
                     ],
                     [
+                        'name' => 'nullAsHighest',
+                        'type' => Type::boolean(),
+                        'description' => 'If true `NULL` values will be considered as the highest value, so appearing last in a `ASC` order, and first in a `DESC` order.',
+                        'defaultValue' => false,
+                    ],
+                    [
                         'name' => 'order',
                         'type' => $this->types->get('SortingOrder'),
                         'defaultValue' => 'ASC',

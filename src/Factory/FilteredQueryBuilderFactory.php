@@ -176,7 +176,14 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
             if ($customSort) {
                 $customSort($this->uniqueNameFactory, $metadata, $this->queryBuilder, $alias, $sort['order']);
             } else {
-                $this->queryBuilder->addOrderBy($alias . '.' . $sort['field'], $sort['order']);
+                $sortingField = $alias . '.' . $sort['field'];
+                if ($sort['nullAsHighest'] ?? false) {
+                    $expression = 'CASE WHEN ' . $sortingField . ' IS NULL THEN 1 ELSE 0 END';
+                    $sortingField = $this->uniqueNameFactory->createAliasName('sorting');
+                    $this->queryBuilder->addSelect($expression . ' AS HIDDEN ' . $sortingField);
+                }
+
+                $this->queryBuilder->addOrderBy($sortingField, $sort['order']);
             }
         }
     }

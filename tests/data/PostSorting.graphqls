@@ -4,6 +4,12 @@ schema {
 
 input PostSorting {
   field: PostSortingField!
+
+  """
+  If true `NULL` values will be considered as the highest value, so appearing
+  last in a `ASC` order, and first in a `DESC` order.
+  """
+  nullAsHighest: Boolean = false
   order: SortingOrder = ASC
 }
 
