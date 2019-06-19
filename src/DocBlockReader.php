@@ -71,7 +71,7 @@ final class DocBlockReader
     {
         $name = preg_quote($param->getName());
 
-        if (preg_match('/@param\h+(\H+)\h+\$' . $name . '(\h|\n|\r\n)/', $this->comment, $m)) {
+        if (preg_match('~@param\h+(\H+)\h+\$' . $name . '(\h|\n|\r\n)~', $this->comment, $m)) {
             return trim($m[1]);
         }
 
