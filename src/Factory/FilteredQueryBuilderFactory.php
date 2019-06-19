@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GraphQL\Doctrine\Factory;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
@@ -55,7 +56,9 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
         $this->dqlConditions = [];
         $this->uniqueJoins = [];
 
-        $this->queryBuilder = $this->entityManager->getRepository($className)->createQueryBuilder($alias);
+        /** @var EntityRepository $repository */
+        $repository = $this->entityManager->getRepository($className);
+        $this->queryBuilder = $repository->createQueryBuilder($alias);
         $metadata = $this->entityManager->getClassMetadata($className);
         $type = $this->types->getFilter($className);
 
@@ -173,7 +176,14 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
             if ($customSort) {
                 $customSort($this->uniqueNameFactory, $metadata, $this->queryBuilder, $alias, $sort['order']);
             } else {
-                $this->queryBuilder->addOrderBy($alias . '.' . $sort['field'], $sort['order']);
+                $sortingField = $alias . '.' . $sort['field'];
+                if ($sort['nullAsHighest'] ?? false) {
+                    $expression = 'CASE WHEN ' . $sortingField . ' IS NULL THEN 1 ELSE 0 END';
+                    $sortingField = $this->uniqueNameFactory->createAliasName('sorting');
+                    $this->queryBuilder->addSelect($expression . ' AS HIDDEN ' . $sortingField);
+                }
+
+                $this->queryBuilder->addOrderBy($sortingField, $sort['order']);
             }
         }
     }

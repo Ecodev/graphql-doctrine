@@ -4,7 +4,6 @@ parameters:
         - src/
         - tests/
     ignoreErrors:
-        - '~^Call to method getWrappedType\(\) on an unknown class GraphQL\\Type\\Definition\\callback.$~'
         - '~^Property GraphQL\\Doctrine\\Annotation\\Field::\$type \(string\) does not accept GraphQL\\Type\\Definition\\~'
         - '~^Instanceof between string and GraphQL\\Type\\Definition\\Type will always evaluate to false\.$~'
         - '~^Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::~'
@@ -12,6 +11,13 @@ parameters:
         - '~::__construct\(\) does not call parent constructor from GraphQL\\Doctrine\\Definition\\EntityID\.$~'
         - '~Property GraphQL\\Doctrine\\Annotation\\Field::\$description \(string\) does not accept string\|null\.$~'
         - '~^Parameter #1 \$method of method GraphQL\\Doctrine\\Factory\\AbstractFieldsConfigurationFactory\:\:getMethodFullName\(\) expects ReflectionMethod, ReflectionFunctionAbstract given\.$~'
-        - '~^Parameter #3 \$param of method GraphQL\\Doctrine\\Factory\\InputFieldsConfigurationFactory\:\:completeField\(\) expects ReflectionParameter, ReflectionParameter\|false given\.$~'
         - '~^Parameter #1 \$driver of method Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriverChain\:\:setDefaultDriver\(\) expects Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver, Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\|null given\.$~'
-        - '~^Right side of && is always true\.$~'
+        - '~^Parameter #1 \$str of function lcfirst expects string, string\|null given.$~'
+        - '~^Parameter #3 \$subject of function preg_replace expects array\|string, string\|null given\.$~'
+        - '~^Parameter #2 \$str of function explode expects string, string\|null given\.$~'
+        - '~^Parameter #1 \$str of function ucfirst expects string, string\|null given\.$~'
+        - '~^Method GraphQL\\Doctrine\\Utils::getTypeName\(\) should return string but returns string\|false\.$~'
+        - '~^Parameter #2 \$type of method GraphQL\\Doctrine\\Factory\\AbstractFieldsConfigurationFactory::adjustNamespace\(\) expects string, string\|null given\.$~'
+        - '~^Access to an undefined property GraphQL\\Language\\AST\\Node::\$kind\.$~'
+        - '~^Return type \(GraphQL\\Doctrine\\Definition\\EntityID\) of method GraphQL\\Doctrine\\Definition\\EntityIDType::parseValue\(\) should be compatible with return type \(string\) of method GraphQL\\Type\\Definition\\IDType::parseValue\(\)$~'
+        - '~^Return type \(GraphQL\\Doctrine\\Definition\\EntityID\) of method GraphQL\\Doctrine\\Definition\\EntityIDType::parseLiteral\(\) should be compatible with return type \(string\|null\) of method GraphQL\\Type\\Definition\\IDType::parseLiteral\(\)$~'

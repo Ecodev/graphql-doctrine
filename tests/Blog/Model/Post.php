@@ -7,6 +7,7 @@ namespace GraphQLTests\Doctrine\Blog\Model;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
+use GraphQLTests\Doctrine\Blog\Model\Special\NoInversedBy;
 
 /**
  * A blog post with title and body
@@ -56,6 +57,13 @@ final class Post extends AbstractModel
      * @ORM\ManyToOne(targetEntity="GraphQLTests\Doctrine\Blog\Model\User", inversedBy="posts")
      */
     private $user;
+
+    /**
+     * @var NoInversedBy
+     *
+     * @ORM\ManyToOne(targetEntity="GraphQLTests\Doctrine\Blog\Model\Special\NoInversedBy")
+     */
+    private $noInversedBy;
 
     /**
      * Set title

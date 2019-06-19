@@ -19,6 +19,7 @@ final class DefaultFieldResolver
 {
     public function __invoke($source, array $args, $context, ResolveInfo $info)
     {
+        /** @var string $fieldName */
         $fieldName = $info->fieldName;
         $property = null;
 

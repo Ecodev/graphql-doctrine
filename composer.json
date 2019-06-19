@@ -24,16 +24,16 @@
         }
     },
     "require": {
-        "doctrine/orm": "^2.5",
+        "doctrine/orm": "^2.6",
         "php": "^7.1",
-        "webonyx/graphql-php": "^0.12.0",
+        "webonyx/graphql-php": "^0.13.0",
         "psr/container": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "@stable",
         "phpunit/phpunit": "@stable",
-        "zendframework/zend-servicemanager": "^3.3",
-        "phpstan/phpstan": "^0.10.2"
+        "zendframework/zend-servicemanager":"@stable",
+        "phpstan/phpstan": "@stable"
     },
     "license": "MIT"
 }

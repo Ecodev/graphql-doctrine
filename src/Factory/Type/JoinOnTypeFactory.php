@@ -46,15 +46,21 @@ final class JoinOnTypeFactory extends AbstractTypeFactory
         $type = new InputObjectType([
             'name' => $typeName,
             'fields' => function () use ($className): array {
-                return [
+                $fields = [
                     [
                         'name' => 'type',
                         'type' => $this->types->get('JoinType'),
                         'defaultValue' => 'innerJoin',
                     ],
-                    $this->filterGroupJoinTypeFactory->getField($className),
                     $this->filterGroupConditionTypeFactory->getField($className),
                 ];
+
+                // Only create join type, if there is anything to join on
+                if ($this->filterGroupJoinTypeFactory->canCreate($className)) {
+                    $fields[] = $this->filterGroupJoinTypeFactory->getField($className);
+                }
+
+                return $fields;
             },
         ]);
 
