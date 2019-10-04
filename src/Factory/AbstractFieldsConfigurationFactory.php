@@ -160,6 +160,10 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      */
     private function adjustNamespace(ReflectionMethod $method, string $type): string
     {
+        if ($type === 'self') {
+            $type = $method->getDeclaringClass()->getName();
+        }
+
         $namespace = $method->getDeclaringClass()->getNamespaceName();
         if ($namespace) {
             $namespace = $namespace . '\\';

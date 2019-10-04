@@ -47,6 +47,12 @@ final class OutputTypesTest extends \PHPUnit\Framework\TestCase
         $this->assertType('tests/data/DefaultValue.graphqls', $actual);
     }
 
+    public function testSelfSupportOutput(): void
+    {
+        $actual = $this->types->getOutput(Blog\Model\Special\SelfSupport::class);
+        $this->assertType('tests/data/SelfSupport.graphqls', $actual);
+    }
+
     public function testFieldWithoutTypeMustThrow(): void
     {
         $this->expectExceptionMessage('Could not find type for method `GraphQLTests\Doctrine\Blog\Model\Special\NoType::getWithoutTypeHint()`. Either type hint the return value, or specify the type with `@API\Field` annotation.');

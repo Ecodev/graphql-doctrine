@@ -1,0 +1,5 @@
+type SelfSupport {
+  sibling: SelfSupport
+  id: ID!
+  creationDate: DateTime!
+}

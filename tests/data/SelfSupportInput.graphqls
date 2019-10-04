@@ -1,0 +1,4 @@
+input SelfSupportInput {
+  sibling: SelfSupportID!
+  creationDate: DateTime!
+}

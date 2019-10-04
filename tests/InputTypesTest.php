@@ -34,6 +34,12 @@ final class InputTypesTest extends \PHPUnit\Framework\TestCase
         $this->assertType('tests/data/DefaultValuePartialInput.graphqls', $actual);
     }
 
+    public function testSelfSupportInput(): void
+    {
+        $actual = $this->types->getInput(Blog\Model\Special\SelfSupport::class);
+        $this->assertType('tests/data/SelfSupportInput.graphqls', $actual);
+    }
+
     public function testInputWithoutTypeMustThrow(): void
     {
         $this->expectExceptionMessage('Could not find type for parameter `$bar` for method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeInput::setFoo()`. Either type hint the parameter, or specify the type with `@API\Input` annotation.');
