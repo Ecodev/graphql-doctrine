@@ -8,7 +8,7 @@
 [![License](https://poser.pugx.org/ecodev/graphql-doctrine/license.png)](https://packagist.org/packages/ecodev/graphql-doctrine)
 [![Join the chat at https://gitter.im/Ecodev/graphql-doctrine](https://badges.gitter.im/Ecodev/graphql-doctrine.svg)](https://gitter.im/Ecodev/graphql-doctrine)
 
-A library to declare GraphQL types from Doctrine entities, PHP 7.1 type hinting,
+A library to declare GraphQL types from Doctrine entities, PHP type hinting,
 and annotations, and to be used with [webonyx/graphql-php](https://github.com/webonyx/graphql-php).
 
 It reads most information from type hints, complete some things from existing
@@ -495,4 +495,4 @@ been an inspiration to write this package. While the goals are similar, the way
 it works is different. In Doctrine GraphQL Mapper, annotations are spread between
 properties and methods (and classes for filtering), but we work only on methods.
 Setup seems slightly more complex, but might be more flexible. We built on conventions
-and widespread use of PHP 7.1 type hinting to have an easier out-of-the-box experience.
+and widespread use of PHP type hinting to have an easier out-of-the-box experience.
