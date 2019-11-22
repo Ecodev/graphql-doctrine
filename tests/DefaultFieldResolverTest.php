@@ -8,6 +8,7 @@ use GraphQL\Doctrine\DefaultFieldResolver;
 use GraphQL\Doctrine\Definition\EntityID;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use GraphQLTests\Doctrine\Blog\Model\Special\DefaultValue;
 use GraphQLTests\Doctrine\Blog\Model\Special\IgnoredGetter;
@@ -56,7 +57,7 @@ final class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
     public function testDefaultFieldResolver($expected, $source, string $fieldName, array $args = []): void
     {
         $resolver = new DefaultFieldResolver();
-        $info = new ResolveInfo($fieldName, null, null, new ObjectType(['name' => 'foo']), null, new Schema([]), null, null, null, null);
+        $info = new ResolveInfo($fieldName, [], Type::boolean(), new ObjectType(['name' => 'foo']), [], new Schema([]), [], null, null, []);
         $actual = $resolver($source, $args, null, $info);
         self::assertSame($expected, $actual);
     }

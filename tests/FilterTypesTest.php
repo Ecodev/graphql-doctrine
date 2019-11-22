@@ -29,7 +29,13 @@ final class FilterTypesTest extends \PHPUnit\Framework\TestCase
     public function providerFilteredQueryBuilder(): array
     {
         $values = [];
-        foreach (glob('tests/data/query-builder/*.php') as $file) {
+        $files = glob('tests/data/query-builder/*.php');
+
+        if ($files === false) {
+            throw new \Exception('Cannot list files');
+        }
+
+        foreach ($files as $file) {
             $name = basename($file);
             $values[$name] = require $file;
         }
