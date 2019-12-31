@@ -47,6 +47,7 @@ use Zend\ServiceManager\ServiceManager;
 $customTypes = new ServiceManager([
     'invokables' => [
         DateTime::class => DateTimeType::class,
+        'datetime' => DateTimeType::class,
         'PostStatus' => PostStatusType::class,
     ],
 ]);
