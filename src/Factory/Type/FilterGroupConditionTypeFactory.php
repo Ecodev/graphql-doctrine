@@ -58,8 +58,20 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
                 // Get custom operators
                 $this->readCustomOperatorsFromAnnotation($metadata->reflClass);
 
+                // This will convert 'datetime' string to 'DateTime'
+                $fieldMappings = array_map(function($mapping){
+                    switch ($mapping['type']) {
+                        case 'datetime': {
+                            $mapping['type'] = 'DateTime';
+                            break;
+                        }
+                    }
+                    
+                    return $mapping;
+                }, $metadata->fieldMappings);
+
                 // Get all scalar fields
-                foreach ($metadata->fieldMappings as $mapping) {
+                foreach ($fieldMappings as $mapping) {
                     if ($mapping['id'] ?? false) {
                         $leafType = Type::id();
                     } else {
