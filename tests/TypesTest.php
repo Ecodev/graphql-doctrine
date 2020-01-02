@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace GraphQLTests\Doctrine;
 
 use DateTime;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\Mapping\Driver\XmlDriver;
 use Doctrine\ORM\Tools\SchemaValidator;
+use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use GraphQL\Type\Definition\BooleanType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
