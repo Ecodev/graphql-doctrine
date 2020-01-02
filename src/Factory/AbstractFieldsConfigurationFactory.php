@@ -166,11 +166,14 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
 
         $namespace = $method->getDeclaringClass()->getNamespaceName();
         if ($namespace) {
-            $namespace = $namespace . '\\';
-        }
-        $namespacedType = $namespace . $type;
+            $namespacedType = $namespace . '\\' . $type;
 
-        return class_exists($namespacedType) ? $namespacedType : $type;
+            if (class_exists($namespacedType)) {
+                return $namespacedType;
+            }
+        }
+
+        return $type;
     }
 
     /**
