@@ -10,6 +10,7 @@ use GraphQL\Doctrine\DocBlockReader;
 use GraphQL\Doctrine\Exception;
 use GraphQL\Type\Definition\Type;
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionParameter;
 
 /**
@@ -154,9 +155,10 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
             $arg->setTypeInstance($this->getTypeFromPhpDeclaration($method, $typeDeclaration, true));
         }
 
+        /** @var ReflectionNamedType $type */
         $type = $param->getType();
         if (!$arg->getTypeInstance() && $type) {
-            $this->throwIfArray($param, (string) $type);
+            $this->throwIfArray($param,  $type->getName());
             $arg->setTypeInstance($this->reflectionTypeToType($type, true));
         }
 

@@ -7,6 +7,7 @@ namespace GraphQL\Doctrine\Factory;
 use GraphQL\Doctrine\Annotation\Input;
 use GraphQL\Doctrine\DocBlockReader;
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionParameter;
 
 /**
@@ -124,9 +125,10 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
         }
 
         // If still no type, look for type hint
+        /** @var ReflectionNamedType $type */
         $type = $param->getType();
         if (!$field->getTypeInstance() && $type) {
-            $this->throwIfArray($param, (string) $type);
+            $this->throwIfArray($param, $type->getName());
             $field->setTypeInstance($this->reflectionTypeToType($type, true));
         }
 

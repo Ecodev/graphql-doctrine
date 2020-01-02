@@ -15,6 +15,7 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\WrappingType;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionProperty;
 use ReflectionType;
@@ -185,12 +186,13 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      */
     final protected function getTypeFromReturnTypeHint(ReflectionMethod $method, string $fieldName): ?Type
     {
+        /** @var ReflectionNamedType $returnType */
         $returnType = $method->getReturnType();
         if (!$returnType) {
             return null;
         }
 
-        $returnTypeName = (string) $returnType;
+        $returnTypeName = $returnType->getName();
         if (is_a($returnTypeName, Collection::class, true) || $returnTypeName === 'array') {
             $targetEntity = $this->getTargetEntity($fieldName);
             if (!$targetEntity) {
