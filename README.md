@@ -41,7 +41,7 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use GraphQL\Doctrine\DefaultFieldResolver;
 use GraphQL\Doctrine\Types;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 // Define custom types with a PSR-11 container
 $customTypes = new ServiceManager([
@@ -256,7 +256,7 @@ as `DateTime`, or a custom class, then it will have to be configured beforehand.
 
 The configuration is done with a [PSR-11 container](https://www.php-fig.org/psr/psr-11/)
 implementation configured according to your needs. In the following example, we use
-[zendframework/zend-servicemanager](https://github.com/zendframework/zend-servicemanager),
+[laminas/laminas-servicemanager](https://github.com/laminas/laminas-servicemanager),
 because it offers useful concepts such as: invokables, aliases, factories and abstract
 factories. But any other PSR-11 container implementation could be used instead.
 

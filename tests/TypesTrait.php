@@ -18,7 +18,7 @@ use GraphQLTests\Doctrine\Blog\Types\CustomType;
 use GraphQLTests\Doctrine\Blog\Types\DateTimeType;
 use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
 use stdClass;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Trait to easily set up types and assert them
