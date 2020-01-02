@@ -17,8 +17,8 @@ use GraphQL\Utils\SchemaPrinter;
 use GraphQLTests\Doctrine\Blog\Types\CustomType;
 use GraphQLTests\Doctrine\Blog\Types\DateTimeType;
 use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
-use stdClass;
 use Laminas\ServiceManager\ServiceManager;
+use stdClass;
 
 /**
  * Trait to easily set up types and assert them

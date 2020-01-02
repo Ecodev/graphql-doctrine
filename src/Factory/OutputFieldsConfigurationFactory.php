@@ -158,7 +158,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
         /** @var ReflectionNamedType $type */
         $type = $param->getType();
         if (!$arg->getTypeInstance() && $type) {
-            $this->throwIfArray($param,  $type->getName());
+            $this->throwIfArray($param, $type->getName());
             $arg->setTypeInstance($this->reflectionTypeToType($type, true));
         }
 
