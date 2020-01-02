@@ -7,7 +7,6 @@ namespace GraphQLTests\Doctrine;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
-use GraphQL\Doctrine\Annotation\Field;
 use GraphQL\Doctrine\Factory\MetadataReader\MappingDriverChainAdapter;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 
@@ -17,6 +16,9 @@ final class MappingDriverChainAdapterTest extends \PHPUnit\Framework\TestCase
         setUp as typeSetup;
     }
 
+    /**
+     * @var MappingDriverChainAdapter
+     */
     private $chainAdapter;
 
     public function setUp(): void
@@ -46,7 +48,7 @@ final class MappingDriverChainAdapterTest extends \PHPUnit\Framework\TestCase
 
     public function testGetMethodAnnotation(): void
     {
-        self::assertNotNull($this->chainAdapter->getMethodAnnotations(new \ReflectionMethod(Post::class, 'getBody'), Field::class));
+        self::assertNotNull($this->chainAdapter->getMethodAnnotations(new \ReflectionMethod(Post::class, 'getBody')));
     }
 
     public function testGetPropertyAnnotations(): void

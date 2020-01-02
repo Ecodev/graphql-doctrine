@@ -125,9 +125,8 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
         }
 
         // If still no type, look for type hint
-        /** @var ReflectionNamedType $type */
         $type = $param->getType();
-        if (!$field->getTypeInstance() && $type) {
+        if (!$field->getTypeInstance() && $type instanceof ReflectionNamedType) {
             $this->throwIfArray($param, $type->getName());
             $field->setTypeInstance($this->reflectionTypeToType($type, true));
         }

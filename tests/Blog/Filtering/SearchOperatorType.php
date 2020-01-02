@@ -27,6 +27,10 @@ final class SearchOperatorType extends AbstractOperator
 
     public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, ?array $args): ?string
     {
+        if (!$args) {
+            return null;
+        }
+
         $words = preg_split('/[[:space:]]+/', $args['term'], -1, PREG_SPLIT_NO_EMPTY);
         if (!$words) {
             return null;

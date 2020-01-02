@@ -18,7 +18,6 @@ use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
 use ReflectionProperty;
-use ReflectionType;
 
 /**
  * A factory to create a configuration for all fields of an entity
@@ -186,9 +185,8 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      */
     final protected function getTypeFromReturnTypeHint(ReflectionMethod $method, string $fieldName): ?Type
     {
-        /** @var ReflectionNamedType $returnType */
         $returnType = $method->getReturnType();
-        if (!$returnType) {
+        if (!$returnType instanceof ReflectionNamedType) {
             return null;
         }
 
@@ -213,12 +211,12 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     /**
      * Convert a reflected type to GraphQL Type
      *
-     * @param ReflectionType $reflectionType
+     * @param ReflectionNamedType $reflectionType
      * @param bool $isEntityId
      *
      * @return Type
      */
-    final protected function reflectionTypeToType(ReflectionType $reflectionType, bool $isEntityId = false): Type
+    final protected function reflectionTypeToType(ReflectionNamedType $reflectionType, bool $isEntityId = false): Type
     {
         $name = $reflectionType->getName();
         if ($name === 'self') {

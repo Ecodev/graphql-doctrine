@@ -48,7 +48,7 @@ abstract class AbstractAnnotation
      */
     private $hasDefaultValue = false;
 
-    public function __construct($values = [])
+    public function __construct(array $values = [])
     {
         foreach ($values as $key => $value) {
             $setter = 'set' . ucfirst($key);

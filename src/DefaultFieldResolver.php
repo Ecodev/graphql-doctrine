@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine;
 
-use ArrayAccess;
 use Closure;
 use GraphQL\Doctrine\Definition\EntityID;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -17,6 +16,14 @@ use ReflectionMethod;
  */
 final class DefaultFieldResolver
 {
+    /**
+     * @param mixed $source
+     * @param mixed[] $args
+     * @param mixed $context
+     * @param ResolveInfo $info
+     *
+     * @return null|mixed
+     */
     public function __invoke($source, array $args, $context, ResolveInfo $info)
     {
         /** @var string $fieldName */
@@ -25,7 +32,7 @@ final class DefaultFieldResolver
 
         if (is_object($source)) {
             $property = $this->resolveObject($source, $args, $fieldName);
-        } elseif (is_array($source) || $source instanceof ArrayAccess) {
+        } elseif (is_array($source)) {
             $property = $this->resolveArray($source, $fieldName);
         }
 

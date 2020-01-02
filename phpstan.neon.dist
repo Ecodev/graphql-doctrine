@@ -3,15 +3,17 @@ parameters:
     paths:
         - src/
         - tests/
+    excludes_analyse:
+        - tests/Blog/Model/*
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
         - '~^Property GraphQL\\Doctrine\\Annotation\\Field::\$type \(string\) does not accept GraphQL\\Type\\Definition\\~'
         - '~^Instanceof between string and GraphQL\\Type\\Definition\\Type will always evaluate to false\.$~'
         - '~^Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::~'
         - '~^Parameter #2 \$type of static method GraphQL\\Doctrine\\Utils::getOperatorTypeName~'
-        - '~::__construct\(\) does not call parent constructor from GraphQL\\Doctrine\\Definition\\EntityID\.$~'
         - '~Property GraphQL\\Doctrine\\Annotation\\Field::\$description \(string\) does not accept string\|null\.$~'
         - '~^Parameter #1 \$method of method GraphQL\\Doctrine\\Factory\\AbstractFieldsConfigurationFactory\:\:getMethodFullName\(\) expects ReflectionMethod, ReflectionFunctionAbstract given\.$~'
-        - '~^Parameter #1 \$driver of method Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriverChain\:\:setDefaultDriver\(\) expects Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver, Doctrine\\Common\\Persistence\\Mapping\\Driver\\MappingDriver\|null given\.$~'
         - '~^Parameter #1 \$str of function lcfirst expects string, string\|null given.$~'
         - '~^Parameter #3 \$subject of function preg_replace expects array\|string, string\|null given\.$~'
         - '~^Parameter #2 \$str of function explode expects string, string\|null given\.$~'
@@ -21,3 +23,5 @@ parameters:
         - '~^Access to an undefined property GraphQL\\Language\\AST\\Node::\$kind\.$~'
         - '~^Return type \(GraphQL\\Doctrine\\Definition\\EntityID\) of method GraphQL\\Doctrine\\Definition\\EntityIDType::parseValue\(\) should be compatible with return type \(string\) of method GraphQL\\Type\\Definition\\IDType::parseValue\(\)$~'
         - '~^Return type \(GraphQL\\Doctrine\\Definition\\EntityID\) of method GraphQL\\Doctrine\\Definition\\EntityIDType::parseLiteral\(\) should be compatible with return type \(string\|null\) of method GraphQL\\Type\\Definition\\IDType::parseLiteral\(\)$~'
+        - '~^Parameter #1 \$driver of method Doctrine\\Persistence\\Mapping\\Driver\\MappingDriverChain\:\:setDefaultDriver\(\) expects Doctrine\\Persistence\\Mapping\\Driver\\MappingDriver, Doctrine\\Persistence\\Mapping\\Driver\\MappingDriver\|null given\.$~'
+        - '~^Parameter #1 \$argument of class ReflectionClass constructor expects class\-string\<T of object\>\|T of object, string given\.$~'
