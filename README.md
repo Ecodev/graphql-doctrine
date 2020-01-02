@@ -49,6 +49,9 @@ $customTypes = new ServiceManager([
         DateTime::class => DateTimeType::class,
         'PostStatus' => PostStatusType::class,
     ],
+    'aliases' => [
+        'datetime' => DateTime::class, // Declare alias for Doctrine type to be used for filters
+    ],
 ]);
 
 // Configure the type registry
