@@ -499,7 +499,6 @@ input UserFilterGroupCondition {
   creationDate: UserFilterGroupConditionCreationDate
   name: UserFilterGroupConditionName
   email: UserFilterGroupConditionEmail
-  password: UserFilterGroupConditionPassword
   isAdministrator: UserFilterGroupConditionIsAdministrator
   id: UserFilterGroupConditionId
   posts: UserFilterGroupConditionPosts
@@ -581,20 +580,6 @@ input UserFilterGroupConditionManager {
 
 """Type to specify a condition on a specific field"""
 input UserFilterGroupConditionName {
-  between: BetweenOperatorString
-  equal: EqualOperatorString
-  greater: GreaterOperatorString
-  greaterOrEqual: GreaterOrEqualOperatorString
-  in: InOperatorString
-  less: LessOperatorString
-  lessOrEqual: LessOrEqualOperatorString
-  like: LikeOperatorString
-  null: NullOperatorString
-  group: GroupOperatorString
-}
-
-"""Type to specify a condition on a specific field"""
-input UserFilterGroupConditionPassword {
   between: BetweenOperatorString
   equal: EqualOperatorString
   greater: GreaterOperatorString

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Factory\Type;
 
+use GraphQL\Doctrine\Annotation\Exclude;
 use GraphQL\Doctrine\Annotation\Filter;
 use GraphQL\Doctrine\Annotation\Filters;
 
@@ -25,6 +26,7 @@ use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\LeafType;
 use GraphQL\Type\Definition\Type;
 use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * A factory to create an InputObjectType from a Doctrine entity to
@@ -60,6 +62,13 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
 
                 // Get all scalar fields
                 foreach ($metadata->fieldMappings as $mapping) {
+
+                    // Skip exclusion specified by user
+                    $property = $metadata->getReflectionProperty($mapping['fieldName']);
+                    if ($this->isExcluded($property)) {
+                        continue;
+                    }
+
                     if ($mapping['id'] ?? false) {
                         $leafType = Type::id();
                     } else {
@@ -274,5 +283,19 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
         $name = preg_replace('~OperatorType$~', '', Utils::getTypeName($className));
 
         return lcfirst($name);
+    }
+
+    /**
+     * Returns whether the property is excluded
+     *
+     * @param ReflectionProperty $property
+     *
+     * @return bool
+     */
+    private function isExcluded(ReflectionProperty $property): bool
+    {
+        $exclude = $this->getAnnotationReader()->getPropertyAnnotation($property, Exclude::class);
+
+        return $exclude !== null;
     }
 }
