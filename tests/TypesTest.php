@@ -149,7 +149,7 @@ final class TypesTest extends \PHPUnit\Framework\TestCase
         $type = $this->types->getOutput(Post::class);
 
         $config->setMetadataDriverImpl($chain);
-        $this->expectExceptionMessage('graphql-doctrine requires GraphQLTests\Doctrine\Blog\Model\Post entity to be configured with a `Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver`.');
+        $this->expectExceptionMessage('graphql-doctrine requires GraphQLTests\Doctrine\Blog\Model\Post entity to be configured with a `Doctrine\Persistence\Mapping\Driver\AnnotationDriver`.');
         $type->getFields();
     }
 
@@ -160,7 +160,7 @@ final class TypesTest extends \PHPUnit\Framework\TestCase
         $type = $this->types->getOutput(Post::class);
 
         $config->setMetadataDriverImpl(new XmlDriver([]));
-        $this->expectExceptionMessage('graphql-doctrine requires Doctrine to be configured with a `Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver`.');
+        $this->expectExceptionMessage('graphql-doctrine requires Doctrine to be configured with a `Doctrine\Persistence\Mapping\Driver\AnnotationDriver`.');
         $type->getFields();
     }
 

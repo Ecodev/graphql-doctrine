@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace GraphQL\Doctrine\Factory\MetadataReader;
 
 use Doctrine\Common\Annotations\Reader;
-use Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
+use Doctrine\Persistence\Mapping\Driver\AnnotationDriver;
+use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use GraphQL\Doctrine\Exception;
 use ReflectionClass;
 

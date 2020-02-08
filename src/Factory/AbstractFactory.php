@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace GraphQL\Doctrine\Factory;
 
 use Doctrine\Common\Annotations\Reader;
-use Doctrine\Common\Persistence\Mapping\Driver\AnnotationDriver;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\Mapping\Driver\AnnotationDriver;
+use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use GraphQL\Doctrine\Exception;
 use GraphQL\Doctrine\Factory\MetadataReader\MappingDriverChainAdapter;
 use GraphQL\Doctrine\Types;
