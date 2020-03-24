@@ -15,8 +15,8 @@ type User {
     The status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post
     """
     status: PostStatus = public
-  ): [Post]!
-  postsWithIds(ids: [ID]!): [Post]!
+  ): [Post!]!
+  postsWithIds(ids: [ID!]!): [Post!]!
   manager: User
   id: ID!
   creationDate: DateTime!

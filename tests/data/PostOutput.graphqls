@@ -14,8 +14,8 @@ type Post {
 
   """Date of publication"""
   publicationDate: DateTime!
-  words: [String]!
-  hasWords(words: [String]!): Boolean!
+  words: [String!]!
+  hasWords(words: [String!]!): Boolean!
   isLong(wordLimit: Int = 50): Boolean!
   isAllowedEditing(user: UserID!): Boolean!
   id: ID!

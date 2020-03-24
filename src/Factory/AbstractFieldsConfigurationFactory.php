@@ -140,7 +140,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
         $type = $this->getTypeFromRegistry($name, $isEntityId);
 
         if ($isList) {
-            $type = Type::listOf($type);
+            $type = Type::listOf(Type::nonNull($type));
         }
 
         if (!$isNullable) {
@@ -200,7 +200,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
                 throw new Exception('The method ' . $this->getMethodFullName($method) . ' is type hinted with a return type of `' . $returnTypeName . '`, but the entity contained in that collection could not be automatically detected. Either fix the type hint, fix the doctrine mapping, or specify the type with `@API\Field` annotation.');
             }
 
-            $type = Type::listOf($this->getTypeFromRegistry($targetEntity, false));
+            $type = Type::listOf(Type::nonNull($this->getTypeFromRegistry($targetEntity, false)));
             if (!$returnType->allowsNull()) {
                 $type = Type::nonNull($type);
             }
