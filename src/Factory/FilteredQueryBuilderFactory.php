@@ -179,8 +179,9 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
                 $sortingField = $alias . '.' . $sort['field'];
                 if ($sort['nullAsHighest'] ?? false) {
                     $expression = 'CASE WHEN ' . $sortingField . ' IS NULL THEN 1 ELSE 0 END';
-                    $sortingField = $this->uniqueNameFactory->createAliasName('sorting');
-                    $this->queryBuilder->addSelect($expression . ' AS HIDDEN ' . $sortingField);
+                    $sortingFieldNullAsHighest = $this->uniqueNameFactory->createAliasName('sorting');
+                    $this->queryBuilder->addSelect($expression . ' AS HIDDEN ' . $sortingFieldNullAsHighest);
+                    $this->queryBuilder->addOrderBy($sortingFieldNullAsHighest, $sort['order']);
                 }
 
                 $this->queryBuilder->addOrderBy($sortingField, $sort['order']);

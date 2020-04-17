@@ -10,12 +10,8 @@ return [
     [
         [
             'field' => 'title',
+            'order' => 'DESC',
             'nullAsHighest' => true,
-            'order' => 'DESC',
-        ],
-        [
-            'field' => 'title',
-            'order' => 'DESC',
         ],
     ],
 ];

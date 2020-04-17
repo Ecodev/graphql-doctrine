@@ -13,9 +13,5 @@ return [
             'nullAsHighest' => true,
             'order' => 'ASC',
         ],
-        [
-            'field' => 'title',
-            'order' => 'ASC',
-        ],
     ],
 ];
