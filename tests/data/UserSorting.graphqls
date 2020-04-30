@@ -1,0 +1,34 @@
+schema {
+  query: query
+}
+
+"""Order to be used in DQL"""
+enum SortingOrder {
+  ASC
+  DESC
+}
+
+input UserSorting {
+  field: UserSortingField!
+
+  """
+  If true `NULL` values will be considered as the highest value, so appearing
+  last in a `ASC` order, and first in a `DESC` order.
+  """
+  nullAsHighest: Boolean = false
+  order: SortingOrder = ASC
+}
+
+"""Fields available for `UserSorting`"""
+enum UserSortingField {
+  creationDate
+  name
+  email
+  isAdministrator
+  id
+  pseudoRandom
+}
+
+type query {
+  defaultField(defaultArg: [UserSorting!]): Boolean
+}

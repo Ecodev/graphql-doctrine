@@ -6,6 +6,7 @@ namespace GraphQLTests\Doctrine;
 
 use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\Special\ModelWithTraits;
+use GraphQLTests\Doctrine\Blog\Model\User;
 
 final class SortingTypesTest extends \PHPUnit\Framework\TestCase
 {
@@ -15,6 +16,12 @@ final class SortingTypesTest extends \PHPUnit\Framework\TestCase
     {
         $actual = $this->types->getSorting(Post::class);
         $this->assertAllTypes('tests/data/PostSorting.graphqls', $actual);
+    }
+
+    public function testCanGetUserSorting(): void
+    {
+        $actual = $this->types->getSorting(User::class);
+        $this->assertAllTypes('tests/data/UserSorting.graphqls', $actual);
     }
 
     public function testCanInheritSortingFromTraits(): void
