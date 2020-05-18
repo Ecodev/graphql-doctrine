@@ -158,7 +158,7 @@ return PhpCsFixer\Config::create()
         'php_unit_size_class' => false, // That seems extra work to maintain for little benefits
         'php_unit_strict' => false, // We sometime actually need assertEquals
         'php_unit_test_annotation' => true,
-        'php_unit_test_case_static_method_calls' => true,
+        'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         'php_unit_test_class_requires_covers' => false, // We don't care as much as we should about coverage
         'phpdoc_add_missing_param_annotation' => true,
         'phpdoc_align' => false, // Waste of time
@@ -208,7 +208,7 @@ return PhpCsFixer\Config::create()
         'single_import_per_statement' => true,
         'single_line_after_imports' => true,
         'single_line_comment_style' => true,
-        'single_line_throw' => true, // I don't see any reason for having a special case for Exception
+        'single_line_throw' => false, // I don't see any reason for having a special case for Exception
         'single_quote' => true,
         'single_trait_insert_per_statement' => true,
         'space_after_semicolon' => true,

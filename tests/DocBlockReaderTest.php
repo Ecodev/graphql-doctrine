@@ -35,7 +35,7 @@ class DocBlockReaderTest extends \PHPUnit\Framework\TestCase
     {
         $reader = $this->create($comment);
         $actual = $reader->getMethodDescription();
-        static::assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function providerGetMethodDescription(): array
@@ -58,7 +58,7 @@ spanning lines'],
         $reader = $this->create($comment);
         $parameter = $this->createParameter($parameterName);
         $actual = $reader->getParameterDescription($parameter);
-        static::assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function providerGetParameterDescription(): array
@@ -80,7 +80,7 @@ spanning lines'],
         $reader = $this->create($comment);
         $parameter = $this->createParameter($parameterName);
         $actual = $reader->getParameterType($parameter);
-        static::assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function providerGetParameterType(): array
@@ -103,7 +103,7 @@ spanning lines'],
     {
         $reader = $this->create($comment);
         $actual = $reader->getReturnType();
-        static::assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function providerGetReturnType(): array
