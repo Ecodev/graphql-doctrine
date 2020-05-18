@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
-use Exception;
 use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
 use GraphQL\Doctrine\Factory\Type\SortingTypeFactory;
 use GraphQL\Doctrine\Types;
@@ -71,8 +70,6 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
 
     /**
      * Apply filters to the query builder
-     *
-     * @throws Exception
      */
     private function applyGroups(ClassMetadata $metadata, InputObjectType $type, array $filter, string $alias): void
     {
@@ -85,8 +82,6 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
 
     /**
      * Apply both joins and filters to the query builder
-     *
-     * @throws \Doctrine\ORM\Mapping\MappingException
      */
     private function applyJoinsAndFilters(ClassMetadata $metadata, string $alias, InputObjectType $typeFields, array $joins, array $conditions): void
     {
@@ -125,8 +120,6 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
 
     /**
      * Apply joins to the query builder
-     *
-     * @throws \Doctrine\ORM\Mapping\MappingException
      */
     private function applyJoins(ClassMetadata $metadata, array $joins, string $alias): void
     {

@@ -155,8 +155,6 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
 
     /**
      * Get a GraphQL type instance from PHP type hinted type, possibly looking up the content of collections
-     *
-     * @throws Exception
      */
     final protected function getTypeFromReturnTypeHint(ReflectionMethod $method, string $fieldName): ?Type
     {
@@ -224,8 +222,6 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
 
     /**
      * Throws exception if type is an array
-     *
-     * @throws Exception
      */
     final protected function throwIfArray(ReflectionParameter $param, ?string $type): void
     {
@@ -298,8 +294,6 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
 
     /**
      * Throws exception if argument type is invalid
-     *
-     * @throws Exception
      */
     final protected function throwIfNotInputType(ReflectionParameter $param, AbstractAnnotation $annotation): void
     {

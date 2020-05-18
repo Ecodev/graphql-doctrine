@@ -54,8 +54,6 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
 
     /**
      * Complete field with info from doc blocks and type hints
-     *
-     * @throws \GraphQL\Doctrine\Exception
      */
     private function completeField(Input $field, ReflectionMethod $method, ReflectionParameter $param): void
     {
@@ -92,8 +90,6 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
 
     /**
      * Complete field type from doc blocks and type hints
-     *
-     * @throws \GraphQL\Doctrine\Exception
      */
     private function completeFieldType(Input $field, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
     {

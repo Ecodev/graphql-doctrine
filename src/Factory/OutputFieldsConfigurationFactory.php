@@ -58,8 +58,6 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
 
     /**
      * Complete field with info from doc blocks and type hints
-     *
-     * @throws Exception
      */
     private function completeField(Field $field, ReflectionMethod $method): void
     {

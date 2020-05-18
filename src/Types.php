@@ -326,8 +326,6 @@ final class Types
      * This is for internal use only.
      *
      * @param string $className the class name of an operator (`EqualOperatorType::class`)
-     *
-     * @throws Exception
      */
     public function getOperator(string $className, LeafType $type): AbstractOperator
     {
@@ -393,8 +391,6 @@ final class Types
 
     /**
      * Throw an exception if the class name is not Doctrine entity
-     *
-     * @throws UnexpectedValueException
      */
     private function throwIfNotEntity(string $className): void
     {

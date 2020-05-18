@@ -56,7 +56,7 @@ return PhpCsFixer\Config::create()
         'function_declaration' => true,
         'function_to_constant' => true,
         'function_typehint_space' => true,
-        'general_phpdoc_annotation_remove' => false, // No use for that
+        'general_phpdoc_annotation_remove' => ['author', 'category', 'copyright', 'package', 'throws'],
         'global_namespace_import' => true,
         'hash_to_slash_comment' => false, // Deprecated
         'header_comment' => false, // We don't use common header in all our files
@@ -177,7 +177,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_separation' => true,
         'phpdoc_single_line_var_spacing' => true,
         'phpdoc_summary' => false, // We usually don't generate documentation so punctuation is not important
-        'phpdoc_to_comment' => true,
+        'phpdoc_to_comment' => false, // Cannot be used safely because of https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/3011
         'phpdoc_to_param_type' => false, // Because experimental, but interesting for one shot use
         'phpdoc_to_return_type' => false, // idem
         'phpdoc_trim' => true,

@@ -34,7 +34,7 @@ final class User extends AbstractModel
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=255)
-     * @Api\Exclude
+     * @API\Exclude
      */
     private $password;
 
