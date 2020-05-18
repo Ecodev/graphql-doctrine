@@ -47,10 +47,6 @@ abstract class AbstractOperator extends InputObjectType
      * The type name, usually configured with the `name` key, should not be defined and
      * will be overridden in all cases. This is because we must have a predictable name
      * that is based only on the class name.
-     *
-     * @param LeafType $leafType
-     *
-     * @return array
      */
     abstract protected function getConfiguration(LeafType $leafType): array;
 
@@ -68,13 +64,9 @@ abstract class AbstractOperator extends InputObjectType
      * - SHOULD be used to set query parameter (with the helper of `UniqueNameFactory`)
      *
      * @param UniqueNameFactory $uniqueNameFactory a helper to get unique names to be used in the query
-     * @param ClassMetadata $metadata
-     * @param QueryBuilder $queryBuilder
      * @param string $alias the alias for the entity on which to apply the filter
      * @param string $field the field for the entity on which to apply the filter
      * @param null|array $args all arguments specific to this operator as declared in its configuration
-     *
-     * @return null|string
      */
     abstract public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, ?array $args): ?string;
 }

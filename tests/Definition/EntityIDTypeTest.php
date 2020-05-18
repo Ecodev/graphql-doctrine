@@ -19,7 +19,7 @@ final class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
      */
     private $type;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         AnnotationRegistry::registerLoader('class_exists');
         $this->setUpEntityManager();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine\Blog\Model;
 
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
 
@@ -29,7 +29,7 @@ abstract class AbstractModel
     protected $id;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime_immutable")
      */
     private $creationDate;
 
@@ -41,7 +41,7 @@ abstract class AbstractModel
     /**
      * @API\Field(type="GraphQLTests\Doctrine\Blog\Types\DateTimeType")
      */
-    public function getCreationDate(): DateTime
+    public function getCreationDate(): DateTimeImmutable
     {
         return $this->creationDate;
     }
@@ -49,7 +49,7 @@ abstract class AbstractModel
     /**
      * @API\Input(type="GraphQLTests\Doctrine\Blog\Types\DateTimeType")
      */
-    public function setCreationDate(DateTime $creationDate): void
+    public function setCreationDate(DateTimeImmutable $creationDate): void
     {
         $this->creationDate = $creationDate;
     }

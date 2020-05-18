@@ -71,57 +71,36 @@ abstract class AbstractAnnotation
         return $data;
     }
 
-    /**
-     * @return null|string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param null|string $name
-     */
     public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return null|string
-     */
     public function getType(): ?string
     {
         return $this->type;
     }
 
-    /**
-     * @param null|string $type
-     */
     public function setType(?string $type): void
     {
         $this->type = $type;
     }
 
-    /**
-     * @return null|string
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param null|string $description
-     */
     public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
 
-    /**
-     * @return bool
-     */
     public function hasDefaultValue(): bool
     {
         return $this->hasDefaultValue;
@@ -144,17 +123,11 @@ abstract class AbstractAnnotation
         $this->hasDefaultValue = true;
     }
 
-    /**
-     * @return null|Type
-     */
     public function getTypeInstance(): ?Type
     {
         return $this->typeInstance;
     }
 
-    /**
-     * @param null|Type $typeInstance
-     */
     public function setTypeInstance(?Type $typeInstance): void
     {
         $this->typeInstance = $typeInstance;

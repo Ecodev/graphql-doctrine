@@ -29,6 +29,7 @@ use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use Psr\Container\ContainerInterface;
+use UnexpectedValueException;
 
 /**
  * Registry of types to manage all GraphQL types
@@ -125,10 +126,6 @@ final class Types
 
     /**
      * Returns whether a type exists for the given key
-     *
-     * @param string $key
-     *
-     * @return bool
      */
     public function has(string $key): bool
     {
@@ -143,8 +140,6 @@ final class Types
      * automatic ones.
      *
      * @param string $key the key the type was registered with (eg: "Post", "PostInput", "PostPartialInput" or "PostStatus")
-     *
-     * @return Type
      */
     public function get(string $key): Type
     {
@@ -164,12 +159,6 @@ final class Types
 
     /**
      * Get a type from internal registry, and create it via the factory if needed
-     *
-     * @param string $className
-     * @param string $typeName
-     * @param AbstractTypeFactory $factory
-     *
-     * @return Type
      */
     private function getViaFactory(string $className, string $typeName, AbstractTypeFactory $factory): Type
     {
@@ -190,8 +179,6 @@ final class Types
      * with annotations.
      *
      * @param string $className the class name of an entity (`Post::class`)
-     *
-     * @return ObjectType
      */
     public function getOutput(string $className): ObjectType
     {
@@ -210,8 +197,6 @@ final class Types
      * with annotations.
      *
      * @param string $className the class name of an entity (`Post::class`)
-     *
-     * @return InputObjectType
      */
     public function getInput(string $className): InputObjectType
     {
@@ -232,8 +217,6 @@ final class Types
      * to be updated, and not necessarily all of them at once.
      *
      * @param string $className the class name of an entity (`Post::class`)
-     *
-     * @return InputObjectType
      */
     public function getPartialInput(string $className): InputObjectType
     {
@@ -249,8 +232,6 @@ final class Types
      * This would typically be used to filter queries.
      *
      * @param string $className the class name of an entity (`Post::class`)
-     *
-     * @return InputObjectType
      */
     public function getFilter(string $className): InputObjectType
     {
@@ -266,8 +247,6 @@ final class Types
      * This would typically be used to sort queries.
      *
      * @param string $className the class name of an entity (`Post::class`)
-     *
-     * @return ListOfType
      */
     public function getSorting(string $className): ListOfType
     {
@@ -283,8 +262,6 @@ final class Types
      * This is for internal use only.
      *
      * @param string $className the class name of an entity (`Post::class`)
-     *
-     * @return InputObjectType
      */
     public function getJoinOn(string $className): InputObjectType
     {
@@ -300,8 +277,6 @@ final class Types
      * This is for internal use only.
      *
      * @param string $className the class name of an entity (`Post::class`)
-     *
-     * @return InputObjectType
      */
     public function getFilterGroupJoin(string $className): InputObjectType
     {
@@ -317,8 +292,6 @@ final class Types
      * This is for internal use only.
      *
      * @param string $className the class name of an entity (`Post::class`)
-     *
-     * @return InputObjectType
      */
     public function getFilterGroupCondition(string $className): InputObjectType
     {
@@ -338,8 +311,6 @@ final class Types
      * manually fetching objects from database for simple cases.
      *
      * @param string $className the class name of an entity (`Post::class`)
-     *
-     * @return EntityIDType
      */
     public function getId(string $className): EntityIDType
     {
@@ -355,11 +326,8 @@ final class Types
      * This is for internal use only.
      *
      * @param string $className the class name of an operator (`EqualOperatorType::class`)
-     * @param LeafType $type
      *
      * @throws Exception
-     *
-     * @return AbstractOperator
      */
     public function getOperator(string $className, LeafType $type): AbstractOperator
     {
@@ -381,8 +349,6 @@ final class Types
      * Register the given type in our internal registry with its name
      *
      * This is for internal use only. You should declare custom types via the constructor, not this method.
-     *
-     * @param Type $instance
      */
     public function registerInstance(Type $instance): void
     {
@@ -391,10 +357,6 @@ final class Types
 
     /**
      * Checks if a className is a valid doctrine entity
-     *
-     * @param string $className
-     *
-     * @return bool
      */
     public function isEntity(string $className): bool
     {
@@ -432,14 +394,12 @@ final class Types
     /**
      * Throw an exception if the class name is not Doctrine entity
      *
-     * @param string $className
-     *
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      */
     private function throwIfNotEntity(string $className): void
     {
         if (!$this->isEntity($className)) {
-            throw new \UnexpectedValueException('Given class name `' . $className . '` is not a Doctrine entity. Either register a custom GraphQL type for `' . $className . '` when instantiating `' . self::class . '`, or change the usage of that class to something else.');
+            throw new UnexpectedValueException('Given class name `' . $className . '` is not a Doctrine entity. Either register a custom GraphQL type for `' . $className . '` when instantiating `' . self::class . '`, or change the usage of that class to something else.');
         }
     }
 
@@ -453,12 +413,6 @@ final class Types
      *
      * Filter and sorting arguments are assumed to be valid and complete as the validation should have happened when
      * parsing the GraphQL query.
-     *
-     * @param string $className
-     * @param array $filter
-     * @param array $sorting
-     *
-     * @return QueryBuilder
      */
     public function createFilteredQueryBuilder(string $className, array $filter, array $sorting): QueryBuilder
     {

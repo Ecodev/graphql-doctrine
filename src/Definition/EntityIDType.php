@@ -39,8 +39,6 @@ final class EntityIDType extends IDType
      * Serializes an internal value to include in a response.
      *
      * @param mixed $value
-     *
-     * @return string
      */
     public function serialize($value): string
     {
@@ -53,11 +51,8 @@ final class EntityIDType extends IDType
      * Parses an externally provided value (query variable) to use as an input
      *
      * @param mixed $value
-     * @param null|array $variables
-     *
-     * @return EntityID
      */
-    public function parseValue($value, array $variables = null): EntityID
+    public function parseValue($value, ?array $variables = null): EntityID
     {
         $value = parent::parseValue($value);
 
@@ -68,11 +63,8 @@ final class EntityIDType extends IDType
      * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input
      *
      * @param \GraphQL\Language\AST\Node $valueNode
-     * @param null|array $variables
-     *
-     * @return EntityID
      */
-    public function parseLiteral($valueNode, array $variables = null): EntityID
+    public function parseLiteral($valueNode, ?array $variables = null): EntityID
     {
         $value = (string) parent::parseLiteral($valueNode);
 
@@ -81,10 +73,6 @@ final class EntityIDType extends IDType
 
     /**
      * Create EntityID to retrieve entity from DB later on
-     *
-     * @param string $id
-     *
-     * @return EntityID
      */
     private function createEntityID(string $id): EntityID
     {

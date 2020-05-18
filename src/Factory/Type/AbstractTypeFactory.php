@@ -7,6 +7,7 @@ namespace GraphQL\Doctrine\Factory\Type;
 use GraphQL\Doctrine\Exception;
 use GraphQL\Doctrine\Factory\AbstractFactory;
 use GraphQL\Type\Definition\Type;
+use ReflectionClass;
 
 /**
  * A factory to create an ObjectType from a Doctrine entity
@@ -18,21 +19,15 @@ abstract class AbstractTypeFactory extends AbstractFactory
      *
      * @param string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
-     *
-     * @return Type
      */
     abstract public function create(string $className, string $typeName): Type;
 
     /**
      * Get the description of a class from the doc block
-     *
-     * @param string $className
-     *
-     * @return null|string
      */
     final protected function getDescription(string $className): ?string
     {
-        $class = new \ReflectionClass($className);
+        $class = new ReflectionClass($className);
 
         $comment = $class->getDocComment() ?: '';
 
@@ -51,11 +46,6 @@ abstract class AbstractTypeFactory extends AbstractFactory
 
     /**
      * Throw an exception if the given type does not inherit expected type
-     *
-     * @param string $classWithAnnotation
-     * @param string $annotation
-     * @param string $expectedClassName
-     * @param string $actualClassName
      */
     final protected function throwIfInvalidAnnotation(string $classWithAnnotation, string $annotation, string $expectedClassName, string $actualClassName): void
     {

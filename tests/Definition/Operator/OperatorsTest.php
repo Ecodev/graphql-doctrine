@@ -30,9 +30,7 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
      * @dataProvider providerOperator
      *
      * @param string $expected
-     * @param string $className
      * @param array $args
-     * @param string $field
      */
     public function testOperator(?string $expected, string $className, ?array $args, string $field = 'field'): void
     {

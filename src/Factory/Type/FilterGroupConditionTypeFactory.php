@@ -108,10 +108,6 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
 
     /**
      * Get the field for conditions on all fields
-     *
-     * @param string $className
-     *
-     * @return array
      */
     public function getField(string $className): array
     {
@@ -128,8 +124,6 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
 
     /**
      * Get the custom operators declared on the class via annotations indexed by their field name
-     *
-     * @param ReflectionClass $class
      */
     private function readCustomOperatorsFromAnnotation(ReflectionClass $class): void
     {
@@ -153,11 +147,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
     /**
      * Get configuration for field
      *
-     * @param string $typeName
-     * @param string $fieldName
      * @param LeafType[] $operators
-     *
-     * @return array
      */
     private function getFieldConfiguration(string $typeName, string $fieldName, array $operators): array
     {
@@ -169,11 +159,6 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
 
     /**
      * Return a map of operator class name and their leaf type, including custom operator for the given fieldName
-     *
-     * @param string $fieldName
-     * @param LeafType $leafType
-     * @param bool $isAssociation
-     * @param bool $isCollection
      *
      * @return LeafType[] indexed by operator class name
      */
@@ -225,11 +210,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
     /**
      * Get the type for a specific field
      *
-     * @param string $typeName
-     * @param string $fieldName
      * @param LeafType[] $operators
-     *
-     * @return InputObjectType
      */
     private function getFieldType(string $typeName, string $fieldName, array $operators): InputObjectType
     {
@@ -248,8 +229,6 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
      * Get operators configuration for a specific leaf type
      *
      * @param LeafType[] $operators
-     *
-     * @return array
      */
     private function getOperatorConfiguration(array $operators): array
     {
@@ -269,10 +248,6 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
 
     /**
      * Get the name for the operator to be used as field name
-     *
-     * @param string $className
-     *
-     * @return string
      */
     private function getOperatorFieldName(string $className): string
     {

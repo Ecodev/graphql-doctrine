@@ -40,8 +40,6 @@ class EntityID
 
     /**
      * Get the ID
-     *
-     * @return null|string
      */
     public function getId(): ?string
     {

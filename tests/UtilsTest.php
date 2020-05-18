@@ -20,9 +20,6 @@ final class UtilsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider providerGetTypeName
-     *
-     * @param string $input
-     * @param string $expected
      */
     public function testGetTypeName(string $input, string $expected): void
     {

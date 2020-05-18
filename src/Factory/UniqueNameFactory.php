@@ -23,8 +23,6 @@ final class UniqueNameFactory
 
     /**
      * Return a string to be used as parameter name in a query
-     *
-     * @return string
      */
     public function createParameterName(): string
     {
@@ -33,10 +31,6 @@ final class UniqueNameFactory
 
     /**
      * Return a string to be used as alias name in a query
-     *
-     * @param string $className
-     *
-     * @return string
      */
     public function createAliasName(string $className): string
     {

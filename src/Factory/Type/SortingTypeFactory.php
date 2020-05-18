@@ -72,8 +72,6 @@ final class SortingTypeFactory extends AbstractTypeFactory
     /**
      * Get names for all possible sorting, including the custom one
      *
-     * @param string $className
-     *
      * @return string[]
      */
     private function getPossibleValues(string $className): array
@@ -90,8 +88,6 @@ final class SortingTypeFactory extends AbstractTypeFactory
     /**
      * Get names for all custom sorting
      *
-     * @param string $className
-     *
      * @return string[]
      */
     private function getCustomSortingNames(string $className): array
@@ -103,11 +99,6 @@ final class SortingTypeFactory extends AbstractTypeFactory
 
     /**
      * Get instance of custom sorting for the given entity and sorting name
-     *
-     * @param string $className
-     * @param string $name
-     *
-     * @return null|SortingInterface
      */
     public function getCustomSorting(string $className, string $name): ?SortingInterface
     {
@@ -118,8 +109,6 @@ final class SortingTypeFactory extends AbstractTypeFactory
 
     /**
      * Fill the cache for custom sorting
-     *
-     * @param string $className
      */
     private function fillCache(string $className): void
     {
@@ -133,8 +122,6 @@ final class SortingTypeFactory extends AbstractTypeFactory
 
     /**
      * Get all instance of custom sorting from the annotation
-     *
-     * @param ReflectionClass $class
      *
      * @return SortingInterface[]
      */

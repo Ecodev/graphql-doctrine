@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine;
 
+use DateTimeImmutable;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\User;
 
@@ -70,7 +71,7 @@ final class OutputTypesTest extends \PHPUnit\Framework\TestCase
     public function testCannotGetInvalidType(): void
     {
         $this->expectExceptionMessage('Given class name `DateTimeImmutable` is not a Doctrine entity. Either register a custom GraphQL type for `DateTimeImmutable` when instantiating `GraphQL\Doctrine\Types`, or change the usage of that class to something else.');
-        $this->types->getOutput(\DateTimeImmutable::class);
+        $this->types->getOutput(DateTimeImmutable::class);
     }
 
     public function testArgumentWithoutTypeMustThrow(): void

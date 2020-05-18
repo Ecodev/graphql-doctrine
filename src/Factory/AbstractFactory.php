@@ -37,8 +37,6 @@ abstract class AbstractFactory
 
     /**
      * Get annotation reader
-     *
-     * @return Reader
      */
     final protected function getAnnotationReader(): Reader
     {
@@ -56,11 +54,6 @@ abstract class AbstractFactory
 
     /**
      * Returns whether the property is excluded
-     *
-     * @param ClassMetadata $metadata
-     * @param string $propertyName
-     *
-     * @return bool
      */
     final protected function isPropertyExcluded(ClassMetadata $metadata, string $propertyName): bool
     {

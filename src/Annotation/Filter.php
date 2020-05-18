@@ -23,7 +23,6 @@ final class Filter
      * The field may or may not actually exist in the entity. It is merely used
      * to organize the filter correctly in the API.
      *
-     *
      * @var string
      * @Required
      */

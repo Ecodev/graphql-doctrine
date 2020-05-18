@@ -20,7 +20,6 @@ final class DefaultFieldResolver
      * @param mixed $source
      * @param mixed[] $args
      * @param mixed $context
-     * @param ResolveInfo $info
      *
      * @return null|mixed
      */
@@ -43,8 +42,6 @@ final class DefaultFieldResolver
      * Resolve for an object
      *
      * @param mixed $source
-     * @param array $args
-     * @param string $fieldName
      *
      * @return mixed
      */
@@ -68,7 +65,6 @@ final class DefaultFieldResolver
      * Resolve for an array
      *
      * @param mixed $source
-     * @param string $fieldName
      *
      * @return mixed
      */
@@ -81,9 +77,6 @@ final class DefaultFieldResolver
      * Return the getter/isser method if any valid one exists
      *
      * @param mixed $source
-     * @param string $name
-     *
-     * @return null|ReflectionMethod
      */
     private function getGetter($source, string $name): ?ReflectionMethod
     {
@@ -104,11 +97,6 @@ final class DefaultFieldResolver
 
     /**
      * Re-order associative args to ordered args
-     *
-     * @param ReflectionMethod $method
-     * @param array $args
-     *
-     * @return array
      */
     private function orderArguments(ReflectionMethod $method, array $args): array
     {

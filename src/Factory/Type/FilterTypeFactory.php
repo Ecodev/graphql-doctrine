@@ -67,11 +67,6 @@ final class FilterTypeFactory extends AbstractTypeFactory
 
     /**
      * Get the type for condition
-     *
-     * @param string $className
-     * @param string $typeName
-     *
-     * @return InputObjectType
      */
     private function getGroupType(string $className, string $typeName): InputObjectType
     {

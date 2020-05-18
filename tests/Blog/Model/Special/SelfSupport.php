@@ -14,17 +14,11 @@ final class SelfSupport extends AbstractModel
 {
     private $sibling;
 
-    /**
-     * @return null|self
-     */
     public function getSibling(): ?self
     {
         return $this->sibling;
     }
 
-    /**
-     * @param self $sibling
-     */
     public function setSibling(self $sibling): void
     {
         $this->sibling = $sibling;

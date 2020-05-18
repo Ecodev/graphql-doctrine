@@ -9,6 +9,8 @@ use Doctrine\Persistence\Mapping\Driver\AnnotationDriver;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use GraphQL\Doctrine\Exception;
 use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
 
 final class MappingDriverChainAdapter implements Reader
 {
@@ -24,10 +26,6 @@ final class MappingDriverChainAdapter implements Reader
 
     /**
      * Find the reader for the class
-     *
-     * @param ReflectionClass $class
-     *
-     * @return Reader
      */
     private function findReader(ReflectionClass $class): Reader
     {
@@ -79,12 +77,12 @@ final class MappingDriverChainAdapter implements Reader
     /**
      * Gets the annotations applied to a method.
      *
-     * @param \ReflectionMethod $method the ReflectionMethod of the method from which
+     * @param ReflectionMethod $method the ReflectionMethod of the method from which
      *                                  the annotations should be read
      *
      * @return array an array of Annotations
      */
-    public function getMethodAnnotations(\ReflectionMethod $method)
+    public function getMethodAnnotations(ReflectionMethod $method)
     {
         return $this->findReader($method->getDeclaringClass())
             ->getMethodAnnotations($method);
@@ -93,12 +91,12 @@ final class MappingDriverChainAdapter implements Reader
     /**
      * Gets a method annotation.
      *
-     * @param \ReflectionMethod $method the ReflectionMethod to read the annotations from
+     * @param ReflectionMethod $method the ReflectionMethod to read the annotations from
      * @param string $annotationName the name of the annotation
      *
      * @return null|object the Annotation or NULL, if the requested annotation does not exist
      */
-    public function getMethodAnnotation(\ReflectionMethod $method, $annotationName)
+    public function getMethodAnnotation(ReflectionMethod $method, $annotationName)
     {
         return $this->findReader($method->getDeclaringClass())
             ->getMethodAnnotation($method, $annotationName);
@@ -107,12 +105,12 @@ final class MappingDriverChainAdapter implements Reader
     /**
      * Gets the annotations applied to a property.
      *
-     * @param \ReflectionProperty $property the ReflectionProperty of the property
+     * @param ReflectionProperty $property the ReflectionProperty of the property
      *                                      from which the annotations should be read
      *
      * @return array an array of Annotations
      */
-    public function getPropertyAnnotations(\ReflectionProperty $property)
+    public function getPropertyAnnotations(ReflectionProperty $property)
     {
         return $this->findReader($property->getDeclaringClass())
             ->getPropertyAnnotations($property);
@@ -121,12 +119,12 @@ final class MappingDriverChainAdapter implements Reader
     /**
      * Gets a property annotation.
      *
-     * @param \ReflectionProperty $property the ReflectionProperty to read the annotations from
+     * @param ReflectionProperty $property the ReflectionProperty to read the annotations from
      * @param string $annotationName the name of the annotation
      *
      * @return null|object the Annotation or NULL, if the requested annotation does not exist
      */
-    public function getPropertyAnnotation(\ReflectionProperty $property, $annotationName)
+    public function getPropertyAnnotation(ReflectionProperty $property, $annotationName)
     {
         return $this->findReader($property->getDeclaringClass())
             ->getPropertyAnnotation($property, $annotationName);

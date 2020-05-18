@@ -46,11 +46,11 @@ use Laminas\ServiceManager\ServiceManager;
 // Define custom types with a PSR-11 container
 $customTypes = new ServiceManager([
     'invokables' => [
-        DateTime::class => DateTimeType::class,
+        DateTimeImmutable::class => DateTimeType::class,
         'PostStatus' => PostStatusType::class,
     ],
     'aliases' => [
-        'datetime' => DateTime::class, // Declare alias for Doctrine type to be used for filters
+        'datetime_immutable' => DateTimeImmutable::class, // Declare alias for Doctrine type to be used for filters
     ],
 ]);
 
@@ -255,7 +255,7 @@ This annotation also supports `name`, `description`, and `defaultValue`.
 
 By default all PHP scalar types and Doctrine collection are automatically detected
 and mapped to a GraphQL type. However if some getter return custom types, such
-as `DateTime`, or a custom class, then it will have to be configured beforehand.
+as `DateTimeImmutable`, or a custom class, then it will have to be configured beforehand.
 
 The configuration is done with a [PSR-11 container](https://www.php-fig.org/psr/psr-11/)
 implementation configured according to your needs. In the following example, we use
@@ -265,13 +265,13 @@ factories. But any other PSR-11 container implementation could be used instead.
 
 
 The keys should be the whatever you use to refer to the type in your model. Typically
-that would be either the FQCN of a PHP class "native" type such as `DateTime`, or the
+that would be either the FQCN of a PHP class "native" type such as `DateTimeImmutable`, or the
 FQCN of a PHP class implementing the GraphQL type, or directly the GraphQL type name:
 
 ```php
 $customTypes = new ServiceManager([
     'invokables' => [
-        DateTime::class => DateTimeType::class,
+        DateTimeImmutable::class => DateTimeType::class,
         'PostStatus' => PostStatusType::class,
     ],
 ]);

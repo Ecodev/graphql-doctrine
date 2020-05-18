@@ -23,8 +23,8 @@ class DocBlockReaderTest extends \PHPUnit\Framework\TestCase
      *
      * @param null|string $foo Some param description
      * @param   User   $bar
-     * @param \DateTime $bazAbsolute
-     * @param DateTime $bazRelative
+     * @param \DateTimeImmutable $bazAbsolute
+     * @param DateTimeImmutable $bazRelative
      * @return bool
      */';
 
@@ -35,7 +35,7 @@ class DocBlockReaderTest extends \PHPUnit\Framework\TestCase
     {
         $reader = $this->create($comment);
         $actual = $reader->getMethodDescription();
-        self::assertSame($expected, $actual);
+        static::assertSame($expected, $actual);
     }
 
     public function providerGetMethodDescription(): array
@@ -58,7 +58,7 @@ spanning lines'],
         $reader = $this->create($comment);
         $parameter = $this->createParameter($parameterName);
         $actual = $reader->getParameterDescription($parameter);
-        self::assertSame($expected, $actual);
+        static::assertSame($expected, $actual);
     }
 
     public function providerGetParameterDescription(): array
@@ -80,7 +80,7 @@ spanning lines'],
         $reader = $this->create($comment);
         $parameter = $this->createParameter($parameterName);
         $actual = $reader->getParameterType($parameter);
-        self::assertSame($expected, $actual);
+        static::assertSame($expected, $actual);
     }
 
     public function providerGetParameterType(): array
@@ -91,8 +91,8 @@ spanning lines'],
             [self::COMMENT, 'foo', 'null|string'],
             'non-existing param' => [self::COMMENT, 'fo', null],
             [self::COMMENT, 'bar', 'User'],
-            'do not make assumption on absolute types' => [self::COMMENT, 'bazAbsolute', '\DateTime'],
-            'do not make assumption on relative types' => [self::COMMENT, 'bazRelative', 'DateTime'],
+            'do not make assumption on absolute types' => [self::COMMENT, 'bazAbsolute', '\DateTimeImmutable'],
+            'do not make assumption on relative types' => [self::COMMENT, 'bazRelative', 'DateTimeImmutable'],
         ];
     }
 
@@ -103,7 +103,7 @@ spanning lines'],
     {
         $reader = $this->create($comment);
         $actual = $reader->getReturnType();
-        self::assertSame($expected, $actual);
+        static::assertSame($expected, $actual);
     }
 
     public function providerGetReturnType(): array

@@ -22,10 +22,6 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
 
     /**
      * Get the entire configuration for a method
-     *
-     * @param ReflectionMethod $method
-     *
-     * @return null|array
      */
     protected function methodToConfiguration(ReflectionMethod $method): ?array
     {
@@ -50,9 +46,6 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
 
     /**
      * All its types will be converted from string to real instance of Type
-     *
-     * @param ReflectionMethod $method
-     * @param Input $field
      */
     private function convertTypeDeclarationsToInstances(ReflectionMethod $method, Input $field): void
     {
@@ -61,10 +54,6 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
 
     /**
      * Complete field with info from doc blocks and type hints
-     *
-     * @param Input $field
-     * @param ReflectionMethod $method
-     * @param ReflectionParameter $param
      *
      * @throws \GraphQL\Doctrine\Exception
      */
@@ -86,10 +75,6 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
 
     /**
      * Complete field default value from argument and property
-     *
-     * @param Input $field
-     * @param ReflectionParameter $param
-     * @param string $fieldName
      */
     private function completeFieldDefaultValue(Input $field, ReflectionParameter $param, string $fieldName): void
     {
@@ -107,11 +92,6 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
 
     /**
      * Complete field type from doc blocks and type hints
-     *
-     * @param Input $field
-     * @param ReflectionMethod $method
-     * @param ReflectionParameter $param
-     * @param DocBlockReader $docBlock
      *
      * @throws \GraphQL\Doctrine\Exception
      */

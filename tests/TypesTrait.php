@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine;
 
-use DateTime;
+use DateTimeImmutable;
+use Exception;
 use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\BooleanType;
 use GraphQL\Type\Definition\InputType;
@@ -39,12 +40,12 @@ trait TypesTrait
         $customTypes = new ServiceManager([
             'invokables' => [
                 BooleanType::class => BooleanType::class,
-                DateTime::class => DateTimeType::class,
+                DateTimeImmutable::class => DateTimeType::class,
                 stdClass::class => CustomType::class,
                 'PostStatus' => PostStatusType::class,
             ],
             'aliases' => [
-                'datetime' => DateTime::class, // Declare alias for Doctrine type to be used for filters
+                'datetime_immutable' => DateTimeImmutable::class, // Declare alias for Doctrine type to be used for filters
             ],
         ]);
 
@@ -67,10 +68,6 @@ trait TypesTrait
 
     /**
      * Create a temporary schema for the given type
-     *
-     * @param Type $type
-     *
-     * @return Schema
      */
     private function getSchemaForType(Type $type): Schema
     {
@@ -89,7 +86,7 @@ trait TypesTrait
                 'defaultArg' => $type,
             ];
         } else {
-            throw new \Exception('Unsupported type: ' . get_class($wrappedType));
+            throw new Exception('Unsupported type: ' . get_class($wrappedType));
         }
 
         $config = [

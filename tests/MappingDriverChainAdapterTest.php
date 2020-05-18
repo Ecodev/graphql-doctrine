@@ -9,6 +9,9 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use GraphQL\Doctrine\Factory\MetadataReader\MappingDriverChainAdapter;
 use GraphQLTests\Doctrine\Blog\Model\Post;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
 
 final class MappingDriverChainAdapterTest extends \PHPUnit\Framework\TestCase
 {
@@ -21,7 +24,7 @@ final class MappingDriverChainAdapterTest extends \PHPUnit\Framework\TestCase
      */
     private $chainAdapter;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->typeSetup();
 
@@ -33,31 +36,31 @@ final class MappingDriverChainAdapterTest extends \PHPUnit\Framework\TestCase
 
     public function testGetClassAnnotations(): void
     {
-        self::assertNotEmpty($this->chainAdapter->getClassAnnotations(new \ReflectionClass(Post::class)));
+        self::assertNotEmpty($this->chainAdapter->getClassAnnotations(new ReflectionClass(Post::class)));
     }
 
     public function testGetClassAnnotation(): void
     {
-        self::assertNotNull($this->chainAdapter->getClassAnnotation(new \ReflectionClass(Post::class), Entity::class));
+        self::assertNotNull($this->chainAdapter->getClassAnnotation(new ReflectionClass(Post::class), Entity::class));
     }
 
     public function testGetMethodAnnotations(): void
     {
-        self::assertNotEmpty($this->chainAdapter->getMethodAnnotations(new \ReflectionMethod(Post::class, 'getBody')));
+        self::assertNotEmpty($this->chainAdapter->getMethodAnnotations(new ReflectionMethod(Post::class, 'getBody')));
     }
 
     public function testGetMethodAnnotation(): void
     {
-        self::assertNotNull($this->chainAdapter->getMethodAnnotations(new \ReflectionMethod(Post::class, 'getBody')));
+        self::assertNotNull($this->chainAdapter->getMethodAnnotations(new ReflectionMethod(Post::class, 'getBody')));
     }
 
     public function testGetPropertyAnnotations(): void
     {
-        self::assertNotEmpty($this->chainAdapter->getPropertyAnnotations(new \ReflectionProperty(Post::class, 'body')));
+        self::assertNotEmpty($this->chainAdapter->getPropertyAnnotations(new ReflectionProperty(Post::class, 'body')));
     }
 
     public function testGetPropertyAnnotation(): void
     {
-        self::assertNotNull($this->chainAdapter->getPropertyAnnotation(new \ReflectionProperty(Post::class, 'body'), Column::class));
+        self::assertNotNull($this->chainAdapter->getPropertyAnnotation(new ReflectionProperty(Post::class, 'body'), Column::class));
     }
 }

@@ -61,8 +61,6 @@ final class User extends AbstractModel
 
     /**
      * Constructor
-     *
-     * @param null|int $id
      */
     public function __construct(?int $id = null)
     {
@@ -76,8 +74,6 @@ final class User extends AbstractModel
 
     /**
      * Set name
-     *
-     * @param string $name
      */
     public function setName(string $name): void
     {
@@ -86,8 +82,6 @@ final class User extends AbstractModel
 
     /**
      * Get the user real name
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -96,8 +90,6 @@ final class User extends AbstractModel
 
     /**
      * Set a valid email or null
-     *
-     * @param null|string $email
      */
     public function setEmail(?string $email): void
     {
@@ -106,8 +98,6 @@ final class User extends AbstractModel
 
     /**
      * Get the validated email or null
-     *
-     * @return null|string
      */
     public function getEmail(): ?string
     {
@@ -116,8 +106,6 @@ final class User extends AbstractModel
 
     /**
      * Encrypt and change the user password
-     *
-     * @param string $password
      */
     public function setPassword(string $password): void
     {
@@ -128,8 +116,6 @@ final class User extends AbstractModel
      * Returns the hashed password
      *
      * @API\Exclude
-     *
-     * @return string
      */
     public function getPassword(): string
     {
@@ -140,8 +126,6 @@ final class User extends AbstractModel
      * Set whether the user is an administrator
      *
      * @API\Exclude
-     *
-     * @param bool $isAdministrator
      */
     public function setIsAdministrator(bool $isAdministrator): void
     {
@@ -150,8 +134,6 @@ final class User extends AbstractModel
 
     /**
      * Get whether the user is an administrator
-     *
-     * @return bool
      */
     public function isAdministrator(): bool
     {
@@ -164,8 +146,6 @@ final class User extends AbstractModel
      * @API\Field(args={@API\Argument(name="status", type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")})
      *
      * @param null|string $status the status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post
-     *
-     * @return Collection
      */
     public function getPosts(?string $status = Post::STATUS_PUBLIC): Collection
     {
@@ -181,8 +161,6 @@ final class User extends AbstractModel
 
     /**
      * @API\Field(type="GraphQLTests\Doctrine\Blog\Model\Post[]", args={@API\Argument(name="ids", type="id[]")})
-     *
-     * @param array $ids
      */
     public function getPostsWithIds(array $ids): Collection
     {

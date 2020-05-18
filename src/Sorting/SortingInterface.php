@@ -24,8 +24,6 @@ interface SortingInterface
      * This method should be careful to never override the query builder state, but only add to it.
      *
      * @param UniqueNameFactory $uniqueNameFactory a helper to get unique names to be used in the query
-     * @param ClassMetadata $metadata
-     * @param QueryBuilder $queryBuilder
      * @param string $alias the alias for the entity on which to apply the sorting
      * @param string $order either 'ASC' or 'DESC'
      */

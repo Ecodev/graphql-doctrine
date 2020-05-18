@@ -25,10 +25,6 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
 
     /**
      * Get the entire configuration for a method
-     *
-     * @param ReflectionMethod $method
-     *
-     * @return null|array
      */
     protected function methodToConfiguration(ReflectionMethod $method): ?array
     {
@@ -46,9 +42,6 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
 
     /**
      * All its types will be converted from string to real instance of Type
-     *
-     * @param ReflectionMethod $method
-     * @param Field $field
      */
     private function convertTypeDeclarationsToInstances(ReflectionMethod $method, Field $field): void
     {
@@ -65,9 +58,6 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
 
     /**
      * Complete field with info from doc blocks and type hints
-     *
-     * @param Field $field
-     * @param ReflectionMethod $method
      *
      * @throws Exception
      */
@@ -89,10 +79,6 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
 
     /**
      * Complete arguments configuration from existing type hints
-     *
-     * @param Field $field
-     * @param ReflectionMethod $method
-     * @param DocBlockReader $docBlock
      */
     private function completeFieldArguments(Field $field, ReflectionMethod $method, DocBlockReader $docBlock): void
     {
@@ -116,11 +102,6 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
 
     /**
      * Complete a single argument from its type hint
-     *
-     * @param Argument $arg
-     * @param ReflectionMethod $method
-     * @param ReflectionParameter $param
-     * @param DocBlockReader $docBlock
      */
     private function completeArgumentFromTypeHint(Argument $arg, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
     {
@@ -141,11 +122,6 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
 
     /**
      * Complete a single argument type from its type hint and doc block
-     *
-     * @param Argument $arg
-     * @param ReflectionMethod $method
-     * @param ReflectionParameter $param
-     * @param DocBlockReader $docBlock
      */
     private function completeArgumentTypeFromTypeHint(Argument $arg, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
     {
@@ -168,11 +144,6 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
 
     /**
      * Get a GraphQL type instance from dock block return type
-     *
-     * @param ReflectionMethod $method
-     * @param \GraphQL\Doctrine\DocBlockReader $docBlock
-     *
-     * @return null|Type
      */
     private function getTypeFromDocBock(ReflectionMethod $method, DocBlockReader $docBlock): ?Type
     {
@@ -191,11 +162,6 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
 
     /**
      * Complete field type from doc blocks and type hints
-     *
-     * @param Field $field
-     * @param ReflectionMethod $method
-     * @param string $fieldName
-     * @param DocBlockReader $docBlock
      */
     private function completeFieldType(Field $field, ReflectionMethod $method, string $fieldName, DocBlockReader $docBlock): void
     {

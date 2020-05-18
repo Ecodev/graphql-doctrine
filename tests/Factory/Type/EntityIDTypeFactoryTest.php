@@ -21,7 +21,7 @@ final class EntityIDTypeFactoryTest extends TestCase
      */
     private $entityIDTypeFactory;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->setUpEntityManager();
 

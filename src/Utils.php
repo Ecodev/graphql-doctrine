@@ -17,10 +17,6 @@ abstract class Utils
 {
     /**
      * Get the GraphQL type name for an output type from the PHP class
-     *
-     * @param string $className
-     *
-     * @return string
      */
     public static function getTypeName(string $className): string
     {
@@ -32,10 +28,7 @@ abstract class Utils
     /**
      * Get the GraphQL type name for a Filter type from the PHP class
      *
-     * @param string $className
      * @param EnumType|ScalarType $type
-     *
-     * @return string
      */
     public static function getOperatorTypeName(string $className, LeafType $type): string
     {
@@ -44,10 +37,6 @@ abstract class Utils
 
     /**
      * Return an array of all annotations found in the class hierarchy, including its traits, indexed by the class name
-     *
-     * @param Reader $reader
-     * @param ReflectionClass $class
-     * @param string $annotationName
      *
      * @return array annotations indexed by the class name where they were found
      */

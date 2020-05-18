@@ -40,7 +40,7 @@ final class DefaultValue extends AbstractModel
         $this->nameWithDefaultValueOnArgumentOverrideField = $name;
     }
 
-    public function setNameWithDefaultValueOnArgumentNullable(string $name = null): void
+    public function setNameWithDefaultValueOnArgumentNullable(?string $name = null): void
     {
     }
 
@@ -54,7 +54,7 @@ final class DefaultValue extends AbstractModel
         return $name;
     }
 
-    public function getNameWithDefaultValueOnArgumentNullable(string $name = null): string
+    public function getNameWithDefaultValueOnArgumentNullable(?string $name = null): string
     {
         return $name ?? 'foo';
     }

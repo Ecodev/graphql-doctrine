@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
 use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
 use GraphQL\Doctrine\Factory\Type\SortingTypeFactory;
 use GraphQL\Doctrine\Types;
@@ -71,12 +72,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
     /**
      * Apply filters to the query builder
      *
-     * @param ClassMetadata $metadata
-     * @param InputObjectType $type
-     * @param array $filter
-     * @param string $alias
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     private function applyGroups(ClassMetadata $metadata, InputObjectType $type, array $filter, string $alias): void
     {
@@ -90,12 +86,6 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
     /**
      * Apply both joins and filters to the query builder
      *
-     * @param ClassMetadata $metadata
-     * @param string $alias
-     * @param InputObjectType $typeFields
-     * @param array $joins
-     * @param array $conditions
-     *
      * @throws \Doctrine\ORM\Mapping\MappingException
      */
     private function applyJoinsAndFilters(ClassMetadata $metadata, string $alias, InputObjectType $typeFields, array $joins, array $conditions): void
@@ -106,11 +96,6 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
 
     /**
      * Gather all DQL conditions for the given array of fields
-     *
-     * @param ClassMetadata $metadata
-     * @param array $allConditions
-     * @param InputObjectType $typeFields
-     * @param string $alias
      */
     private function collectDqlConditions(ClassMetadata $metadata, array $allConditions, InputObjectType $typeFields, string $alias): void
     {
@@ -141,10 +126,6 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
     /**
      * Apply joins to the query builder
      *
-     * @param ClassMetadata $metadata
-     * @param array $joins
-     * @param string $alias
-     *
      * @throws \Doctrine\ORM\Mapping\MappingException
      */
     private function applyJoins(ClassMetadata $metadata, array $joins, string $alias): void
@@ -163,11 +144,6 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
 
     /**
      * Apply sorting to the query builder
-     *
-     * @param ClassMetadata $metadata
-     * @param string $className
-     * @param array $sorting
-     * @param string $alias
      */
     private function applySorting(ClassMetadata $metadata, string $className, array $sorting, string $alias): void
     {
@@ -191,8 +167,6 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
 
     /**
      * Apply collected DQL conditions on the query builder and reset them
-     *
-     * @param array $group
      */
     private function applyCollectedDqlConditions(array $group): void
     {
@@ -217,12 +191,6 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
 
     /**
      * Create a join, but only if it does not exist yet
-     *
-     * @param string $alias
-     * @param string $field
-     * @param string $joinType
-     *
-     * @return string
      */
     private function createJoin(string $alias, string $field, string $joinType): string
     {

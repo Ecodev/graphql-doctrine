@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine;
 
+use Exception;
 use GraphQL\Type\Definition\Type;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilter;
@@ -32,7 +33,7 @@ final class FilterTypesTest extends \PHPUnit\Framework\TestCase
         $files = glob('tests/data/query-builder/*.php');
 
         if ($files === false) {
-            throw new \Exception('Cannot list files');
+            throw new Exception('Cannot list files');
         }
 
         foreach ($files as $file) {
@@ -45,11 +46,6 @@ final class FilterTypesTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider providerFilteredQueryBuilder
-     *
-     * @param string $expected
-     * @param string $className
-     * @param array $filter
-     * @param array $sorting
      */
     public function testFilteredQueryBuilder(string $expected, string $className, array $filter, array $sorting): void
     {

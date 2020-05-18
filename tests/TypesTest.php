@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine;
 
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping\Driver\XmlDriver;
 use Doctrine\ORM\Tools\SchemaValidator;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
@@ -109,7 +109,7 @@ final class TypesTest extends \PHPUnit\Framework\TestCase
 
     public function testCanGetMappedTypesEitherByMappedPhpClassOrDirectTypeClass(): void
     {
-        $viaPhp = $this->types->get(DateTime::class);
+        $viaPhp = $this->types->get(DateTimeImmutable::class);
         $viaType = $this->types->get(DateTimeType::class);
         self::assertSame($viaPhp, $viaType);
     }
@@ -172,10 +172,10 @@ final class TypesTest extends \PHPUnit\Framework\TestCase
 
     public function testHas(): void
     {
-        $this->assertTrue($this->types->has(stdClass::class), 'should have custom registered key');
-        $this->assertFalse($this->types->has('non-existing'), 'should not have non-existing things');
+        self::assertTrue($this->types->has(stdClass::class), 'should have custom registered key');
+        self::assertFalse($this->types->has('non-existing'), 'should not have non-existing things');
 
         $this->types->get(stdClass::class);
-        $this->assertTrue($this->types->has('customName'), 'should have custom registered type by its name, even if custom key was different, once type is created');
+        self::assertTrue($this->types->has('customName'), 'should have custom registered type by its name, even if custom key was different, once type is created');
     }
 }

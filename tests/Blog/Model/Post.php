@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine\Blog\Model;
 
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
 use GraphQLTests\Doctrine\Blog\Model\Special\NoInversedBy;
@@ -38,9 +38,9 @@ final class Post extends AbstractModel
     private $body = '';
 
     /**
-     * @var DateTime
+     * @var DateTimeImmutable
      *
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime_immutable")
      */
     private $publicationDate;
 
@@ -67,8 +67,6 @@ final class Post extends AbstractModel
 
     /**
      * Set title
-     *
-     * @param string $title
      */
     public function setTitle(string $title): void
     {
@@ -77,8 +75,6 @@ final class Post extends AbstractModel
 
     /**
      * Get title
-     *
-     * @return string
      */
     public function getTitle(): string
     {
@@ -87,8 +83,6 @@ final class Post extends AbstractModel
 
     /**
      * Set the body
-     *
-     * @param string $body
      */
     public function setBody(string $body): void
     {
@@ -99,8 +93,6 @@ final class Post extends AbstractModel
      * Returns the body
      *
      * @API\Field(name="content", description="The post content")
-     *
-     * @return string
      */
     public function getBody(): string
     {
@@ -111,8 +103,6 @@ final class Post extends AbstractModel
      * Set status
      *
      * @API\Input(type="GraphQLTests\Doctrine\Blog\Types\PostStatusType")
-     *
-     * @param string $status
      */
     public function setStatus(string $status = self::STATUS_PUBLIC): void
     {
@@ -123,8 +113,6 @@ final class Post extends AbstractModel
      * Get status
      *
      * @API\Field(type="GraphQLTests\Doctrine\Blog\Types\PostStatusType")
-     *
-     * @return string
      */
     public function getStatus(): string
     {
@@ -133,8 +121,6 @@ final class Post extends AbstractModel
 
     /**
      * Set author of post
-     *
-     * @param User $user
      */
     public function setUser(User $user): void
     {
@@ -143,8 +129,6 @@ final class Post extends AbstractModel
 
     /**
      * Get author of post
-     *
-     * @return User
      */
     public function getUser(): User
     {
@@ -154,17 +138,15 @@ final class Post extends AbstractModel
     /**
      * Set date of publication
      */
-    public function setPublicationDate(DateTime $publicationDate): void
+    public function setPublicationDate(DateTimeImmutable $publicationDate): void
     {
         $this->publicationDate = $publicationDate;
     }
 
     /**
      * Get date of publication
-     *
-     * @return DateTime
      */
-    public function getPublicationDate(): DateTime
+    public function getPublicationDate(): DateTimeImmutable
     {
         return $this->publicationDate;
     }
@@ -179,8 +161,6 @@ final class Post extends AbstractModel
 
     /**
      * @param string[] $words
-     *
-     * @return bool
      */
     public function hasWords($words): bool
     {

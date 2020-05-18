@@ -37,10 +37,6 @@ final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
 
     /**
      * Get the field for joins
-     *
-     * @param string $className
-     *
-     * @return array
      */
     public function getField(string $className): array
     {
@@ -57,10 +53,6 @@ final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
 
     /**
      * Get the all the possible relations to be joined
-     *
-     * @param string $className
-     *
-     * @return array
      */
     private function getJoinsFields(string $className): array
     {
@@ -80,10 +72,6 @@ final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
 
     /**
      * Return whether it is possible to create a valid type for join
-     *
-     * @param string $className
-     *
-     * @return bool
      */
     public function canCreate(string $className): bool
     {

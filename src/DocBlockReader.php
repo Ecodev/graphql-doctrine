@@ -24,8 +24,6 @@ final class DocBlockReader
 
     /**
      * Get the description of a method from the doc block
-     *
-     * @return null|string
      */
     public function getMethodDescription(): ?string
     {
@@ -44,10 +42,6 @@ final class DocBlockReader
 
     /**
      * Get the parameter description
-     *
-     * @param ReflectionParameter $param
-     *
-     * @return null|string
      */
     public function getParameterDescription(ReflectionParameter $param): ?string
     {
@@ -62,10 +56,6 @@ final class DocBlockReader
 
     /**
      * Get the parameter type
-     *
-     * @param ReflectionParameter $param
-     *
-     * @return null|string
      */
     public function getParameterType(ReflectionParameter $param): ?string
     {
@@ -80,8 +70,6 @@ final class DocBlockReader
 
     /**
      * Get the return type
-     *
-     * @return null|string
      */
     public function getReturnType(): ?string
     {
