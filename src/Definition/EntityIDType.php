@@ -6,12 +6,15 @@ namespace GraphQL\Doctrine\Definition;
 
 use Doctrine\ORM\EntityManager;
 use GraphQL\Doctrine\Utils;
-use GraphQL\Type\Definition\IDType;
+use GraphQL\Error\Error;
+use GraphQL\Language\AST\IntValueNode;
+use GraphQL\Language\AST\StringValueNode;
+use GraphQL\Type\Definition\ScalarType;
 
 /**
  * A specialized ID type that allows to fetch entity from DB
  */
-final class EntityIDType extends IDType
+final class EntityIDType extends ScalarType
 {
     /**
      * @var EntityManager
@@ -54,9 +57,11 @@ final class EntityIDType extends IDType
      */
     public function parseValue($value, ?array $variables = null): EntityID
     {
-        $value = parent::parseValue($value);
+        if (!is_string($value) && !is_int($value)) {
+            throw new Error('ID cannot represent value: ' . \GraphQL\Utils\Utils::printSafe($value));
+        }
 
-        return $this->createEntityID($value);
+        return $this->createEntityID((string) $value);
     }
 
     /**
@@ -66,9 +71,12 @@ final class EntityIDType extends IDType
      */
     public function parseLiteral($valueNode, ?array $variables = null): EntityID
     {
-        $value = (string) parent::parseLiteral($valueNode);
+        if ($valueNode instanceof StringValueNode || $valueNode instanceof IntValueNode) {
+            return $this->createEntityID((string) $valueNode->value);
+        }
 
-        return $this->createEntityID($value);
+        // Intentionally without message, as all information already in wrapped Exception
+        throw new Error();
     }
 
     /**

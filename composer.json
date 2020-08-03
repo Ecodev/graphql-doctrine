@@ -2,7 +2,12 @@
     "name": "ecodev/graphql-doctrine",
     "description": "Declare GraphQL types from Doctrine entities and annotations",
     "type": "library",
-    "keywords": ["api", "graphql", "doctrine", "doctrine-orm"],
+    "keywords": [
+        "api",
+        "graphql",
+        "doctrine",
+        "doctrine-orm"
+    ],
     "scripts": {
         "check": [
             "php-cs-fixer fix --ansi --dry-run --diff",
@@ -25,10 +30,10 @@
     },
     "require": {
         "php": "^7.2",
+        "doctrine/persistence": "^1.3 || ^2.0",
         "doctrine/orm": "^2.7",
         "psr/container": "^1.0",
-        "webonyx/graphql-php": "^0.13.8",
-        "doctrine/persistence": "^2.0"
+        "webonyx/graphql-php": "^14.3"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "@stable",

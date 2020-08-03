@@ -12,6 +12,7 @@ use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
 use GraphQL\Doctrine\Factory\Type\SortingTypeFactory;
 use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\InputObjectType;
+use GraphQL\Type\Definition\ListOfType;
 
 /**
  * A factory to create a QueryBuilder filtered and sorted according to arguments
@@ -73,7 +74,17 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
      */
     private function applyGroups(ClassMetadata $metadata, InputObjectType $type, array $filter, string $alias): void
     {
-        $typeFields = $type->getField('groups')->type->getWrappedType(true)->getField('conditions')->type->getWrappedType(true);
+        /** @var ListOfType $groups */
+        $groups = $type->getField('groups')->getType();
+
+        /** @var InputObjectType $unwrapped */
+        $unwrapped = $groups->getWrappedType(true);
+
+        /** @var ListOfType $conditions */
+        $conditions = $unwrapped->getField('conditions')->getType();
+
+        /** @var InputObjectType $typeFields */
+        $typeFields = $conditions->getWrappedType(true);
         foreach ($filter['groups'] ?? [] as $group) {
             $this->applyJoinsAndFilters($metadata, $alias, $typeFields, $group['joins'] ?? [], $group['conditions'] ?? []);
             $this->applyCollectedDqlConditions($group);
@@ -101,13 +112,13 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
                 }
 
                 /** @var InputObjectType $typeField */
-                $typeField = $typeFields->getField($field)->type;
+                $typeField = $typeFields->getField($field)->getType();
 
                 foreach ($operators as $operatorName => $operatorArgs) {
                     $operatorField = $typeField->getField($operatorName);
 
                     /** @var AbstractOperator $operatorType */
-                    $operatorType = $operatorField->type;
+                    $operatorType = $operatorField->getType();
 
                     $dqlCondition = $operatorType->getDqlCondition($this->uniqueNameFactory, $metadata, $this->queryBuilder, $alias, $field, $operatorArgs);
                     if ($dqlCondition) {

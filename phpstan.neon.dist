@@ -20,8 +20,5 @@ parameters:
         - '~^Parameter #1 \$str of function ucfirst expects string, string\|null given\.$~'
         - '~^Method GraphQL\\Doctrine\\Utils::getTypeName\(\) should return string but returns string\|false\.$~'
         - '~^Parameter #2 \$type of method GraphQL\\Doctrine\\Factory\\AbstractFieldsConfigurationFactory::adjustNamespace\(\) expects string, string\|null given\.$~'
-        - '~^Access to an undefined property GraphQL\\Language\\AST\\Node::\$kind\.$~'
-        - '~^Return type \(GraphQL\\Doctrine\\Definition\\EntityID\) of method GraphQL\\Doctrine\\Definition\\EntityIDType::parseValue\(\) should be compatible with return type \(string\) of method GraphQL\\Type\\Definition\\IDType::parseValue\(\)$~'
-        - '~^Return type \(GraphQL\\Doctrine\\Definition\\EntityID\) of method GraphQL\\Doctrine\\Definition\\EntityIDType::parseLiteral\(\) should be compatible with return type \(string\|null\) of method GraphQL\\Type\\Definition\\IDType::parseLiteral\(\)$~'
         - '~^Parameter #1 \$driver of method Doctrine\\Persistence\\Mapping\\Driver\\MappingDriverChain\:\:setDefaultDriver\(\) expects Doctrine\\Persistence\\Mapping\\Driver\\MappingDriver, Doctrine\\Persistence\\Mapping\\Driver\\MappingDriver\|null given\.$~'
         - '~^Parameter #1 \$argument of class ReflectionClass constructor expects class\-string\<T of object\>\|T of object, string given\.$~'
