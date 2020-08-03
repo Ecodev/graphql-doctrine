@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine;
 
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use GraphQL\Doctrine\Factory\MetadataReader\MappingDriverChainAdapter;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 use ReflectionClass;

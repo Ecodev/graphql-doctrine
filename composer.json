@@ -27,7 +27,8 @@
         "php": "^7.2",
         "doctrine/orm": "^2.7",
         "psr/container": "^1.0",
-        "webonyx/graphql-php": "^0.13.8"
+        "webonyx/graphql-php": "^0.13.8",
+        "doctrine/persistence": "^2.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "@stable",
