@@ -38,7 +38,11 @@ abstract class Utils
     /**
      * Return an array of all annotations found in the class hierarchy, including its traits, indexed by the class name
      *
+     * @param class-string<T> $annotationName
+     *
      * @return array annotations indexed by the class name where they were found
+     *
+     * @template T
      */
     public static function getRecursiveClassAnnotations(Reader $reader, ReflectionClass $class, string $annotationName): array
     {

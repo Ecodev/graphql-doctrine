@@ -205,6 +205,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     private function findIdentityField(string $className): void
     {
         $this->metadata = $this->entityManager->getClassMetadata($className);
+        /** @var array $meta */
         foreach ($this->metadata->fieldMappings as $meta) {
             if ($meta['id'] ?? false) {
                 $this->identityField = $meta['fieldName'];

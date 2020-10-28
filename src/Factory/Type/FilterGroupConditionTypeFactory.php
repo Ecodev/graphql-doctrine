@@ -58,6 +58,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
                 $this->readCustomOperatorsFromAnnotation($metadata->reflClass);
 
                 // Get all scalar fields
+                /** @var array $mapping */
                 foreach ($metadata->fieldMappings as $mapping) {
 
                     // Skip exclusion specified by user
