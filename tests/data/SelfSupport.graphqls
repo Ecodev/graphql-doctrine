@@ -1,5 +1,6 @@
 type SelfSupport {
   sibling: SelfSupport
+  siblingViaPhpDoc: SelfSupport
   id: ID!
   creationDate: DateTime!
 }

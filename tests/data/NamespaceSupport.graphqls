@@ -1,0 +1,5 @@
+type NamespaceSupport {
+  otherModelViaPhpDoc: SelfSupport!
+  id: ID!
+  creationDate: DateTime!
+}

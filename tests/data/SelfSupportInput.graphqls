@@ -1,4 +1,5 @@
 input SelfSupportInput {
   sibling: SelfSupportID!
+  siblingViaPhpDoc: SelfSupportID!
   creationDate: DateTime!
 }

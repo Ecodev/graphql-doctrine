@@ -58,7 +58,7 @@ final class EntityIDType extends ScalarType
     public function parseValue($value, ?array $variables = null): EntityID
     {
         if (!is_string($value) && !is_int($value)) {
-            throw new Error('ID cannot represent value: ' . \GraphQL\Utils\Utils::printSafe($value));
+            throw new Error('EntityID cannot represent value: ' . \GraphQL\Utils\Utils::printSafe($value));
         }
 
         return $this->createEntityID((string) $value);

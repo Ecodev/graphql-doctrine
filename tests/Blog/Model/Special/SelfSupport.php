@@ -23,4 +23,20 @@ final class SelfSupport extends AbstractModel
     {
         $this->sibling = $sibling;
     }
+
+    /**
+     * @return null|self
+     */
+    public function getSiblingViaPhpDoc()
+    {
+        return $this->sibling;
+    }
+
+    /**
+     * @param self $sibling
+     */
+    public function setSiblingViaPhpDoc($sibling): void
+    {
+        $this->sibling = $sibling;
+    }
 }

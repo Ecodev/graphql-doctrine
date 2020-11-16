@@ -6,6 +6,8 @@ namespace GraphQLTests\Doctrine\Definition;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use GraphQL\Doctrine\Definition\EntityIDType;
+use GraphQL\Error\Error;
+use GraphQL\Language\AST\BooleanValueNode;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQLTests\Doctrine\Blog\Model\User;
 use GraphQLTests\Doctrine\EntityManagerTrait;
@@ -36,6 +38,12 @@ final class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
     {
         $actual = $this->type->parseValue('123')->getId();
         self::assertSame('123', $actual);
+    }
+
+    public function testWillThrowIfParsingInvalidValue(): void
+    {
+        $this->expectErrorMessage('EntityID cannot represent value: false');
+        $this->type->parseValue(false);
     }
 
     public function testCanGetEntityFromRepositoryWhenReadingVariable(): void
@@ -71,6 +79,13 @@ final class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
         $this->expectExceptionMessage('Entity not found for class `GraphQLTests\Doctrine\Blog\Model\User` and ID `non-existing-id`');
         $ast = new StringValueNode(['value' => 'non-existing-id']);
         $this->type->parseLiteral($ast)->getEntity();
+    }
+
+    public function testWillThrowIfParsingInvalidLiteralValue(): void
+    {
+        $this->expectException(Error::class);
+        $ast = new BooleanValueNode(['value' => false]);
+        $this->type->parseLiteral($ast);
     }
 
     public function testCanGetIdFromEntity(): void
