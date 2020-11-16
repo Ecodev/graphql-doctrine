@@ -8,6 +8,7 @@ use Exception;
 use GraphQL\Type\Definition\Type;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilter;
+use GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilterGroupCondition;
 use GraphQLTests\Doctrine\Blog\Model\Special\ModelWithTraits;
 
 final class FilterTypesTest extends \PHPUnit\Framework\TestCase
@@ -67,5 +68,12 @@ final class FilterTypesTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectExceptionMessage('Expects a FQCN implementing `GraphQL\Doctrine\Definition\Operator\AbstractOperator`, but instead got: invalid_class_name');
         $this->types->getOperator('invalid_class_name', Type::string());
+    }
+
+    public function testInvalidFilterGroupConditionTypeMustThrow(): void
+    {
+        $type = $this->types->getFilter(InvalidFilterGroupCondition::class);
+        $this->expectExceptionMessage('On property `GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilterGroupCondition::$foo` the annotation `@API\FilterGroupCondition` expects a, possibly wrapped, `GraphQL\Type\Definition\LeafType`, but instead got: GraphQL\Type\Definition\ObjectType');
+        $this->getSchemaForType($type);
     }
 }

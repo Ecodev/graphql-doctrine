@@ -141,11 +141,12 @@ of priority, from the least to most important is:
 That means it is always possible to override everything with annotations. But
 existing type hints and dock blocks should cover the majority of cases.
 
-### Exclude a field
+### Exclude sensitive things
 
-All getters, and setters, are included by default in the type. But it can be specified
-otherwise for each method. To exclude a sensitive field from ever being exposed
-through the API, use `@API\Exclude`:
+All getters, and setters, are included by default in the type. And all properties are included in the filters.
+But it can be specified otherwise for each method and property.
+
+To exclude a sensitive field from ever being exposed through the API, use `@API\Exclude`:
 
 ```php
 use GraphQL\Doctrine\Annotation as API;
@@ -161,6 +162,21 @@ public function getPassword(): string
 {
     return $this->password;
 }
+```
+
+And to exclude a property from being exposed as a filter:
+
+```php
+use GraphQL\Doctrine\Annotation as API;
+
+/**
+ * @var string
+ *
+ * @API\Exclude
+ *
+ * @ORM\Column(type="string", length=255)
+ */
+private $password = '';
 ```
 
 ### Override output types
@@ -250,6 +266,27 @@ public function setStatus(string $status = self::STATUS_PUBLIC): void
 ```
 
 This annotation also supports `name`, `description`, and `defaultValue`.
+
+### Override filter types
+
+`@API\FilterGroupCondition` is the equivalent for filters that are generated from properties.
+So usage would be like:
+
+```php
+use GraphQL\Doctrine\Annotation as API;
+
+/**
+ * @var string
+ *
+ * @API\FilterGroupCondition(type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")
+ * @ORM\Column(type="string", options={"default" = Post::STATUS_PRIVATE})
+ */
+private $status = self::STATUS_PRIVATE;
+```
+
+An important thing to note is that the value of the type specified will be directly used in DQL. That means
+that if the value is not a PHP scalar, then it must be convertible to string via `__toString()`, or you have to
+do the conversion yourself before passing the filter values to `Types::createFilteredQueryBuilder()`.
 
 ### Custom types
 

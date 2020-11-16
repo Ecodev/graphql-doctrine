@@ -20,6 +20,12 @@ input BetweenOperatorID {
   not: Boolean = false
 }
 
+input BetweenOperatorPostStatus {
+  from: PostStatus!
+  to: PostStatus!
+  not: Boolean = false
+}
+
 input BetweenOperatorString {
   from: String!
   to: String!
@@ -51,6 +57,11 @@ input EqualOperatorID {
   not: Boolean = false
 }
 
+input EqualOperatorPostStatus {
+  value: PostStatus!
+  not: Boolean = false
+}
+
 input EqualOperatorString {
   value: String!
   not: Boolean = false
@@ -71,6 +82,11 @@ input GreaterOperatorID {
   not: Boolean = false
 }
 
+input GreaterOperatorPostStatus {
+  value: PostStatus!
+  not: Boolean = false
+}
+
 input GreaterOperatorString {
   value: String!
   not: Boolean = false
@@ -88,6 +104,11 @@ input GreaterOrEqualOperatorDateTime {
 
 input GreaterOrEqualOperatorID {
   value: ID!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorPostStatus {
+  value: PostStatus!
   not: Boolean = false
 }
 
@@ -135,6 +156,17 @@ Will apply a `GROUP BY` on the field to select unique values existing in databas
 This is typically useful to present a list of suggestions to the end-user, while
 still allowing him to enter arbitrary values.
 """
+input GroupOperatorPostStatus {
+  """This field is never used and can be ignored"""
+  value: Boolean = null
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while
+still allowing him to enter arbitrary values.
+"""
 input GroupOperatorString {
   """This field is never used and can be ignored"""
   value: Boolean = null
@@ -161,6 +193,11 @@ input InOperatorDateTime {
 
 input InOperatorID {
   values: [ID!]!
+  not: Boolean = false
+}
+
+input InOperatorPostStatus {
+  values: [PostStatus!]!
   not: Boolean = false
 }
 
@@ -221,6 +258,11 @@ input LessOperatorID {
   not: Boolean = false
 }
 
+input LessOperatorPostStatus {
+  value: PostStatus!
+  not: Boolean = false
+}
+
 input LessOperatorString {
   value: String!
   not: Boolean = false
@@ -241,6 +283,11 @@ input LessOrEqualOperatorID {
   not: Boolean = false
 }
 
+input LessOrEqualOperatorPostStatus {
+  value: PostStatus!
+  not: Boolean = false
+}
+
 input LessOrEqualOperatorString {
   value: String!
   not: Boolean = false
@@ -258,6 +305,11 @@ input LikeOperatorDateTime {
 
 input LikeOperatorID {
   value: ID!
+  not: Boolean = false
+}
+
+input LikeOperatorPostStatus {
+  value: PostStatus!
   not: Boolean = false
 }
 
@@ -320,6 +372,10 @@ input NullOperatorDateTime {
 }
 
 input NullOperatorID {
+  not: Boolean = false
+}
+
+input NullOperatorPostStatus {
   not: Boolean = false
 }
 
@@ -442,16 +498,16 @@ input PostFilterGroupConditionPublicationDate {
 
 """Type to specify a condition on a specific field"""
 input PostFilterGroupConditionStatus {
-  between: BetweenOperatorString
-  equal: EqualOperatorString
-  greater: GreaterOperatorString
-  greaterOrEqual: GreaterOrEqualOperatorString
-  in: InOperatorString
-  less: LessOperatorString
-  lessOrEqual: LessOrEqualOperatorString
-  like: LikeOperatorString
-  null: NullOperatorString
-  group: GroupOperatorString
+  between: BetweenOperatorPostStatus
+  equal: EqualOperatorPostStatus
+  greater: GreaterOperatorPostStatus
+  greaterOrEqual: GreaterOrEqualOperatorPostStatus
+  in: InOperatorPostStatus
+  less: LessOperatorPostStatus
+  lessOrEqual: LessOrEqualOperatorPostStatus
+  like: LikeOperatorPostStatus
+  null: NullOperatorPostStatus
+  group: GroupOperatorPostStatus
 }
 
 """Type to specify a condition on a specific field"""
@@ -488,6 +544,11 @@ input PostFilterGroupConditionUser {
 input PostFilterGroupJoin {
   user: JoinOnUser
   noInversedBy: JoinOnNoInversedBy
+}
+
+enum PostStatus {
+  private
+  public
 }
 
 input SearchOperatorString {

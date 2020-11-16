@@ -95,65 +95,6 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     }
 
     /**
-     * Get instance of GraphQL type from a PHP class name
-     *
-     * Supported syntaxes are the following:
-     *
-     *  - `?MyType`
-     *  - `null|MyType`
-     *  - `MyType|null`
-     *  - `MyType[]`
-     *  - `?MyType[]`
-     *  - `null|MyType[]`
-     *  - `MyType[]|null`
-     */
-    final protected function getTypeFromPhpDeclaration(ReflectionMethod $method, ?string $typeDeclaration, bool $isEntityId = false): ?Type
-    {
-        if (!$typeDeclaration) {
-            return null;
-        }
-
-        $isNullable = 0;
-        $name = preg_replace('~(^\?|^null\||\|null$)~', '', $typeDeclaration, -1, $isNullable);
-
-        $isList = 0;
-        $name = preg_replace('~^(.*)\[\]$~', '$1', $name, -1, $isList);
-        $name = $this->adjustNamespace($method, $name);
-        $type = $this->getTypeFromRegistry($name, $isEntityId);
-
-        if ($isList) {
-            $type = Type::listOf(Type::nonNull($type));
-        }
-
-        if (!$isNullable) {
-            $type = Type::nonNull($type);
-        }
-
-        return $type;
-    }
-
-    /**
-     * Prepend namespace of the method if the class actually exists
-     */
-    private function adjustNamespace(ReflectionMethod $method, string $type): string
-    {
-        if ($type === 'self') {
-            $type = $method->getDeclaringClass()->getName();
-        }
-
-        $namespace = $method->getDeclaringClass()->getNamespaceName();
-        if ($namespace) {
-            $namespacedType = $namespace . '\\' . $type;
-
-            if (class_exists($namespacedType)) {
-                return $namespacedType;
-            }
-        }
-
-        return $type;
-    }
-
-    /**
      * Get a GraphQL type instance from PHP type hinted type, possibly looking up the content of collections
      */
     final protected function getTypeFromReturnTypeHint(ReflectionMethod $method, string $fieldName): ?Type
@@ -264,22 +205,6 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
         }
 
         return $property->getDeclaringClass()->getDefaultProperties()[$fieldName] ?? null;
-    }
-
-    /**
-     * Returns a type from our registry
-     */
-    private function getTypeFromRegistry(string $type, bool $isEntityId): Type
-    {
-        if ($this->types->isEntity($type) && $isEntityId) {
-            return $this->types->getId($type);
-        }
-
-        if ($this->types->isEntity($type) && !$isEntityId) {
-            return $this->types->getOutput($type);
-        }
-
-        return $this->types->get($type);
     }
 
     /**

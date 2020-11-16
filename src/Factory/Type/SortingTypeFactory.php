@@ -78,7 +78,9 @@ final class SortingTypeFactory extends AbstractTypeFactory
     {
         $metadata = $this->entityManager->getClassMetadata($className);
         $standard = array_values(array_filter($metadata->fieldNames, function ($fieldName) use ($metadata) {
-            return !$this->isPropertyExcluded($metadata, $fieldName);
+            $property = $metadata->getReflectionProperty($fieldName);
+
+            return !$this->isPropertyExcluded($property);
         }));
         $custom = $this->getCustomSortingNames($className);
 

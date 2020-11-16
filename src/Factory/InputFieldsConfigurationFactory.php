@@ -49,7 +49,7 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
      */
     private function convertTypeDeclarationsToInstances(ReflectionMethod $method, Input $field): void
     {
-        $field->setTypeInstance($this->getTypeFromPhpDeclaration($method, $field->getType()));
+        $field->setTypeInstance($this->getTypeFromPhpDeclaration($method->getDeclaringClass(), $field->getType()));
     }
 
     /**
@@ -97,7 +97,7 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
         if (!$field->getTypeInstance()) {
             $typeDeclaration = $docBlock->getParameterType($param);
             $this->throwIfArray($param, $typeDeclaration);
-            $field->setTypeInstance($this->getTypeFromPhpDeclaration($method, $typeDeclaration, true));
+            $field->setTypeInstance($this->getTypeFromPhpDeclaration($method->getDeclaringClass(), $typeDeclaration, true));
         }
 
         // If still no type, look for type hint

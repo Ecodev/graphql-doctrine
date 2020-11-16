@@ -45,12 +45,12 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
      */
     private function convertTypeDeclarationsToInstances(ReflectionMethod $method, Field $field): void
     {
-        $field->type = $this->getTypeFromPhpDeclaration($method, $field->type);
+        $field->type = $this->getTypeFromPhpDeclaration($method->getDeclaringClass(), $field->type);
         $args = [];
 
         /** @var Argument $arg */
         foreach ($field->args as $arg) {
-            $arg->setTypeInstance($this->getTypeFromPhpDeclaration($method, $arg->getType()));
+            $arg->setTypeInstance($this->getTypeFromPhpDeclaration($method->getDeclaringClass(), $arg->getType()));
             $args[$arg->getName()] = $arg;
         }
         $field->args = $args;
@@ -126,7 +126,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
         if (!$arg->getTypeInstance()) {
             $typeDeclaration = $docBlock->getParameterType($param);
             $this->throwIfArray($param, $typeDeclaration);
-            $arg->setTypeInstance($this->getTypeFromPhpDeclaration($method, $typeDeclaration, true));
+            $arg->setTypeInstance($this->getTypeFromPhpDeclaration($method->getDeclaringClass(), $typeDeclaration, true));
         }
 
         $type = $param->getType();
@@ -152,7 +152,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
         ];
 
         if ($typeDeclaration && !in_array($typeDeclaration, $blacklist, true)) {
-            return $this->getTypeFromPhpDeclaration($method, $typeDeclaration);
+            return $this->getTypeFromPhpDeclaration($method->getDeclaringClass(), $typeDeclaration);
         }
 
         return null;

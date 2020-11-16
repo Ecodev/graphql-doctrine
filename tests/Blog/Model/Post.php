@@ -47,6 +47,7 @@ final class Post extends AbstractModel
     /**
      * @var string
      *
+     * @API\FilterGroupCondition(type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")
      * @ORM\Column(type="string", options={"default" = Post::STATUS_PRIVATE})
      */
     private $status = self::STATUS_PRIVATE;

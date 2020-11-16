@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GraphQL\Doctrine\Factory\Type;
 
 use GraphQL\Doctrine\Annotation\Filter;
+use GraphQL\Doctrine\Annotation\FilterGroupCondition;
 use GraphQL\Doctrine\Annotation\Filters;
 use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
 use GraphQL\Doctrine\Definition\Operator\BetweenOperatorType;
@@ -19,11 +20,13 @@ use GraphQL\Doctrine\Definition\Operator\LessOperatorType;
 use GraphQL\Doctrine\Definition\Operator\LessOrEqualOperatorType;
 use GraphQL\Doctrine\Definition\Operator\LikeOperatorType;
 use GraphQL\Doctrine\Definition\Operator\NullOperatorType;
+use GraphQL\Doctrine\Exception;
 use GraphQL\Doctrine\Utils;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\LeafType;
 use GraphQL\Type\Definition\Type;
 use ReflectionClass;
+use ReflectionProperty;
 
 /**
  * A factory to create an InputObjectType from a Doctrine entity to
@@ -60,20 +63,15 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
                 // Get all scalar fields
                 /** @var array $mapping */
                 foreach ($metadata->fieldMappings as $mapping) {
+                    $fieldName = $mapping['fieldName'];
+                    $property = $metadata->getReflectionProperty($fieldName);
 
                     // Skip exclusion specified by user
-                    if ($this->isPropertyExcluded($metadata, $mapping['fieldName'])) {
+                    if ($this->isPropertyExcluded($property)) {
                         continue;
                     }
 
-                    if ($mapping['id'] ?? false) {
-                        $leafType = Type::id();
-                    } else {
-                        /** @var LeafType $leafType */
-                        $leafType = $this->types->get($mapping['type']);
-                    }
-
-                    $fieldName = $mapping['fieldName'];
+                    $leafType = $this->getLeafType($property, $mapping);
                     $operators = $this->getOperators($fieldName, $leafType, false, false);
 
                     $filters[] = $this->getFieldConfiguration($typeName, $fieldName, $operators);
@@ -105,6 +103,37 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
         ]);
 
         return $type;
+    }
+
+    /**
+     * Read the type of the filterGroupCondition, either from Doctrine mapping type, or the override via annotation
+     */
+    private function getLeafType(ReflectionProperty $property, array $mapping): LeafType
+    {
+        if ($mapping['id'] ?? false) {
+            return Type::id();
+        }
+
+        /** @var null|FilterGroupCondition $filterGroupCondition */
+        $filterGroupCondition = $this->getAnnotationReader()->getPropertyAnnotation($property, FilterGroupCondition::class);
+        if ($filterGroupCondition) {
+            $leafType = $this->getTypeFromPhpDeclaration($property->getDeclaringClass(), $filterGroupCondition->type);
+
+            if ($leafType) {
+                if (!$leafType instanceof LeafType) {
+                    $propertyFullName = '`' . $property->getDeclaringClass()->getName() . '::$' . $property->getName() . '`';
+
+                    throw new Exception('On property ' . $propertyFullName . ' the annotation `@API\\FilterGroupCondition` expects a, possibly wrapped, `' . LeafType::class . '`, but instead got: ' . get_class($leafType));
+                }
+
+                return $leafType;
+            }
+        }
+
+        /** @var LeafType $leafType */
+        $leafType = $this->types->get($mapping['type']);
+
+        return $leafType;
     }
 
     /**
