@@ -1,6 +1,6 @@
 # GraphQL Doctrine
 
-[![Build Status](https://travis-ci.com/Ecodev/graphql-doctrine.svg?branch=master)](https://travis-ci.com/Ecodev/graphql-doctrine)
+[![Build Status](https://github.com/ecodev/graphql-doctrine/workflows/build/badge.svg)](https://github.com/ecodev/graphql-doctrine/actions)
 [![Code Quality](https://scrutinizer-ci.com/g/Ecodev/graphql-doctrine/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Ecodev/graphql-doctrine/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/Ecodev/graphql-doctrine/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Ecodev/graphql-doctrine/?branch=master)
 [![Total Downloads](https://poser.pugx.org/ecodev/graphql-doctrine/downloads.png)](https://packagist.org/packages/ecodev/graphql-doctrine)

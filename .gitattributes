@@ -1,4 +1,5 @@
 /.gitattributes export-ignore
+/.github export-ignore
 /.gitignore export-ignore
 /.php_cs.dist export-ignore
 /.scrutinizer.yml export-ignore
