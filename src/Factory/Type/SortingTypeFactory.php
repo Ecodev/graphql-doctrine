@@ -136,7 +136,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
             foreach ($sorting->classes as $className) {
                 $this->throwIfInvalidAnnotation($classWithAnnotation, 'Sorting', SortingInterface::class, $className);
 
-                $name = lcfirst(preg_replace('~Type$~', '', Utils::getTypeName($className)));
+                $name = lcfirst(Utils::getTypeName($className));
                 $result[$name] = new $className();
             }
         }

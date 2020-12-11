@@ -13,7 +13,10 @@ use GraphQLTests\Doctrine\Blog\Model\Special\NoInversedBy;
  * A blog post with title and body
  *
  * @ORM\Entity
- * @API\Sorting({"GraphQLTests\Doctrine\Blog\Sorting\UserName"})
+ * @API\Sorting({
+ *     "GraphQLTests\Doctrine\Blog\Sorting\UserName",
+ *     "GraphQLTests\Doctrine\Blog\Sorting\PostType",
+ * })
  * @API\Filters({
  *     @API\Filter(field="custom", operator="GraphQLTests\Doctrine\Blog\Filtering\SearchOperatorType", type="string"),
  * })
