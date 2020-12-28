@@ -194,31 +194,35 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
      */
     private function getOperators(string $fieldName, LeafType $leafType, bool $isAssociation, bool $isCollection): array
     {
-        $scalarOperators = [
-            BetweenOperatorType::class,
-            EqualOperatorType::class,
-            GreaterOperatorType::class,
-            GreaterOrEqualOperatorType::class,
-            InOperatorType::class,
-            LessOperatorType::class,
-            LessOrEqualOperatorType::class,
-            LikeOperatorType::class,
-            NullOperatorType::class,
-            GroupOperatorType::class,
-        ];
-
-        $associationOperators = [
-            HaveOperatorType::class,
-            EmptyOperatorType::class,
-        ];
-
+        // For a single pure scalar
         $operatorKeys = [];
-        if ($isAssociation) {
-            $operatorKeys = array_merge($operatorKeys, $associationOperators);
+        if (!$isAssociation && !$isCollection) {
+            array_push($operatorKeys, ...[
+                LikeOperatorType::class,
+            ]);
         }
 
+        // An association can share some operators independently if it's a single entity or collection of entities
+        if ($isAssociation) {
+            array_push($operatorKeys, ...[
+                HaveOperatorType::class,
+                EmptyOperatorType::class,
+            ]);
+        }
+
+        // We can share most operators for scalar and single entity association
         if (!$isCollection) {
-            $operatorKeys = array_merge($operatorKeys, $scalarOperators);
+            array_push($operatorKeys, ...[
+                BetweenOperatorType::class,
+                EqualOperatorType::class,
+                GreaterOperatorType::class,
+                GreaterOrEqualOperatorType::class,
+                InOperatorType::class,
+                LessOperatorType::class,
+                LessOrEqualOperatorType::class,
+                NullOperatorType::class,
+                GroupOperatorType::class,
+            ]);
         }
 
         $operators = array_fill_keys($operatorKeys, $leafType);

@@ -90,6 +90,7 @@ input ModelWithTraitsFilterGroupConditionCustomFromTrait {
 
 """Type to specify a condition on a specific field"""
 input ModelWithTraitsFilterGroupConditionId {
+  like: LikeOperatorID
   between: BetweenOperatorID
   equal: EqualOperatorID
   greater: GreaterOperatorID
@@ -97,7 +98,6 @@ input ModelWithTraitsFilterGroupConditionId {
   in: InOperatorID
   less: LessOperatorID
   lessOrEqual: LessOrEqualOperatorID
-  like: LikeOperatorID
   null: NullOperatorID
   group: GroupOperatorID
 }
