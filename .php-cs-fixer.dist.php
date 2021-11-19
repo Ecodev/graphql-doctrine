@@ -73,7 +73,7 @@ return (new PhpCsFixer\Config())
         'global_namespace_import' => true,
         'group_import' => false, // I feel it makes the code actually harder to read
         'header_comment' => false, // We don't use common header in all our files
-        'heredoc_indentation' => true,
+        'heredoc_indentation' => false, // Requires PHP >= 7.3
         'heredoc_to_nowdoc' => false, // We often use variable in heredoc
         'implode_call' => true,
         'include' => true,
