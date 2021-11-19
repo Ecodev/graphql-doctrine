@@ -39,7 +39,8 @@
         "laminas/laminas-servicemanager": "@stable",
         "phpstan/phpstan": "@stable",
         "phpunit/phpunit": "@stable",
-        "friendsofphp/php-cs-fixer": "@stable"
+        "friendsofphp/php-cs-fixer": "@stable",
+        "doctrine/dbal": "^2.13"
     },
     "license": "MIT"
 }
