@@ -26,6 +26,7 @@ final class PartialInputTypeFactory extends AbstractTypeFactory
     public function create(string $className, string $typeName): Type
     {
         $type = clone $this->types->getInput($className);
+        /** @var callable $fieldsGetter */
         $fieldsGetter = $type->config['fields'];
 
         $optionalFieldsGetter = function () use ($fieldsGetter): array {

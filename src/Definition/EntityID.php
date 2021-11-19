@@ -9,6 +9,8 @@ use GraphQL\Error\Error;
 
 /**
  * A object used to fetch the entity from DB on demand.
+ *
+ * @template T
  */
 class EntityID
 {
@@ -20,7 +22,7 @@ class EntityID
     /**
      * The entity class name.
      *
-     * @var string
+     * @var class-string<T>
      */
     private $className;
 
@@ -31,6 +33,9 @@ class EntityID
      */
     private $id;
 
+    /**
+     * @param class-string<T> $className
+     */
     public function __construct(EntityManager $entityManager, string $className, ?string $id)
     {
         $this->entityManager = $entityManager;
@@ -49,10 +54,11 @@ class EntityID
     /**
      * Get the entity from DB.
      *
-     * @return mixed entity
+     * @return T entity
      */
     public function getEntity()
     {
+        /** @var null|T $entity */
         $entity = $this->entityManager->getRepository($this->className)->find($this->id);
         if (!$entity) {
             throw new Error('Entity not found for class `' . $this->className . '` and ID `' . $this->id . '`.');

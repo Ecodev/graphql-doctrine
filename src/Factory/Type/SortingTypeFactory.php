@@ -133,6 +133,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
 
         $result = [];
         foreach ($sortings as $classWithAnnotation => $sorting) {
+            /** @var class-string<SortingInterface> $className */
             foreach ($sorting->classes as $className) {
                 $this->throwIfInvalidAnnotation($classWithAnnotation, 'Sorting', SortingInterface::class, $className);
 

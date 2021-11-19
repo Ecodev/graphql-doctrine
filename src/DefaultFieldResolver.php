@@ -41,11 +41,9 @@ final class DefaultFieldResolver
     /**
      * Resolve for an object.
      *
-     * @param mixed $source
-     *
      * @return mixed
      */
-    private function resolveObject($source, array $args, string $fieldName)
+    private function resolveObject(object $source, array $args, string $fieldName)
     {
         $getter = $this->getGetter($source, $fieldName);
         if ($getter) {
@@ -64,21 +62,17 @@ final class DefaultFieldResolver
     /**
      * Resolve for an array.
      *
-     * @param mixed $source
-     *
      * @return mixed
      */
-    private function resolveArray($source, string $fieldName)
+    private function resolveArray(array $source, string $fieldName)
     {
         return $source[$fieldName] ?? null;
     }
 
     /**
      * Return the getter/isser method if any valid one exists.
-     *
-     * @param mixed $source
      */
-    private function getGetter($source, string $name): ?ReflectionMethod
+    private function getGetter(object $source, string $name): ?ReflectionMethod
     {
         if (!preg_match('~^(is|has)[A-Z]~', $name)) {
             $name = 'get' . ucfirst($name);

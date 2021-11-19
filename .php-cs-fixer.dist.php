@@ -177,7 +177,7 @@ return (new PhpCsFixer\Config())
         'php_unit_test_annotation' => true,
         'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         'php_unit_test_class_requires_covers' => false, // We don't care as much as we should about coverage
-        'phpdoc_add_missing_param_annotation' => true,
+        'phpdoc_add_missing_param_annotation' => false,
         'phpdoc_align' => false, // Waste of time
         'phpdoc_annotation_without_dot' => true,
         'phpdoc_indent' => true,

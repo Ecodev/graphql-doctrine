@@ -54,6 +54,7 @@ final class FilterTypesTest extends \PHPUnit\Framework\TestCase
         $actual = $queryBuilder->getDQL();
 
         self::assertSame($expected, $actual);
+        // @phpstan-ignore-next-line
         self::assertStringStartsWith('SELECT ', $queryBuilder->getQuery()->getSQL(), 'should be able to generate valid SQL without throwing exceptions');
     }
 

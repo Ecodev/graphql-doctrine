@@ -24,10 +24,13 @@ final class EntityIDType extends ScalarType
     /**
      * The entity class name.
      *
-     * @var string
+     * @var class-string
      */
     private $className;
 
+    /**
+     * @param class-string $className
+     */
     public function __construct(EntityManager $entityManager, string $className, string $typeName)
     {
         $this->entityManager = $entityManager;
@@ -41,7 +44,7 @@ final class EntityIDType extends ScalarType
     /**
      * Serializes an internal value to include in a response.
      *
-     * @param mixed $value
+     * @param object $value
      */
     public function serialize($value): string
     {

@@ -144,6 +144,7 @@ final class Types
     public function get(string $key): Type
     {
         if ($this->customTypes && $this->customTypes->has($key)) {
+            /** @var Type $t */
             $t = $this->customTypes->get($key);
             $this->registerInstance($t);
 

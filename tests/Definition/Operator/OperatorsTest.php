@@ -50,7 +50,9 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
         }
 
         if ($className === GroupOperatorType::class) {
+            // @phpstan-ignore-next-line
             self::assertCount(1, $queryBuilder->getDQLPart('groupBy'));
+            // @phpstan-ignore-next-line
             self::assertSame(['alias.field'], $queryBuilder->getDQLPart('groupBy')[0]->getParts());
         }
     }

@@ -11,6 +11,9 @@ use GraphQLTests\Doctrine\Blog\Model\User;
  */
 final class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param int $id
+     */
     public function find($id, $lockMode = null, $lockVersion = null): ?User
     {
         $id = (int) $id;
