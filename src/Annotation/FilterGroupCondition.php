@@ -16,7 +16,7 @@ namespace GraphQL\Doctrine\Annotation;
 final class FilterGroupCondition
 {
     /**
-     * FQCN of PHP class implementing the GraphQL type
+     * FQCN of PHP class implementing the GraphQL type.
      *
      * @var string
      * @Required

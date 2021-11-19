@@ -10,12 +10,12 @@ use GraphQL\Type\Definition\Type;
 use ReflectionClass;
 
 /**
- * A factory to create an ObjectType from a Doctrine entity
+ * A factory to create an ObjectType from a Doctrine entity.
  */
 abstract class AbstractTypeFactory extends AbstractFactory
 {
     /**
-     * Create an ObjectType from a Doctrine entity
+     * Create an ObjectType from a Doctrine entity.
      *
      * @param string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
@@ -23,7 +23,7 @@ abstract class AbstractTypeFactory extends AbstractFactory
     abstract public function create(string $className, string $typeName): Type;
 
     /**
-     * Get the description of a class from the doc block
+     * Get the description of a class from the doc block.
      */
     final protected function getDescription(string $className): ?string
     {
@@ -45,7 +45,7 @@ abstract class AbstractTypeFactory extends AbstractFactory
     }
 
     /**
-     * Throw an exception if the given type does not inherit expected type
+     * Throw an exception if the given type does not inherit expected type.
      */
     final protected function throwIfInvalidAnnotation(string $classWithAnnotation, string $annotation, string $expectedClassName, string $actualClassName): void
     {

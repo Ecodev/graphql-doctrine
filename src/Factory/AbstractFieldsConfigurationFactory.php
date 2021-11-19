@@ -20,36 +20,36 @@ use ReflectionParameter;
 use ReflectionProperty;
 
 /**
- * A factory to create a configuration for all fields of an entity
+ * A factory to create a configuration for all fields of an entity.
  */
 abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
 {
     /**
-     * Doctrine metadata for the entity
+     * Doctrine metadata for the entity.
      *
      * @var ClassMetadata
      */
     private $metadata;
 
     /**
-     * The identity field name, eg: "id"
+     * The identity field name, eg: "id".
      *
      * @var string
      */
     private $identityField;
 
     /**
-     * Returns the regexp pattern to filter method names
+     * Returns the regexp pattern to filter method names.
      */
     abstract protected function getMethodPattern(): string;
 
     /**
-     * Get the entire configuration for a method
+     * Get the entire configuration for a method.
      */
     abstract protected function methodToConfiguration(ReflectionMethod $method): ?array;
 
     /**
-     * Create a configuration for all fields of Doctrine entity
+     * Create a configuration for all fields of Doctrine entity.
      */
     public function create(string $className): array
     {
@@ -85,7 +85,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     }
 
     /**
-     * Returns whether the getter is excluded
+     * Returns whether the getter is excluded.
      */
     private function isExcluded(ReflectionMethod $method): bool
     {
@@ -95,7 +95,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     }
 
     /**
-     * Get a GraphQL type instance from PHP type hinted type, possibly looking up the content of collections
+     * Get a GraphQL type instance from PHP type hinted type, possibly looking up the content of collections.
      */
     final protected function getTypeFromReturnTypeHint(ReflectionMethod $method, string $fieldName): ?Type
     {
@@ -123,7 +123,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     }
 
     /**
-     * Convert a reflected type to GraphQL Type
+     * Convert a reflected type to GraphQL Type.
      */
     final protected function reflectionTypeToType(ReflectionNamedType $reflectionType, bool $isEntityId = false): Type
     {
@@ -141,7 +141,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     }
 
     /**
-     * Look up which field is the ID
+     * Look up which field is the ID.
      */
     private function findIdentityField(string $className): void
     {
@@ -155,7 +155,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     }
 
     /**
-     * Returns the fully qualified method name
+     * Returns the fully qualified method name.
      */
     final protected function getMethodFullName(ReflectionMethod $method): string
     {
@@ -163,7 +163,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     }
 
     /**
-     * Throws exception if type is an array
+     * Throws exception if type is an array.
      */
     final protected function throwIfArray(ReflectionParameter $param, ?string $type): void
     {
@@ -173,7 +173,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     }
 
     /**
-     * Returns whether the given field name is the identity for the entity
+     * Returns whether the given field name is the identity for the entity.
      */
     final protected function isIdentityField(string $fieldName): bool
     {
@@ -181,7 +181,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     }
 
     /**
-     * Finds the target entity in the given association
+     * Finds the target entity in the given association.
      */
     private function getTargetEntity(string $fieldName): ?string
     {
@@ -189,7 +189,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     }
 
     /**
-     * Return the default value, if any, of the property for the current entity
+     * Return the default value, if any, of the property for the current entity.
      *
      * It does take into account that the property might be defined on a parent class
      * of entity. And it will find it if that is the case.
@@ -208,7 +208,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     }
 
     /**
-     * Input with default values cannot be non-null
+     * Input with default values cannot be non-null.
      */
     final protected function nonNullIfHasDefault(AbstractAnnotation $annotation): void
     {
@@ -219,7 +219,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     }
 
     /**
-     * Throws exception if argument type is invalid
+     * Throws exception if argument type is invalid.
      */
     final protected function throwIfNotInputType(ReflectionParameter $param, AbstractAnnotation $annotation): void
     {

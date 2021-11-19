@@ -33,7 +33,7 @@ final class FilterTypeFactory extends AbstractTypeFactory
     }
 
     /**
-     * Create an InputObjectType from a Doctrine entity
+     * Create an InputObjectType from a Doctrine entity.
      *
      * @param string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
@@ -66,7 +66,7 @@ final class FilterTypeFactory extends AbstractTypeFactory
     }
 
     /**
-     * Get the type for condition
+     * Get the type for condition.
      */
     private function getGroupType(string $className, string $typeName): InputObjectType
     {

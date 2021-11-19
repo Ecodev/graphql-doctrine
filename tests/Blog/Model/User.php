@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
 
 /**
- * A blog author or visitor
+ * A blog author or visitor.
  *
  * @ORM\Entity(repositoryClass="GraphQLTests\Doctrine\Blog\Repository\UserRepository")
  */
@@ -60,7 +60,7 @@ final class User extends AbstractModel
     private $manager;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct(?int $id = null)
     {
@@ -73,7 +73,7 @@ final class User extends AbstractModel
     }
 
     /**
-     * Set name
+     * Set name.
      */
     public function setName(string $name): void
     {
@@ -81,7 +81,7 @@ final class User extends AbstractModel
     }
 
     /**
-     * Get the user real name
+     * Get the user real name.
      */
     public function getName(): string
     {
@@ -89,7 +89,7 @@ final class User extends AbstractModel
     }
 
     /**
-     * Set a valid email or null
+     * Set a valid email or null.
      */
     public function setEmail(?string $email): void
     {
@@ -97,7 +97,7 @@ final class User extends AbstractModel
     }
 
     /**
-     * Get the validated email or null
+     * Get the validated email or null.
      */
     public function getEmail(): ?string
     {
@@ -105,7 +105,7 @@ final class User extends AbstractModel
     }
 
     /**
-     * Encrypt and change the user password
+     * Encrypt and change the user password.
      */
     public function setPassword(string $password): void
     {
@@ -113,7 +113,7 @@ final class User extends AbstractModel
     }
 
     /**
-     * Returns the hashed password
+     * Returns the hashed password.
      *
      * @API\Exclude
      */
@@ -123,7 +123,7 @@ final class User extends AbstractModel
     }
 
     /**
-     * Set whether the user is an administrator
+     * Set whether the user is an administrator.
      *
      * @API\Exclude
      */
@@ -133,7 +133,7 @@ final class User extends AbstractModel
     }
 
     /**
-     * Get whether the user is an administrator
+     * Get whether the user is an administrator.
      */
     public function isAdministrator(): bool
     {
@@ -141,7 +141,7 @@ final class User extends AbstractModel
     }
 
     /**
-     * Returns all posts of the specified status
+     * Returns all posts of the specified status.
      *
      * @API\Field(args={@API\Argument(name="status", type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")})
      *

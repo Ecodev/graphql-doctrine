@@ -7,7 +7,7 @@ namespace GraphQL\Doctrine\Definition;
 use GraphQL\Type\Definition\EnumType;
 
 /**
- * An enum for logical operator to be used in DQL
+ * An enum for logical operator to be used in DQL.
  */
 final class LogicalOperatorType extends EnumType
 {

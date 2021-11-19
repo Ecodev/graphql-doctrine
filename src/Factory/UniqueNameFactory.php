@@ -22,7 +22,7 @@ final class UniqueNameFactory
     private $parameterCount = 1;
 
     /**
-     * Return a string to be used as parameter name in a query
+     * Return a string to be used as parameter name in a query.
      */
     public function createParameterName(): string
     {
@@ -30,7 +30,7 @@ final class UniqueNameFactory
     }
 
     /**
-     * Return a string to be used as alias name in a query
+     * Return a string to be used as alias name in a query.
      */
     public function createAliasName(string $className): string
     {

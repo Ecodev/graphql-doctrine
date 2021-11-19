@@ -10,7 +10,7 @@ use GraphQL\Doctrine\Factory\UniqueNameFactory;
 use GraphQL\Type\Definition\LeafType;
 
 /**
- * A simple operator with two operands
+ * A simple operator with two operands.
  */
 abstract class AbstractSimpleOperator extends AbstractOperator
 {

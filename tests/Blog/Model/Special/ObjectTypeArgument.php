@@ -16,7 +16,7 @@ final class ObjectTypeArgument extends AbstractModel
 {
     /**
      * This is an incorrect annotation, it should be entirely deleted to let the
-     * system auto-create an input type matching the entity
+     * system auto-create an input type matching the entity.
      *
      * @API\Field(args={@API\Argument(name="user", type="GraphQLTests\Doctrine\Blog\Model\User")})
      */

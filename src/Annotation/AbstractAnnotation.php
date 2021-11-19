@@ -7,12 +7,12 @@ namespace GraphQL\Doctrine\Annotation;
 use GraphQL\Type\Definition\Type;
 
 /**
- * Abstract annotation with common logic for Argument and Field
+ * Abstract annotation with common logic for Argument and Field.
  */
 abstract class AbstractAnnotation
 {
     /**
-     * The name of the argument, it must matches the actual PHP argument name
+     * The name of the argument, it must matches the actual PHP argument name.
      *
      * @var null|string
      * @Required
@@ -20,14 +20,14 @@ abstract class AbstractAnnotation
     private $name;
 
     /**
-     * FQCN of PHP class implementing the GraphQL type
+     * FQCN of PHP class implementing the GraphQL type.
      *
      * @var null|string
      */
     private $type;
 
     /**
-     * Instance of the GraphQL type
+     * Instance of the GraphQL type.
      *
      * @var null|Type
      */

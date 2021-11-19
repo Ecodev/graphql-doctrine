@@ -18,7 +18,7 @@ namespace GraphQL\Doctrine\Annotation;
 final class Filter
 {
     /**
-     * Name of the field on which to apply the operator
+     * Name of the field on which to apply the operator.
      *
      * The field may or may not actually exist in the entity. It is merely used
      * to organize the filter correctly in the API.
@@ -29,7 +29,7 @@ final class Filter
     public $field;
 
     /**
-     * Key referring to the type instance of PHP class implementing the GraphQL type
+     * Key referring to the type instance of PHP class implementing the GraphQL type.
      *
      * @var string
      * @Required
@@ -37,7 +37,7 @@ final class Filter
     public $operator;
 
     /**
-     * GraphQL leaf type name of the type of the field
+     * GraphQL leaf type name of the type of the field.
      *
      * @var string
      * @Required

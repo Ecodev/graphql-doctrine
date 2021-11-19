@@ -13,7 +13,7 @@ namespace GraphQL\Doctrine\Annotation;
 final class Filters
 {
     /**
-     * List of all custom filters
+     * List of all custom filters.
      *
      * @var array<\GraphQL\Doctrine\Annotation\Filter>
      * @Required

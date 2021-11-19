@@ -25,7 +25,7 @@ final class MappingDriverChainAdapter implements Reader
     }
 
     /**
-     * Find the reader for the class
+     * Find the reader for the class.
      */
     private function findReader(ReflectionClass $class): Reader
     {

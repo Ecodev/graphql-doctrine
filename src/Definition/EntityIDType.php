@@ -12,7 +12,7 @@ use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\ScalarType;
 
 /**
- * A specialized ID type that allows to fetch entity from DB
+ * A specialized ID type that allows to fetch entity from DB.
  */
 final class EntityIDType extends ScalarType
 {
@@ -22,7 +22,7 @@ final class EntityIDType extends ScalarType
     private $entityManager;
 
     /**
-     * The entity class name
+     * The entity class name.
      *
      * @var string
      */
@@ -51,7 +51,7 @@ final class EntityIDType extends ScalarType
     }
 
     /**
-     * Parses an externally provided value (query variable) to use as an input
+     * Parses an externally provided value (query variable) to use as an input.
      *
      * @param mixed $value
      */
@@ -65,7 +65,7 @@ final class EntityIDType extends ScalarType
     }
 
     /**
-     * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input
+     * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input.
      *
      * @param \GraphQL\Language\AST\Node $valueNode
      */
@@ -80,7 +80,7 @@ final class EntityIDType extends ScalarType
     }
 
     /**
-     * Create EntityID to retrieve entity from DB later on
+     * Create EntityID to retrieve entity from DB later on.
      */
     private function createEntityID(string $id): EntityID
     {

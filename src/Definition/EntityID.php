@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 use GraphQL\Error\Error;
 
 /**
- * A object used to fetch the entity from DB on demand
+ * A object used to fetch the entity from DB on demand.
  */
 class EntityID
 {
@@ -18,14 +18,14 @@ class EntityID
     private $entityManager;
 
     /**
-     * The entity class name
+     * The entity class name.
      *
      * @var string
      */
     private $className;
 
     /**
-     * The entity id
+     * The entity id.
      *
      * @var null|string
      */
@@ -39,7 +39,7 @@ class EntityID
     }
 
     /**
-     * Get the ID
+     * Get the ID.
      */
     public function getId(): ?string
     {
@@ -47,7 +47,7 @@ class EntityID
     }
 
     /**
-     * Get the entity from DB
+     * Get the entity from DB.
      *
      * @return mixed entity
      */

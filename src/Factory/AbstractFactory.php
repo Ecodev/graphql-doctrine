@@ -17,7 +17,7 @@ use ReflectionClass;
 use ReflectionProperty;
 
 /**
- * Abstract factory to be aware of types and entityManager
+ * Abstract factory to be aware of types and entityManager.
  */
 abstract class AbstractFactory
 {
@@ -38,7 +38,7 @@ abstract class AbstractFactory
     }
 
     /**
-     * Get annotation reader
+     * Get annotation reader.
      */
     final protected function getAnnotationReader(): Reader
     {
@@ -55,7 +55,7 @@ abstract class AbstractFactory
     }
 
     /**
-     * Returns whether the property is excluded
+     * Returns whether the property is excluded.
      */
     final protected function isPropertyExcluded(ReflectionProperty $property): bool
     {
@@ -65,7 +65,7 @@ abstract class AbstractFactory
     }
 
     /**
-     * Get instance of GraphQL type from a PHP class name
+     * Get instance of GraphQL type from a PHP class name.
      *
      * Supported syntaxes are the following:
      *
@@ -103,7 +103,7 @@ abstract class AbstractFactory
     }
 
     /**
-     * Prepend namespace of the method if the class actually exists
+     * Prepend namespace of the method if the class actually exists.
      */
     private function adjustNamespace(ReflectionClass $class, string $type): string
     {
@@ -124,7 +124,7 @@ abstract class AbstractFactory
     }
 
     /**
-     * Returns a type from our registry
+     * Returns a type from our registry.
      */
     final protected function getTypeFromRegistry(string $type, bool $isEntityId): Type
     {

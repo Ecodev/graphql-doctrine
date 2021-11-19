@@ -19,7 +19,7 @@ use ReflectionClass;
 final class SortingTypeFactory extends AbstractTypeFactory
 {
     /**
-     * Map of entity class and their custom sorting class instances
+     * Map of entity class and their custom sorting class instances.
      *
      * @var SortingInterface[][]
      */
@@ -70,7 +70,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
     }
 
     /**
-     * Get names for all possible sorting, including the custom one
+     * Get names for all possible sorting, including the custom one.
      *
      * @return string[]
      */
@@ -88,7 +88,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
     }
 
     /**
-     * Get names for all custom sorting
+     * Get names for all custom sorting.
      *
      * @return string[]
      */
@@ -100,7 +100,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
     }
 
     /**
-     * Get instance of custom sorting for the given entity and sorting name
+     * Get instance of custom sorting for the given entity and sorting name.
      */
     public function getCustomSorting(string $className, string $name): ?SortingInterface
     {
@@ -110,7 +110,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
     }
 
     /**
-     * Fill the cache for custom sorting
+     * Fill the cache for custom sorting.
      */
     private function fillCache(string $className): void
     {
@@ -123,7 +123,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
     }
 
     /**
-     * Get all instance of custom sorting from the annotation
+     * Get all instance of custom sorting from the annotation.
      *
      * @return SortingInterface[]
      */

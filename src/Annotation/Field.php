@@ -21,7 +21,7 @@ final class Field
     public $name;
 
     /**
-     * FQCN of PHP class implementing the GraphQL type
+     * FQCN of PHP class implementing the GraphQL type.
      *
      * @var string
      */

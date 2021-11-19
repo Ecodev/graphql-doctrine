@@ -14,7 +14,7 @@ use GraphQL\Type\Definition\Type;
 final class EntityIDTypeFactory extends AbstractTypeFactory
 {
     /**
-     * Create an EntityIDType from a Doctrine entity
+     * Create an EntityIDType from a Doctrine entity.
      *
      * @param string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name

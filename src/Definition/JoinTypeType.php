@@ -7,7 +7,7 @@ namespace GraphQL\Doctrine\Definition;
 use GraphQL\Type\Definition\EnumType;
 
 /**
- * An enum for join types to be used in DQL
+ * An enum for join types to be used in DQL.
  */
 final class JoinTypeType extends EnumType
 {

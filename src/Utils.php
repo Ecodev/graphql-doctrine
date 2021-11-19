@@ -11,12 +11,12 @@ use GraphQL\Type\Definition\ScalarType;
 use ReflectionClass;
 
 /**
- * A few utils
+ * A few utils.
  */
 abstract class Utils
 {
     /**
-     * Get the GraphQL type name for an output type from the PHP class
+     * Get the GraphQL type name for an output type from the PHP class.
      */
     public static function getTypeName(string $className): string
     {
@@ -26,7 +26,7 @@ abstract class Utils
     }
 
     /**
-     * Get the GraphQL type name for a Filter type from the PHP class
+     * Get the GraphQL type name for a Filter type from the PHP class.
      *
      * @param EnumType|ScalarType $type
      */
@@ -36,7 +36,7 @@ abstract class Utils
     }
 
     /**
-     * Return an array of all annotations found in the class hierarchy, including its traits, indexed by the class name
+     * Return an array of all annotations found in the class hierarchy, including its traits, indexed by the class name.
      *
      * @param class-string<T> $annotationName
      *

@@ -13,7 +13,7 @@ namespace GraphQL\Doctrine\Annotation;
 final class Sorting
 {
     /**
-     * FQCN of PHP class implementing `SortingInterface`
+     * FQCN of PHP class implementing `SortingInterface`.
      *
      * @var array<string>
      */

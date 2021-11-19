@@ -7,7 +7,7 @@ namespace GraphQLTests\Doctrine\Blog\Repository;
 use GraphQLTests\Doctrine\Blog\Model\User;
 
 /**
- * A fake repository so we don't have to set up a DB
+ * A fake repository so we don't have to set up a DB.
  */
 final class UserRepository extends \Doctrine\ORM\EntityRepository
 {

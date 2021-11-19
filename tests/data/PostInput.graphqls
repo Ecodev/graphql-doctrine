@@ -1,18 +1,18 @@
-"""A blog post with title and body"""
+"""A blog post with title and body."""
 input PostInput {
-  """Title"""
+  """Title."""
   title: String = ""
 
-  """The body"""
+  """The body."""
   body: String = ""
 
-  """Status"""
+  """Status."""
   status: PostStatus = public
 
-  """Author of post"""
+  """Author of post."""
   user: UserID!
 
-  """Date of publication"""
+  """Date of publication."""
   publicationDate: DateTime!
   creationDate: DateTime!
 }

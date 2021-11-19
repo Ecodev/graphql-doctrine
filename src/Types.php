@@ -32,7 +32,7 @@ use Psr\Container\ContainerInterface;
 use UnexpectedValueException;
 
 /**
- * Registry of types to manage all GraphQL types
+ * Registry of types to manage all GraphQL types.
  *
  * This is the entry point for the library.
  */
@@ -125,7 +125,7 @@ final class Types
     }
 
     /**
-     * Returns whether a type exists for the given key
+     * Returns whether a type exists for the given key.
      */
     public function has(string $key): bool
     {
@@ -133,7 +133,7 @@ final class Types
     }
 
     /**
-     * Always return the same instance of `Type` for the given key
+     * Always return the same instance of `Type` for the given key.
      *
      * It will first look for the type in the custom types container, and then
      * use automatically generated types. This allow for custom types to override
@@ -158,7 +158,7 @@ final class Types
     }
 
     /**
-     * Get a type from internal registry, and create it via the factory if needed
+     * Get a type from internal registry, and create it via the factory if needed.
      */
     private function getViaFactory(string $className, string $typeName, AbstractTypeFactory $factory): Type
     {
@@ -173,7 +173,7 @@ final class Types
     }
 
     /**
-     * Returns an output type for the given entity
+     * Returns an output type for the given entity.
      *
      * All entity getter methods will be exposed, unless specified otherwise
      * with annotations.
@@ -189,7 +189,7 @@ final class Types
     }
 
     /**
-     * Returns an input type for the given entity
+     * Returns an input type for the given entity.
      *
      * This would typically be used in mutations to create new entities.
      *
@@ -207,7 +207,7 @@ final class Types
     }
 
     /**
-     * Returns a partial input type for the given entity
+     * Returns a partial input type for the given entity.
      *
      * This would typically be used in mutations to update existing entities.
      *
@@ -227,7 +227,7 @@ final class Types
     }
 
     /**
-     * Returns a filter input type for the given entity
+     * Returns a filter input type for the given entity.
      *
      * This would typically be used to filter queries.
      *
@@ -242,7 +242,7 @@ final class Types
     }
 
     /**
-     * Returns a sorting input type for the given entity
+     * Returns a sorting input type for the given entity.
      *
      * This would typically be used to sort queries.
      *
@@ -257,7 +257,7 @@ final class Types
     }
 
     /**
-     * Returns a joinOn input type for the given entity
+     * Returns a joinOn input type for the given entity.
      *
      * This is for internal use only.
      *
@@ -272,7 +272,7 @@ final class Types
     }
 
     /**
-     * Returns a joins input type for the given entity
+     * Returns a joins input type for the given entity.
      *
      * This is for internal use only.
      *
@@ -287,7 +287,7 @@ final class Types
     }
 
     /**
-     * Returns a condition input type for the given entity
+     * Returns a condition input type for the given entity.
      *
      * This is for internal use only.
      *
@@ -302,7 +302,7 @@ final class Types
     }
 
     /**
-     * Returns an special ID type for the given entity
+     * Returns an special ID type for the given entity.
      *
      * This is mostly useful for internal usage when a getter has an entity
      * as parameter. This type will automatically load the entity from DB, so
@@ -321,7 +321,7 @@ final class Types
     }
 
     /**
-     * Returns an operator input type
+     * Returns an operator input type.
      *
      * This is for internal use only.
      *
@@ -344,7 +344,7 @@ final class Types
     }
 
     /**
-     * Register the given type in our internal registry with its name
+     * Register the given type in our internal registry with its name.
      *
      * This is for internal use only. You should declare custom types via the constructor, not this method.
      */
@@ -354,7 +354,7 @@ final class Types
     }
 
     /**
-     * Checks if a className is a valid doctrine entity
+     * Checks if a className is a valid doctrine entity.
      */
     public function isEntity(string $className): bool
     {
@@ -362,7 +362,7 @@ final class Types
     }
 
     /**
-     * Initialize internal types for common needs
+     * Initialize internal types for common needs.
      */
     private function initializeInternalTypes(): void
     {
@@ -390,7 +390,7 @@ final class Types
     }
 
     /**
-     * Throw an exception if the class name is not Doctrine entity
+     * Throw an exception if the class name is not Doctrine entity.
      */
     private function throwIfNotEntity(string $className): void
     {
@@ -400,7 +400,7 @@ final class Types
     }
 
     /**
-     * Create and return a query builder that is filtered and sorted for the given entity
+     * Create and return a query builder that is filtered and sorted for the given entity.
      *
      * Typical usage would be to call this method in your query resolver with the filter and sorting arguments directly
      * coming from GraphQL.

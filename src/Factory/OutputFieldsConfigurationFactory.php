@@ -14,7 +14,7 @@ use ReflectionNamedType;
 use ReflectionParameter;
 
 /**
- * A factory to create a configuration for all getters of an entity
+ * A factory to create a configuration for all getters of an entity.
  */
 final class OutputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
 {
@@ -24,7 +24,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
     }
 
     /**
-     * Get the entire configuration for a method
+     * Get the entire configuration for a method.
      */
     protected function methodToConfiguration(ReflectionMethod $method): ?array
     {
@@ -41,7 +41,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
     }
 
     /**
-     * All its types will be converted from string to real instance of Type
+     * All its types will be converted from string to real instance of Type.
      */
     private function convertTypeDeclarationsToInstances(ReflectionMethod $method, Field $field): void
     {
@@ -57,7 +57,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
     }
 
     /**
-     * Complete field with info from doc blocks and type hints
+     * Complete field with info from doc blocks and type hints.
      */
     private function completeField(Field $field, ReflectionMethod $method): void
     {
@@ -76,7 +76,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
     }
 
     /**
-     * Complete arguments configuration from existing type hints
+     * Complete arguments configuration from existing type hints.
      */
     private function completeFieldArguments(Field $field, ReflectionMethod $method, DocBlockReader $docBlock): void
     {
@@ -99,7 +99,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
     }
 
     /**
-     * Complete a single argument from its type hint
+     * Complete a single argument from its type hint.
      */
     private function completeArgumentFromTypeHint(Argument $arg, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
     {
@@ -119,7 +119,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
     }
 
     /**
-     * Complete a single argument type from its type hint and doc block
+     * Complete a single argument type from its type hint and doc block.
      */
     private function completeArgumentTypeFromTypeHint(Argument $arg, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
     {
@@ -141,7 +141,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
     }
 
     /**
-     * Get a GraphQL type instance from dock block return type
+     * Get a GraphQL type instance from dock block return type.
      */
     private function getTypeFromDocBock(ReflectionMethod $method, DocBlockReader $docBlock): ?Type
     {
@@ -159,7 +159,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
     }
 
     /**
-     * Complete field type from doc blocks and type hints
+     * Complete field type from doc blocks and type hints.
      */
     private function completeFieldType(Field $field, ReflectionMethod $method, string $fieldName, DocBlockReader $docBlock): void
     {

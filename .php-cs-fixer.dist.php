@@ -1,28 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 $finder = PhpCsFixer\Finder::create()
+    ->exclude('htdocs')
+    ->exclude('data')
+    ->exclude('node_modules')
     ->exclude('vendor')
+    ->name('*.phtml')
+    ->name('*.php.dist')
     ->in(__DIR__);
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setFinder($finder)
     ->setCacheFile(sys_get_temp_dir() . '/php-cs-fixer' . preg_replace('~\W~', '-', __DIR__))
     ->setRules([
         'align_multiline_comment' => true,
         'array_indentation' => true,
+        'array_push' => true,
         'array_syntax' => ['syntax' => 'short'],
+        'assign_null_coalescing_to_coalesce_equal' => false, // Require PHP 7.4
         'backtick_to_shell_exec' => true,
         'binary_operator_spaces' => true,
         'blank_line_after_namespace' => true,
         'blank_line_after_opening_tag' => true,
-        'blank_line_before_return' => false, // Deprecated
         'blank_line_before_statement' => true,
         'braces' => true,
         'cast_spaces' => true,
-        'class_attributes_separation' => ['elements' => ['method', 'property']], // const are often grouped with other related const
+        'class_attributes_separation' => ['elements' => ['method' => 'one', 'property' => 'one']], // const are often grouped with other related const
         'class_definition' => true,
-        'class_keyword_remove' => false, // ::class keyword gives us better support in IDE
+        'class_keyword_remove' => false, // Deprecated, and ::class keyword gives us better support in IDE
         'combine_consecutive_issets' => true,
         'combine_consecutive_unsets' => true,
         'combine_nested_dirname' => true,
@@ -30,15 +38,20 @@ return PhpCsFixer\Config::create()
         'compact_nullable_typehint' => true,
         'concat_space' => ['spacing' => 'one'],
         'constant_case' => true,
+        'control_structure_continuation_position' => true,
         'date_time_immutable' => true,
         'declare_equal_normalize' => true,
+        'declare_parentheses' => true,
         'declare_strict_types' => true,
         'dir_constant' => true,
         'doctrine_annotation_array_assignment' => true,
         'doctrine_annotation_braces' => true,
         'doctrine_annotation_indentation' => true,
         'doctrine_annotation_spaces' => true,
+        'echo_tag_syntax' => true,
         'elseif' => true,
+        'empty_loop_body' => true,
+        'empty_loop_condition' => true,
         'encoding' => true,
         'ereg_to_preg' => true,
         'error_suppression' => true,
@@ -48,7 +61,6 @@ return PhpCsFixer\Config::create()
         'final_class' => false, // We need non-final classes
         'final_internal_class' => true,
         'final_public_method_for_abstract_class' => false, // We need non-final methods
-        'final_static_access' => true,
         'fopen_flag_order' => true,
         'fopen_flags' => true,
         'full_opening_tag' => true,
@@ -56,23 +68,25 @@ return PhpCsFixer\Config::create()
         'function_declaration' => true,
         'function_to_constant' => true,
         'function_typehint_space' => true,
-        'general_phpdoc_annotation_remove' => ['author', 'category', 'copyright', 'package', 'throws'],
+        'general_phpdoc_annotation_remove' => ['annotations' => ['author', 'category', 'copyright', 'package', 'throws']],
+        'general_phpdoc_tag_rename' => true,
         'global_namespace_import' => true,
-        'hash_to_slash_comment' => false, // Deprecated
+        'group_import' => false, // I feel it makes the code actually harder to read
         'header_comment' => false, // We don't use common header in all our files
-        'heredoc_indentation' => false, // Requires PHP >= 7.3
-        'heredoc_to_nowdoc' => false, // Not sure about this one
+        'heredoc_indentation' => true,
+        'heredoc_to_nowdoc' => false, // We often use variable in heredoc
         'implode_call' => true,
         'include' => true,
         'increment_style' => true,
         'indentation_type' => true,
+        'integer_literal_case' => true,
         'is_null' => true,
+        'lambda_not_used_import' => true,
         'line_ending' => true,
         'linebreak_after_opening_tag' => true,
         'list_syntax' => ['syntax' => 'short'],
         'logical_operators' => true,
         'lowercase_cast' => true,
-        'lowercase_constants' => false, // Deprecated
         'lowercase_keywords' => true,
         'lowercase_static_reference' => true,
         'magic_constant_casing' => true,
@@ -80,7 +94,7 @@ return PhpCsFixer\Config::create()
         'mb_str_functions' => true,
         'method_argument_space' => true,
         'method_chaining_indentation' => true,
-        'method_separation' => false, // Deprecated
+        'modernize_strpos' => false, // Require PHP 8.0
         'modernize_types_casting' => true,
         'multiline_comment_opening_closing' => true,
         'multiline_whitespace_before_semicolons' => true,
@@ -90,6 +104,7 @@ return PhpCsFixer\Config::create()
         'native_function_type_declaration_casing' => true,
         'new_with_braces' => true,
         'no_alias_functions' => true,
+        'no_alias_language_construct_call' => true,
         'no_alternative_syntax' => true,
         'no_binary_string' => true,
         'no_blank_lines_after_class_opening' => true,
@@ -101,18 +116,16 @@ return PhpCsFixer\Config::create()
         'no_empty_phpdoc' => true,
         'no_empty_statement' => true,
         'no_extra_blank_lines' => true,
-        'no_extra_consecutive_blank_lines' => false, // Deprecated
         'no_homoglyph_names' => true,
         'no_leading_import_slash' => true,
         'no_leading_namespace_whitespace' => true,
         'no_mixed_echo_print' => true,
         'no_multiline_whitespace_around_double_arrow' => true,
-        'no_multiline_whitespace_before_semicolons' => false, // Deprecated
         'no_null_property_initialization' => true,
         'no_php4_constructor' => true,
         'no_short_bool_cast' => true,
-        'no_short_echo_tag' => true,
         'no_singleline_whitespace_before_semicolons' => true,
+        'no_space_around_double_colon' => true,
         'no_spaces_after_function_name' => true,
         'no_spaces_around_offset' => true,
         'no_spaces_inside_parenthesis' => true,
@@ -122,6 +135,7 @@ return PhpCsFixer\Config::create()
         'no_trailing_comma_in_singleline_array' => true,
         'no_trailing_whitespace' => true,
         'no_trailing_whitespace_in_comment' => true,
+        'no_trailing_whitespace_in_string' => false, // Too dangerous
         'no_unneeded_control_parentheses' => true,
         'no_unneeded_curly_braces' => true,
         'no_unneeded_final_method' => true,
@@ -131,6 +145,7 @@ return PhpCsFixer\Config::create()
         'no_unused_imports' => true,
         'no_useless_else' => true,
         'no_useless_return' => true,
+        'no_useless_sprintf' => true,
         'no_whitespace_before_comma_in_array' => true,
         'no_whitespace_in_blank_line' => true,
         'non_printable_character' => true,
@@ -139,9 +154,12 @@ return PhpCsFixer\Config::create()
         'not_operator_with_successor_space' => false, // idem
         'nullable_type_declaration_for_default_null_value' => true,
         'object_operator_without_whitespace' => true,
+        'octal_notation' => true,
+        'operator_linebreak' => true,
         'ordered_class_elements' => false, // We prefer to keep some freedom
         'ordered_imports' => true,
         'ordered_interfaces' => true,
+        'ordered_traits' => true,
         'php_unit_construct' => true,
         'php_unit_dedicate_assert' => true,
         'php_unit_dedicate_assert_internal_type' => true,
@@ -153,7 +171,6 @@ return PhpCsFixer\Config::create()
         'php_unit_mock_short_will_return' => true,
         'php_unit_namespaced' => true,
         'php_unit_no_expectation_annotation' => true,
-        'php_unit_ordered_covers' => true,
         'php_unit_set_up_tear_down_visibility' => true,
         'php_unit_size_class' => false, // That seems extra work to maintain for little benefits
         'php_unit_strict' => false, // We sometime actually need assertEquals
@@ -164,7 +181,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_align' => false, // Waste of time
         'phpdoc_annotation_without_dot' => true,
         'phpdoc_indent' => true,
-        'phpdoc_inline_tag' => true,
+        'phpdoc_inline_tag_normalizer' => true,
         'phpdoc_line_span' => true,
         'phpdoc_no_access' => true,
         'phpdoc_no_alias_tag' => true,
@@ -172,14 +189,18 @@ return PhpCsFixer\Config::create()
         'phpdoc_no_package' => true,
         'phpdoc_no_useless_inheritdoc' => true,
         'phpdoc_order' => true,
+        'phpdoc_order_by_value' => true,
         'phpdoc_return_self_reference' => true,
         'phpdoc_scalar' => true,
         'phpdoc_separation' => true,
         'phpdoc_single_line_var_spacing' => true,
-        'phpdoc_summary' => false, // We usually don't generate documentation so punctuation is not important
-        'phpdoc_to_comment' => false, // Cannot be used safely because of https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/3011
+        'phpdoc_summary' => true,
+        'phpdoc_tag_casing' => true,
+        'phpdoc_tag_type' => true,
+        'phpdoc_to_comment' => true,
         'phpdoc_to_param_type' => false, // Because experimental, but interesting for one shot use
-        'phpdoc_to_return_type' => false, // idem
+        'phpdoc_to_property_type' => false, // Because experimental, but interesting for one shot use
+        'phpdoc_to_return_type' => false, // Because experimental, but interesting for one shot use
         'phpdoc_trim' => true,
         'phpdoc_trim_consecutive_blank_line_separation' => true,
         'phpdoc_types' => true,
@@ -187,11 +208,10 @@ return PhpCsFixer\Config::create()
         'phpdoc_var_annotation_correct_order' => true,
         'phpdoc_var_without_name' => true,
         'pow_to_exponentiation' => true,
-        'pre_increment' => false, // Deprecated
         'protected_to_private' => true,
-        'psr0' => true,
-        'psr4' => true,
+        'psr_autoloading' => true,
         'random_api_migration' => true,
+        'regular_callable_call' => true,
         'return_assignment' => false, // Sometimes useful for clarity or debug
         'return_type_declaration' => true,
         'self_accessor' => true,
@@ -199,8 +219,8 @@ return PhpCsFixer\Config::create()
         'semicolon_after_instruction' => false, // We prefer to keep .phtml files without semicolon
         'set_type_to_cast' => true,
         'short_scalar_cast' => true,
-        'silenced_deprecation_error' => false, // Deprecated
         'simple_to_complex_string_variable' => false, // Would differ from TypeScript without obvious advantages
+        'simplified_if_return' => false, // Even if technically correct we prefer to be explicit
         'simplified_null_return' => false, // Even if technically correct we prefer to be explicit
         'single_blank_line_at_eof' => true,
         'single_blank_line_before_namespace' => true,
@@ -210,6 +230,7 @@ return PhpCsFixer\Config::create()
         'single_line_comment_style' => true,
         'single_line_throw' => false, // I don't see any reason for having a special case for Exception
         'single_quote' => true,
+        'single_space_after_construct' => true,
         'single_trait_insert_per_statement' => true,
         'space_after_semicolon' => true,
         'standardize_increment' => true,
@@ -217,14 +238,19 @@ return PhpCsFixer\Config::create()
         'static_lambda' => false, // Risky if we can't guarantee nobody use `bindTo()`
         'strict_comparison' => true,
         'strict_param' => true,
+        'string_length_to_empty' => true,
         'string_line_ending' => true,
         'switch_case_semicolon_to_colon' => true,
         'switch_case_space' => true,
+        'switch_continue_to_break' => true,
         'ternary_operator_spaces' => true,
+        'ternary_to_elvis_operator' => true,
         'ternary_to_null_coalescing' => true,
-        'trailing_comma_in_multiline_array' => true,
+        'trailing_comma_in_multiline' => false, // Require PHP 7.3
         'trim_array_spaces' => true,
+        'types_spaces' => true,
         'unary_operator_spaces' => true,
+        'use_arrow_functions' => false, // Require PHP 7.4
         'visibility_required' => true,
         'void_return' => true,
         'whitespace_after_comma_in_array' => true,

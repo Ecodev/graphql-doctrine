@@ -10,7 +10,7 @@ use GraphQL\Doctrine\Annotation as API;
 use GraphQLTests\Doctrine\Blog\Model\Special\NoInversedBy;
 
 /**
- * A blog post with title and body
+ * A blog post with title and body.
  *
  * @ORM\Entity
  * @API\Sorting({
@@ -23,8 +23,8 @@ use GraphQLTests\Doctrine\Blog\Model\Special\NoInversedBy;
  */
 final class Post extends AbstractModel
 {
-    const STATUS_PRIVATE = 'private';
-    const STATUS_PUBLIC = 'public';
+    public const STATUS_PRIVATE = 'private';
+    public const STATUS_PUBLIC = 'public';
 
     /**
      * @var string
@@ -70,7 +70,7 @@ final class Post extends AbstractModel
     private $noInversedBy;
 
     /**
-     * Set title
+     * Set title.
      */
     public function setTitle(string $title): void
     {
@@ -78,7 +78,7 @@ final class Post extends AbstractModel
     }
 
     /**
-     * Get title
+     * Get title.
      */
     public function getTitle(): string
     {
@@ -86,7 +86,7 @@ final class Post extends AbstractModel
     }
 
     /**
-     * Set the body
+     * Set the body.
      */
     public function setBody(string $body): void
     {
@@ -94,9 +94,9 @@ final class Post extends AbstractModel
     }
 
     /**
-     * Returns the body
+     * Returns the body.
      *
-     * @API\Field(name="content", description="The post content")
+     * @API\Field(name="content", description="The post content.")
      */
     public function getBody(): string
     {
@@ -104,7 +104,7 @@ final class Post extends AbstractModel
     }
 
     /**
-     * Set status
+     * Set status.
      *
      * @API\Input(type="GraphQLTests\Doctrine\Blog\Types\PostStatusType")
      */
@@ -114,7 +114,7 @@ final class Post extends AbstractModel
     }
 
     /**
-     * Get status
+     * Get status.
      *
      * @API\Field(type="GraphQLTests\Doctrine\Blog\Types\PostStatusType")
      */
@@ -124,7 +124,7 @@ final class Post extends AbstractModel
     }
 
     /**
-     * Set author of post
+     * Set author of post.
      */
     public function setUser(User $user): void
     {
@@ -132,7 +132,7 @@ final class Post extends AbstractModel
     }
 
     /**
-     * Get author of post
+     * Get author of post.
      */
     public function getUser(): User
     {
@@ -140,7 +140,7 @@ final class Post extends AbstractModel
     }
 
     /**
-     * Set date of publication
+     * Set date of publication.
      */
     public function setPublicationDate(DateTimeImmutable $publicationDate): void
     {
@@ -148,7 +148,7 @@ final class Post extends AbstractModel
     }
 
     /**
-     * Get date of publication
+     * Get date of publication.
      */
     public function getPublicationDate(): DateTimeImmutable
     {
@@ -182,7 +182,7 @@ final class Post extends AbstractModel
     }
 
     /**
-     * This should be silently ignored
+     * This should be silently ignored.
      */
     public function setNothing(): void
     {

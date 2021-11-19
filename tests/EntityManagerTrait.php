@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
 /**
- * Trait to easily set up a dummy entity manager
+ * Trait to easily set up a dummy entity manager.
  */
 trait EntityManagerTrait
 {

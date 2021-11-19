@@ -22,7 +22,7 @@ use Laminas\ServiceManager\ServiceManager;
 use stdClass;
 
 /**
- * Trait to easily set up types and assert them
+ * Trait to easily set up types and assert them.
  */
 trait TypesTrait
 {
@@ -67,7 +67,7 @@ trait TypesTrait
     }
 
     /**
-     * Create a temporary schema for the given type
+     * Create a temporary schema for the given type.
      */
     private function getSchemaForType(Type $type): Schema
     {

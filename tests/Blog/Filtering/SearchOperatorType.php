@@ -58,7 +58,7 @@ final class SearchOperatorType extends AbstractOperator
     }
 
     /**
-     * Find all textual fields for the entity
+     * Find all textual fields for the entity.
      */
     private function getSearchableFields(ClassMetadata $metadata, string $alias): array
     {

@@ -20,7 +20,7 @@ use GraphQL\Type\Definition\LeafType;
 abstract class AbstractOperator extends InputObjectType
 {
     /**
-     * Types registry
+     * Types registry.
      *
      * @var Types
      */
@@ -32,7 +32,7 @@ abstract class AbstractOperator extends InputObjectType
         $config = $this->getConfiguration($leafType);
 
         // Override type name to be predictable
-        $config['name'] = Utils::getOperatorTypeName(get_class($this), $leafType);
+        $config['name'] = Utils::getOperatorTypeName(static::class, $leafType);
 
         parent::__construct($config);
     }
@@ -51,7 +51,7 @@ abstract class AbstractOperator extends InputObjectType
     abstract protected function getConfiguration(LeafType $leafType): array;
 
     /**
-     * Return the DQL condition to apply the filter
+     * Return the DQL condition to apply the filter.
      *
      * In most cases a DQL condition should be returned as a string, but it might be useful to
      * return null if the filter is not applicable (eg: a search term with empty string).

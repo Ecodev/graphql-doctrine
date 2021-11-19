@@ -10,12 +10,12 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * A factory to create an ObjectType from a Doctrine entity
+ * A factory to create an ObjectType from a Doctrine entity.
  */
 final class ObjectTypeFactory extends AbstractTypeFactory
 {
     /**
-     * Create an ObjectType from a Doctrine entity
+     * Create an ObjectType from a Doctrine entity.
      *
      * @param string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name

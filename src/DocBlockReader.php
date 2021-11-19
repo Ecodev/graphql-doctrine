@@ -8,7 +8,7 @@ use ReflectionMethod;
 use ReflectionParameter;
 
 /**
- * A basic doc block reader to extract
+ * A basic doc block reader to extract.
  */
 final class DocBlockReader
 {
@@ -23,7 +23,7 @@ final class DocBlockReader
     }
 
     /**
-     * Get the description of a method from the doc block
+     * Get the description of a method from the doc block.
      */
     public function getMethodDescription(): ?string
     {
@@ -41,7 +41,7 @@ final class DocBlockReader
     }
 
     /**
-     * Get the parameter description
+     * Get the parameter description.
      */
     public function getParameterDescription(ReflectionParameter $param): ?string
     {
@@ -55,7 +55,7 @@ final class DocBlockReader
     }
 
     /**
-     * Get the parameter type
+     * Get the parameter type.
      */
     public function getParameterType(ReflectionParameter $param): ?string
     {
@@ -69,7 +69,7 @@ final class DocBlockReader
     }
 
     /**
-     * Get the return type
+     * Get the return type.
      */
     public function getReturnType(): ?string
     {

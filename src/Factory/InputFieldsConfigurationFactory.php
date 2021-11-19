@@ -11,7 +11,7 @@ use ReflectionNamedType;
 use ReflectionParameter;
 
 /**
- * A factory to create a configuration for all setters of an entity
+ * A factory to create a configuration for all setters of an entity.
  */
 final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationFactory
 {
@@ -21,7 +21,7 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
     }
 
     /**
-     * Get the entire configuration for a method
+     * Get the entire configuration for a method.
      */
     protected function methodToConfiguration(ReflectionMethod $method): ?array
     {
@@ -45,7 +45,7 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
     }
 
     /**
-     * All its types will be converted from string to real instance of Type
+     * All its types will be converted from string to real instance of Type.
      */
     private function convertTypeDeclarationsToInstances(ReflectionMethod $method, Input $field): void
     {
@@ -53,7 +53,7 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
     }
 
     /**
-     * Complete field with info from doc blocks and type hints
+     * Complete field with info from doc blocks and type hints.
      */
     private function completeField(Input $field, ReflectionMethod $method, ReflectionParameter $param): void
     {
@@ -72,7 +72,7 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
     }
 
     /**
-     * Complete field default value from argument and property
+     * Complete field default value from argument and property.
      */
     private function completeFieldDefaultValue(Input $field, ReflectionParameter $param, string $fieldName): void
     {
@@ -89,7 +89,7 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
     }
 
     /**
-     * Complete field type from doc blocks and type hints
+     * Complete field type from doc blocks and type hints.
      */
     private function completeFieldType(Input $field, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
     {

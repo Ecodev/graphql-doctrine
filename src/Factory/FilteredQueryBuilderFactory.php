@@ -15,7 +15,7 @@ use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ListOfType;
 
 /**
- * A factory to create a QueryBuilder filtered and sorted according to arguments
+ * A factory to create a QueryBuilder filtered and sorted according to arguments.
  */
 final class FilteredQueryBuilderFactory extends AbstractFactory
 {
@@ -70,7 +70,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
     }
 
     /**
-     * Apply filters to the query builder
+     * Apply filters to the query builder.
      */
     private function applyGroups(ClassMetadata $metadata, InputObjectType $type, array $filter, string $alias): void
     {
@@ -92,7 +92,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
     }
 
     /**
-     * Apply both joins and filters to the query builder
+     * Apply both joins and filters to the query builder.
      */
     private function applyJoinsAndFilters(ClassMetadata $metadata, string $alias, InputObjectType $typeFields, array $joins, array $conditions): void
     {
@@ -101,7 +101,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
     }
 
     /**
-     * Gather all DQL conditions for the given array of fields
+     * Gather all DQL conditions for the given array of fields.
      */
     private function collectDqlConditions(ClassMetadata $metadata, array $allConditions, InputObjectType $typeFields, string $alias): void
     {
@@ -130,7 +130,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
     }
 
     /**
-     * Apply joins to the query builder
+     * Apply joins to the query builder.
      */
     private function applyJoins(ClassMetadata $metadata, array $joins, string $alias): void
     {
@@ -147,7 +147,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
     }
 
     /**
-     * Apply sorting to the query builder
+     * Apply sorting to the query builder.
      */
     private function applySorting(ClassMetadata $metadata, string $className, array $sorting, string $alias): void
     {
@@ -170,7 +170,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
     }
 
     /**
-     * Apply collected DQL conditions on the query builder and reset them
+     * Apply collected DQL conditions on the query builder and reset them.
      */
     private function applyCollectedDqlConditions(array $group): void
     {
@@ -194,7 +194,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
     }
 
     /**
-     * Create a join, but only if it does not exist yet
+     * Create a join, but only if it does not exist yet.
      */
     private function createJoin(string $alias, string $field, string $joinType): string
     {

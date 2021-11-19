@@ -39,7 +39,7 @@ final class DefaultFieldResolver
     }
 
     /**
-     * Resolve for an object
+     * Resolve for an object.
      *
      * @param mixed $source
      *
@@ -62,7 +62,7 @@ final class DefaultFieldResolver
     }
 
     /**
-     * Resolve for an array
+     * Resolve for an array.
      *
      * @param mixed $source
      *
@@ -74,7 +74,7 @@ final class DefaultFieldResolver
     }
 
     /**
-     * Return the getter/isser method if any valid one exists
+     * Return the getter/isser method if any valid one exists.
      *
      * @param mixed $source
      */
@@ -96,7 +96,7 @@ final class DefaultFieldResolver
     }
 
     /**
-     * Re-order associative args to ordered args
+     * Re-order associative args to ordered args.
      */
     private function orderArguments(ReflectionMethod $method, array $args): array
     {
