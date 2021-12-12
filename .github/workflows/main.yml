@@ -10,6 +10,7 @@ jobs:
           - '7.3'
           - '7.4'
           - '8.0'
+          - '8.1'
 
     name: PHP ${{ matrix.php-version }}
 
@@ -31,7 +32,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Remove lock for PHP 8
-        if: matrix.php-version == '8.0'
+        if: matrix.php-version == '8.0' || matrix.php-version == '8.1'
         run: rm composer.lock && composer require symfony/cache
 
       - name: Install dependencies
