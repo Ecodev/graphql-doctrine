@@ -41,5 +41,10 @@
         "phpunit/phpunit": "@stable",
         "friendsofphp/php-cs-fixer": "@stable"
     },
-    "license": "MIT"
+    "license": "MIT",
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
+    }
 }
