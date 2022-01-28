@@ -89,7 +89,7 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                 'posts',
             ],
             [
-                ':filter1 MEMBER OF alias.posts',
+                'EXISTS (SELECT 1 FROM GraphQLTests\Doctrine\Blog\Model\Post post1 WHERE post1.user = alias.id AND post1.id IN (:filter1))',
                 HaveOperatorType::class,
                 [
                     'values' => [123, 456],
@@ -98,7 +98,7 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                 'posts',
             ],
             [
-                ':filter1 NOT MEMBER OF alias.posts',
+                'NOT EXISTS (SELECT 1 FROM GraphQLTests\Doctrine\Blog\Model\Post post1 WHERE post1.user = alias.id AND post1.id IN (:filter1))',
                 HaveOperatorType::class,
                 [
                     'values' => [123, 456],
@@ -129,6 +129,24 @@ final class OperatorsTest extends \PHPUnit\Framework\TestCase
                     'not' => true,
                 ],
                 'manager',
+            ],
+            [
+                ':filter1 MEMBER OF alias.favoritePosts',
+                HaveOperatorType::class,
+                [
+                    'values' => [123, 456],
+                    'not' => false,
+                ],
+                'favoritePosts',
+            ],
+            [
+                ':filter1 NOT MEMBER OF alias.favoritePosts',
+                HaveOperatorType::class,
+                [
+                    'values' => [123, 456],
+                    'not' => true,
+                ],
+                'favoritePosts',
             ],
             [
                 null,

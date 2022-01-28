@@ -53,6 +53,13 @@ final class User extends AbstractModel
     private $posts;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="GraphQLTests\Doctrine\Blog\Model\Post")
+     */
+    private $favoritePosts;
+
+    /**
      * @var null|User
      *
      * @ORM\ManyToOne(targetEntity="GraphQLTests\Doctrine\Blog\Model\User")

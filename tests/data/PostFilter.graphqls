@@ -561,6 +561,7 @@ input UserFilterGroupCondition {
   isAdministrator: UserFilterGroupConditionIsAdministrator
   id: UserFilterGroupConditionId
   posts: UserFilterGroupConditionPosts
+  favoritePosts: UserFilterGroupConditionFavoritePosts
   manager: UserFilterGroupConditionManager
 }
 
@@ -590,6 +591,12 @@ input UserFilterGroupConditionEmail {
   lessOrEqual: LessOrEqualOperatorString
   null: NullOperatorString
   group: GroupOperatorString
+}
+
+"""Type to specify a condition on a specific field"""
+input UserFilterGroupConditionFavoritePosts {
+  have: HaveOperatorID
+  empty: EmptyOperatorID
 }
 
 """Type to specify a condition on a specific field"""
@@ -659,6 +666,7 @@ input UserFilterGroupConditionPosts {
 """Type to specify join tables in a filter"""
 input UserFilterGroupJoin {
   posts: JoinOnPost
+  favoritePosts: JoinOnPost
   manager: JoinOnUser
 }
 
