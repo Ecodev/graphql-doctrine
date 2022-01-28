@@ -46,14 +46,14 @@ final class User extends AbstractModel
     private $isAdministrator = false;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection<Post>
      *
      * @ORM\OneToMany(targetEntity="GraphQLTests\Doctrine\Blog\Model\Post", mappedBy="user")
      */
     private $posts;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection<Post>
      *
      * @ORM\ManyToMany(targetEntity="GraphQLTests\Doctrine\Blog\Model\Post")
      */
