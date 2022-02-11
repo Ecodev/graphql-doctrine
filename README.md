@@ -114,8 +114,9 @@ $schema = new Schema([
 
 ## Usage
 
-The public API is limited to the public methods on `Types` and the annotations.
-So that's the constructor and:
+The public API is limited to the public methods on `TypesInterface`, `Types`'s constructor, and the annotations.
+
+Here is a quick overview of `TypesInterface`:
 
 - `$types->get()` to get custom types
 - `$types->getOutput()` to get an `ObjectType` to be used in queries
