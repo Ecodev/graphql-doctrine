@@ -27,47 +27,35 @@ final class Post extends AbstractModel
     public const STATUS_PUBLIC = 'public';
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string", length=50, options={"default" = ""})
      */
-    private $title = '';
+    private string $title = '';
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="text")
      */
-    private $body = '';
+    private string $body = '';
 
     /**
-     * @var DateTimeImmutable
-     *
      * @ORM\Column(type="datetime_immutable")
      */
-    private $publicationDate;
+    private DateTimeImmutable $publicationDate;
 
     /**
-     * @var string
-     *
      * @API\FilterGroupCondition(type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")
      * @ORM\Column(type="string", options={"default" = Post::STATUS_PRIVATE})
      */
-    private $status = self::STATUS_PRIVATE;
+    private string $status = self::STATUS_PRIVATE;
 
     /**
-     * @var User
-     *
      * @ORM\ManyToOne(targetEntity="GraphQLTests\Doctrine\Blog\Model\User", inversedBy="posts")
      */
-    private $user;
+    private User $user;
 
     /**
-     * @var NoInversedBy
-     *
      * @ORM\ManyToOne(targetEntity="GraphQLTests\Doctrine\Blog\Model\Special\NoInversedBy")
      */
-    private $noInversedBy;
+    private NoInversedBy $noInversedBy;
 
     /**
      * Set title.

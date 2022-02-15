@@ -23,7 +23,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
      *
      * @var SortingInterface[][]
      */
-    private $customSortings = [];
+    private array $customSortings = [];
 
     /**
      * Create an InputObjectType from a Doctrine entity to

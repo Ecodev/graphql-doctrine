@@ -16,10 +16,7 @@ final class EntityIDTypeFactoryTest extends TestCase
 {
     use EntityManagerTrait;
 
-    /**
-     * @var EntityIDTypeFactory
-     */
-    private $entityIDTypeFactory;
+    private EntityIDTypeFactory $entityIDTypeFactory;
 
     protected function setUp(): void
     {

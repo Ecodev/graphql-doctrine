@@ -13,7 +13,7 @@ use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
  */
 final class IgnoredGetter extends AbstractModel
 {
-    private $privateProperty = 'privateProperty';
+    private string $privateProperty = 'privateProperty';
 
     protected $protectedProperty = 'protectedProperty';
 

@@ -15,12 +15,12 @@ final class DefaultValue extends AbstractModel
     /**
      * @ORM\Column(type="string")
      */
-    private $nameWithDefaultValueOnField = 'jane';
+    private string $nameWithDefaultValueOnField = 'jane';
 
     /**
      * @ORM\Column(type="string")
      */
-    private $nameWithDefaultValueOnArgumentOverrideField = 'field';
+    private string $nameWithDefaultValueOnArgumentOverrideField = 'field';
 
     public function setNameWithoutDefault(string $name): void
     {

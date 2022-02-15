@@ -16,9 +16,10 @@ use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Types\CustomType;
 use GraphQLTests\Doctrine\Blog\Types\DateTimeType;
 use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
+use PHPUnit\Framework\TestCase;
 use stdClass;
 
-final class TypesTest extends \PHPUnit\Framework\TestCase
+final class TypesTest extends TestCase
 {
     use TypesTrait;
 

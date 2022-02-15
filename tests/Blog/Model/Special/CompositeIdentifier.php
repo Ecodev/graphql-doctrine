@@ -14,18 +14,14 @@ use Doctrine\ORM\Mapping as ORM;
 final class CompositeIdentifier
 {
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      */
-    private $id1;
+    private int $id1;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      */
-    private $id2;
+    private int $id2;
 }

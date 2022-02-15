@@ -14,39 +14,28 @@ abstract class AbstractAnnotation
     /**
      * The name of the argument, it must matches the actual PHP argument name.
      *
-     * @var null|string
      * @Required
      */
-    private $name;
+    private ?string $name = null;
 
     /**
      * FQCN of PHP class implementing the GraphQL type.
-     *
-     * @var null|string
      */
-    private $type;
+    private ?string $type = null;
 
     /**
      * Instance of the GraphQL type.
-     *
-     * @var null|Type
      */
-    private $typeInstance;
+    private ?Type $typeInstance = null;
 
-    /**
-     * @var null|string
-     */
-    private $description;
+    private ?string $description = null;
 
     /**
      * @var mixed
      */
     private $defaultValue;
 
-    /**
-     * @var bool
-     */
-    private $hasDefaultValue = false;
+    private bool $hasDefaultValue = false;
 
     public function __construct(array $values = [])
     {

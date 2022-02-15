@@ -9,20 +9,18 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use GraphQL\Doctrine\Factory\MetadataReader\MappingDriverChainAdapter;
 use GraphQLTests\Doctrine\Blog\Model\Post;
+use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
 
-final class MappingDriverChainAdapterTest extends \PHPUnit\Framework\TestCase
+final class MappingDriverChainAdapterTest extends TestCase
 {
     use TypesTrait {
         setUp as typeSetup;
     }
 
-    /**
-     * @var MappingDriverChainAdapter
-     */
-    private $chainAdapter;
+    private MappingDriverChainAdapter $chainAdapter;
 
     protected function setUp(): void
     {

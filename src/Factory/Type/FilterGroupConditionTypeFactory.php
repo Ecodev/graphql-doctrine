@@ -37,7 +37,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
     /**
      * @var Filter[][]
      */
-    private $customOperators;
+    private array $customOperators;
 
     /**
      * Create an InputObjectType from a Doctrine entity to

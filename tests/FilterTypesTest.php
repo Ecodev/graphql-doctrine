@@ -10,8 +10,9 @@ use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilter;
 use GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilterGroupCondition;
 use GraphQLTests\Doctrine\Blog\Model\Special\ModelWithTraits;
+use PHPUnit\Framework\TestCase;
 
-final class FilterTypesTest extends \PHPUnit\Framework\TestCase
+final class FilterTypesTest extends TestCase
 {
     use TypesTrait;
 

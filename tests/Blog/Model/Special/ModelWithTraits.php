@@ -14,11 +14,9 @@ final class ModelWithTraits
     use TraitWithSortingAndFilter;
 
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer", options={"unsigned" = true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private int $id;
 }

@@ -13,8 +13,9 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use GraphQLTests\Doctrine\Blog\Model\Special\DefaultValue;
 use GraphQLTests\Doctrine\Blog\Model\Special\IgnoredGetter;
+use PHPUnit\Framework\TestCase;
 
-final class DefaultFieldResolverTest extends \PHPUnit\Framework\TestCase
+final class DefaultFieldResolverTest extends TestCase
 {
     public function providerDefaultFieldResolver(): array
     {

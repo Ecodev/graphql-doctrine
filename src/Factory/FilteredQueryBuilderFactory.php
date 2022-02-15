@@ -19,30 +19,21 @@ use GraphQL\Type\Definition\ListOfType;
  */
 final class FilteredQueryBuilderFactory extends AbstractFactory
 {
-    /**
-     * @var UniqueNameFactory
-     */
-    private $uniqueNameFactory;
+    private UniqueNameFactory $uniqueNameFactory;
 
-    /**
-     * @var SortingTypeFactory
-     */
-    private $sortingTypeFactory;
+    private SortingTypeFactory $sortingTypeFactory;
 
-    /**
-     * @var QueryBuilder
-     */
-    private $queryBuilder;
+    private QueryBuilder $queryBuilder;
 
     /**
      * @var string[]
      */
-    private $dqlConditions = [];
+    private array $dqlConditions = [];
 
     /**
      * @var string[]
      */
-    private $uniqueJoins = [];
+    private array $uniqueJoins = [];
 
     public function __construct(Types $types, EntityManager $entityManager, SortingTypeFactory $sortingTypeFactory)
     {

@@ -7,8 +7,9 @@ namespace GraphQLTests\Doctrine;
 use DateTimeImmutable;
 use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\User;
+use PHPUnit\Framework\TestCase;
 
-final class OutputTypesTest extends \PHPUnit\Framework\TestCase
+final class OutputTypesTest extends TestCase
 {
     use TypesTrait;
 

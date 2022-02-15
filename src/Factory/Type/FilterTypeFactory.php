@@ -15,15 +15,9 @@ use GraphQL\Type\Definition\Type;
  */
 final class FilterTypeFactory extends AbstractTypeFactory
 {
-    /**
-     * @var FilterGroupJoinTypeFactory
-     */
-    private $filterGroupJoinTypeFactory;
+    private FilterGroupJoinTypeFactory $filterGroupJoinTypeFactory;
 
-    /**
-     * @var FilterGroupConditionTypeFactory
-     */
-    private $filterGroupConditionTypeFactory;
+    private FilterGroupConditionTypeFactory $filterGroupConditionTypeFactory;
 
     public function __construct(Types $types, EntityManager $entityManager, FilterGroupJoinTypeFactory $filterGroupJoinTypeFactory, FilterGroupConditionTypeFactory $filterGroupConditionTypeFactory)
     {

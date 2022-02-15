@@ -14,10 +14,7 @@ use GraphQL\Error\Error;
  */
 class EntityID
 {
-    /**
-     * @var EntityManager
-     */
-    private $entityManager;
+    private EntityManager $entityManager;
 
     /**
      * The entity class name.
@@ -28,10 +25,8 @@ class EntityID
 
     /**
      * The entity id.
-     *
-     * @var null|string
      */
-    private $id;
+    private ?string $id;
 
     /**
      * @param class-string<T> $className

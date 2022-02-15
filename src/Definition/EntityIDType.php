@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use GraphQL\Doctrine\Utils;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\IntValueNode;
+use GraphQL\Language\AST\Node;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\ScalarType;
 
@@ -16,10 +17,7 @@ use GraphQL\Type\Definition\ScalarType;
  */
 final class EntityIDType extends ScalarType
 {
-    /**
-     * @var EntityManager
-     */
-    private $entityManager;
+    private EntityManager $entityManager;
 
     /**
      * The entity class name.
@@ -71,7 +69,7 @@ final class EntityIDType extends ScalarType
     /**
      * Parses an externally provided literal value (hardcoded in GraphQL query) to use as an input.
      *
-     * @param \GraphQL\Language\AST\Node $valueNode
+     * @param Node $valueNode
      */
     public function parseLiteral($valueNode, ?array $variables = null): EntityID
     {

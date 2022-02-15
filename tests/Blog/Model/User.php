@@ -17,33 +17,25 @@ use GraphQL\Doctrine\Annotation as API;
 final class User extends AbstractModel
 {
     /**
-     * @var string
-     *
      * @ORM\Column(name="custom_column_name", type="string", length=50, options={"default" = ""})
      */
-    private $name = '';
+    private string $name = '';
 
     /**
-     * @var null|string
-     *
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $email;
+    private ?string $email = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="password", type="string", length=255)
      * @API\Exclude
      */
-    private $password;
+    private string $password;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(type="boolean", options={"default" = false})
      */
-    private $isAdministrator = false;
+    private bool $isAdministrator = false;
 
     /**
      * @var Collection<Post>
@@ -60,11 +52,9 @@ final class User extends AbstractModel
     private $favoritePosts;
 
     /**
-     * @var null|User
-     *
      * @ORM\ManyToOne(targetEntity="GraphQLTests\Doctrine\Blog\Model\User")
      */
-    private $manager;
+    private ?User $manager = null;
 
     /**
      * Constructor.

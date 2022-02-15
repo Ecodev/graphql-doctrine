@@ -26,17 +26,13 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
 {
     /**
      * Doctrine metadata for the entity.
-     *
-     * @var ClassMetadata
      */
-    private $metadata;
+    private ClassMetadata $metadata;
 
     /**
      * The identity field name, eg: "id".
-     *
-     * @var string
      */
-    private $identityField;
+    private string $identityField;
 
     /**
      * Returns the regexp pattern to filter method names.

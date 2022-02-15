@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace GraphQLTests\Doctrine;
 
 use GraphQL\Doctrine\Utils;
+use PHPUnit\Framework\TestCase;
 
-final class UtilsTest extends \PHPUnit\Framework\TestCase
+final class UtilsTest extends TestCase
 {
     public function providerGetTypeName(): array
     {

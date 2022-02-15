@@ -11,15 +11,13 @@ use GraphQL\Language\AST\BooleanValueNode;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQLTests\Doctrine\Blog\Model\User;
 use GraphQLTests\Doctrine\EntityManagerTrait;
+use PHPUnit\Framework\TestCase;
 
-final class EntityIDTypeTest extends \PHPUnit\Framework\TestCase
+final class EntityIDTypeTest extends TestCase
 {
     use EntityManagerTrait;
 
-    /**
-     * @var EntityIDType
-     */
-    private $type;
+    private EntityIDType $type;
 
     protected function setUp(): void
     {

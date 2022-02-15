@@ -14,12 +14,9 @@ final class UniqueNameFactory
     /**
      * @var int[]
      */
-    private $aliasCount = [];
+    private array $aliasCount = [];
 
-    /**
-     * @var int
-     */
-    private $parameterCount = 1;
+    private int $parameterCount = 1;
 
     /**
      * Return a string to be used as parameter name in a query.

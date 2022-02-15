@@ -38,70 +38,34 @@ use UnexpectedValueException;
  */
 final class Types implements TypesInterface
 {
-    /**
-     * @var null|ContainerInterface
-     */
-    private $customTypes;
+    private ?ContainerInterface $customTypes;
 
     /**
      * @var array mapping of type name to type instances
      */
-    private $types = [];
+    private array $types = [];
 
-    /**
-     * @var ObjectTypeFactory
-     */
-    private $objectTypeFactory;
+    private ObjectTypeFactory $objectTypeFactory;
 
-    /**
-     * @var InputTypeFactory
-     */
-    private $inputTypeFactory;
+    private InputTypeFactory $inputTypeFactory;
 
-    /**
-     * @var PartialInputTypeFactory
-     */
-    private $partialInputTypeFactory;
+    private PartialInputTypeFactory $partialInputTypeFactory;
 
-    /**
-     * @var FilterTypeFactory
-     */
-    private $filterTypeFactory;
+    private FilterTypeFactory $filterTypeFactory;
 
-    /**
-     * @var EntityManager
-     */
-    private $entityManager;
+    private EntityManager $entityManager;
 
-    /**
-     * @var FilteredQueryBuilderFactory
-     */
-    private $filteredQueryBuilderFactory;
+    private FilteredQueryBuilderFactory $filteredQueryBuilderFactory;
 
-    /**
-     * @var SortingTypeFactory
-     */
-    private $sortingTypeFactory;
+    private SortingTypeFactory $sortingTypeFactory;
 
-    /**
-     * @var EntityIDTypeFactory
-     */
-    private $entityIDTypeFactory;
+    private EntityIDTypeFactory $entityIDTypeFactory;
 
-    /**
-     * @var JoinOnTypeFactory
-     */
-    private $joinOnTypeFactory;
+    private JoinOnTypeFactory $joinOnTypeFactory;
 
-    /**
-     * @var FilterGroupJoinTypeFactory
-     */
-    private $filterGroupJoinTypeFactory;
+    private FilterGroupJoinTypeFactory $filterGroupJoinTypeFactory;
 
-    /**
-     * @var FilterGroupConditionTypeFactory
-     */
-    private $filterGroupConditionTypeFactory;
+    private FilterGroupConditionTypeFactory $filterGroupConditionTypeFactory;
 
     public function __construct(EntityManager $entityManager, ?ContainerInterface $customTypes = null)
     {

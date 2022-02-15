@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace GraphQLTests\Doctrine;
 
 use GraphQL\Doctrine\DocBlockReader;
+use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use ReflectionParameter;
 
-class DocBlockReaderTest extends \PHPUnit\Framework\TestCase
+class DocBlockReaderTest extends TestCase
 {
     private const EMPTY_COMMENT = '
     /**
@@ -118,10 +119,7 @@ spanning lines'],
     private function create(?string $comment): DocBlockReader
     {
         $method = new class($comment) extends ReflectionMethod {
-            /**
-             * @var null|string
-             */
-            private $comment;
+            private ?string $comment;
 
             public function __construct(?string $comment)
             {
