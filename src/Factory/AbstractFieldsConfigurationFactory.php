@@ -185,6 +185,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      */
     private function getTargetEntity(string $fieldName): ?string
     {
+        // @phpstan-ignore-next-line
         return $this->metadata->associationMappings[$fieldName]['targetEntity'] ?? null;
     }
 

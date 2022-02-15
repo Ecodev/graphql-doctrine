@@ -50,6 +50,7 @@ final class EntityIDType extends ScalarType
     {
         $id = $this->entityManager->getClassMetadata($this->className)->getIdentifierValues($value);
 
+        // @phpstan-ignore-next-line
         return (string) reset($id);
     }
 

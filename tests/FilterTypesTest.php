@@ -46,6 +46,7 @@ final class FilterTypesTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @param class-string $className
      * @dataProvider providerFilteredQueryBuilder
      */
     public function testFilteredQueryBuilder(string $expected, string $className, array $filter, array $sorting): void

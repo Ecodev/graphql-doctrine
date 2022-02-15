@@ -161,9 +161,7 @@ final class User extends AbstractModel
             return $this->posts;
         }
 
-        return $this->posts->filter(function (Post $post) use ($status) {
-            return $post->getStatus() === $status;
-        });
+        return $this->posts->filter(fn (Post $post) => $post->getStatus() === $status);
     }
 
     /**
@@ -171,9 +169,7 @@ final class User extends AbstractModel
      */
     public function getPostsWithIds(array $ids): Collection
     {
-        return $this->posts->filter(function (Post $post) use ($ids) {
-            return in_array($post->getId(), $ids, true);
-        });
+        return $this->posts->filter(fn (Post $post) => in_array($post->getId(), $ids, true));
     }
 
     public function setManager(?self $manager): void

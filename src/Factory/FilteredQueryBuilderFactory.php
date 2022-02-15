@@ -50,6 +50,9 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
         $this->sortingTypeFactory = $sortingTypeFactory;
     }
 
+    /**
+     * @param class-string $className
+     */
     public function create(string $className, array $filter, array $sorting): QueryBuilder
     {
         $this->uniqueNameFactory = new UniqueNameFactory();
@@ -138,6 +141,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
             $joinedAlias = $this->createJoin($alias, $field, $join['type']);
 
             if (isset($join['joins']) || isset($join['conditions'])) {
+                /** @var string $targetClassName */
                 $targetClassName = $metadata->getAssociationMapping($field)['targetEntity'];
                 $targetMetadata = $this->entityManager->getClassMetadata($targetClassName);
                 $type = $this->types->getFilterGroupCondition($targetClassName);

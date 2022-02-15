@@ -20,7 +20,7 @@ return (new PhpCsFixer\Config())
         'array_indentation' => true,
         'array_push' => true,
         'array_syntax' => ['syntax' => 'short'],
-        'assign_null_coalescing_to_coalesce_equal' => false, // Require PHP 7.4
+        'assign_null_coalescing_to_coalesce_equal' => true,
         'backtick_to_shell_exec' => true,
         'binary_operator_spaces' => true,
         'blank_line_after_namespace' => true,
@@ -73,7 +73,7 @@ return (new PhpCsFixer\Config())
         'global_namespace_import' => true,
         'group_import' => false, // I feel it makes the code actually harder to read
         'header_comment' => false, // We don't use common header in all our files
-        'heredoc_indentation' => false, // Requires PHP >= 7.3
+        'heredoc_indentation' => true,
         'heredoc_to_nowdoc' => false, // We often use variable in heredoc
         'implode_call' => true,
         'include' => true,
@@ -246,11 +246,11 @@ return (new PhpCsFixer\Config())
         'ternary_operator_spaces' => true,
         'ternary_to_elvis_operator' => true,
         'ternary_to_null_coalescing' => true,
-        'trailing_comma_in_multiline' => false, // Require PHP 7.3
+        'trailing_comma_in_multiline' => true,
         'trim_array_spaces' => true,
         'types_spaces' => true,
         'unary_operator_spaces' => true,
-        'use_arrow_functions' => false, // Require PHP 7.4
+        'use_arrow_functions' => true,
         'visibility_required' => true,
         'void_return' => true,
         'whitespace_after_comma_in_array' => true,

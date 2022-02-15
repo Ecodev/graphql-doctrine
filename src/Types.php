@@ -333,6 +333,9 @@ final class Types implements TypesInterface
         }
     }
 
+    /**
+     * @param class-string $className
+     */
     public function createFilteredQueryBuilder(string $className, array $filter, array $sorting): QueryBuilder
     {
         return $this->filteredQueryBuilderFactory->create($className, $filter, $sorting);

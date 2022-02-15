@@ -51,8 +51,10 @@ final class HaveOperatorType extends AbstractAssociationOperatorType
         if ($association['type'] === ClassMetadataInfo::ONE_TO_MANY) {
             $id = $metadata->identifier[0];
 
+            /** @var string $otherClassName */
             $otherClassName = $association['targetEntity'];
             $otherAlias = $uniqueNameFactory->createAliasName($otherClassName);
+            /** @var string $otherField */
             $otherField = $association['mappedBy'];
             $otherMetadata = $queryBuilder->getEntityManager()->getClassMetadata($otherClassName);
             $otherId = $otherMetadata->identifier[0];

@@ -27,9 +27,7 @@ final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
         $type = new InputObjectType([
             'name' => $typeName,
             'description' => 'Type to specify join tables in a filter',
-            'fields' => function () use ($className): array {
-                return $this->getJoinsFields($className);
-            },
+            'fields' => fn (): array => $this->getJoinsFields($className),
         ]);
 
         return $type;
@@ -61,6 +59,7 @@ final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
         foreach ($associations as $association) {
             $field = [
                 'name' => $association['fieldName'],
+                // @phpstan-ignore-next-line
                 'type' => $this->types->getJoinOn($association['targetEntity']),
             ];
 

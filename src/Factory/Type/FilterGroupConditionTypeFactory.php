@@ -58,6 +58,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
                 $metadata = $this->entityManager->getClassMetadata($className);
 
                 // Get custom operators
+                // @phpstan-ignore-next-line
                 $this->readCustomOperatorsFromAnnotation($metadata->reflClass);
 
                 // Get all scalar fields
@@ -79,6 +80,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
 
                 // Get all collection fields
                 foreach ($metadata->associationMappings as $mapping) {
+                    /** @var string $fieldName */
                     $fieldName = $mapping['fieldName'];
                     $operators = $this->getOperators($fieldName, Type::id(), true, $metadata->isCollectionValuedAssociation($fieldName));
 
