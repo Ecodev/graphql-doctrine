@@ -40,13 +40,13 @@
         "doctrine/orm": "^2.11",
         "doctrine/persistence": "^1.3 || ^2.0",
         "psr/container": "^1.1",
-        "symfony/cache": "^5.4",
         "webonyx/graphql-php": "^14.11"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "@stable",
         "laminas/laminas-servicemanager": "@stable",
         "phpstan/phpstan": "@stable",
-        "phpunit/phpunit": "@stable"
+        "phpunit/phpunit": "@stable",
+        "symfony/cache": "^6.0"
     }
 }
