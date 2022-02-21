@@ -47,6 +47,6 @@
         "laminas/laminas-servicemanager": "@stable",
         "phpstan/phpstan": "@stable",
         "phpunit/phpunit": "@stable",
-        "symfony/cache": "^6.0"
+        "symfony/cache": "@stable"
     }
 }

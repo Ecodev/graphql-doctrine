@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "991d444f32de348af71e7a276722fae3",
+    "content-hash": "72394db14c3e39f3a3b8a13df3b7d9d8",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -5443,7 +5443,8 @@
         "friendsofphp/php-cs-fixer": 0,
         "laminas/laminas-servicemanager": 0,
         "phpstan/phpstan": 0,
-        "phpunit/phpunit": 0
+        "phpunit/phpunit": 0,
+        "symfony/cache": 0
     },
     "prefer-stable": false,
     "prefer-lowest": false,
