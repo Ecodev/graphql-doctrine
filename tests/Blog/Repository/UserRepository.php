@@ -14,6 +14,8 @@ final class UserRepository extends EntityRepository
 {
     /**
      * @param int $id
+     * @param null|int $lockMode
+     * @param null|int $lockVersion
      */
     public function find($id, $lockMode = null, $lockVersion = null): ?User
     {

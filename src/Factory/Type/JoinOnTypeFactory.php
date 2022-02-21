@@ -20,8 +20,7 @@ final class JoinOnTypeFactory extends AbstractTypeFactory
         EntityManager $entityManager,
         private readonly FilterGroupJoinTypeFactory $filterGroupJoinTypeFactory,
         private readonly FilterGroupConditionTypeFactory $filterGroupConditionTypeFactory
-    )
-    {
+    ) {
         parent::__construct($types, $entityManager);
     }
 

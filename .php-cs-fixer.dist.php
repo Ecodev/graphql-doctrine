@@ -3,12 +3,7 @@
 declare(strict_types=1);
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('htdocs')
-    ->exclude('data')
-    ->exclude('node_modules')
     ->exclude('vendor')
-    ->name('*.phtml')
-    ->name('*.php.dist')
     ->in(__DIR__);
 
 return (new PhpCsFixer\Config())
@@ -94,7 +89,7 @@ return (new PhpCsFixer\Config())
         'mb_str_functions' => true,
         'method_argument_space' => true,
         'method_chaining_indentation' => true,
-        'modernize_strpos' => false, // Require PHP 8.0
+        'modernize_strpos' => true,
         'modernize_types_casting' => true,
         'multiline_comment_opening_closing' => true,
         'multiline_whitespace_before_semicolons' => true,
@@ -177,7 +172,7 @@ return (new PhpCsFixer\Config())
         'php_unit_test_annotation' => true,
         'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
         'php_unit_test_class_requires_covers' => false, // We don't care as much as we should about coverage
-        'phpdoc_add_missing_param_annotation' => false,
+        'phpdoc_add_missing_param_annotation' => true,
         'phpdoc_align' => false, // Waste of time
         'phpdoc_annotation_without_dot' => true,
         'phpdoc_indent' => true,
