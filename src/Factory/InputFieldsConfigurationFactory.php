@@ -57,7 +57,7 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
      */
     private function completeField(Input $field, ReflectionMethod $method, ReflectionParameter $param): void
     {
-        $fieldName = lcfirst(preg_replace('~^set~', '', $method->getName()));
+        $fieldName = lcfirst(preg_replace('~^set~', '', $method->getName()) ?? '');
         if (!$field->getName()) {
             $field->setName($fieldName);
         }

@@ -112,6 +112,8 @@ final class Types implements TypesInterface
 
     /**
      * Get a type from internal registry, and create it via the factory if needed.
+     *
+     * @param class-string $className
      */
     private function getViaFactory(string $className, string $typeName, AbstractTypeFactory $factory): Type
     {
@@ -170,7 +172,7 @@ final class Types implements TypesInterface
      *
      * This is for internal use only.
      *
-     * @param string $className the class name of an entity (`Post::class`)
+     * @param class-string $className the class name of an entity (`Post::class`)
      */
     public function getJoinOn(string $className): InputObjectType
     {
@@ -185,7 +187,7 @@ final class Types implements TypesInterface
      *
      * This is for internal use only.
      *
-     * @param string $className the class name of an entity (`Post::class`)
+     * @param class-string $className the class name of an entity (`Post::class`)
      */
     public function getFilterGroupJoin(string $className): InputObjectType
     {
@@ -200,7 +202,7 @@ final class Types implements TypesInterface
      *
      * This is for internal use only.
      *
-     * @param string $className the class name of an entity (`Post::class`)
+     * @param class-string $className the class name of an entity (`Post::class`)
      */
     public function getFilterGroupCondition(string $className): InputObjectType
     {
@@ -223,7 +225,7 @@ final class Types implements TypesInterface
      *
      * This is for internal use only.
      *
-     * @param string $className the class name of an operator (`EqualOperatorType::class`)
+     * @param class-string $className the class name of an operator (`EqualOperatorType::class`)
      */
     public function getOperator(string $className, LeafType $type): AbstractOperator
     {
@@ -297,9 +299,6 @@ final class Types implements TypesInterface
         }
     }
 
-    /**
-     * @param class-string $className
-     */
     public function createFilteredQueryBuilder(string $className, array $filter, array $sorting): QueryBuilder
     {
         return $this->filteredQueryBuilderFactory->create($className, $filter, $sorting);

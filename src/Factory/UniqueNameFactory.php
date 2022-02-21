@@ -31,7 +31,7 @@ final class UniqueNameFactory
      */
     public function createAliasName(string $className): string
     {
-        $alias = lcfirst(preg_replace('~^.*\\\\~', '', $className));
+        $alias = lcfirst(preg_replace('~^.*\\\\~', '', $className) ?? '');
         if (!isset($this->aliasCount[$alias])) {
             $this->aliasCount[$alias] = 1;
         }

@@ -21,7 +21,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
     /**
      * Map of entity class and their custom sorting class instances.
      *
-     * @var SortingInterface[][]
+     * @var array<class-string, array<string, SortingInterface>>
      */
     private array $customSortings = [];
 
@@ -29,7 +29,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
      * Create an InputObjectType from a Doctrine entity to
      * sort them by their fields and custom sorter.
      *
-     * @param string $className class name of Doctrine entity
+     * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
      *
      * @return InputObjectType
@@ -72,6 +72,8 @@ final class SortingTypeFactory extends AbstractTypeFactory
     /**
      * Get names for all possible sorting, including the custom one.
      *
+     * @param class-string $className
+     *
      * @return string[]
      */
     private function getPossibleValues(string $className): array
@@ -90,6 +92,8 @@ final class SortingTypeFactory extends AbstractTypeFactory
     /**
      * Get names for all custom sorting.
      *
+     * @param class-string $className
+     *
      * @return string[]
      */
     private function getCustomSortingNames(string $className): array
@@ -101,6 +105,8 @@ final class SortingTypeFactory extends AbstractTypeFactory
 
     /**
      * Get instance of custom sorting for the given entity and sorting name.
+     *
+     * @param class-string $className
      */
     public function getCustomSorting(string $className, string $name): ?SortingInterface
     {
@@ -111,6 +117,8 @@ final class SortingTypeFactory extends AbstractTypeFactory
 
     /**
      * Fill the cache for custom sorting.
+     *
+     * @param class-string $className
      */
     private function fillCache(string $className): void
     {

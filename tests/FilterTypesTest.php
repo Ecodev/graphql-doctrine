@@ -48,6 +48,7 @@ final class FilterTypesTest extends TestCase
 
     /**
      * @param class-string $className
+     *
      * @dataProvider providerFilteredQueryBuilder
      */
     public function testFilteredQueryBuilder(string $expected, string $className, array $filter, array $sorting): void
@@ -70,6 +71,7 @@ final class FilterTypesTest extends TestCase
     public function testGettingInvalidOperatorTypeMustThrow(): void
     {
         $this->expectExceptionMessage('Expects a FQCN implementing `GraphQL\Doctrine\Definition\Operator\AbstractOperator`, but instead got: invalid_class_name');
+        // @phpstan-ignore-next-line
         $this->types->getOperator('invalid_class_name', Type::string());
     }
 

@@ -17,7 +17,7 @@ final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
      * Create an InputObjectType from a Doctrine entity to
      * specify joins.
      *
-     * @param string $className class name of Doctrine entity
+     * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
      *
      * @return InputObjectType
@@ -35,6 +35,8 @@ final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
 
     /**
      * Get the field for joins.
+     *
+     * @param class-string $className
      */
     public function getField(string $className): array
     {
@@ -51,6 +53,8 @@ final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
 
     /**
      * Get the all the possible relations to be joined.
+     *
+     * @param class-string $className
      */
     private function getJoinsFields(string $className): array
     {
@@ -71,6 +75,8 @@ final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
 
     /**
      * Return whether it is possible to create a valid type for join.
+     *
+     * @param class-string $className
      */
     public function canCreate(string $className): bool
     {

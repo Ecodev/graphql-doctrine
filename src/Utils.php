@@ -6,7 +6,6 @@ namespace GraphQL\Doctrine;
 
 use Doctrine\Common\Annotations\Reader;
 use GraphQL\Type\Definition\EnumType;
-use GraphQL\Type\Definition\LeafType;
 use GraphQL\Type\Definition\ScalarType;
 use ReflectionClass;
 
@@ -17,6 +16,8 @@ abstract class Utils
 {
     /**
      * Get the GraphQL type name for an output type from the PHP class.
+     *
+     * @param class-string $className
      */
     public static function getTypeName(string $className): string
     {
@@ -28,9 +29,9 @@ abstract class Utils
     /**
      * Get the GraphQL type name for a Filter type from the PHP class.
      *
-     * @param EnumType|ScalarType $type
+     * @param class-string $className
      */
-    public static function getOperatorTypeName(string $className, LeafType $type): string
+    public static function getOperatorTypeName(string $className, EnumType|ScalarType $type): string
     {
         return preg_replace('~Type$~', '', self::getTypeName($className)) . ucfirst($type->name);
     }

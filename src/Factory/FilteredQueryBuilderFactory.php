@@ -132,7 +132,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
             $joinedAlias = $this->createJoin($alias, $field, $join['type']);
 
             if (isset($join['joins']) || isset($join['conditions'])) {
-                /** @var string $targetClassName */
+                /** @var class-string $targetClassName */
                 $targetClassName = $metadata->getAssociationMapping($field)['targetEntity'];
                 $targetMetadata = $this->entityManager->getClassMetadata($targetClassName);
                 $type = $this->types->getFilterGroupCondition($targetClassName);
@@ -143,6 +143,8 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
 
     /**
      * Apply sorting to the query builder.
+     *
+     * @param class-string $className
      */
     private function applySorting(ClassMetadata $metadata, string $className, array $sorting, string $alias): void
     {

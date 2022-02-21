@@ -129,10 +129,12 @@ abstract class AbstractFactory
     final protected function getTypeFromRegistry(string $type, bool $isEntityId): Type
     {
         if ($this->types->isEntity($type) && $isEntityId) {
+            // @phpstan-ignore-next-line
             return $this->types->getId($type);
         }
 
         if ($this->types->isEntity($type) && !$isEntityId) {
+            // @phpstan-ignore-next-line
             return $this->types->getOutput($type);
         }
 

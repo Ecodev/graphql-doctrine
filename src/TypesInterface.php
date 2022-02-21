@@ -41,7 +41,7 @@ interface TypesInterface
      * All entity getter methods will be exposed, unless specified otherwise
      * with annotations.
      *
-     * @param string $className the class name of an entity (`Post::class`)
+     * @param class-string $className the class name of an entity (`Post::class`)
      */
     public function getOutput(string $className): ObjectType;
 
@@ -53,7 +53,7 @@ interface TypesInterface
      * All entity setter methods will be exposed, unless specified otherwise
      * with annotations.
      *
-     * @param string $className the class name of an entity (`Post::class`)
+     * @param class-string $className the class name of an entity (`Post::class`)
      */
     public function getInput(string $className): InputObjectType;
 
@@ -67,7 +67,7 @@ interface TypesInterface
      * default values. So this allow the API client to specify only some fields
      * to be updated, and not necessarily all of them at once.
      *
-     * @param string $className the class name of an entity (`Post::class`)
+     * @param class-string $className the class name of an entity (`Post::class`)
      */
     public function getPartialInput(string $className): InputObjectType;
 
@@ -76,7 +76,7 @@ interface TypesInterface
      *
      * This would typically be used to filter queries.
      *
-     * @param string $className the class name of an entity (`Post::class`)
+     * @param class-string $className the class name of an entity (`Post::class`)
      */
     public function getFilter(string $className): InputObjectType;
 
@@ -85,7 +85,7 @@ interface TypesInterface
      *
      * This would typically be used to sort queries.
      *
-     * @param string $className the class name of an entity (`Post::class`)
+     * @param class-string $className the class name of an entity (`Post::class`)
      */
     public function getSorting(string $className): ListOfType;
 
@@ -98,7 +98,7 @@ interface TypesInterface
      * But this can also be used to build your own schema and thus avoid
      * manually fetching objects from database for simple cases.
      *
-     * @param string $className the class name of an entity (`Post::class`)
+     * @param class-string $className the class name of an entity (`Post::class`)
      */
     public function getId(string $className): EntityIDType;
 
@@ -112,6 +112,8 @@ interface TypesInterface
      *
      * Filter and sorting arguments are assumed to be valid and complete as the validation should have happened when
      * parsing the GraphQL query.
+     *
+     * @param class-string $className
      */
     public function createFilteredQueryBuilder(string $className, array $filter, array $sorting): QueryBuilder;
 }

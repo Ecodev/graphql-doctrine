@@ -17,7 +17,7 @@ final class ObjectTypeFactory extends AbstractTypeFactory
     /**
      * Create an ObjectType from a Doctrine entity.
      *
-     * @param string $className class name of Doctrine entity
+     * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
      *
      * @return ObjectType

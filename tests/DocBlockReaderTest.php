@@ -32,7 +32,7 @@ class DocBlockReaderTest extends TestCase
     /**
      * @dataProvider providerGetMethodDescription
      */
-    public function testGetMethodDescription(?string $comment, ?string $expected): void
+    public function testGetMethodDescription(string|false $comment, ?string $expected): void
     {
         $reader = $this->create($comment);
         $actual = $reader->getMethodDescription();
@@ -42,7 +42,7 @@ class DocBlockReaderTest extends TestCase
     public function providerGetMethodDescription(): array
     {
         return [
-            [null, null],
+            [false, null],
             [self::EMPTY_COMMENT, null],
             [self::COMMENT, 'Interesting data
 
@@ -54,7 +54,7 @@ spanning lines'],
     /**
      * @dataProvider providerGetParameterDescription
      */
-    public function testGetParameterDescription(?string $comment, string $parameterName, ?string $expected): void
+    public function testGetParameterDescription(string|false $comment, string $parameterName, ?string $expected): void
     {
         $reader = $this->create($comment);
         $parameter = $this->createParameter($parameterName);
@@ -65,7 +65,7 @@ spanning lines'],
     public function providerGetParameterDescription(): array
     {
         return [
-            [null, 'foo', null],
+            [false, 'foo', null],
             [self::EMPTY_COMMENT, 'foo', null],
             [self::COMMENT, 'foo', 'Some param description'],
             'non-existing param' => [self::COMMENT, 'fo', null],
@@ -76,7 +76,7 @@ spanning lines'],
     /**
      * @dataProvider providerGetParameterType
      */
-    public function testGetParameterType(?string $comment, string $parameterName, ?string $expected): void
+    public function testGetParameterType(string|false $comment, string $parameterName, ?string $expected): void
     {
         $reader = $this->create($comment);
         $parameter = $this->createParameter($parameterName);
@@ -87,7 +87,7 @@ spanning lines'],
     public function providerGetParameterType(): array
     {
         return [
-            [null, 'foo', null],
+            [false, 'foo', null],
             [self::EMPTY_COMMENT, 'foo', null],
             [self::COMMENT, 'foo', 'null|string'],
             'non-existing param' => [self::COMMENT, 'fo', null],
@@ -100,7 +100,7 @@ spanning lines'],
     /**
      * @dataProvider providerGetReturnType
      */
-    public function testGetReturnType(?string $comment, ?string $expected): void
+    public function testGetReturnType(string|false $comment, ?string $expected): void
     {
         $reader = $this->create($comment);
         $actual = $reader->getReturnType();
@@ -110,23 +110,23 @@ spanning lines'],
     public function providerGetReturnType(): array
     {
         return [
-            [null, null],
+            [false, null],
             [self::EMPTY_COMMENT, null],
             [self::COMMENT, 'bool'],
         ];
     }
 
-    private function create(?string $comment): DocBlockReader
+    private function create(string|false $comment): DocBlockReader
     {
         $method = new class($comment) extends ReflectionMethod {
-            private ?string $comment;
+            private string|false $comment;
 
-            public function __construct(?string $comment)
+            public function __construct(string|false $comment)
             {
                 $this->comment = $comment;
             }
 
-            public function getDocComment(): ?string
+            public function getDocComment(): string|false
             {
                 return $this->comment;
             }

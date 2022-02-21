@@ -16,7 +16,7 @@ final class InputTypeFactory extends AbstractTypeFactory
     /**
      * Create an InputObjectType from a Doctrine entity.
      *
-     * @param string $className class name of Doctrine entity
+     * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
      *
      * @return InputObjectType

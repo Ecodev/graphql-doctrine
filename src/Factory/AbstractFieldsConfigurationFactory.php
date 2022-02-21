@@ -46,6 +46,8 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
 
     /**
      * Create a configuration for all fields of Doctrine entity.
+     *
+     * @param class-string $className
      */
     public function create(string $className): array
     {
@@ -138,6 +140,8 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
 
     /**
      * Look up which field is the ID.
+     *
+     * @param class-string $className
      */
     private function findIdentityField(string $className): void
     {

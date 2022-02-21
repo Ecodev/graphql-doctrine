@@ -29,10 +29,10 @@ final class DocBlockReader
         $description = preg_replace('~^\s*(/\*\*|\* ?|\*/)~m', '', $description);
 
         // Keep everything before the first annotation
-        $description = trim(explode('@', $description)[0]);
+        $description = trim(explode('@', $description ?? '')[0]);
 
         // Drop common "Get" or "Return" in front of comment
-        $description = ucfirst(preg_replace('~^(set|get|return)s? ~i', '', $description));
+        $description = ucfirst(preg_replace('~^(set|get|return)s? ~i', '', $description) ?? '');
 
         return $description ?: null;
     }

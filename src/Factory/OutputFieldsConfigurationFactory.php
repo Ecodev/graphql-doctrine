@@ -61,7 +61,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
      */
     private function completeField(Field $field, ReflectionMethod $method): void
     {
-        $fieldName = lcfirst(preg_replace('~^get~', '', $method->getName()));
+        $fieldName = lcfirst(preg_replace('~^get~', '', $method->getName()) ?? '');
         if (!$field->name) {
             $field->name = $fieldName;
         }

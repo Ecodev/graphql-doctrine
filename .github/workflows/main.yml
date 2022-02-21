@@ -6,8 +6,6 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - '7.4'
-          - '8.0'
           - '8.1'
 
     name: PHP ${{ matrix.php-version }}
@@ -28,10 +26,6 @@ jobs:
           path: ~/.cache/composer
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
-
-      - name: Remove lock for PHP 8
-        if: matrix.php-version == '8.0' || matrix.php-version == '8.1'
-        run: rm composer.lock && composer require symfony/cache
 
       - name: Install dependencies
         run: composer install
@@ -54,7 +48,7 @@ jobs:
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.1
           coverage: none
           tools: cs2pr
 
@@ -80,7 +74,7 @@ jobs:
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.1
           coverage: none
 
       - name: Cache composer dependencies
@@ -101,11 +95,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.1
           coverage: pcov
 
       - name: Cache composer dependencies
@@ -123,8 +119,8 @@ jobs:
 
       - name: Upload code coverage
         run: |
-          curl -LO https://scrutinizer-ci.com/ocular.phar
-          php ocular.phar code-coverage:upload --format=php-clover coverage-clover.xml
+          composer global require scrutinizer/ocular
+          ~/.composer/vendor/bin/ocular code-coverage:upload --format=php-clover coverage-clover.xml
 
   release:
     runs-on: ubuntu-latest

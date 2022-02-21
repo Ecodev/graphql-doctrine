@@ -17,13 +17,15 @@ abstract class AbstractTypeFactory extends AbstractFactory
     /**
      * Create an ObjectType from a Doctrine entity.
      *
-     * @param string $className class name of Doctrine entity
+     * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
      */
     abstract public function create(string $className, string $typeName): Type;
 
     /**
      * Get the description of a class from the doc block.
+     *
+     * @param class-string $className
      */
     final protected function getDescription(string $className): ?string
     {
@@ -35,7 +37,7 @@ abstract class AbstractTypeFactory extends AbstractFactory
         $comment = preg_replace('~^\s*(/\*\*|\* ?|\*/)~m', '', $comment);
 
         // Keep everything before the first annotation
-        $comment = trim(explode('@', $comment)[0]);
+        $comment = trim(explode('@', $comment ?? '')[0]);
 
         if (!$comment) {
             $comment = null;

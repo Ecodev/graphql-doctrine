@@ -18,7 +18,7 @@ final class PartialInputTypeFactory extends AbstractTypeFactory
      * Create an InputObjectType from a Doctrine entity,
      * but will all fields as optional and without default values.
      *
-     * @param string $className class name of Doctrine entity
+     * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
      *
      * @return InputObjectType

@@ -21,9 +21,11 @@ final class UtilsTest extends TestCase
 
     /**
      * @dataProvider providerGetTypeName
+     *
+     * @param class-string $className
      */
-    public function testGetTypeName(string $input, string $expected): void
+    public function testGetTypeName(string $className, string $expected): void
     {
-        self::assertSame($expected, Utils::getTypeName($input));
+        self::assertSame($expected, Utils::getTypeName($className));
     }
 }

@@ -30,8 +30,7 @@ final class OperatorsTest extends TestCase
     /**
      * @dataProvider providerOperator
      *
-     * @param string $expected
-     * @param array $args
+     * @param class-string $className
      */
     public function testOperator(?string $expected, string $className, ?array $args, string $field = 'field'): void
     {

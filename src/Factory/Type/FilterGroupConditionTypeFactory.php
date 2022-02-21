@@ -43,7 +43,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
      * Create an InputObjectType from a Doctrine entity to
      * specify condition on fields.
      *
-     * @param string $className class name of Doctrine entity
+     * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
      *
      * @return InputObjectType
@@ -94,7 +94,9 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
                     foreach ($customOperators as $customOperator) {
                         /** @var LeafType $leafType */
                         $leafType = $this->types->get($customOperator->type);
-                        $operators[$customOperator->operator] = $leafType;
+                        /** @var class-string $operator */
+                        $operator = $customOperator->operator;
+                        $operators[$operator] = $leafType;
                     }
 
                     $filters[] = $this->getFieldConfiguration($typeName, $fieldName, $operators);
@@ -140,6 +142,8 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
 
     /**
      * Get the field for conditions on all fields.
+     *
+     * @param class-string $className
      */
     public function getField(string $className): array
     {
@@ -179,7 +183,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
     /**
      * Get configuration for field.
      *
-     * @param LeafType[] $operators
+     * @param array<class-string, LeafType> $operators
      */
     private function getFieldConfiguration(string $typeName, string $fieldName, array $operators): array
     {
@@ -192,7 +196,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
     /**
      * Return a map of operator class name and their leaf type, including custom operator for the given fieldName.
      *
-     * @return LeafType[] indexed by operator class name
+     * @return array<class-string, LeafType> indexed by operator class name
      */
     private function getOperators(string $fieldName, LeafType $leafType, bool $isAssociation, bool $isCollection): array
     {
@@ -234,7 +238,9 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
             foreach ($this->customOperators[$fieldName] as $filter) {
                 /** @var LeafType $leafType */
                 $leafType = $this->types->get($filter->type);
-                $operators[$filter->operator] = $leafType;
+                /** @var class-string $operator */
+                $operator = $filter->operator;
+                $operators[$operator] = $leafType;
             }
 
             unset($this->customOperators[$fieldName]);
@@ -246,7 +252,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
     /**
      * Get the type for a specific field.
      *
-     * @param LeafType[] $operators
+     * @param array<class-string, LeafType> $operators
      */
     private function getFieldType(string $typeName, string $fieldName, array $operators): InputObjectType
     {
@@ -264,7 +270,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
     /**
      * Get operators configuration for a specific leaf type.
      *
-     * @param LeafType[] $operators
+     * @param array<class-string, LeafType> $operators
      */
     private function getOperatorConfiguration(array $operators): array
     {
@@ -284,11 +290,13 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
 
     /**
      * Get the name for the operator to be used as field name.
+     *
+     * @param class-string $className
      */
     private function getOperatorFieldName(string $className): string
     {
         $name = preg_replace('~OperatorType$~', '', Utils::getTypeName($className));
 
-        return lcfirst($name);
+        return lcfirst($name ?? '');
     }
 }
