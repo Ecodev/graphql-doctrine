@@ -237,7 +237,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
         }
 
         if (!($type instanceof InputType)) {
-            throw new Exception('Type for parameter `$' . $param->name . '` for method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' must be an instance of `' . InputType::class . '`, but was `' . get_class($type) . '`. Use `@API\\' . $annotationName . '` annotation to specify a custom InputType.');
+            throw new Exception('Type for parameter `$' . $param->name . '` for method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' must be an instance of `' . InputType::class . '`, but was `' . $type::class . '`. Use `@API\\' . $annotationName . '` annotation to specify a custom InputType.');
         }
     }
 }

@@ -14,11 +14,8 @@ use ReflectionProperty;
 
 final class MappingDriverChainAdapter implements Reader
 {
-    private MappingDriverChain $chainDriver;
-
-    public function __construct(MappingDriverChain $chainDriver)
+    public function __construct(private readonly MappingDriverChain $chainDriver)
     {
-        $this->chainDriver = $chainDriver;
     }
 
     /**

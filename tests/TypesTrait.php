@@ -86,7 +86,7 @@ trait TypesTrait
                 'defaultArg' => $type,
             ];
         } else {
-            throw new Exception('Unsupported type: ' . get_class($wrappedType));
+            throw new Exception('Unsupported type: ' . $wrappedType::class);
         }
 
         $config = [

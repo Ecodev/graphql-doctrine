@@ -12,7 +12,7 @@ use ReflectionParameter;
  */
 final class DocBlockReader
 {
-    private string $comment;
+    private readonly string $comment;
 
     public function __construct(ReflectionMethod $method)
     {

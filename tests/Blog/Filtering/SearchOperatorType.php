@@ -31,7 +31,7 @@ final class SearchOperatorType extends AbstractOperator
             return null;
         }
 
-        $words = preg_split('/[[:space:]]+/', $args['term'], -1, PREG_SPLIT_NO_EMPTY);
+        $words = preg_split('/[[:space:]]+/', (string) $args['term'], -1, PREG_SPLIT_NO_EMPTY);
         if (!$words) {
             return null;
         }

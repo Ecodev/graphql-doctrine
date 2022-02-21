@@ -19,16 +19,13 @@ use GraphQL\Type\Definition\LeafType;
  */
 abstract class AbstractOperator extends InputObjectType
 {
-    /**
-     * Types registry.
-     *
-     * @var Types
-     */
-    protected $types;
-
-    final public function __construct(Types $types, LeafType $leafType)
-    {
-        $this->types = $types;
+    final public function __construct(
+        /**
+         * Types registry.
+         */
+        protected Types $types,
+        LeafType $leafType
+    ) {
         $config = $this->getConfiguration($leafType);
 
         // Override type name to be predictable

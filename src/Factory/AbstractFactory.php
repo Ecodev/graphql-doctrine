@@ -21,20 +21,8 @@ use ReflectionProperty;
  */
 abstract class AbstractFactory
 {
-    /**
-     * @var Types
-     */
-    protected $types;
-
-    /**
-     * @var EntityManager
-     */
-    protected $entityManager;
-
-    public function __construct(Types $types, EntityManager $entityManager)
+    public function __construct(protected Types $types, protected EntityManager $entityManager)
     {
-        $this->types = $types;
-        $this->entityManager = $entityManager;
     }
 
     /**

@@ -14,28 +14,20 @@ use GraphQL\Error\Error;
  */
 class EntityID
 {
-    private EntityManager $entityManager;
-
-    /**
-     * The entity class name.
-     *
-     * @var class-string<T>
-     */
-    private $className;
-
-    /**
-     * The entity id.
-     */
-    private ?string $id;
-
     /**
      * @param class-string<T> $className
      */
-    public function __construct(EntityManager $entityManager, string $className, ?string $id)
-    {
-        $this->entityManager = $entityManager;
-        $this->className = $className;
-        $this->id = $id;
+    public function __construct(
+        private readonly EntityManager $entityManager,
+        /**
+         * The entity class name.
+         */
+        private readonly string $className,
+        /**
+         * The entity id.
+         */
+        private readonly ?string $id
+    ) {
     }
 
     /**

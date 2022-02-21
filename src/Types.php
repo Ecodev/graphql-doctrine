@@ -38,39 +38,33 @@ use UnexpectedValueException;
  */
 final class Types implements TypesInterface
 {
-    private ?ContainerInterface $customTypes;
-
     /**
      * @var array mapping of type name to type instances
      */
     private array $types = [];
 
-    private ObjectTypeFactory $objectTypeFactory;
+    private readonly ObjectTypeFactory $objectTypeFactory;
 
-    private InputTypeFactory $inputTypeFactory;
+    private readonly InputTypeFactory $inputTypeFactory;
 
-    private PartialInputTypeFactory $partialInputTypeFactory;
+    private readonly PartialInputTypeFactory $partialInputTypeFactory;
 
-    private FilterTypeFactory $filterTypeFactory;
+    private readonly FilterTypeFactory $filterTypeFactory;
 
-    private EntityManager $entityManager;
+    private readonly FilteredQueryBuilderFactory $filteredQueryBuilderFactory;
 
-    private FilteredQueryBuilderFactory $filteredQueryBuilderFactory;
+    private readonly SortingTypeFactory $sortingTypeFactory;
 
-    private SortingTypeFactory $sortingTypeFactory;
+    private readonly EntityIDTypeFactory $entityIDTypeFactory;
 
-    private EntityIDTypeFactory $entityIDTypeFactory;
+    private readonly JoinOnTypeFactory $joinOnTypeFactory;
 
-    private JoinOnTypeFactory $joinOnTypeFactory;
+    private readonly FilterGroupJoinTypeFactory $filterGroupJoinTypeFactory;
 
-    private FilterGroupJoinTypeFactory $filterGroupJoinTypeFactory;
+    private readonly FilterGroupConditionTypeFactory $filterGroupConditionTypeFactory;
 
-    private FilterGroupConditionTypeFactory $filterGroupConditionTypeFactory;
-
-    public function __construct(EntityManager $entityManager, ?ContainerInterface $customTypes = null)
+    public function __construct(private readonly EntityManager $entityManager, private readonly ?ContainerInterface $customTypes = null)
     {
-        $this->customTypes = $customTypes;
-        $this->entityManager = $entityManager;
         $this->objectTypeFactory = new ObjectTypeFactory($this, $entityManager);
         $this->inputTypeFactory = new InputTypeFactory($this, $entityManager);
         $this->partialInputTypeFactory = new PartialInputTypeFactory($this, $entityManager);

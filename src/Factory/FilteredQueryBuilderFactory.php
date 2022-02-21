@@ -21,8 +21,6 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
 {
     private UniqueNameFactory $uniqueNameFactory;
 
-    private SortingTypeFactory $sortingTypeFactory;
-
     private QueryBuilder $queryBuilder;
 
     /**
@@ -35,10 +33,9 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
      */
     private array $uniqueJoins = [];
 
-    public function __construct(Types $types, EntityManager $entityManager, SortingTypeFactory $sortingTypeFactory)
+    public function __construct(Types $types, EntityManager $entityManager, private readonly SortingTypeFactory $sortingTypeFactory)
     {
         parent::__construct($types, $entityManager);
-        $this->sortingTypeFactory = $sortingTypeFactory;
     }
 
     /**

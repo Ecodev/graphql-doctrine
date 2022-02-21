@@ -119,11 +119,8 @@ spanning lines'],
     private function create(string|false $comment): DocBlockReader
     {
         $method = new class($comment) extends ReflectionMethod {
-            private string|false $comment;
-
-            public function __construct(string|false $comment)
+            public function __construct(private readonly string|false $comment)
             {
-                $this->comment = $comment;
             }
 
             public function getDocComment(): string|false
@@ -138,14 +135,8 @@ spanning lines'],
     private function createParameter(string $name): ReflectionParameter
     {
         return new class($name) extends ReflectionParameter {
-            /**
-             * @var string
-             */
-            public $mockedName;
-
-            public function __construct(string $name)
+            public function __construct(public string $mockedName)
             {
-                $this->mockedName = $name;
             }
 
             public function getName(): string

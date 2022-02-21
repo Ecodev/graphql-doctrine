@@ -42,14 +42,14 @@ final class User extends AbstractModel
      *
      * @ORM\OneToMany(targetEntity="GraphQLTests\Doctrine\Blog\Model\Post", mappedBy="user")
      */
-    private $posts;
+    private Collection $posts;
 
     /**
      * @var Collection<Post>
      *
      * @ORM\ManyToMany(targetEntity="GraphQLTests\Doctrine\Blog\Model\Post")
      */
-    private $favoritePosts;
+    private Collection $favoritePosts;
 
     /**
      * @ORM\ManyToOne(targetEntity="GraphQLTests\Doctrine\Blog\Model\User")
