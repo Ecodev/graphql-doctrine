@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Factory;
 
+use Doctrine\Bundle\DoctrineBundle\Mapping\MappingDriver;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\Mapping\Driver\AnnotationDriver;
@@ -31,6 +32,12 @@ abstract class AbstractFactory
     final protected function getAnnotationReader(): Reader
     {
         $driver = $this->entityManager->getConfiguration()->getMetadataDriverImpl();
+
+        // if the doctrine-bundle wraps the driver, unwrap it first
+        if ($driver instanceof MappingDriver) {
+            $driver = $driver->getDriver();
+        }
+
         if ($driver instanceof AnnotationDriver) {
             return $driver->getReader();
         }

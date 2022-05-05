@@ -43,6 +43,7 @@
         "webonyx/graphql-php": "^14.11"
     },
     "require-dev": {
+        "doctrine/doctrine-bundle": "^2.6",
         "friendsofphp/php-cs-fixer": "@stable",
         "laminas/laminas-servicemanager": "@stable",
         "phpstan/phpstan": "@stable",
