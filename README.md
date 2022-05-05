@@ -9,10 +9,10 @@
 [![Join the chat at https://gitter.im/Ecodev/graphql-doctrine](https://badges.gitter.im/Ecodev/graphql-doctrine.svg)](https://gitter.im/Ecodev/graphql-doctrine)
 
 A library to declare GraphQL types from Doctrine entities, PHP type hinting,
-and annotations, and to be used with [webonyx/graphql-php](https://github.com/webonyx/graphql-php).
+and attributes, and to be used with [webonyx/graphql-php](https://github.com/webonyx/graphql-php).
 
 It reads most information from type hints, complete some things from existing
-Doctrine annotations and allow further customizations with specialized annotations.
+Doctrine attributes and allow further customizations with specialized attributes.
 It will then create [`ObjectType`](https://webonyx.github.io/graphql-php/type-system/object-types/#object-type-definition) and
  [`InputObjectType`](https://webonyx.github.io/graphql-php/type-system/input-types/#input-object-type)
 instances with fields for all getter and setter respectively found on Doctrine entities.
@@ -114,7 +114,7 @@ $schema = new Schema([
 
 ## Usage
 
-The public API is limited to the public methods on `TypesInterface`, `Types`'s constructor, and the annotations.
+The public API is limited to the public methods on `TypesInterface`, `Types`'s constructor, and the attributes.
 
 Here is a quick overview of `TypesInterface`:
 
@@ -137,9 +137,9 @@ of priority, from the least to most important is:
 
 1. Type hinting
 2. Doc blocks
-3. Annotations
+3. Attributes
 
-That means it is always possible to override everything with annotations. But
+That means it is always possible to override everything with attributes. But
 existing type hints and dock blocks should cover the majority of cases.
 
 ### Exclude sensitive things
@@ -147,18 +147,17 @@ existing type hints and dock blocks should cover the majority of cases.
 All getters, and setters, are included by default in the type. And all properties are included in the filters.
 But it can be specified otherwise for each method and property.
 
-To exclude a sensitive field from ever being exposed through the API, use `@API\Exclude`:
+To exclude a sensitive field from ever being exposed through the API, use `#[API\Exclude]`:
 
 ```php
-use GraphQL\Doctrine\Annotation as API;
+use GraphQL\Doctrine\Attribute as API;
 
 /**
  * Returns the hashed password
  *
- * @API\Exclude
- *
  * @return string
  */
+#[API\Exclude]
 public function getPassword(): string
 {
     return $this->password;
@@ -168,13 +167,10 @@ public function getPassword(): string
 And to exclude a property from being exposed as a filter:
 
 ```php
-use GraphQL\Doctrine\Annotation as API;
+use GraphQL\Doctrine\Attribute as API;
 
-/**
- * @API\Exclude
- *
- * @ORM\Column(type="string", length=255)
- */
+#[ORM\Column(name: 'password', type: 'string', length: 255)]
+#[API\Exclude]
 private string $password = '';
 ```
 
@@ -183,18 +179,18 @@ private string $password = '';
 Even if a getter returns a PHP scalar type, such as `string`, it might be preferable
 to override the type with a custom GraphQL type. This is typically useful for enum
 or other validation purposes, such as email address. This is done by specifying the
-GraphQL type FQCN via `@API\Field` annotation:
+GraphQL type FQCN via `#[API\Field]` attribute:
 
 ```php
-use GraphQL\Doctrine\Annotation as API;
+use GraphQL\Doctrine\Attribute as API;
+use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
 
 /**
  * Get status
  *
- * @API\Field(type="GraphQLTests\Doctrine\Blog\Types\PostStatusType")
- *
  * @return string
  */
+#[API\Field(type: PostStatusType::class)]
 public function getStatus(): string
 {
     return $this->status;
@@ -203,7 +199,7 @@ public function getStatus(): string
 
 The type must be the PHP class implementing the GraphQL type (see
 [limitations](#limitations)). The declaration can be defined as nullable and/or as
-an array with one the following syntaxes (PHP style or GraphQL style):~~~~
+an array with one the following syntaxes (PHP style or GraphQL style):
 
 - `?MyType`
 - `null|MyType`
@@ -214,28 +210,29 @@ an array with one the following syntaxes (PHP style or GraphQL style):~~~~
 - `MyType[]|null`
 - `Collection<MyType>`
 
-This annotation can be used to override other things, such as `name`, `description`
+This attribute can be used to override other things, such as `name`, `description`
 and `args`.
 
 
 #### Override arguments
 
-Similarly to `@API\Field`, `@API\Argument` allows to override the type of argument
+Similarly to `#[API\Field]`, `#[API\Argument]` allows to override the type of argument
 if the PHP type hint is not enough:
 
 ```php
-use GraphQL\Doctrine\Annotation as API;
+use GraphQL\Doctrine\Attribute as API;
 
 /**
  * Returns all posts of the specified status
- *
- * @API\Field(args={@API\Argument(name="status", type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")})
  *
  * @param string $status the status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post
  *
  * @return Collection
  */
-public function getPosts(?string $status = Post::STATUS_PUBLIC): Collection
+public function getPosts(
+     #[API\Argument(type: '?GraphQLTests\Doctrine\Blog\Types\PostStatusType')]
+    ?string $status = Post::STATUS_PUBLIC
+): Collection
 {
     // ...
 }
@@ -246,39 +243,37 @@ and `defaultValue`.
 
 ### Override input types
 
-`@API\Input` is the opposite of `@API\Field` and can be used to override things for
+`#[API\Input]` is the opposite of `#[API\Field]` and can be used to override things for
 input types (setters), typically for validations purpose. This would look like:
 
 ```php
-use GraphQL\Doctrine\Annotation as API;
+use GraphQL\Doctrine\Attribute as API;
+use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
 
 /**
  * Set status
  *
- * @API\Input(type="GraphQLTests\Doctrine\Blog\Types\PostStatusType")
- *
  * @param string $status
  */
+#[API\Input(type: PostStatusType::class)]
 public function setStatus(string $status = self::STATUS_PUBLIC): void
 {
     $this->status = $status;
 }
 ```
 
-This annotation also supports `name`, `description`, and `defaultValue`.
+This attribute also supports `description`, and `defaultValue`.
 
 ### Override filter types
 
-`@API\FilterGroupCondition` is the equivalent for filters that are generated from properties.
+`#[API\FilterGroupCondition]` is the equivalent for filters that are generated from properties.
 So usage would be like:
 
 ```php
-use GraphQL\Doctrine\Annotation as API;
+use GraphQL\Doctrine\Attribute as API;
 
-/**
- * @API\FilterGroupCondition(type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")
- * @ORM\Column(type="string", options={"default" = Post::STATUS_PRIVATE})
- */
+#[API\FilterGroupCondition(type: '?GraphQLTests\Doctrine\Blog\Types\PostStatusType')]
+#[ORM\Column(type: 'string', options: ['default' => self::STATUS_PRIVATE])]
 private string $status = self::STATUS_PRIVATE;
 ```
 
@@ -288,8 +283,8 @@ do the conversion yourself before passing the filter values to `Types::createFil
 
 ### Custom types
 
-By default all PHP scalar types and Doctrine collection are automatically detected
-and mapped to a GraphQL type. However if some getter return custom types, such
+By default, all PHP scalar types and Doctrine collection are automatically detected
+and mapped to a GraphQL type. However, if some getter return custom types, such
 as `DateTimeImmutable`, or a custom class, then it will have to be configured beforehand.
 
 The configuration is done with a [PSR-11 container](https://www.php-fig.org/psr/psr-11/)
@@ -299,7 +294,7 @@ because it offers useful concepts such as: invokables, aliases, factories and ab
 factories. But any other PSR-11 container implementation could be used instead.
 
 
-The keys should be the whatever you use to refer to the type in your model. Typically
+The keys should be the whatever you use to refer to the type in your model. Typically,
 that would be either the FQCN of a PHP class "native" type such as `DateTimeImmutable`, or the
 FQCN of a PHP class implementing the GraphQL type, or directly the GraphQL type name:
 
@@ -354,7 +349,7 @@ things like:
 
 In addition to normal input types, it is possible to get a partial input type via
 `getPartialInput()`. This is especially useful for mutations that update existing
-entities and we do not want to have to re-submit all fields. By using a partial
+entities, when we do not want to have to re-submit all fields. By using a partial
 input, the API client is able to submit only the fields that need to be updated
 and nothing more.
 
@@ -362,7 +357,7 @@ This potentially reduces network traffic, because the client does not need
 to fetch all fields just to be able re-submit them when he wants to modify only
 one field.
 
-And it also enable to easily design mass editing mutations where the client would
+And it also enables to easily design mass editing mutations where the client would
 submit only a few fields to be updated for many entities at once. This could look like:
 
 ```php
@@ -396,9 +391,7 @@ default value `john`, an optional field `foo` with a default value `defaultFoo` 
 a mandatory field `bar` without any default value:
 
 ```php
-/**
- * @ORM\Column(type="string")
- */
+#[ORM\Column(type: 'string']
 private $name = 'jane';
 
 public function setName(string $name = 'john'): void
@@ -446,16 +439,15 @@ This would also allow to filter on joined relations by carefully adding joins wh
 Then a custom filter might be used like so:
 
 ```php
-use GraphQL\Doctrine\Annotation as API;
+use Doctrine\ORM\Mapping as ORM;
+use GraphQL\Doctrine\Attribute as API;
+use GraphQLTests\Doctrine\Blog\Filtering\SearchOperatorType;
 
 /**
  * A blog post with title and body
- *
- * @ORM\Entity
- * @API\Filters({
- *     @API\Filter(field="custom", operator="GraphQLTests\Doctrine\Blog\Filtering\SearchOperatorType", type="string")
- * })
  */
+#[ORM\Entity]
+#[API\Filter(field: 'custom', operator: SearchOperatorType::class, type: 'string')]
 final class Post extends AbstractModel
 ```
 
@@ -469,34 +461,35 @@ Similarly to custom filters, it may be possible to carefully add joins if necess
 Then a custom sorting might be used like so:
 
 ```php
-use GraphQL\Doctrine\Annotation as API;
+use Doctrine\ORM\Mapping as ORM;
+use GraphQL\Doctrine\Attribute as API;
+use GraphQLTests\Doctrine\Blog\Sorting\UserName;
 
 /**
  * A blog post with title and body
- *
- * @ORM\Entity
- * @API\Sorting({"GraphQLTests\Doctrine\Blog\Sorting\UserName"})
  */
+#[ORM\Entity]
+#[API\Sorting([UserName::class])]
 final class Post extends AbstractModel
 ```
 ## Limitations
 
 ### Namespaces
 
-The `use` statement is not supported. So types in annotation or doc blocks should
+The `use` statement is not supported. So types in attributes or doc blocks should
 either be the FQCN or in the same namespace as the getter.
 
 ### Composite identifiers
 
 Entities with composite identifiers are not supported for automatic creation of
 input types. Possible workarounds are to change input argument to be something
-else than an entity, write custom input types and use them via annotations, or
+else than an entity, write custom input types and use them via attributes, or
 adapt the database schema.
 
 ### Logical operators in filtering
 
 Logical operators support only two levels, and second level cannot mix logic operators. In SQL
-that would means only one level of parentheses. So you can generate SQL that would look like:
+that would mean only one level of parentheses. So you can generate SQL that would look like:
 
 ```sql
 -- mixed top level
@@ -530,7 +523,7 @@ This should be done via a custom sorting to ensure that joins are done properly.
 
 [Doctrine GraphQL Mapper](https://github.com/rahuljayaraman/doctrine-graphql) has
 been an inspiration to write this package. While the goals are similar, the way
-it works is different. In Doctrine GraphQL Mapper, annotations are spread between
+it works is different. In Doctrine GraphQL Mapper, attributes are spread between
 properties and methods (and classes for filtering), but we work only on methods.
 Setup seems slightly more complex, but might be more flexible. We built on conventions
 and widespread use of PHP type hinting to have an easier out-of-the-box experience.

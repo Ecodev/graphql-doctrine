@@ -39,7 +39,7 @@ interface TypesInterface
      * Returns an output type for the given entity.
      *
      * All entity getter methods will be exposed, unless specified otherwise
-     * with annotations.
+     * with attributes.
      *
      * @param class-string $className the class name of an entity (`Post::class`)
      */
@@ -51,7 +51,7 @@ interface TypesInterface
      * This would typically be used in mutations to create new entities.
      *
      * All entity setter methods will be exposed, unless specified otherwise
-     * with annotations.
+     * with attributes.
      *
      * @param class-string $className the class name of an entity (`Post::class`)
      */
@@ -63,7 +63,7 @@ interface TypesInterface
      * This would typically be used in mutations to update existing entities.
      *
      * All entity setter methods will be exposed, unless specified otherwise
-     * with annotations. But they will all be marked as optional and without
+     * with attributes. But they will all be marked as optional and without
      * default values. So this allow the API client to specify only some fields
      * to be updated, and not necessarily all of them at once.
      *

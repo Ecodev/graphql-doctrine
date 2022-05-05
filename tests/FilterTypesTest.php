@@ -64,7 +64,7 @@ final class FilterTypesTest extends TestCase
     public function testInvalidOperatorTypeMustThrow(): void
     {
         $type = $this->types->getFilter(InvalidFilter::class);
-        $this->expectExceptionMessage('On class `GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilter` the annotation `@API\Filter` expects a FQCN implementing `GraphQL\Doctrine\Definition\Operator\AbstractOperator`, but instead got: invalid_class_name');
+        $this->expectExceptionMessage('On class `GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilter` the attribute `#[API\Filter]` expects a FQCN implementing `GraphQL\Doctrine\Definition\Operator\AbstractOperator`, but instead got: invalid_class_name');
         $this->getSchemaForType($type);
     }
 
@@ -78,7 +78,7 @@ final class FilterTypesTest extends TestCase
     public function testInvalidFilterGroupConditionTypeMustThrow(): void
     {
         $type = $this->types->getFilter(InvalidFilterGroupCondition::class);
-        $this->expectExceptionMessage('On property `GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilterGroupCondition::$foo` the annotation `@API\FilterGroupCondition` expects a, possibly wrapped, `GraphQL\Type\Definition\LeafType`, but instead got: GraphQL\Type\Definition\ObjectType');
+        $this->expectExceptionMessage('On property `GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilterGroupCondition::$foo` the attribute `#[API\FilterGroupCondition]` expects a, possibly wrapped, `GraphQL\Type\Definition\LeafType`, but instead got: GraphQL\Type\Definition\ObjectType');
         $this->getSchemaForType($type);
     }
 }

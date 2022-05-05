@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Factory\Type;
 
-use GraphQL\Doctrine\Annotation\Sorting;
+use GraphQL\Doctrine\Attribute\Sorting;
 use GraphQL\Doctrine\Sorting\SortingInterface;
 use GraphQL\Doctrine\Utils;
 use GraphQL\Type\Definition\EnumType;
@@ -127,23 +127,23 @@ final class SortingTypeFactory extends AbstractTypeFactory
         }
 
         $class = new ReflectionClass($className);
-        $this->customSortings[$className] = $this->getFromAnnotation($class);
+        $this->customSortings[$className] = $this->getFromAttribute($class);
     }
 
     /**
-     * Get all instance of custom sorting from the annotation.
+     * Get all instance of custom sorting from the attribute.
      *
      * @return SortingInterface[]
      */
-    private function getFromAnnotation(ReflectionClass $class): array
+    private function getFromAttribute(ReflectionClass $class): array
     {
-        $sortings = Utils::getRecursiveClassAnnotations($this->getAnnotationReader(), $class, Sorting::class);
+        $allSortings = $this->reader->getRecursiveClassAttributes($class, Sorting::class);
 
         $result = [];
-        foreach ($sortings as $classWithAnnotation => $sorting) {
-            /** @var class-string<SortingInterface> $className */
-            foreach ($sorting->classes as $className) {
-                $this->throwIfInvalidAnnotation($classWithAnnotation, 'Sorting', SortingInterface::class, $className);
+        foreach ($allSortings as $classWithAttribute => $sortings) {
+            foreach ($sortings as $sorting) {
+                $className = $sorting->class;
+                $this->throwIfInvalidAttribute($classWithAttribute, 'Sorting', SortingInterface::class, $className);
 
                 $name = lcfirst(Utils::getTypeName($className));
                 $result[$name] = new $className();

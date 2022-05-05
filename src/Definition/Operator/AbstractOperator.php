@@ -15,7 +15,7 @@ use GraphQL\Type\Definition\LeafType;
 /**
  * Abstract class that must be implemented to define custom filter options.
  *
- * Once implemented its FQCN should be used via `API\Filter` annotation.
+ * Once implemented its FQCN should be used via `API\Filter` attribute.
  */
 abstract class AbstractOperator extends InputObjectType
 {

@@ -51,7 +51,7 @@ trait TypesTrait
 
     private function assertType(string $expectedFile, Type $type): void
     {
-        $actual = SchemaPrinter::printType($type) . PHP_EOL;
+        $actual = SchemaPrinter::printType($type) . "\n";
         self::assertStringEqualsFile($expectedFile, $actual, 'Should equals expectation from: ' . $expectedFile);
     }
 

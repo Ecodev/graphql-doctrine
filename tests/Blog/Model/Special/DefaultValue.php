@@ -7,19 +7,13 @@ namespace GraphQLTests\Doctrine\Blog\Model\Special;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 final class DefaultValue extends AbstractModel
 {
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $nameWithDefaultValueOnField = 'jane';
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $nameWithDefaultValueOnArgumentOverrideField = 'field';
 
     public function setNameWithoutDefault(string $name): void

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Definition\EntityIDType;
@@ -75,9 +74,6 @@ final class Types implements TypesInterface
         $this->filteredQueryBuilderFactory = new FilteredQueryBuilderFactory($this, $entityManager, $this->sortingTypeFactory);
         $this->filterTypeFactory = new FilterTypeFactory($this, $entityManager, $this->filterGroupJoinTypeFactory, $this->filterGroupConditionTypeFactory);
         $this->joinOnTypeFactory = new JoinOnTypeFactory($this, $entityManager, $this->filterGroupJoinTypeFactory, $this->filterGroupConditionTypeFactory);
-
-        $entityManager->getConfiguration()->newDefaultAnnotationDriver();
-        AnnotationRegistry::registerLoader('class_exists');
 
         $this->initializeInternalTypes();
     }

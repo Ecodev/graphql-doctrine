@@ -6,8 +6,8 @@ namespace GraphQL\Doctrine\Factory;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use GraphQL\Doctrine\Annotation\AbstractAnnotation;
-use GraphQL\Doctrine\Annotation\Exclude;
+use GraphQL\Doctrine\Attribute\AbstractAttribute;
+use GraphQL\Doctrine\Attribute\Exclude;
 use GraphQL\Doctrine\Exception;
 use GraphQL\Type\Definition\InputType;
 use GraphQL\Type\Definition\NonNull;
@@ -86,7 +86,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      */
     private function isExcluded(ReflectionMethod $method): bool
     {
-        $exclude = $this->getAnnotationReader()->getMethodAnnotation($method, Exclude::class);
+        $exclude = $this->reader->getAttribute($method, Exclude::class);
 
         return $exclude !== null;
     }
@@ -105,7 +105,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
         if (is_a($returnTypeName, Collection::class, true) || $returnTypeName === 'array') {
             $targetEntity = $this->getTargetEntity($fieldName);
             if (!$targetEntity) {
-                throw new Exception('The method ' . $this->getMethodFullName($method) . ' is type hinted with a return type of `' . $returnTypeName . '`, but the entity contained in that collection could not be automatically detected. Either fix the type hint, fix the doctrine mapping, or specify the type with `@API\Field` annotation.');
+                throw new Exception('The method ' . $this->getMethodFullName($method) . ' is type hinted with a return type of `' . $returnTypeName . '`, but the entity contained in that collection could not be automatically detected. Either fix the type hint, fix the doctrine mapping, or specify the type with `#[API\Field]` attribute.');
             }
 
             $type = Type::listOf(Type::nonNull($this->getTypeFromRegistry($targetEntity, false)));
@@ -166,7 +166,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     final protected function throwIfArray(ReflectionParameter $param, ?string $type): void
     {
         if ($type === 'array') {
-            throw new Exception('The parameter `$' . $param->getName() . '` on method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' is type hinted as `array` and is not overridden via `@API\Argument` annotation. Either change the type hint or specify the type with `@API\Argument` annotation.');
+            throw new Exception('The parameter `$' . $param->getName() . '` on method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' is type hinted as `array` and is not overridden via `#[API\Argument]` attribute. Either change the type hint or specify the type with `#[API\Argument]` attribute.');
         }
     }
 
@@ -205,25 +205,25 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     /**
      * Input with default values cannot be non-null.
      */
-    final protected function nonNullIfHasDefault(AbstractAnnotation $annotation): void
+    final protected function nonNullIfHasDefault(AbstractAttribute $attribute): void
     {
-        $type = $annotation->getTypeInstance();
-        if ($type instanceof NonNull && $annotation->hasDefaultValue()) {
-            $annotation->setTypeInstance($type->getWrappedType());
+        $type = $attribute->getTypeInstance();
+        if ($type instanceof NonNull && $attribute->hasDefaultValue()) {
+            $attribute->setTypeInstance($type->getWrappedType());
         }
     }
 
     /**
      * Throws exception if argument type is invalid.
      */
-    final protected function throwIfNotInputType(ReflectionParameter $param, AbstractAnnotation $annotation): void
+    final protected function throwIfNotInputType(ReflectionParameter $param, AbstractAttribute $attribute): void
     {
-        $type = $annotation->getTypeInstance();
-        $class = new ReflectionClass($annotation);
-        $annotationName = $class->getShortName();
+        $type = $attribute->getTypeInstance();
+        $class = new ReflectionClass($attribute);
+        $attributeName = $class->getShortName();
 
         if (!$type) {
-            throw new Exception('Could not find type for parameter `$' . $param->name . '` for method ' . $this->getMethodFullName($param->getDeclaringFunction()) . '. Either type hint the parameter, or specify the type with `@API\\' . $annotationName . '` annotation.');
+            throw new Exception('Could not find type for parameter `$' . $param->name . '` for method ' . $this->getMethodFullName($param->getDeclaringFunction()) . '. Either type hint the parameter, or specify the type with `#[API\\' . $attributeName . ']` attribute.');
         }
 
         if ($type instanceof WrappingType) {
@@ -231,7 +231,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
         }
 
         if (!($type instanceof InputType)) {
-            throw new Exception('Type for parameter `$' . $param->name . '` for method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' must be an instance of `' . InputType::class . '`, but was `' . $type::class . '`. Use `@API\\' . $annotationName . '` annotation to specify a custom InputType.');
+            throw new Exception('Type for parameter `$' . $param->name . '` for method ' . $this->getMethodFullName($param->getDeclaringFunction()) . ' must be an instance of `' . InputType::class . '`, but was `' . $type::class . '`. Use `#[API\\' . $attributeName . ']` attribute to specify a custom InputType.');
         }
     }
 }

@@ -2,43 +2,37 @@
 
 declare(strict_types=1);
 
-namespace GraphQL\Doctrine\Annotation;
+namespace GraphQL\Doctrine\Attribute;
 
 use GraphQL\Type\Definition\Type;
 
 /**
- * Abstract annotation with common logic for Argument and Field.
+ * Abstract attribute with common logic for Argument and Field.
  */
-abstract class AbstractAnnotation
+abstract class AbstractAttribute implements ApiAttribute
 {
-    /**
-     * The name of the argument, it must matches the actual PHP argument name.
-     *
-     * @Required
-     */
-    private ?string $name = null;
-
-    /**
-     * FQCN of PHP class implementing the GraphQL type.
-     */
-    private ?string $type = null;
+    protected const NO_VALUE_PASSED = '_hacky_no_value_passed_marker_';
 
     /**
      * Instance of the GraphQL type.
      */
     private ?Type $typeInstance = null;
 
-    private ?string $description = null;
-
     private mixed $defaultValue;
 
     private bool $hasDefaultValue = false;
 
-    public function __construct(array $values = [])
-    {
-        foreach ($values as $key => $value) {
-            $setter = 'set' . ucfirst($key);
-            $this->$setter($value);
+    /**
+     * @param null|string $type FQCN of PHP class implementing the GraphQL type
+     */
+    public function __construct(
+        private ?string $name,
+        private readonly ?string $type,
+        private ?string $description,
+        mixed $defaultValue,
+    ) {
+        if ($defaultValue !== self::NO_VALUE_PASSED) {
+            $this->setDefaultValue($defaultValue);
         }
     }
 
@@ -62,7 +56,7 @@ abstract class AbstractAnnotation
         return $this->name;
     }
 
-    public function setName(?string $name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -70,11 +64,6 @@ abstract class AbstractAnnotation
     public function getType(): ?string
     {
         return $this->type;
-    }
-
-    public function setType(?string $type): void
-    {
-        $this->type = $type;
     }
 
     public function getDescription(): ?string

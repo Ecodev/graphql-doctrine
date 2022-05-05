@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Factory\Type;
 
-use GraphQL\Doctrine\Annotation\Filter;
-use GraphQL\Doctrine\Annotation\FilterGroupCondition;
-use GraphQL\Doctrine\Annotation\Filters;
+use GraphQL\Doctrine\Attribute\Filter;
+use GraphQL\Doctrine\Attribute\FilterGroupCondition;
 use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
 use GraphQL\Doctrine\Definition\Operator\BetweenOperatorType;
 use GraphQL\Doctrine\Definition\Operator\EmptyOperatorType;
@@ -59,7 +58,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
 
                 // Get custom operators
                 // @phpstan-ignore-next-line
-                $this->readCustomOperatorsFromAnnotation($metadata->reflClass);
+                $this->readCustomOperatorsFromAttribute($metadata->reflClass);
 
                 // Get all scalar fields
                 foreach ($metadata->fieldMappings as $mapping) {
@@ -107,7 +106,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
     }
 
     /**
-     * Read the type of the filterGroupCondition, either from Doctrine mapping type, or the override via annotation.
+     * Read the type of the filterGroupCondition, either from Doctrine mapping type, or the override via attribute.
      */
     private function getLeafType(ReflectionProperty $property, array $mapping): LeafType
     {
@@ -115,7 +114,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
             return Type::id();
         }
 
-        $filterGroupCondition = $this->getAnnotationReader()->getPropertyAnnotation($property, FilterGroupCondition::class);
+        $filterGroupCondition = $this->reader->getAttribute($property, FilterGroupCondition::class);
         if ($filterGroupCondition) {
             $leafType = $this->getTypeFromPhpDeclaration($property->getDeclaringClass(), $filterGroupCondition->type);
 
@@ -123,7 +122,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
                 if (!$leafType instanceof LeafType) {
                     $propertyFullName = '`' . $property->getDeclaringClass()->getName() . '::$' . $property->getName() . '`';
 
-                    throw new Exception('On property ' . $propertyFullName . ' the annotation `@API\\FilterGroupCondition` expects a, possibly wrapped, `' . LeafType::class . '`, but instead got: ' . $leafType::class);
+                    throw new Exception('On property ' . $propertyFullName . ' the attribute `#[API\\FilterGroupCondition]` expects a, possibly wrapped, `' . LeafType::class . '`, but instead got: ' . $leafType::class);
                 }
 
                 return $leafType;
@@ -155,16 +154,16 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
     }
 
     /**
-     * Get the custom operators declared on the class via annotations indexed by their field name.
+     * Get the custom operators declared on the class via attributes indexed by their field name.
      */
-    private function readCustomOperatorsFromAnnotation(ReflectionClass $class): void
+    private function readCustomOperatorsFromAttribute(ReflectionClass $class): void
     {
-        $allFilters = Utils::getRecursiveClassAnnotations($this->getAnnotationReader(), $class, Filters::class);
+        $allFilters = $this->reader->getRecursiveClassAttributes($class, Filter::class);
         $this->customOperators = [];
-        foreach ($allFilters as $classWithAnnotation => $filters) {
-            foreach ($filters->filters as $filter) {
+        foreach ($allFilters as $classWithAttribute => $filters) {
+            foreach ($filters as $filter) {
                 $className = $filter->operator;
-                $this->throwIfInvalidAnnotation($classWithAnnotation, 'Filter', AbstractOperator::class, $className);
+                $this->throwIfInvalidAttribute($classWithAttribute, 'Filter', AbstractOperator::class, $className);
 
                 if (!isset($this->customOperators[$filter->field])) {
                     $this->customOperators[$filter->field] = [];

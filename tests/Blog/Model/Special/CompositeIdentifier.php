@@ -8,20 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * This is intended to be invalid for graphql-doctrine because it has composite identifiers.
- *
- * @ORM\Entity
  */
+#[ORM\Entity]
 final class CompositeIdentifier
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
     private int $id1;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
     private int $id2;
 }

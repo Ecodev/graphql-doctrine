@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine\Definition;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use GraphQL\Doctrine\Definition\EntityIDType;
 use GraphQL\Error\Error;
 use GraphQL\Language\AST\BooleanValueNode;
@@ -21,7 +20,6 @@ final class EntityIDTypeTest extends TestCase
 
     protected function setUp(): void
     {
-        AnnotationRegistry::registerLoader('class_exists');
         $this->setUpEntityManager();
         $this->type = new EntityIDType($this->entityManager, User::class, 'UserID');
     }

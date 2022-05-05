@@ -7,9 +7,7 @@ namespace GraphQLTests\Doctrine\Blog\Model\Special;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 final class NamespaceSupport extends AbstractModel
 {
     private $value;

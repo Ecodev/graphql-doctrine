@@ -7,53 +7,41 @@ namespace GraphQLTests\Doctrine\Blog\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use GraphQL\Doctrine\Annotation as API;
+use GraphQL\Doctrine\Attribute as API;
+use GraphQLTests\Doctrine\Blog\Repository\UserRepository;
 
 /**
  * A blog author or visitor.
- *
- * @ORM\Entity(repositoryClass="GraphQLTests\Doctrine\Blog\Repository\UserRepository")
  */
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 final class User extends AbstractModel
 {
-    /**
-     * @ORM\Column(name="custom_column_name", type="string", length=50, options={"default" = ""})
-     */
+    #[ORM\Column(name: 'custom_column_name', type: 'string', length: 50, options: ['default' => ''])]
     private string $name = '';
 
-    /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private ?string $email = null;
 
-    /**
-     * @ORM\Column(name="password", type="string", length=255)
-     * @API\Exclude
-     */
+    #[ORM\Column(name: 'password', type: 'string', length: 255)]
+    #[API\Exclude]
     private string $password;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default" = false})
-     */
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     private bool $isAdministrator = false;
 
     /**
      * @var Collection<Post>
-     *
-     * @ORM\OneToMany(targetEntity="GraphQLTests\Doctrine\Blog\Model\Post", mappedBy="user")
      */
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'user')]
     private Collection $posts;
 
     /**
      * @var Collection<Post>
-     *
-     * @ORM\ManyToMany(targetEntity="GraphQLTests\Doctrine\Blog\Model\Post")
      */
+    #[ORM\ManyToMany(targetEntity: Post::class)]
     private Collection $favoritePosts;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="GraphQLTests\Doctrine\Blog\Model\User")
-     */
+    #[ORM\ManyToOne(targetEntity: self::class)]
     private ?User $manager = null;
 
     /**
@@ -111,9 +99,8 @@ final class User extends AbstractModel
 
     /**
      * Returns the hashed password.
-     *
-     * @API\Exclude
      */
+    #[API\Exclude]
     public function getPassword(): string
     {
         return $this->password;
@@ -121,9 +108,8 @@ final class User extends AbstractModel
 
     /**
      * Set whether the user is an administrator.
-     *
-     * @API\Exclude
      */
+    #[API\Exclude]
     public function setIsAdministrator(bool $isAdministrator): void
     {
         $this->isAdministrator = $isAdministrator;
@@ -140,12 +126,11 @@ final class User extends AbstractModel
     /**
      * Returns all posts of the specified status.
      *
-     * @API\Field(args={@API\Argument(name="status", type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")})
-     *
      * @param null|string $status the status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post
      */
-    public function getPosts(?string $status = Post::STATUS_PUBLIC): Collection
-    {
+    public function getPosts(
+        #[API\Argument(type: '?GraphQLTests\Doctrine\Blog\Types\PostStatusType')] ?string $status = Post::STATUS_PUBLIC
+    ): Collection {
         // Return unfiltered collection
         if ($status === null) {
             return $this->posts;
@@ -154,10 +139,8 @@ final class User extends AbstractModel
         return $this->posts->filter(fn (Post $post) => $post->getStatus() === $status);
     }
 
-    /**
-     * @API\Field(type="GraphQLTests\Doctrine\Blog\Model\Post[]", args={@API\Argument(name="ids", type="id[]")})
-     */
-    public function getPostsWithIds(array $ids): Collection
+    #[API\Field(type: 'GraphQLTests\Doctrine\Blog\Model\Post[]')]
+    public function getPostsWithIds(#[API\Argument(type: 'id[]')] array $ids): Collection
     {
         return $this->posts->filter(fn (Post $post) => in_array($post->getId(), $ids, true));
     }

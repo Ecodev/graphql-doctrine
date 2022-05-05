@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Factory;
 
-use GraphQL\Doctrine\Annotation\Argument;
-use GraphQL\Doctrine\Annotation\Field;
+use GraphQL\Doctrine\Attribute\Argument;
+use GraphQL\Doctrine\Attribute\Field;
 use GraphQL\Doctrine\DocBlockReader;
 use GraphQL\Doctrine\Exception;
 use GraphQL\Type\Definition\Type;
@@ -28,30 +28,15 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
      */
     protected function methodToConfiguration(ReflectionMethod $method): ?array
     {
-        // Get a field from annotation, or an empty one
-        $field = $this->getAnnotationReader()->getMethodAnnotation($method, Field::class) ?? new Field();
+        // Get a field from attribute, or an empty one
+        $field = $this->reader->getAttribute($method, Field::class) ?? new Field();
 
         if (!$field->type instanceof Type) {
-            $this->convertTypeDeclarationsToInstances($method, $field);
+            $field->type = $this->getTypeFromPhpDeclaration($method->getDeclaringClass(), $field->type);
             $this->completeField($field, $method);
         }
 
         return $field->toArray();
-    }
-
-    /**
-     * All its types will be converted from string to real instance of Type.
-     */
-    private function convertTypeDeclarationsToInstances(ReflectionMethod $method, Field $field): void
-    {
-        $field->type = $this->getTypeFromPhpDeclaration($method->getDeclaringClass(), $field->type);
-        $args = [];
-
-        foreach ($field->args as $arg) {
-            $arg->setTypeInstance($this->getTypeFromPhpDeclaration($method->getDeclaringClass(), $arg->getType()));
-            $args[$arg->getName()] = $arg;
-        }
-        $field->args = $args;
     }
 
     /**
@@ -78,19 +63,17 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
      */
     private function completeFieldArguments(Field $field, ReflectionMethod $method, DocBlockReader $docBlock): void
     {
-        $argsFromAnnotations = $field->args;
         $args = [];
         foreach ($method->getParameters() as $param) {
             // Either get existing, or create new argument
-            $arg = $argsFromAnnotations[$param->getName()] ?? new Argument();
+            $arg = $this->reader->getAttribute($param, Argument::class) ?? new Argument();
+            $arg->setName($param->getName());
+
+            $arg->setTypeInstance($this->getTypeFromPhpDeclaration($method->getDeclaringClass(), $arg->getType()));
+
             $args[$param->getName()] = $arg;
 
             $this->completeArgumentFromTypeHint($arg, $method, $param, $docBlock);
-        }
-
-        $extraAnnotations = array_diff(array_keys($argsFromAnnotations), array_keys($args));
-        if ($extraAnnotations) {
-            throw new Exception('The following arguments were declared via `@API\Argument` annotation but do not match actual parameter names on method ' . $this->getMethodFullName($method) . '. Either rename or remove the annotations: ' . implode(', ', $extraAnnotations));
         }
 
         $field->args = $args;
@@ -177,7 +160,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
 
         // If still no type, cannot continue
         if (!$field->type) {
-            throw new Exception('Could not find type for method ' . $this->getMethodFullName($method) . '. Either type hint the return value, or specify the type with `@API\Field` annotation.');
+            throw new Exception('Could not find type for method ' . $this->getMethodFullName($method) . '. Either type hint the return value, or specify the type with `#[API\Field]` attribute.');
         }
     }
 }

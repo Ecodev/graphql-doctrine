@@ -9,9 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 final class NoTypeCollection extends AbstractModel
 {
     public function getFoos(): Collection

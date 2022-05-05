@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace GraphQLTests\Doctrine\Blog\Model\Special;
 
 use Doctrine\ORM\Mapping as ORM;
-use GraphQL\Doctrine\Annotation as API;
+use GraphQL\Doctrine\Attribute as API;
 use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 use GraphQLTests\Doctrine\Blog\Model\User;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 final class IgnoredGetter extends AbstractModel
 {
     private string $privateProperty = 'privateProperty';
@@ -36,10 +34,9 @@ final class IgnoredGetter extends AbstractModel
     }
 
     /**
-     * @API\Field(type="string[]")
-     *
      * @param string[] $arg3
      */
+    #[API\Field(type: 'string[]')]
     public function getPublicWithArgs(User $arg1, int $arg2, array $arg3 = ['foo']): array
     {
         return [$arg1, $arg2, $arg3];

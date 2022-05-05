@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Factory;
 
-use GraphQL\Doctrine\Annotation\Input;
+use GraphQL\Doctrine\Attribute\Input;
 use GraphQL\Doctrine\DocBlockReader;
 use ReflectionMethod;
 use ReflectionNamedType;
@@ -32,8 +32,8 @@ final class InputFieldsConfigurationFactory extends AbstractFieldsConfigurationF
         }
         $param = reset($params);
 
-        // Get a field from annotation, or an empty one
-        $field = $this->getAnnotationReader()->getMethodAnnotation($method, Input::class) ?? new Input();
+        // Get a field from attribute, or an empty one
+        $field = $this->reader->getAttribute($method, Input::class) ?? new Input();
 
         if (!$field->getTypeInstance()) {
             $this->convertTypeDeclarationsToInstances($method, $field);

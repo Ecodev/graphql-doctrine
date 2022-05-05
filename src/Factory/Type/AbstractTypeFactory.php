@@ -34,6 +34,7 @@ abstract class AbstractTypeFactory extends AbstractFactory
         $comment = $class->getDocComment() ?: '';
 
         // Remove the comment markers
+        $comment = preg_replace('~\*/$~', '', $comment);
         $comment = preg_replace('~^\s*(/\*\*|\* ?|\*/)~m', '', $comment);
 
         // Keep everything before the first annotation
@@ -49,10 +50,10 @@ abstract class AbstractTypeFactory extends AbstractFactory
     /**
      * Throw an exception if the given type does not inherit expected type.
      */
-    final protected function throwIfInvalidAnnotation(string $classWithAnnotation, string $annotation, string $expectedClassName, string $actualClassName): void
+    final protected function throwIfInvalidAttribute(string $classWithAttribute, string $attribute, string $expectedClassName, string $actualClassName): void
     {
         if (!is_a($actualClassName, $expectedClassName, true)) {
-            throw new Exception('On class `' . $classWithAnnotation . '` the annotation `@API\\' . $annotation . '` expects a FQCN implementing `' . $expectedClassName . '`, but instead got: ' . $actualClassName);
+            throw new Exception('On class `' . $classWithAttribute . '` the attribute `#[API\\' . $attribute . ']` expects a FQCN implementing `' . $expectedClassName . '`, but instead got: ' . $actualClassName);
         }
     }
 }

@@ -6,17 +6,13 @@ namespace GraphQLTests\Doctrine\Blog\Model\Special;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\MappedSuperclass
- */
+#[ORM\MappedSuperclass]
 final class ModelWithTraits
 {
     use TraitWithSortingAndFilter;
 
-    /**
-     * @ORM\Column(type="integer", options={"unsigned" = true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     private readonly int $id;
 }

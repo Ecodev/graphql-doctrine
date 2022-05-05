@@ -11,7 +11,7 @@ use GraphQL\Doctrine\Factory\UniqueNameFactory;
 /**
  * Interface that must be implemented to define custom sorting options.
  *
- * Once implemented its FQCN should be used via `API\Sorting` annotation.
+ * Once implemented its FQCN should be used via `API\Sorting` attribute.
  */
 interface SortingInterface
 {

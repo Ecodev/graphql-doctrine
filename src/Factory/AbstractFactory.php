@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Factory;
 
-use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\EntityManager;
-use Doctrine\Persistence\Mapping\Driver\AnnotationDriver;
-use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
-use GraphQL\Doctrine\Annotation\Exclude;
-use GraphQL\Doctrine\Exception;
-use GraphQL\Doctrine\Factory\MetadataReader\MappingDriverChainAdapter;
+use GraphQL\Doctrine\Attribute\Exclude;
+use GraphQL\Doctrine\Attribute\Reader\Reader;
 use GraphQL\Doctrine\Types;
 use GraphQL\Type\Definition\Type;
 use ReflectionClass;
@@ -21,25 +17,11 @@ use ReflectionProperty;
  */
 abstract class AbstractFactory
 {
+    protected readonly Reader $reader;
+
     public function __construct(protected Types $types, protected EntityManager $entityManager)
     {
-    }
-
-    /**
-     * Get annotation reader.
-     */
-    final protected function getAnnotationReader(): Reader
-    {
-        $driver = $this->entityManager->getConfiguration()->getMetadataDriverImpl();
-        if ($driver instanceof AnnotationDriver) {
-            return $driver->getReader();
-        }
-
-        if ($driver instanceof MappingDriverChain) {
-            return new MappingDriverChainAdapter($driver);
-        }
-
-        throw new Exception('graphql-doctrine requires Doctrine to be configured with a `' . AnnotationDriver::class . '`.');
+        $this->reader = new Reader();
     }
 
     /**
@@ -47,7 +29,7 @@ abstract class AbstractFactory
      */
     final protected function isPropertyExcluded(ReflectionProperty $property): bool
     {
-        $exclude = $this->getAnnotationReader()->getPropertyAnnotation($property, Exclude::class);
+        $exclude = $this->reader->getAttribute($property, Exclude::class);
 
         return $exclude !== null;
     }
@@ -66,10 +48,10 @@ abstract class AbstractFactory
      *  - `MyType[]|null`
      *  - `Collection<MyType>`
      */
-    final protected function getTypeFromPhpDeclaration(ReflectionClass $class, ?string $typeDeclaration, bool $isEntityId = false): ?Type
+    final protected function getTypeFromPhpDeclaration(ReflectionClass $class, null|string|Type $typeDeclaration, bool $isEntityId = false): ?Type
     {
-        if (!$typeDeclaration) {
-            return null;
+        if ($typeDeclaration === null || $typeDeclaration instanceof Type) {
+            return $typeDeclaration;
         }
 
         $isNullable = 0;

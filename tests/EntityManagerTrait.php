@@ -16,8 +16,7 @@ trait EntityManagerTrait
 
     private function setUpEntityManager(): void
     {
-        // Create the entity manager
-        $config = Setup::createAnnotationMetadataConfiguration([__DIR__ . '/Blog/Model'], true, null, null, false);
+        $config = Setup::createAttributeMetadataConfiguration([__DIR__ . '/Blog/Model'], true);
         $conn = ['url' => 'sqlite:///:memory:'];
         $this->entityManager = EntityManager::create($conn, $config);
     }
