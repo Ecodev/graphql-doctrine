@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Annotation;
 
+use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
+
 /**
  * Annotation used to override values for an field argument in GraphQL.
  *
@@ -13,7 +15,7 @@ namespace GraphQL\Doctrine\Annotation;
  * what is declared by the original argument of the method.
  *
  * @Annotation
- *
+ * @NamedArgumentConstructor
  * @Target({"ANNOTATION"})
  */
 final class Filter
@@ -47,4 +49,11 @@ final class Filter
      * @Required
      */
     public $type;
+
+    public function __construct(string $field, string $operator, string $type)
+    {
+        $this->field = $field;
+        $this->operator = $operator;
+        $this->type = $type;
+    }
 }

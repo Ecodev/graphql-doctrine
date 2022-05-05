@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Annotation;
 
+use Attribute;
+use GraphQL\Doctrine\Sorting\SortingInterface;
+
 /**
  * Annotation used to define custom sorting.
  *
  * @Annotation
- *
+ * @NamedArgumentConstructor
  * @Target({"CLASS"})
  */
+#[Attribute(Attribute::TARGET_CLASS)]
 final class Sorting
 {
     /**
@@ -18,5 +22,13 @@ final class Sorting
      *
      * @var array<string>
      */
-    public $classes = [];
+    public array $classes = [];
+
+    /**
+     * @param array<string> $classes
+     */
+    public function __construct(array $classes)
+    {
+        $this->classes = $classes;
+    }
 }

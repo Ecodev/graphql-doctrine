@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace GraphQL\Doctrine\Factory\MetadataReader;
 
 use Doctrine\Common\Annotations\Reader;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
+use Doctrine\ORM\Mapping\Driver\AttributeReader;
 use Doctrine\Persistence\Mapping\Driver\AnnotationDriver;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use GraphQL\Doctrine\Exception;
@@ -26,14 +28,37 @@ final class MappingDriverChainAdapter implements Reader
         $className = $class->getName();
         foreach ($this->chainDriver->getDrivers() as $namespace => $driver) {
             if (mb_stripos($className, $namespace) === 0) {
+                if ($driver instanceof AttributeDriver) {
+                    /**
+                     * doctrine lies about the return value of getReader here.
+                     *
+                     * @var AttributeReader $attributeReader
+                     */
+                    $attributeReader = $driver->getReader();
+
+                    return new AttributeReaderAdapter($attributeReader);
+                }
+
                 if ($driver instanceof AnnotationDriver) {
                     return $driver->getReader();
                 }
             }
         }
 
-        if ($this->chainDriver->getDefaultDriver() instanceof AnnotationDriver) {
-            return $this->chainDriver->getDefaultDriver()->getReader();
+        $defaultDriver = $this->chainDriver->getDefaultDriver();
+        if ($defaultDriver instanceof AttributeDriver) {
+            /**
+             * doctrine lies about the return value of getReader here.
+             *
+             * @var AttributeReader $attributeReader
+             */
+            $attributeReader = $defaultDriver->getReader();
+
+            return new AttributeReaderAdapter($attributeReader);
+        }
+
+        if ($defaultDriver instanceof AnnotationDriver) {
+            return $defaultDriver->getReader();
         }
 
         throw new Exception('graphql-doctrine requires ' . $className . ' entity to be configured with a `' . AnnotationDriver::class . '`.');

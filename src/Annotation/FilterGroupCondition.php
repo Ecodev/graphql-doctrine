@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Annotation;
 
+use Attribute;
+
 /**
  * Annotation used to override values for a filterGroupCondition in GraphQL.
  *
@@ -14,14 +16,13 @@ namespace GraphQL\Doctrine\Annotation;
  *
  * @Target({"PROPERTY"})
  */
+#[Attribute(Attribute::TARGET_PROPERTY)]
 final class FilterGroupCondition
 {
     /**
      * FQCN of PHP class implementing the GraphQL type.
      *
-     * @var string
-     *
      * @Required
      */
-    public $type;
+    public string $type;
 }

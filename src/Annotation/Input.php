@@ -23,6 +23,7 @@ use Doctrine\Common\Annotations\Annotation\Attributes;
  *     @Attribute("defaultValue", required=false, type="mixed"),
  * })
  */
+#[\Attribute(\Attribute::TARGET_METHOD)]
 final class Input extends AbstractAnnotation
 {
 }

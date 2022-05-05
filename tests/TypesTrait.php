@@ -49,9 +49,28 @@ trait TypesTrait
         $this->types = new Types($this->entityManager, $customTypes);
     }
 
+    public function setUpWithAttributes(): void
+    {
+        $this->setUpAttributeEntityManager();
+
+        $customTypes = new ServiceManager([
+            'invokables' => [
+                BooleanType::class => BooleanType::class,
+                DateTimeImmutable::class => DateTimeType::class,
+                stdClass::class => CustomType::class,
+                'PostStatus' => PostStatusType::class,
+            ],
+            'aliases' => [
+                'datetime_immutable' => DateTimeImmutable::class, // Declare alias for Doctrine type to be used for filters
+            ],
+        ]);
+
+        $this->types = new Types($this->entityManager, $customTypes);
+    }
+
     private function assertType(string $expectedFile, Type $type): void
     {
-        $actual = SchemaPrinter::printType($type) . PHP_EOL;
+        $actual = SchemaPrinter::printType($type) . "\n";
         self::assertStringEqualsFile($expectedFile, $actual, 'Should equals expectation from: ' . $expectedFile);
     }
 

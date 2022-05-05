@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Annotation;
 
+use Attribute;
+use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
+
 /**
  * Annotation used to define custom filters.
  *
  * @Annotation
- *
+ * @NamedArgumentConstructor
  * @Target({"CLASS"})
  */
+#[Attribute(Attribute::TARGET_CLASS)]
 final class Filters
 {
     /**
@@ -20,5 +24,13 @@ final class Filters
      *
      * @Required
      */
-    public $filters = [];
+    public array $filters = [];
+
+    /**
+     * @param array<Filter> $filters
+     */
+    public function __construct(array $filters)
+    {
+        $this->filters = $filters;
+    }
 }

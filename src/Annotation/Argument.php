@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GraphQL\Doctrine\Annotation;
 
 /**
- * Annotation used to override values for an field argument in GraphQL.
+ * Annotation used to override values for a field argument in GraphQL.
  *
  * The name of the argument is required and must match the actual PHP argument name.
  *

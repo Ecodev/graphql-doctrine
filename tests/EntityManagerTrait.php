@@ -21,4 +21,11 @@ trait EntityManagerTrait
         $conn = ['url' => 'sqlite:///:memory:'];
         $this->entityManager = EntityManager::create($conn, $config);
     }
+
+    private function setUpAttributeEntityManager(): void
+    {
+        $config = Setup::createAttributeMetadataConfiguration([__DIR__ . '/AttributeBlog/Model'], true);
+        $conn = ['url' => 'sqlite:///:memory:'];
+        $this->entityManager = EntityManager::create($conn, $config);
+    }
 }
