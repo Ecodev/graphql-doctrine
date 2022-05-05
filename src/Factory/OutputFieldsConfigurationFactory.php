@@ -82,7 +82,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
         $args = [];
         foreach ($method->getParameters() as $param) {
             // Either get existing, or create new argument
-            $arg = $argsFromAnnotations[$param->getName()] ?? new Argument();
+            $arg = $argsFromAnnotations[$param->getName()] ?? new Argument($param->getName());
             $args[$param->getName()] = $arg;
 
             $this->completeArgumentFromTypeHint($arg, $method, $param, $docBlock);

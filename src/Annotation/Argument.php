@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Annotation;
 
+use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
+
 /**
  * Annotation used to override values for a field argument in GraphQL.
  *
@@ -13,7 +15,7 @@ namespace GraphQL\Doctrine\Annotation;
  * what is declared by the original argument of the method.
  *
  * @Annotation
- *
+ * @NamedArgumentConstructor
  * @Target({"ANNOTATION"})
  * @Attributes({
  *     @Attribute("name", required=true, type="string"),
@@ -24,4 +26,23 @@ namespace GraphQL\Doctrine\Annotation;
  */
 final class Argument extends AbstractAnnotation
 {
+    private const NO_VALUE_PASSED = '_hacky_no_value_past_find_a_better_solution_for_this_';
+
+    public function __construct(
+        string $name,
+        ?string $type = null,
+        ?string $description = null,
+        mixed $defaultValue = self::NO_VALUE_PASSED
+    ) {
+        $settings = [
+            'name' => $name,
+            'type' => $type,
+            'description' => $description,
+        ];
+        if ($defaultValue !== self::NO_VALUE_PASSED) {
+            $settings['defaultValue'] = $defaultValue;
+        }
+
+        parent::__construct($settings);
+    }
 }

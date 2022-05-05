@@ -16,7 +16,7 @@ use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
 /** A blog post with title and body. */
 #[ORM\Entity]
 #[API\Sorting([UserName::class, PostType::class])]
-#[API\Filters(new API\Filter(field: 'custom', operator: SearchOperatorType::class, type: 'string'))]
+#[API\Filters([new API\Filter(field: 'custom', operator: SearchOperatorType::class, type: 'string')])]
 final class Post extends AbstractModel
 {
     public const STATUS_PRIVATE = 'private';
@@ -77,7 +77,7 @@ final class Post extends AbstractModel
     /**
      * Set status.
      */
-    #[API\Input(['type' => PostStatusType::class])]
+    #[API\Input(type: PostStatusType::class)]
     public function setStatus(string $status = self::STATUS_PUBLIC): void
     {
         $this->status = $status;

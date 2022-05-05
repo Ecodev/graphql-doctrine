@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GraphQL\Doctrine\Annotation;
 
 use Attribute;
+use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 
 /**
  * Annotation used to override values for a filterGroupCondition in GraphQL.
@@ -13,7 +14,7 @@ use Attribute;
  * a custom GraphQL type.
  *
  * @Annotation
- *
+ * @NamedArgumentConstructor
  * @Target({"PROPERTY"})
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
@@ -25,4 +26,9 @@ final class FilterGroupCondition
      * @Required
      */
     public string $type;
+
+    public function __construct(string $type)
+    {
+        $this->type = $type;
+    }
 }

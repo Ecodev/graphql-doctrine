@@ -16,7 +16,7 @@ use GraphQLTests\Doctrine\Blog\Types\DateTimeType;
  */
 #[ORM\MappedSuperclass]
 #[API\Sorting([PseudoRandom::class])]
-#[API\Filters(new API\Filter(field: 'id', operator: ModuloOperatorType::class, type: 'int'))]
+#[API\Filters([new API\Filter(field: 'id', operator: ModuloOperatorType::class, type: 'int')])]
 abstract class AbstractModel
 {
     /** @var int */
