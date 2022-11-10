@@ -13,6 +13,7 @@ namespace GraphQL\Doctrine\Annotation;
  * what is declared by the original argument of the method.
  *
  * @Annotation
+ *
  * @Target({"ANNOTATION"})
  */
 final class Filter
@@ -24,6 +25,7 @@ final class Filter
      * to organize the filter correctly in the API.
      *
      * @var string
+     *
      * @Required
      */
     public $field;
@@ -32,6 +34,7 @@ final class Filter
      * Key referring to the type instance of PHP class implementing the GraphQL type.
      *
      * @var string
+     *
      * @Required
      */
     public $operator;
@@ -40,6 +43,7 @@ final class Filter
      * GraphQL leaf type name of the type of the field.
      *
      * @var string
+     *
      * @Required
      */
     public $type;

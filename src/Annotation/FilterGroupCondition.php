@@ -11,6 +11,7 @@ namespace GraphQL\Doctrine\Annotation;
  * a custom GraphQL type.
  *
  * @Annotation
+ *
  * @Target({"PROPERTY"})
  */
 final class FilterGroupCondition
@@ -19,6 +20,7 @@ final class FilterGroupCondition
      * FQCN of PHP class implementing the GraphQL type.
      *
      * @var string
+     *
      * @Required
      */
     public $type;

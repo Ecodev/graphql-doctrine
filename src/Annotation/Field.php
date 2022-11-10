@@ -11,6 +11,7 @@ namespace GraphQL\Doctrine\Annotation;
  * what is declared by the original method.
  *
  * @Annotation
+ *
  * @Target({"METHOD"})
  */
 final class Field

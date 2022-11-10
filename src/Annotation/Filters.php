@@ -8,6 +8,7 @@ namespace GraphQL\Doctrine\Annotation;
  * Annotation used to define custom filters.
  *
  * @Annotation
+ *
  * @Target({"CLASS"})
  */
 final class Filters
@@ -16,6 +17,7 @@ final class Filters
      * List of all custom filters.
      *
      * @var array<\GraphQL\Doctrine\Annotation\Filter>
+     *
      * @Required
      */
     public $filters = [];

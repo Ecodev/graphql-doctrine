@@ -8,6 +8,7 @@ namespace GraphQL\Doctrine\Annotation;
  * Annotation used to define custom sorting.
  *
  * @Annotation
+ *
  * @Target({"CLASS"})
  */
 final class Sorting

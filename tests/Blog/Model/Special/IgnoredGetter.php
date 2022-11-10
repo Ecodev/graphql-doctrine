@@ -7,6 +7,7 @@ namespace GraphQLTests\Doctrine\Blog\Model\Special;
 use Doctrine\ORM\Mapping as ORM;
 use GraphQL\Doctrine\Annotation as API;
 use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
+use GraphQLTests\Doctrine\Blog\Model\User;
 
 /**
  * @ORM\Entity
@@ -39,7 +40,7 @@ final class IgnoredGetter extends AbstractModel
      *
      * @param string[] $arg3
      */
-    public function getPublicWithArgs(string $arg1, int $arg2, array $arg3 = ['foo']): array
+    public function getPublicWithArgs(User $arg1, int $arg2, array $arg3 = ['foo']): array
     {
         return [$arg1, $arg2, $arg3];
     }

@@ -166,7 +166,6 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
         $allFilters = Utils::getRecursiveClassAnnotations($this->getAnnotationReader(), $class, Filters::class);
         $this->customOperators = [];
         foreach ($allFilters as $classWithAnnotation => $filters) {
-
             /** @var Filter $filter */
             foreach ($filters->filters as $filter) {
                 $className = $filter->operator;

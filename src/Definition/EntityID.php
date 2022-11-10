@@ -10,7 +10,7 @@ use GraphQL\Error\Error;
 /**
  * A object used to fetch the entity from DB on demand.
  *
- * @template T
+ * @template T of object
  */
 class EntityID
 {
@@ -43,7 +43,7 @@ class EntityID
      *
      * @return T entity
      */
-    public function getEntity()
+    public function getEntity(): object
     {
         /** @var null|T $entity */
         $entity = $this->entityManager->getRepository($this->className)->find($this->id);

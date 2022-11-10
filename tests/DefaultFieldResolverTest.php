@@ -13,20 +13,22 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
 use GraphQLTests\Doctrine\Blog\Model\Special\DefaultValue;
 use GraphQLTests\Doctrine\Blog\Model\Special\IgnoredGetter;
+use GraphQLTests\Doctrine\Blog\Model\User;
 use PHPUnit\Framework\TestCase;
 
 final class DefaultFieldResolverTest extends TestCase
 {
     public function providerDefaultFieldResolver(): array
     {
-        $entityID = new class() extends EntityID {
-            public function __construct()
+        $fakeEntity = new User();
+        $entityID = new class($fakeEntity) extends EntityID {
+            public function __construct(private readonly User $fakeEntity)
             {
             }
 
-            public function getEntity(): string
+            public function getEntity(): User
             {
-                return 'real entity';
+                return $this->fakeEntity;
             }
         };
 
@@ -37,7 +39,7 @@ final class DefaultFieldResolverTest extends TestCase
             [null, new IgnoredGetter(), 'private'],
             [null, new IgnoredGetter(), 'protected'],
             ['getPublic', new IgnoredGetter(), 'public'],
-            [['real entity', 2, ['foo']], new IgnoredGetter(), 'publicWithArgs', ['arg2' => 2, 'arg1' => $entityID]],
+            [[$fakeEntity, 2, ['foo']], new IgnoredGetter(), 'publicWithArgs', ['arg2' => 2, 'arg1' => $entityID]],
             [null, new IgnoredGetter(), 'nonExisting'],
             [null, new IgnoredGetter(), '__call'],
             [true, new IgnoredGetter(), 'isValid'],

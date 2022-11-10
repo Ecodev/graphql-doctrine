@@ -13,6 +13,7 @@ namespace GraphQL\Doctrine\Annotation;
  * what is declared by the original argument of the method.
  *
  * @Annotation
+ *
  * @Target({"ANNOTATION"})
  * @Attributes({
  *     @Attribute("name", required=true, type="string"),

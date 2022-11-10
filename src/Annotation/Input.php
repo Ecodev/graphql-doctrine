@@ -14,6 +14,7 @@ use Doctrine\Common\Annotations\Annotation\Attributes;
  * what is declared by the original method.
  *
  * @Annotation
+ *
  * @Target({"METHOD"})
  * @Attributes({
  *     @Attribute("name", required=false, type="string"),

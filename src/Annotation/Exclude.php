@@ -10,6 +10,7 @@ namespace GraphQL\Doctrine\Annotation;
  * This should be used to hide sensitive data such as passwords.
  *
  * @Annotation
+ *
  * @Target({"METHOD", "PROPERTY"})
  */
 final class Exclude

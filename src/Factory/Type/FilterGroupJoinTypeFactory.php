@@ -63,7 +63,6 @@ final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
         foreach ($associations as $association) {
             $field = [
                 'name' => $association['fieldName'],
-                // @phpstan-ignore-next-line
                 'type' => $this->types->getJoinOn($association['targetEntity']),
             ];
 
