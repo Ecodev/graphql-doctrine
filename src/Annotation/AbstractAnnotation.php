@@ -30,10 +30,7 @@ abstract class AbstractAnnotation
 
     private ?string $description = null;
 
-    /**
-     * @var mixed
-     */
-    private $defaultValue;
+    private mixed $defaultValue;
 
     private bool $hasDefaultValue = false;
 
@@ -95,18 +92,12 @@ abstract class AbstractAnnotation
         return $this->hasDefaultValue;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDefaultValue()
+    public function getDefaultValue(): mixed
     {
         return $this->defaultValue;
     }
 
-    /**
-     * @param mixed $defaultValue
-     */
-    public function setDefaultValue($defaultValue): void
+    public function setDefaultValue(mixed $defaultValue): void
     {
         $this->defaultValue = $defaultValue;
         $this->hasDefaultValue = true;

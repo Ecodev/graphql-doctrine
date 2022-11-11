@@ -46,10 +46,8 @@ final class EntityIDType extends ScalarType
 
     /**
      * Parses an externally provided value (query variable) to use as an input.
-     *
-     * @param mixed $value
      */
-    public function parseValue($value, ?array $variables = null): EntityID
+    public function parseValue(mixed $value, ?array $variables = null): EntityID
     {
         if (!is_string($value) && !is_int($value)) {
             throw new Error('EntityID cannot represent value: ' . \GraphQL\Utils\Utils::printSafe($value));

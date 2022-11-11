@@ -17,7 +17,6 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
-use ReflectionProperty;
 
 /**
  * A factory to create a configuration for all fields of an entity.
@@ -146,7 +145,6 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     private function findIdentityField(string $className): void
     {
         $this->metadata = $this->entityManager->getClassMetadata($className);
-        /** @var array $meta */
         foreach ($this->metadata->fieldMappings as $meta) {
             if ($meta['id'] ?? false) {
                 $this->identityField = $meta['fieldName'];
@@ -193,12 +191,9 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      *
      * It does take into account that the property might be defined on a parent class
      * of entity. And it will find it if that is the case.
-     *
-     * @return mixed
      */
-    final protected function getPropertyDefaultValue(string $fieldName)
+    final protected function getPropertyDefaultValue(string $fieldName): mixed
     {
-        /** @var null|ReflectionProperty $property */
         $property = $this->metadata->getReflectionProperties()[$fieldName] ?? null;
         if (!$property) {
             return null;

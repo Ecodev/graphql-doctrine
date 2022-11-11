@@ -20,13 +20,11 @@ use GraphQL\Doctrine\Annotation as API;
 abstract class AbstractModel
 {
     /**
-     * @var int
-     *
      * @ORM\Column(type="integer", options={"unsigned" = true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * @ORM\Column(type="datetime_immutable")

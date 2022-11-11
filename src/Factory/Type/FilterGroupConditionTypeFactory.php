@@ -62,7 +62,6 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
                 $this->readCustomOperatorsFromAnnotation($metadata->reflClass);
 
                 // Get all scalar fields
-                /** @var array $mapping */
                 foreach ($metadata->fieldMappings as $mapping) {
                     $fieldName = $mapping['fieldName'];
                     $property = $metadata->getReflectionProperty($fieldName);
@@ -80,7 +79,6 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
 
                 // Get all collection fields
                 foreach ($metadata->associationMappings as $mapping) {
-                    /** @var string $fieldName */
                     $fieldName = $mapping['fieldName'];
                     $operators = $this->getOperators($fieldName, Type::id(), true, $metadata->isCollectionValuedAssociation($fieldName));
 
@@ -90,7 +88,6 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
                 // Get all custom fields defined by custom operators
                 foreach ($this->customOperators as $fieldName => $customOperators) {
                     $operators = [];
-                    /** @var Filter $customOperator */
                     foreach ($customOperators as $customOperator) {
                         /** @var LeafType $leafType */
                         $leafType = $this->types->get($customOperator->type);
@@ -118,7 +115,6 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
             return Type::id();
         }
 
-        /** @var null|FilterGroupCondition $filterGroupCondition */
         $filterGroupCondition = $this->getAnnotationReader()->getPropertyAnnotation($property, FilterGroupCondition::class);
         if ($filterGroupCondition) {
             $leafType = $this->getTypeFromPhpDeclaration($property->getDeclaringClass(), $filterGroupCondition->type);
@@ -166,7 +162,6 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
         $allFilters = Utils::getRecursiveClassAnnotations($this->getAnnotationReader(), $class, Filters::class);
         $this->customOperators = [];
         foreach ($allFilters as $classWithAnnotation => $filters) {
-            /** @var Filter $filter */
             foreach ($filters->filters as $filter) {
                 $className = $filter->operator;
                 $this->throwIfInvalidAnnotation($classWithAnnotation, 'Filter', AbstractOperator::class, $className);

@@ -52,11 +52,8 @@ final class DefaultFieldResolverTest extends TestCase
 
     /**
      * @dataProvider providerDefaultFieldResolver
-     *
-     * @param mixed $expected
-     * @param array|object $source
      */
-    public function testDefaultFieldResolver($expected, $source, string $fieldName, array $args = []): void
+    public function testDefaultFieldResolver(mixed $expected, array|object $source, string $fieldName, array $args = []): void
     {
         $resolver = new DefaultFieldResolver();
         $fieldDefinition = FieldDefinition::create(['name' => $fieldName, 'type' => Type::boolean()]);

@@ -29,7 +29,6 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
     protected function methodToConfiguration(ReflectionMethod $method): ?array
     {
         // Get a field from annotation, or an empty one
-        /** @var Field $field */
         $field = $this->getAnnotationReader()->getMethodAnnotation($method, Field::class) ?? new Field();
 
         if (!$field->type instanceof Type) {
@@ -48,7 +47,6 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
         $field->type = $this->getTypeFromPhpDeclaration($method->getDeclaringClass(), $field->type);
         $args = [];
 
-        /** @var Argument $arg */
         foreach ($field->args as $arg) {
             $arg->setTypeInstance($this->getTypeFromPhpDeclaration($method->getDeclaringClass(), $arg->getType()));
             $args[$arg->getName()] = $arg;

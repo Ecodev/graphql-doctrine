@@ -171,13 +171,11 @@ And to exclude a property from being exposed as a filter:
 use GraphQL\Doctrine\Annotation as API;
 
 /**
- * @var string
- *
  * @API\Exclude
  *
  * @ORM\Column(type="string", length=255)
  */
-private $password = '';
+private string $password = '';
 ```
 
 ### Override output types
@@ -278,12 +276,10 @@ So usage would be like:
 use GraphQL\Doctrine\Annotation as API;
 
 /**
- * @var string
- *
  * @API\FilterGroupCondition(type="?GraphQLTests\Doctrine\Blog\Types\PostStatusType")
  * @ORM\Column(type="string", options={"default" = Post::STATUS_PRIVATE})
  */
-private $status = self::STATUS_PRIVATE;
+private string $status = self::STATUS_PRIVATE;
 ```
 
 An important thing to note is that the value of the type specified will be directly used in DQL. That means

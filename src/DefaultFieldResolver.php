@@ -17,15 +17,10 @@ use ReflectionMethod;
 final class DefaultFieldResolver
 {
     /**
-     * @param mixed $source
      * @param mixed[] $args
-     * @param mixed $context
-     *
-     * @return null|mixed
      */
-    public function __invoke($source, array $args, $context, ResolveInfo $info)
+    public function __invoke(mixed $source, array $args, mixed $context, ResolveInfo $info): mixed
     {
-        /** @var string $fieldName */
         $fieldName = $info->fieldName;
         $property = null;
 
@@ -40,10 +35,8 @@ final class DefaultFieldResolver
 
     /**
      * Resolve for an object.
-     *
-     * @return mixed
      */
-    private function resolveObject(object $source, array $args, string $fieldName)
+    private function resolveObject(object $source, array $args, string $fieldName): mixed
     {
         $getter = $this->getGetter($source, $fieldName);
         if ($getter) {
@@ -61,10 +54,8 @@ final class DefaultFieldResolver
 
     /**
      * Resolve for an array.
-     *
-     * @return mixed
      */
-    private function resolveArray(array $source, string $fieldName)
+    private function resolveArray(array $source, string $fieldName): mixed
     {
         return $source[$fieldName] ?? null;
     }

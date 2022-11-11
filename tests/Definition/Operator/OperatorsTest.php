@@ -30,11 +30,10 @@ final class OperatorsTest extends TestCase
     /**
      * @dataProvider providerOperator
      *
-     * @param class-string $className
+     * @param class-string<AbstractOperator> $className
      */
     public function testOperator(?string $expected, string $className, ?array $args, string $field = 'field'): void
     {
-        /** @var AbstractOperator $operator */
         $operator = new $className($this->types, Type::string());
         $uniqueNameFactory = new UniqueNameFactory();
         $metadata = $this->entityManager->getClassMetadata(User::class);

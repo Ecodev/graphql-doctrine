@@ -28,10 +28,7 @@ trait TypesTrait
 {
     use EntityManagerTrait;
 
-    /**
-     * @var Types
-     */
-    private $types;
+    private Types $types;
 
     public function setUp(): void
     {

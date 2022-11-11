@@ -12,10 +12,7 @@ use Doctrine\ORM\Tools\Setup;
  */
 trait EntityManagerTrait
 {
-    /**
-     * @var EntityManager
-     */
-    private $entityManager;
+    private EntityManager $entityManager;
 
     private function setUpEntityManager(): void
     {
