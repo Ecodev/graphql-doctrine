@@ -205,7 +205,7 @@ public function getStatus(): string
 
 The type must be the PHP class implementing the GraphQL type (see
 [limitations](#limitations)). The declaration can be defined as nullable and/or as
-an array with one the following syntaxes (PHP style or GraphQL style):
+an array with one the following syntaxes (PHP style or GraphQL style):~~~~
 
 - `?MyType`
 - `null|MyType`
@@ -214,6 +214,7 @@ an array with one the following syntaxes (PHP style or GraphQL style):
 - `?MyType[]`
 - `null|MyType[]`
 - `MyType[]|null`
+- `Collection<MyType>`
 
 This annotation can be used to override other things, such as `name`, `description`
 and `args`.

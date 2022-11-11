@@ -1,5 +1,6 @@
 type ArrayOfEntity {
   users: [User!]!
+  otherUsers: [User!]!
   id: ID!
   creationDate: DateTime!
 }

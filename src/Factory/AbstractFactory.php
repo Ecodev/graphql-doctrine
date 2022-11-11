@@ -64,6 +64,7 @@ abstract class AbstractFactory
      *  - `?MyType[]`
      *  - `null|MyType[]`
      *  - `MyType[]|null`
+     *  - `Collection<MyType>`
      */
     final protected function getTypeFromPhpDeclaration(ReflectionClass $class, ?string $typeDeclaration, bool $isEntityId = false): ?Type
     {
@@ -75,7 +76,7 @@ abstract class AbstractFactory
         $name = preg_replace('~(^\?|^null\||\|null$)~', '', $typeDeclaration, -1, $isNullable);
 
         $isList = 0;
-        $name = preg_replace('~^(.*)\[\]$~', '$1', $name, -1, $isList);
+        $name = preg_replace('~^([^<]*)\[]$|^Collection<(.*)>$~', '$1$2', $name, -1, $isList);
         $name = $this->adjustNamespace($class, $name);
         $type = $this->getTypeFromRegistry($name, $isEntityId);
 
