@@ -6,7 +6,7 @@ namespace GraphQL\Doctrine\Factory;
 
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\EntityManager;
-use Doctrine\Persistence\Mapping\Driver\AnnotationDriver;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\Persistence\Mapping\Driver\MappingDriverChain;
 use GraphQL\Doctrine\Annotation\Exclude;
 use GraphQL\Doctrine\Exception;
