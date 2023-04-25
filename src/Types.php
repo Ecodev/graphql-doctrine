@@ -215,7 +215,7 @@ final class Types implements TypesInterface
      *
      * This is for internal use only.
      *
-     * @param class-string $className the class name of an operator (`EqualOperatorType::class`)
+     * @param class-string<AbstractOperator> $className the class name of an operator (`EqualOperatorType::class`)
      */
     public function getOperator(string $className, LeafType $type): AbstractOperator
     {

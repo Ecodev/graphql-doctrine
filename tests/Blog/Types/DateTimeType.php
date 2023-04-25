@@ -24,7 +24,7 @@ final class DateTimeType extends ScalarType
         return $valueNode->value;
     }
 
-    public function parseValue($value, ?array $variables = null)
+    public function parseValue(mixed $value): DateTimeImmutable
     {
         if (!is_string($value)) {
             throw new UnexpectedValueException('Cannot represent value as DateTime date: ' . Utils::printSafe($value));
@@ -33,7 +33,7 @@ final class DateTimeType extends ScalarType
         return new DateTimeImmutable($value);
     }
 
-    public function serialize($value)
+    public function serialize(mixed $value): mixed
     {
         if ($value instanceof DateTimeImmutable) {
             return $value->format('c');

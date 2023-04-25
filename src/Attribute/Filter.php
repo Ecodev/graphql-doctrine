@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GraphQL\Doctrine\Attribute;
 
 use Attribute;
+use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
 
 /**
  * Attribute used to define custom filter.
@@ -17,7 +18,7 @@ final class Filter implements ApiAttribute
      *
      * The field may or may not actually exist in the entity. It is merely used
      * to organize the filter correctly in the API.
-     * @param string $operator key referring to the type instance of PHP class implementing the GraphQL type
+     * @param class-string<AbstractOperator> $operator FQCN to the PHP class implementing the GraphQL operator
      * @param string $type GraphQL leaf type name of the type of the field
      */
     public function __construct(

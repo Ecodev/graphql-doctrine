@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine;
 
+use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\ORMSetup;
 
 /**
  * Trait to easily set up a dummy entity manager.
@@ -16,8 +17,9 @@ trait EntityManagerTrait
 
     private function setUpEntityManager(): void
     {
-        $config = Setup::createAttributeMetadataConfiguration([__DIR__ . '/Blog/Model'], true);
-        $conn = ['url' => 'sqlite:///:memory:'];
-        $this->entityManager = EntityManager::create($conn, $config);
+        $config = ORMSetup::createAttributeMetadataConfiguration([__DIR__ . '/Blog/Model'], true);
+        $connection = DriverManager::getConnection(['url' => 'sqlite:///:memory:']);
+
+        $this->entityManager = new EntityManager($connection, $config);
     }
 }
