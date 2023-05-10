@@ -1,0 +1,5 @@
+type ArgumentOverrideDefaultValue {
+  withParams(param: Int = 2): String!
+  id: ID!
+  creationDate: DateTime!
+}

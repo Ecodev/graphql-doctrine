@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GraphQLTests\Doctrine\Attribute\Reader;
 
 use GraphQL\Doctrine\Attribute\Argument;
+use GraphQL\Doctrine\Attribute\Exclude;
 use GraphQL\Doctrine\Attribute\Field;
 use GraphQL\Doctrine\Attribute\Filter;
 use GraphQL\Doctrine\Attribute\FilterGroupCondition;
@@ -17,6 +18,7 @@ use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
+use ReturnTypeWillChange;
 
 class ReaderTest extends TestCase
 {
@@ -79,5 +81,38 @@ class ReaderTest extends TestCase
             Argument::class,
             $this->reader->getAttribute((new ReflectionMethod(User::class, 'getPosts'))->getParameters()[0], Argument::class)
         );
+    }
+
+    public function testWillThrowIfUniqueAttributeIsUsedMultipleTimes(): void
+    {
+        $mock = new class() {
+            #[Exclude]
+            /** @phpstan-ignore-next-line */
+            #[Exclude]
+            /**
+             * @phpstan-ignore-next-line
+             */
+            private $foo;
+        };
+
+        $this->expectExceptionMessage('Attribute "GraphQL\Doctrine\Attribute\Exclude" must not be repeated');
+        $this->reader->getAttribute(new ReflectionProperty($mock, 'foo'), Exclude::class);
+    }
+
+    public function testWillThrowIfReaderIsUsedWithOtherAttributes(): void
+    {
+        $mock = new class() {
+            /**
+             * @phpstan-ignore-next-line
+             */
+            #[ReturnTypeWillChange]
+            private function foo(): void
+            {
+            }
+        };
+
+        $this->expectExceptionMessage('GraphQL\Doctrine\Attribute\Reader\Reader cannot be used for attribute than are not part of `ecodev/graphql-doctrine`.');
+        // @phpstan-ignore-next-line
+        $this->reader->getAttribute(new ReflectionMethod($mock, 'foo'), ReturnTypeWillChange::class);
     }
 }

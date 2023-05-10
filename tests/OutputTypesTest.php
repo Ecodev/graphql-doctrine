@@ -101,4 +101,10 @@ final class OutputTypesTest extends TestCase
         $type = $this->types->getOutput(Blog\Model\Special\ObjectTypeArgument::class);
         $type->getFields();
     }
+
+    public function testCanOverrideArgumentDefaultValue(): void
+    {
+        $actual = $this->types->getOutput(Blog\Model\Special\ArgumentOverrideDefaultValue::class);
+        $this->assertType('tests/data/ArgumentOverrideDefaultValue.graphqls', $actual);
+    }
 }

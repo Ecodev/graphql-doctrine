@@ -57,22 +57,6 @@ final class Reader
     {
         $attributes = $this->getAttributeInstances($element, $attributeName);
 
-        return $this->onlyOne($attributes);
-    }
-
-    /**
-     * @template T of ApiAttribute
-     *
-     * @param T[] $attributes
-     *
-     * @return null|T
-     */
-    private function onlyOne(array $attributes): ?ApiAttribute
-    {
-        if (count($attributes) > 1) {
-            throw new Exception('Expected to find single attribute, but found many');
-        }
-
         return reset($attributes) ?: null;
     }
 
@@ -86,7 +70,7 @@ final class Reader
     private function getAttributeInstances(ReflectionClass|ReflectionMethod|ReflectionParameter|ReflectionProperty $element, string $attributeName): array
     {
         if (!is_subclass_of($attributeName, ApiAttribute::class)) {
-            throw new Exception('This should not be used for attribute than are not ours');
+            throw new Exception(self::class . ' cannot be used for attribute than are not part of `ecodev/graphql-doctrine`.');
         }
 
         $attributes = $element->getAttributes($attributeName);
