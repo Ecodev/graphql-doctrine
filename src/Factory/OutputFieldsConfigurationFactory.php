@@ -84,10 +84,6 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
      */
     private function completeArgumentFromTypeHint(Argument $arg, ReflectionMethod $method, ReflectionParameter $param, DocBlockReader $docBlock): void
     {
-        if (!$arg->getName()) {
-            $arg->setName($param->getName());
-        }
-
         if (!$arg->getDescription()) {
             $arg->setDescription($docBlock->getParameterDescription($param));
         }
