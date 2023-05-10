@@ -155,6 +155,13 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
                     $this->queryBuilder->addOrderBy($sortingFieldNullAsHighest, $sort['order']);
                 }
 
+                if ($sort['emptyStringAsHighest'] ?? false) {
+                    $expression = 'CASE WHEN ' . $sortingField . ' = \'\' THEN 1 ELSE 0 END';
+                    $sortingFieldEmptyStringAsHighest = $this->uniqueNameFactory->createAliasName('sorting');
+                    $this->queryBuilder->addSelect($expression . ' AS HIDDEN ' . $sortingFieldEmptyStringAsHighest);
+                    $this->queryBuilder->addOrderBy($sortingFieldEmptyStringAsHighest, $sort['order']);
+                }
+
                 $this->queryBuilder->addOrderBy($sortingField, $sort['order']);
             }
         }

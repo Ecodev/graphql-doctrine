@@ -10,6 +10,12 @@ input ModelWithTraitsSorting {
   last in a `ASC` order, and first in a `DESC` order.
   """
   nullAsHighest: Boolean = false
+
+  """
+  If true empty strings (`""`) will be considered as the highest value, so
+  appearing last in a `ASC` order, and first in a `DESC` order.
+  """
+  emptyStringAsHighest: Boolean = false
   order: SortingOrder = ASC
 }
 
