@@ -21,6 +21,7 @@ use GraphQL\Doctrine\Factory\UniqueNameFactory;
 use GraphQL\Type\Definition\Type;
 use GraphQLTests\Doctrine\Blog\Model\User;
 use GraphQLTests\Doctrine\TypesTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class OperatorsTest extends TestCase
@@ -28,10 +29,9 @@ final class OperatorsTest extends TestCase
     use TypesTrait;
 
     /**
-     * @dataProvider providerOperator
-     *
      * @param class-string<AbstractOperator> $className
      */
+    #[DataProvider('providerOperator')]
     public function testOperator(?string $expected, string $className, ?array $args, string $field = 'field'): void
     {
         $operator = new $className($this->types, Type::string());
@@ -56,7 +56,7 @@ final class OperatorsTest extends TestCase
         }
     }
 
-    public function providerOperator(): array
+    public static function providerOperator(): array
     {
         return [
             [

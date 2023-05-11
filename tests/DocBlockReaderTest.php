@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GraphQLTests\Doctrine;
 
 use GraphQL\Doctrine\DocBlockReader;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use ReflectionParameter;
@@ -29,9 +30,7 @@ class DocBlockReaderTest extends TestCase
      * @return bool
      */';
 
-    /**
-     * @dataProvider providerGetMethodDescription
-     */
+    #[DataProvider('providerGetMethodDescription')]
     public function testGetMethodDescription(string|false $comment, ?string $expected): void
     {
         $reader = $this->create($comment);
@@ -39,7 +38,7 @@ class DocBlockReaderTest extends TestCase
         self::assertSame($expected, $actual);
     }
 
-    public function providerGetMethodDescription(): array
+    public static function providerGetMethodDescription(): array
     {
         return [
             [false, null],
@@ -51,9 +50,7 @@ spanning lines'],
         ];
     }
 
-    /**
-     * @dataProvider providerGetParameterDescription
-     */
+    #[DataProvider('providerGetParameterDescription')]
     public function testGetParameterDescription(string|false $comment, string $parameterName, ?string $expected): void
     {
         $reader = $this->create($comment);
@@ -62,7 +59,7 @@ spanning lines'],
         self::assertSame($expected, $actual);
     }
 
-    public function providerGetParameterDescription(): array
+    public static function providerGetParameterDescription(): array
     {
         return [
             [false, 'foo', null],
@@ -73,9 +70,7 @@ spanning lines'],
         ];
     }
 
-    /**
-     * @dataProvider providerGetParameterType
-     */
+    #[DataProvider('providerGetParameterType')]
     public function testGetParameterType(string|false $comment, string $parameterName, ?string $expected): void
     {
         $reader = $this->create($comment);
@@ -84,7 +79,7 @@ spanning lines'],
         self::assertSame($expected, $actual);
     }
 
-    public function providerGetParameterType(): array
+    public static function providerGetParameterType(): array
     {
         return [
             [false, 'foo', null],
@@ -97,9 +92,7 @@ spanning lines'],
         ];
     }
 
-    /**
-     * @dataProvider providerGetReturnType
-     */
+    #[DataProvider('providerGetReturnType')]
     public function testGetReturnType(string|false $comment, ?string $expected): void
     {
         $reader = $this->create($comment);
@@ -107,7 +100,7 @@ spanning lines'],
         self::assertSame($expected, $actual);
     }
 
-    public function providerGetReturnType(): array
+    public static function providerGetReturnType(): array
     {
         return [
             [false, null],

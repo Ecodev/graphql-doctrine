@@ -14,11 +14,12 @@ use GraphQL\Type\Schema;
 use GraphQLTests\Doctrine\Blog\Model\Special\DefaultValue;
 use GraphQLTests\Doctrine\Blog\Model\Special\IgnoredGetter;
 use GraphQLTests\Doctrine\Blog\Model\User;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DefaultFieldResolverTest extends TestCase
 {
-    public function providerDefaultFieldResolver(): array
+    public static function providerDefaultFieldResolver(): array
     {
         $fakeEntity = new User();
         $entityID = new class($fakeEntity) extends EntityID {
@@ -50,9 +51,7 @@ final class DefaultFieldResolverTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerDefaultFieldResolver
-     */
+    #[DataProvider('providerDefaultFieldResolver')]
     public function testDefaultFieldResolver(mixed $expected, array|object $source, string $fieldName, array $args = []): void
     {
         $resolver = new DefaultFieldResolver();

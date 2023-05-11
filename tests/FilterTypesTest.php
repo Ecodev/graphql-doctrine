@@ -10,6 +10,7 @@ use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilter;
 use GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilterGroupCondition;
 use GraphQLTests\Doctrine\Blog\Model\Special\ModelWithTraits;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class FilterTypesTest extends TestCase
@@ -29,7 +30,7 @@ final class FilterTypesTest extends TestCase
         $this->assertAllTypes('tests/data/ModelWithTraitsFilter.graphqls', $actual);
     }
 
-    public function providerFilteredQueryBuilder(): array
+    public static function providerFilteredQueryBuilder(): array
     {
         $values = [];
         $files = glob('tests/data/query-builder/*.php');
@@ -48,9 +49,8 @@ final class FilterTypesTest extends TestCase
 
     /**
      * @param class-string $className
-     *
-     * @dataProvider providerFilteredQueryBuilder
      */
+    #[DataProvider('providerFilteredQueryBuilder')]
     public function testFilteredQueryBuilder(string $expected, string $className, array $filter, array $sorting): void
     {
         $queryBuilder = $this->types->createFilteredQueryBuilder($className, $filter, $sorting);

@@ -38,7 +38,7 @@ final class EntityIDTypeTest extends TestCase
 
     public function testWillThrowIfParsingInvalidValue(): void
     {
-        $this->expectErrorMessage('EntityID cannot represent value: false');
+        $this->expectExceptionMessage('EntityID cannot represent value: false');
         $this->type->parseValue(false);
     }
 
