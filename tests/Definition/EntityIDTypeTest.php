@@ -6,6 +6,7 @@ namespace GraphQLTests\Doctrine\Definition;
 
 use GraphQL\Doctrine\Definition\EntityIDType;
 use GraphQL\Error\Error;
+use GraphQL\Error\UserError;
 use GraphQL\Language\AST\BooleanValueNode;
 use GraphQL\Language\AST\StringValueNode;
 use GraphQLTests\Doctrine\Blog\Model\User;
@@ -72,15 +73,19 @@ final class EntityIDTypeTest extends TestCase
 
     public function testNonExistingEntityThrowErrorWhenReadingLiteral(): void
     {
-        $this->expectExceptionMessage('Entity not found for class `GraphQLTests\Doctrine\Blog\Model\User` and ID `non-existing-id`');
         $ast = new StringValueNode(['value' => 'non-existing-id']);
-        $this->type->parseLiteral($ast)->getEntity();
+        $value = $this->type->parseLiteral($ast);
+
+        $this->expectException(UserError::class);
+        $this->expectExceptionMessage('Entity not found for class `GraphQLTests\Doctrine\Blog\Model\User` and ID `non-existing-id`');
+        $value->getEntity();
     }
 
     public function testWillThrowIfParsingInvalidLiteralValue(): void
     {
-        $this->expectException(Error::class);
         $ast = new BooleanValueNode(['value' => false]);
+
+        $this->expectException(Error::class);
         $this->type->parseLiteral($ast);
     }
 

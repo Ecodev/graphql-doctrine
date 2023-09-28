@@ -63,15 +63,17 @@ final class OutputTypesTest extends TestCase
 
     public function testFieldWithoutTypeMustThrow(): void
     {
-        $this->expectExceptionMessage('Could not find type for method `GraphQLTests\Doctrine\Blog\Model\Special\NoType::getWithoutTypeHint()`. Either type hint the return value, or specify the type with `#[API\Field]` attribute.');
         $type = $this->types->getOutput(Blog\Model\Special\NoType::class);
+
+        $this->expectExceptionMessage('Could not find type for method `GraphQLTests\Doctrine\Blog\Model\Special\NoType::getWithoutTypeHint()`. Either type hint the return value, or specify the type with `#[API\Field]` attribute.');
         $type->getFields();
     }
 
     public function testFieldReturningCollectionWithoutTypeMustThrow(): void
     {
-        $this->expectExceptionMessage('The method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeCollection::getFoos()` is type hinted with a return type of `Doctrine\Common\Collections\Collection`, but the entity contained in that collection could not be automatically detected. Either fix the type hint, fix the doctrine mapping, or specify the type with `#[API\Field]` attribute.');
         $type = $this->types->getOutput(Blog\Model\Special\NoTypeCollection::class);
+
+        $this->expectExceptionMessage('The method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeCollection::getFoos()` is type hinted with a return type of `Doctrine\Common\Collections\Collection`, but the entity contained in that collection could not be automatically detected. Either fix the type hint, fix the doctrine mapping, or specify the type with `#[API\Field]` attribute.');
         $type->getFields();
     }
 
@@ -83,22 +85,25 @@ final class OutputTypesTest extends TestCase
 
     public function testArgumentWithoutTypeMustThrow(): void
     {
-        $this->expectExceptionMessage('Could not find type for parameter `$bar` for method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeArgument::getFoo()`. Either type hint the parameter, or specify the type with `#[API\Argument]` attribute.');
         $type = $this->types->getOutput(Blog\Model\Special\NoTypeArgument::class);
+
+        $this->expectExceptionMessage('Could not find type for parameter `$bar` for method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeArgument::getFoo()`. Either type hint the parameter, or specify the type with `#[API\Argument]` attribute.');
         $type->getFields();
     }
 
     public function testFieldWithArrayArgumentMustThrow(): void
     {
-        $this->expectExceptionMessage('The parameter `$arg1` on method `GraphQLTests\Doctrine\Blog\Model\Special\ArrayArgument::getWithParams()` is type hinted as `array` and is not overridden via `#[API\Argument]` attribute. Either change the type hint or specify the type with `#[API\Argument]` attribute.');
         $type = $this->types->getOutput(Blog\Model\Special\ArrayArgument::class);
+
+        $this->expectExceptionMessage('The parameter `$arg1` on method `GraphQLTests\Doctrine\Blog\Model\Special\ArrayArgument::getWithParams()` is type hinted as `array` and is not overridden via `#[API\Argument]` attribute. Either change the type hint or specify the type with `#[API\Argument]` attribute.');
         $type->getFields();
     }
 
     public function testFieldWithObjectTypeArgumentMustThrow(): void
     {
-        $this->expectExceptionMessage('Type for parameter `$user` for method `GraphQLTests\Doctrine\Blog\Model\Special\ObjectTypeArgument::getWithParams()` must be an instance of `GraphQL\Type\Definition\InputType`, but was `GraphQL\Type\Definition\ObjectType`. Use `#[API\Argument]` attribute to specify a custom InputType.');
         $type = $this->types->getOutput(Blog\Model\Special\ObjectTypeArgument::class);
+
+        $this->expectExceptionMessage('Type for parameter `$user` for method `GraphQLTests\Doctrine\Blog\Model\Special\ObjectTypeArgument::getWithParams()` must be an instance of `GraphQL\Type\Definition\InputType`, but was `GraphQL\Type\Definition\ObjectType`. Use `#[API\Argument]` attribute to specify a custom InputType.');
         $type->getFields();
     }
 

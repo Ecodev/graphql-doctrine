@@ -49,8 +49,9 @@ final class InputTypesTest extends TestCase
 
     public function testInputWithoutTypeMustThrow(): void
     {
-        $this->expectExceptionMessage('Could not find type for parameter `$bar` for method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeInput::setFoo()`. Either type hint the parameter, or specify the type with `#[API\Input]` attribute.');
         $type = $this->types->getInput(Blog\Model\Special\NoTypeInput::class);
+
+        $this->expectExceptionMessage('Could not find type for parameter `$bar` for method `GraphQLTests\Doctrine\Blog\Model\Special\NoTypeInput::setFoo()`. Either type hint the parameter, or specify the type with `#[API\Input]` attribute.');
         $type->getFields();
     }
 }

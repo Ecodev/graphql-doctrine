@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GraphQL\Doctrine\Definition;
 
 use Doctrine\ORM\EntityManager;
-use GraphQL\Error\Error;
+use GraphQL\Error\UserError;
 
 /**
  * A object used to fetch the entity from DB on demand.
@@ -47,7 +47,7 @@ class EntityID
     {
         $entity = $this->entityManager->getRepository($this->className)->find($this->id);
         if (!$entity) {
-            throw new Error('Entity not found for class `' . $this->className . '` and ID `' . $this->id . '`.');
+            throw new UserError('Entity not found for class `' . $this->className . '` and ID `' . $this->id . '`.');
         }
 
         return $entity;
