@@ -18,13 +18,13 @@ use GraphQL\Type\Definition\ScalarType;
 final class EntityIDType extends ScalarType
 {
     /**
-     * @param class-string $className
+     * @param class-string $className The entity class name
      */
-    public function __construct(private readonly EntityManager $entityManager, /**
-     * The entity class name.
-     */
-    private readonly string $className, string $typeName)
-    {
+    public function __construct(
+        private readonly EntityManager $entityManager,
+        private readonly string $className,
+        string $typeName
+    ) {
         $this->name = $typeName;
         $this->description = 'Automatically generated type to be used as input where an object of type `' . Utils::getTypeName($className) . '` is needed';
 

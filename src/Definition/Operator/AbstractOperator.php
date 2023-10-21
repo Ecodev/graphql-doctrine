@@ -20,9 +20,6 @@ use GraphQL\Type\Definition\LeafType;
 abstract class AbstractOperator extends InputObjectType
 {
     final public function __construct(
-        /**
-         * Types registry.
-         */
         protected Types $types,
         LeafType $leafType
     ) {

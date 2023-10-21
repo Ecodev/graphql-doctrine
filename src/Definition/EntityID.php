@@ -8,24 +8,19 @@ use Doctrine\ORM\EntityManager;
 use GraphQL\Error\UserError;
 
 /**
- * A object used to fetch the entity from DB on demand.
+ * An object used to fetch the entity from DB on demand.
  *
  * @template T of object
  */
 class EntityID
 {
     /**
-     * @param class-string<T> $className
+     * @param class-string<T> $className the entity class name
+     * @param null|string $id the entity id
      */
     public function __construct(
         private readonly EntityManager $entityManager,
-        /**
-         * The entity class name.
-         */
         private readonly string $className,
-        /**
-         * The entity id.
-         */
         private readonly ?string $id
     ) {
     }
