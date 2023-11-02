@@ -18,10 +18,8 @@ final class EntityIDTypeFactory extends AbstractTypeFactory
      *
      * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
-     *
-     * @return EntityIDType
      */
-    public function create(string $className, string $typeName): Type
+    public function create(string $className, string $typeName): EntityIDType
     {
         $identifiers = $this->entityManager->getClassMetadata($className)->getIdentifier();
         if (count($identifiers) > 1) {

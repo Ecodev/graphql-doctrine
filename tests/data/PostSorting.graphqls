@@ -2,24 +2,22 @@ schema {
   query: query
 }
 
+type query {
+  defaultField(defaultArg: [PostSorting!]): Boolean
+}
+
 input PostSorting {
   field: PostSortingField!
 
-  """
-  If true `NULL` values will be considered as the highest value, so appearing
-  last in a `ASC` order, and first in a `DESC` order.
-  """
+  "If true `NULL` values will be considered as the highest value, so appearing last in a `ASC` order, and first in a `DESC` order."
   nullAsHighest: Boolean = false
 
-  """
-  If true empty strings (`""`) will be considered as the highest value, so
-  appearing last in a `ASC` order, and first in a `DESC` order.
-  """
+  "If true empty strings (`\"\"`) will be considered as the highest value, so appearing last in a `ASC` order, and first in a `DESC` order."
   emptyStringAsHighest: Boolean = false
   order: SortingOrder = ASC
 }
 
-"""Fields available for `PostSorting`"""
+"Fields available for `PostSorting`"
 enum PostSortingField {
   creationDate
   title
@@ -32,12 +30,8 @@ enum PostSortingField {
   pseudoRandom
 }
 
-"""Order to be used in DQL"""
+"Order to be used in DQL"
 enum SortingOrder {
   ASC
   DESC
-}
-
-type query {
-  defaultField(defaultArg: [PostSorting!]): Boolean
 }

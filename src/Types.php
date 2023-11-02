@@ -25,6 +25,7 @@ use GraphQL\Doctrine\Factory\Type\SortingTypeFactory;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\LeafType;
 use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\NamedType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use Psr\Container\ContainerInterface;
@@ -83,10 +84,10 @@ final class Types implements TypesInterface
         return $this->customTypes && $this->customTypes->has($key) || array_key_exists($key, $this->types);
     }
 
-    public function get(string $key): Type
+    public function get(string $key): NamedType
     {
         if ($this->customTypes && $this->customTypes->has($key)) {
-            /** @var Type $t */
+            /** @var NamedType $t */
             $t = $this->customTypes->get($key);
             $this->registerInstance($t);
 
@@ -238,9 +239,9 @@ final class Types implements TypesInterface
      *
      * This is for internal use only. You should declare custom types via the constructor, not this method.
      */
-    public function registerInstance(Type $instance): void
+    public function registerInstance(NamedType $instance): void
     {
-        $this->types[$instance->name] = $instance;
+        $this->types[$instance->name()] = $instance;
     }
 
     /**

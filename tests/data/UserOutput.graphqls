@@ -1,21 +1,20 @@
-"""A blog author or visitor."""
+"A blog author or visitor."
 type User {
-  """The user real name."""
+  "The user real name."
   name: String!
 
-  """The validated email or null."""
+  "The validated email or null."
   email: String
 
-  """Whether the user is an administrator."""
+  "Whether the user is an administrator."
   isAdministrator: Boolean!
 
-  """All posts of the specified status."""
+  "All posts of the specified status."
   posts(
-    """
-    The status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post
-    """
+    "The status of posts as defined in \\GraphQLTests\\Doctrine\\Blog\\Model\\Post"
     status: PostStatus = public
   ): [Post!]!
+
   postsWithIds(ids: [ID!]!): [Post!]!
   manager: User
   id: ID!

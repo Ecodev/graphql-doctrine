@@ -20,10 +20,8 @@ final class PartialInputTypeFactory extends AbstractTypeFactory
      *
      * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
-     *
-     * @return InputObjectType
      */
-    public function create(string $className, string $typeName): Type
+    public function create(string $className, string $typeName): InputObjectType
     {
         $type = clone $this->types->getInput($className);
         /** @var callable $fieldsGetter */

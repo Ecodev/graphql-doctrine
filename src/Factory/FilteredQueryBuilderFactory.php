@@ -67,13 +67,13 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
         $groups = $type->getField('groups')->getType();
 
         /** @var InputObjectType $unwrapped */
-        $unwrapped = $groups->getWrappedType(true);
+        $unwrapped = $groups->getInnermostType();
 
         /** @var ListOfType $conditions */
         $conditions = $unwrapped->getField('conditions')->getType();
 
         /** @var InputObjectType $typeFields */
-        $typeFields = $conditions->getWrappedType(true);
+        $typeFields = $conditions->getInnermostType();
         foreach ($filter['groups'] ?? [] as $group) {
             $this->applyJoinsAndFilters($metadata, $alias, $typeFields, $group['joins'] ?? [], $group['conditions'] ?? []);
             $this->applyCollectedDqlConditions($group);

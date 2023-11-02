@@ -1,12 +1,12 @@
-"""A blog author or visitor."""
+"A blog author or visitor."
 input UserInput {
-  """Name."""
+  "Name."
   name: String = ""
 
-  """A valid email or null."""
+  "A valid email or null."
   email: String
 
-  """Encrypt and change the user password."""
+  "Encrypt and change the user password."
   password: String!
   manager: UserID
   creationDate: DateTime!

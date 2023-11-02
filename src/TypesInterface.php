@@ -8,8 +8,8 @@ use Doctrine\ORM\QueryBuilder;
 use GraphQL\Doctrine\Definition\EntityIDType;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ListOfType;
+use GraphQL\Type\Definition\NamedType;
 use GraphQL\Type\Definition\ObjectType;
-use GraphQL\Type\Definition\Type;
 
 /**
  * Registry of types to manage all GraphQL types.
@@ -33,7 +33,7 @@ interface TypesInterface
      *
      * @param string $key the key the type was registered with (eg: "Post", "PostInput", "PostPartialInput" or "PostStatus")
      */
-    public function get(string $key): Type;
+    public function get(string $key): NamedType;
 
     /**
      * Returns an output type for the given entity.

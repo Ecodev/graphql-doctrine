@@ -19,10 +19,8 @@ final class ObjectTypeFactory extends AbstractTypeFactory
      *
      * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
-     *
-     * @return ObjectType
      */
-    public function create(string $className, string $typeName): Type
+    public function create(string $className, string $typeName): ObjectType
     {
         $typeName = Utils::getTypeName($className);
         $description = $this->getDescription($className);

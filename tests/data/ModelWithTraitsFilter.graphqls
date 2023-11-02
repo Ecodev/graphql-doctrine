@@ -2,6 +2,58 @@ schema {
   query: query
 }
 
+type query {
+  defaultField(defaultArg: ModelWithTraitsFilter): Boolean
+}
+
+"To be used as a filter for objects of type `ModelWithTraits`"
+input ModelWithTraitsFilter {
+  groups: [ModelWithTraitsFilterGroup!]
+}
+
+"Specify a set of joins and conditions to filter `ModelWithTraits`"
+input ModelWithTraitsFilterGroup {
+  "The logic operator to be used to append this group"
+  groupLogic: LogicalOperator = AND
+
+  "The logic operator to be used within all conditions in this group"
+  conditionsLogic: LogicalOperator = AND
+
+  "Conditions to be applied on fields"
+  conditions: [ModelWithTraitsFilterGroupCondition!]
+}
+
+"Logical operator to be used in conditions"
+enum LogicalOperator {
+  AND
+  OR
+}
+
+"Type to specify conditions on fields"
+input ModelWithTraitsFilterGroupCondition {
+  id: ModelWithTraitsFilterGroupConditionId
+  customFromTrait: ModelWithTraitsFilterGroupConditionCustomFromTrait
+}
+
+"Type to specify a condition on a specific field"
+input ModelWithTraitsFilterGroupConditionId {
+  like: LikeOperatorID
+  between: BetweenOperatorID
+  equal: EqualOperatorID
+  greater: GreaterOperatorID
+  greaterOrEqual: GreaterOrEqualOperatorID
+  in: InOperatorID
+  less: LessOperatorID
+  lessOrEqual: LessOrEqualOperatorID
+  null: NullOperatorID
+  group: GroupOperatorID
+}
+
+input LikeOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
 input BetweenOperatorID {
   from: ID!
   to: ID!
@@ -23,17 +75,6 @@ input GreaterOrEqualOperatorID {
   not: Boolean = false
 }
 
-"""
-Will apply a `GROUP BY` on the field to select unique values existing in database.
-
-This is typically useful to present a list of suggestions to the end-user, while
-still allowing him to enter arbitrary values.
-"""
-input GroupOperatorID {
-  """This field is never used and can be ignored"""
-  value: Boolean = null
-}
-
 input InOperatorID {
   values: [ID!]!
   not: Boolean = false
@@ -49,67 +90,25 @@ input LessOrEqualOperatorID {
   not: Boolean = false
 }
 
-input LikeOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-"""Logical operator to be used in conditions"""
-enum LogicalOperator {
-  AND
-  OR
-}
-
-"""To be used as a filter for objects of type `ModelWithTraits`"""
-input ModelWithTraitsFilter {
-  groups: [ModelWithTraitsFilterGroup!]
-}
-
-"""Specify a set of joins and conditions to filter `ModelWithTraits`"""
-input ModelWithTraitsFilterGroup {
-  """The logic operator to be used to append this group"""
-  groupLogic: LogicalOperator = AND
-
-  """The logic operator to be used within all conditions in this group"""
-  conditionsLogic: LogicalOperator = AND
-
-  """Conditions to be applied on fields"""
-  conditions: [ModelWithTraitsFilterGroupCondition!]
-}
-
-"""Type to specify conditions on fields"""
-input ModelWithTraitsFilterGroupCondition {
-  id: ModelWithTraitsFilterGroupConditionId
-  customFromTrait: ModelWithTraitsFilterGroupConditionCustomFromTrait
-}
-
-"""Type to specify a condition on a specific field"""
-input ModelWithTraitsFilterGroupConditionCustomFromTrait {
-  search: SearchOperatorString
-}
-
-"""Type to specify a condition on a specific field"""
-input ModelWithTraitsFilterGroupConditionId {
-  like: LikeOperatorID
-  between: BetweenOperatorID
-  equal: EqualOperatorID
-  greater: GreaterOperatorID
-  greaterOrEqual: GreaterOrEqualOperatorID
-  in: InOperatorID
-  less: LessOperatorID
-  lessOrEqual: LessOrEqualOperatorID
-  null: NullOperatorID
-  group: GroupOperatorID
-}
-
 input NullOperatorID {
   not: Boolean = false
 }
 
-input SearchOperatorString {
-  term: String!
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while still allowing him to enter arbitrary values.
+"""
+input GroupOperatorID {
+  "This field is never used and can be ignored"
+  value: Boolean = null
 }
 
-type query {
-  defaultField(defaultArg: ModelWithTraitsFilter): Boolean
+"Type to specify a condition on a specific field"
+input ModelWithTraitsFilterGroupConditionCustomFromTrait {
+  search: SearchOperatorString
+}
+
+input SearchOperatorString {
+  term: String!
 }

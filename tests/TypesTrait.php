@@ -69,7 +69,7 @@ trait TypesTrait
     private function getSchemaForType(Type $type): Schema
     {
         if ($type instanceof WrappingType) {
-            $wrappedType = $type->getWrappedType(true);
+            $wrappedType = $type->getInnermostType();
         } else {
             $wrappedType = $type;
         }

@@ -8,7 +8,7 @@ use GraphQL\Type\Definition\EnumType;
 
 final class CustomType extends EnumType
 {
-    public $name = 'customName';
+    public string $name = 'customName';
 
     public function __construct()
     {

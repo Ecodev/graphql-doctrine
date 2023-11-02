@@ -2,410 +2,37 @@ schema {
   query: query
 }
 
-input BetweenOperatorBoolean {
-  from: Boolean!
-  to: Boolean!
-  not: Boolean = false
+type query {
+  defaultField(defaultArg: PostFilter): Boolean
 }
 
-input BetweenOperatorDateTime {
-  from: DateTime!
-  to: DateTime!
-  not: Boolean = false
+"To be used as a filter for objects of type `Post`"
+input PostFilter {
+  groups: [PostFilterGroup!]
 }
 
-input BetweenOperatorID {
-  from: ID!
-  to: ID!
-  not: Boolean = false
-}
+"Specify a set of joins and conditions to filter `Post`"
+input PostFilterGroup {
+  "The logic operator to be used to append this group"
+  groupLogic: LogicalOperator = AND
 
-input BetweenOperatorPostStatus {
-  from: PostStatus!
-  to: PostStatus!
-  not: Boolean = false
-}
+  "The logic operator to be used within all conditions in this group"
+  conditionsLogic: LogicalOperator = AND
 
-input BetweenOperatorString {
-  from: String!
-  to: String!
-  not: Boolean = false
-}
-
-scalar DateTime
-
-"""
-When used on single valued association, it will use `IS NULL` operator. On
-collection valued association it will use `IS EMPTY` operator.
-"""
-input EmptyOperatorID {
-  not: Boolean = false
-}
-
-input EqualOperatorBoolean {
-  value: Boolean!
-  not: Boolean = false
-}
-
-input EqualOperatorDateTime {
-  value: DateTime!
-  not: Boolean = false
-}
-
-input EqualOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-input EqualOperatorPostStatus {
-  value: PostStatus!
-  not: Boolean = false
-}
-
-input EqualOperatorString {
-  value: String!
-  not: Boolean = false
-}
-
-input GreaterOperatorBoolean {
-  value: Boolean!
-  not: Boolean = false
-}
-
-input GreaterOperatorDateTime {
-  value: DateTime!
-  not: Boolean = false
-}
-
-input GreaterOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-input GreaterOperatorPostStatus {
-  value: PostStatus!
-  not: Boolean = false
-}
-
-input GreaterOperatorString {
-  value: String!
-  not: Boolean = false
-}
-
-input GreaterOrEqualOperatorBoolean {
-  value: Boolean!
-  not: Boolean = false
-}
-
-input GreaterOrEqualOperatorDateTime {
-  value: DateTime!
-  not: Boolean = false
-}
-
-input GreaterOrEqualOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-input GreaterOrEqualOperatorPostStatus {
-  value: PostStatus!
-  not: Boolean = false
-}
-
-input GreaterOrEqualOperatorString {
-  value: String!
-  not: Boolean = false
-}
-
-"""
-Will apply a `GROUP BY` on the field to select unique values existing in database.
-
-This is typically useful to present a list of suggestions to the end-user, while
-still allowing him to enter arbitrary values.
-"""
-input GroupOperatorBoolean {
-  """This field is never used and can be ignored"""
-  value: Boolean = null
-}
-
-"""
-Will apply a `GROUP BY` on the field to select unique values existing in database.
-
-This is typically useful to present a list of suggestions to the end-user, while
-still allowing him to enter arbitrary values.
-"""
-input GroupOperatorDateTime {
-  """This field is never used and can be ignored"""
-  value: Boolean = null
-}
-
-"""
-Will apply a `GROUP BY` on the field to select unique values existing in database.
-
-This is typically useful to present a list of suggestions to the end-user, while
-still allowing him to enter arbitrary values.
-"""
-input GroupOperatorID {
-  """This field is never used and can be ignored"""
-  value: Boolean = null
-}
-
-"""
-Will apply a `GROUP BY` on the field to select unique values existing in database.
-
-This is typically useful to present a list of suggestions to the end-user, while
-still allowing him to enter arbitrary values.
-"""
-input GroupOperatorPostStatus {
-  """This field is never used and can be ignored"""
-  value: Boolean = null
-}
-
-"""
-Will apply a `GROUP BY` on the field to select unique values existing in database.
-
-This is typically useful to present a list of suggestions to the end-user, while
-still allowing him to enter arbitrary values.
-"""
-input GroupOperatorString {
-  """This field is never used and can be ignored"""
-  value: Boolean = null
-}
-
-"""
-When used on single valued association, it will use `IN` operator. On collection
-valued association it will use `MEMBER OF` operator.
-"""
-input HaveOperatorID {
-  values: [ID!]!
-  not: Boolean = false
-}
-
-input InOperatorBoolean {
-  values: [Boolean!]!
-  not: Boolean = false
-}
-
-input InOperatorDateTime {
-  values: [DateTime!]!
-  not: Boolean = false
-}
-
-input InOperatorID {
-  values: [ID!]!
-  not: Boolean = false
-}
-
-input InOperatorPostStatus {
-  values: [PostStatus!]!
-  not: Boolean = false
-}
-
-input InOperatorString {
-  values: [String!]!
-  not: Boolean = false
-}
-
-input JoinOnNoInversedBy {
-  type: JoinType = innerJoin
-
-  """Conditions to be applied on fields"""
-  conditions: [NoInversedByFilterGroupCondition!]
-}
-
-input JoinOnPost {
-  type: JoinType = innerJoin
-
-  """Conditions to be applied on fields"""
+  "Conditions to be applied on fields"
   conditions: [PostFilterGroupCondition!]
 
-  """
-  Optional joins to either filter the query or fetch related objects from DB in a single query
-  """
+  "Optional joins to either filter the query or fetch related objects from DB in a single query"
   joins: PostFilterGroupJoin
 }
 
-input JoinOnUser {
-  type: JoinType = innerJoin
-
-  """Conditions to be applied on fields"""
-  conditions: [UserFilterGroupCondition!]
-
-  """
-  Optional joins to either filter the query or fetch related objects from DB in a single query
-  """
-  joins: UserFilterGroupJoin
-}
-
-"""Join types to be used in DQL"""
-enum JoinType {
-  innerJoin
-  leftJoin
-}
-
-input LessOperatorBoolean {
-  value: Boolean!
-  not: Boolean = false
-}
-
-input LessOperatorDateTime {
-  value: DateTime!
-  not: Boolean = false
-}
-
-input LessOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-input LessOperatorPostStatus {
-  value: PostStatus!
-  not: Boolean = false
-}
-
-input LessOperatorString {
-  value: String!
-  not: Boolean = false
-}
-
-input LessOrEqualOperatorBoolean {
-  value: Boolean!
-  not: Boolean = false
-}
-
-input LessOrEqualOperatorDateTime {
-  value: DateTime!
-  not: Boolean = false
-}
-
-input LessOrEqualOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-input LessOrEqualOperatorPostStatus {
-  value: PostStatus!
-  not: Boolean = false
-}
-
-input LessOrEqualOperatorString {
-  value: String!
-  not: Boolean = false
-}
-
-input LikeOperatorBoolean {
-  value: Boolean!
-  not: Boolean = false
-}
-
-input LikeOperatorDateTime {
-  value: DateTime!
-  not: Boolean = false
-}
-
-input LikeOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-input LikeOperatorPostStatus {
-  value: PostStatus!
-  not: Boolean = false
-}
-
-input LikeOperatorString {
-  value: String!
-  not: Boolean = false
-}
-
-"""Logical operator to be used in conditions"""
+"Logical operator to be used in conditions"
 enum LogicalOperator {
   AND
   OR
 }
 
-input ModuloOperatorInt {
-  value: Int!
-}
-
-"""Type to specify conditions on fields"""
-input NoInversedByFilterGroupCondition {
-  creationDate: NoInversedByFilterGroupConditionCreationDate
-  id: NoInversedByFilterGroupConditionId
-}
-
-"""Type to specify a condition on a specific field"""
-input NoInversedByFilterGroupConditionCreationDate {
-  like: LikeOperatorDateTime
-  between: BetweenOperatorDateTime
-  equal: EqualOperatorDateTime
-  greater: GreaterOperatorDateTime
-  greaterOrEqual: GreaterOrEqualOperatorDateTime
-  in: InOperatorDateTime
-  less: LessOperatorDateTime
-  lessOrEqual: LessOrEqualOperatorDateTime
-  null: NullOperatorDateTime
-  group: GroupOperatorDateTime
-}
-
-"""Type to specify a condition on a specific field"""
-input NoInversedByFilterGroupConditionId {
-  like: LikeOperatorID
-  between: BetweenOperatorID
-  equal: EqualOperatorID
-  greater: GreaterOperatorID
-  greaterOrEqual: GreaterOrEqualOperatorID
-  in: InOperatorID
-  less: LessOperatorID
-  lessOrEqual: LessOrEqualOperatorID
-  null: NullOperatorID
-  group: GroupOperatorID
-  modulo: ModuloOperatorInt
-}
-
-input NullOperatorBoolean {
-  not: Boolean = false
-}
-
-input NullOperatorDateTime {
-  not: Boolean = false
-}
-
-input NullOperatorID {
-  not: Boolean = false
-}
-
-input NullOperatorPostStatus {
-  not: Boolean = false
-}
-
-input NullOperatorString {
-  not: Boolean = false
-}
-
-"""To be used as a filter for objects of type `Post`"""
-input PostFilter {
-  groups: [PostFilterGroup!]
-}
-
-"""Specify a set of joins and conditions to filter `Post`"""
-input PostFilterGroup {
-  """The logic operator to be used to append this group"""
-  groupLogic: LogicalOperator = AND
-
-  """The logic operator to be used within all conditions in this group"""
-  conditionsLogic: LogicalOperator = AND
-
-  """Conditions to be applied on fields"""
-  conditions: [PostFilterGroupCondition!]
-
-  """
-  Optional joins to either filter the query or fetch related objects from DB in a single query
-  """
-  joins: PostFilterGroupJoin
-}
-
-"""Type to specify conditions on fields"""
+"Type to specify conditions on fields"
 input PostFilterGroupCondition {
   creationDate: PostFilterGroupConditionCreationDate
   title: PostFilterGroupConditionTitle
@@ -418,21 +45,7 @@ input PostFilterGroupCondition {
   custom: PostFilterGroupConditionCustom
 }
 
-"""Type to specify a condition on a specific field"""
-input PostFilterGroupConditionBody {
-  like: LikeOperatorString
-  between: BetweenOperatorString
-  equal: EqualOperatorString
-  greater: GreaterOperatorString
-  greaterOrEqual: GreaterOrEqualOperatorString
-  in: InOperatorString
-  less: LessOperatorString
-  lessOrEqual: LessOrEqualOperatorString
-  null: NullOperatorString
-  group: GroupOperatorString
-}
-
-"""Type to specify a condition on a specific field"""
+"Type to specify a condition on a specific field"
 input PostFilterGroupConditionCreationDate {
   like: LikeOperatorDateTime
   between: BetweenOperatorDateTime
@@ -446,12 +59,235 @@ input PostFilterGroupConditionCreationDate {
   group: GroupOperatorDateTime
 }
 
-"""Type to specify a condition on a specific field"""
-input PostFilterGroupConditionCustom {
-  search: SearchOperatorString
+input LikeOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
 }
 
-"""Type to specify a condition on a specific field"""
+scalar DateTime
+
+input BetweenOperatorDateTime {
+  from: DateTime!
+  to: DateTime!
+  not: Boolean = false
+}
+
+input EqualOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input GreaterOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input InOperatorDateTime {
+  values: [DateTime!]!
+  not: Boolean = false
+}
+
+input LessOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input NullOperatorDateTime {
+  not: Boolean = false
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while still allowing him to enter arbitrary values.
+"""
+input GroupOperatorDateTime {
+  "This field is never used and can be ignored"
+  value: Boolean = null
+}
+
+"Type to specify a condition on a specific field"
+input PostFilterGroupConditionTitle {
+  like: LikeOperatorString
+  between: BetweenOperatorString
+  equal: EqualOperatorString
+  greater: GreaterOperatorString
+  greaterOrEqual: GreaterOrEqualOperatorString
+  in: InOperatorString
+  less: LessOperatorString
+  lessOrEqual: LessOrEqualOperatorString
+  null: NullOperatorString
+  group: GroupOperatorString
+}
+
+input LikeOperatorString {
+  value: String!
+  not: Boolean = false
+}
+
+input BetweenOperatorString {
+  from: String!
+  to: String!
+  not: Boolean = false
+}
+
+input EqualOperatorString {
+  value: String!
+  not: Boolean = false
+}
+
+input GreaterOperatorString {
+  value: String!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorString {
+  value: String!
+  not: Boolean = false
+}
+
+input InOperatorString {
+  values: [String!]!
+  not: Boolean = false
+}
+
+input LessOperatorString {
+  value: String!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorString {
+  value: String!
+  not: Boolean = false
+}
+
+input NullOperatorString {
+  not: Boolean = false
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while still allowing him to enter arbitrary values.
+"""
+input GroupOperatorString {
+  "This field is never used and can be ignored"
+  value: Boolean = null
+}
+
+"Type to specify a condition on a specific field"
+input PostFilterGroupConditionBody {
+  like: LikeOperatorString
+  between: BetweenOperatorString
+  equal: EqualOperatorString
+  greater: GreaterOperatorString
+  greaterOrEqual: GreaterOrEqualOperatorString
+  in: InOperatorString
+  less: LessOperatorString
+  lessOrEqual: LessOrEqualOperatorString
+  null: NullOperatorString
+  group: GroupOperatorString
+}
+
+"Type to specify a condition on a specific field"
+input PostFilterGroupConditionPublicationDate {
+  like: LikeOperatorDateTime
+  between: BetweenOperatorDateTime
+  equal: EqualOperatorDateTime
+  greater: GreaterOperatorDateTime
+  greaterOrEqual: GreaterOrEqualOperatorDateTime
+  in: InOperatorDateTime
+  less: LessOperatorDateTime
+  lessOrEqual: LessOrEqualOperatorDateTime
+  null: NullOperatorDateTime
+  group: GroupOperatorDateTime
+}
+
+"Type to specify a condition on a specific field"
+input PostFilterGroupConditionStatus {
+  like: LikeOperatorPostStatus
+  between: BetweenOperatorPostStatus
+  equal: EqualOperatorPostStatus
+  greater: GreaterOperatorPostStatus
+  greaterOrEqual: GreaterOrEqualOperatorPostStatus
+  in: InOperatorPostStatus
+  less: LessOperatorPostStatus
+  lessOrEqual: LessOrEqualOperatorPostStatus
+  null: NullOperatorPostStatus
+  group: GroupOperatorPostStatus
+}
+
+input LikeOperatorPostStatus {
+  value: PostStatus!
+  not: Boolean = false
+}
+
+enum PostStatus {
+  private
+  public
+}
+
+input BetweenOperatorPostStatus {
+  from: PostStatus!
+  to: PostStatus!
+  not: Boolean = false
+}
+
+input EqualOperatorPostStatus {
+  value: PostStatus!
+  not: Boolean = false
+}
+
+input GreaterOperatorPostStatus {
+  value: PostStatus!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorPostStatus {
+  value: PostStatus!
+  not: Boolean = false
+}
+
+input InOperatorPostStatus {
+  values: [PostStatus!]!
+  not: Boolean = false
+}
+
+input LessOperatorPostStatus {
+  value: PostStatus!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorPostStatus {
+  value: PostStatus!
+  not: Boolean = false
+}
+
+input NullOperatorPostStatus {
+  not: Boolean = false
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while still allowing him to enter arbitrary values.
+"""
+input GroupOperatorPostStatus {
+  "This field is never used and can be ignored"
+  value: Boolean = null
+}
+
+"Type to specify a condition on a specific field"
 input PostFilterGroupConditionId {
   like: LikeOperatorID
   between: BetweenOperatorID
@@ -466,64 +302,66 @@ input PostFilterGroupConditionId {
   modulo: ModuloOperatorInt
 }
 
-"""Type to specify a condition on a specific field"""
-input PostFilterGroupConditionNoInversedBy {
-  have: HaveOperatorID
-  empty: EmptyOperatorID
-  between: BetweenOperatorID
-  equal: EqualOperatorID
-  greater: GreaterOperatorID
-  greaterOrEqual: GreaterOrEqualOperatorID
-  in: InOperatorID
-  less: LessOperatorID
-  lessOrEqual: LessOrEqualOperatorID
-  null: NullOperatorID
-  group: GroupOperatorID
+input LikeOperatorID {
+  value: ID!
+  not: Boolean = false
 }
 
-"""Type to specify a condition on a specific field"""
-input PostFilterGroupConditionPublicationDate {
-  like: LikeOperatorDateTime
-  between: BetweenOperatorDateTime
-  equal: EqualOperatorDateTime
-  greater: GreaterOperatorDateTime
-  greaterOrEqual: GreaterOrEqualOperatorDateTime
-  in: InOperatorDateTime
-  less: LessOperatorDateTime
-  lessOrEqual: LessOrEqualOperatorDateTime
-  null: NullOperatorDateTime
-  group: GroupOperatorDateTime
+input BetweenOperatorID {
+  from: ID!
+  to: ID!
+  not: Boolean = false
 }
 
-"""Type to specify a condition on a specific field"""
-input PostFilterGroupConditionStatus {
-  like: LikeOperatorPostStatus
-  between: BetweenOperatorPostStatus
-  equal: EqualOperatorPostStatus
-  greater: GreaterOperatorPostStatus
-  greaterOrEqual: GreaterOrEqualOperatorPostStatus
-  in: InOperatorPostStatus
-  less: LessOperatorPostStatus
-  lessOrEqual: LessOrEqualOperatorPostStatus
-  null: NullOperatorPostStatus
-  group: GroupOperatorPostStatus
+input EqualOperatorID {
+  value: ID!
+  not: Boolean = false
 }
 
-"""Type to specify a condition on a specific field"""
-input PostFilterGroupConditionTitle {
-  like: LikeOperatorString
-  between: BetweenOperatorString
-  equal: EqualOperatorString
-  greater: GreaterOperatorString
-  greaterOrEqual: GreaterOrEqualOperatorString
-  in: InOperatorString
-  less: LessOperatorString
-  lessOrEqual: LessOrEqualOperatorString
-  null: NullOperatorString
-  group: GroupOperatorString
+input GreaterOperatorID {
+  value: ID!
+  not: Boolean = false
 }
 
-"""Type to specify a condition on a specific field"""
+input GreaterOrEqualOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input InOperatorID {
+  values: [ID!]!
+  not: Boolean = false
+}
+
+input LessOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input NullOperatorID {
+  not: Boolean = false
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while still allowing him to enter arbitrary values.
+"""
+input GroupOperatorID {
+  "This field is never used and can be ignored"
+  value: Boolean = null
+}
+
+input ModuloOperatorInt {
+  value: Int!
+}
+
+"Type to specify a condition on a specific field"
 input PostFilterGroupConditionUser {
   have: HaveOperatorID
   empty: EmptyOperatorID
@@ -538,22 +376,64 @@ input PostFilterGroupConditionUser {
   group: GroupOperatorID
 }
 
-"""Type to specify join tables in a filter"""
-input PostFilterGroupJoin {
-  user: JoinOnUser
-  noInversedBy: JoinOnNoInversedBy
+"When used on single valued association, it will use `IN` operator. On collection valued association it will use `MEMBER OF` operator."
+input HaveOperatorID {
+  values: [ID!]!
+  not: Boolean = false
 }
 
-enum PostStatus {
-  private
-  public
+"When used on single valued association, it will use `IS NULL` operator. On collection valued association it will use `IS EMPTY` operator."
+input EmptyOperatorID {
+  not: Boolean = false
+}
+
+"Type to specify a condition on a specific field"
+input PostFilterGroupConditionNoInversedBy {
+  have: HaveOperatorID
+  empty: EmptyOperatorID
+  between: BetweenOperatorID
+  equal: EqualOperatorID
+  greater: GreaterOperatorID
+  greaterOrEqual: GreaterOrEqualOperatorID
+  in: InOperatorID
+  less: LessOperatorID
+  lessOrEqual: LessOrEqualOperatorID
+  null: NullOperatorID
+  group: GroupOperatorID
+}
+
+"Type to specify a condition on a specific field"
+input PostFilterGroupConditionCustom {
+  search: SearchOperatorString
 }
 
 input SearchOperatorString {
   term: String!
 }
 
-"""Type to specify conditions on fields"""
+"Type to specify join tables in a filter"
+input PostFilterGroupJoin {
+  user: JoinOnUser
+  noInversedBy: JoinOnNoInversedBy
+}
+
+input JoinOnUser {
+  type: JoinType = innerJoin
+
+  "Conditions to be applied on fields"
+  conditions: [UserFilterGroupCondition!]
+
+  "Optional joins to either filter the query or fetch related objects from DB in a single query"
+  joins: UserFilterGroupJoin
+}
+
+"Join types to be used in DQL"
+enum JoinType {
+  innerJoin
+  leftJoin
+}
+
+"Type to specify conditions on fields"
 input UserFilterGroupCondition {
   creationDate: UserFilterGroupConditionCreationDate
   name: UserFilterGroupConditionName
@@ -565,7 +445,7 @@ input UserFilterGroupCondition {
   manager: UserFilterGroupConditionManager
 }
 
-"""Type to specify a condition on a specific field"""
+"Type to specify a condition on a specific field"
 input UserFilterGroupConditionCreationDate {
   like: LikeOperatorDateTime
   between: BetweenOperatorDateTime
@@ -579,7 +459,21 @@ input UserFilterGroupConditionCreationDate {
   group: GroupOperatorDateTime
 }
 
-"""Type to specify a condition on a specific field"""
+"Type to specify a condition on a specific field"
+input UserFilterGroupConditionName {
+  like: LikeOperatorString
+  between: BetweenOperatorString
+  equal: EqualOperatorString
+  greater: GreaterOperatorString
+  greaterOrEqual: GreaterOrEqualOperatorString
+  in: InOperatorString
+  less: LessOperatorString
+  lessOrEqual: LessOrEqualOperatorString
+  null: NullOperatorString
+  group: GroupOperatorString
+}
+
+"Type to specify a condition on a specific field"
 input UserFilterGroupConditionEmail {
   like: LikeOperatorString
   between: BetweenOperatorString
@@ -593,13 +487,76 @@ input UserFilterGroupConditionEmail {
   group: GroupOperatorString
 }
 
-"""Type to specify a condition on a specific field"""
-input UserFilterGroupConditionFavoritePosts {
-  have: HaveOperatorID
-  empty: EmptyOperatorID
+"Type to specify a condition on a specific field"
+input UserFilterGroupConditionIsAdministrator {
+  like: LikeOperatorBoolean
+  between: BetweenOperatorBoolean
+  equal: EqualOperatorBoolean
+  greater: GreaterOperatorBoolean
+  greaterOrEqual: GreaterOrEqualOperatorBoolean
+  in: InOperatorBoolean
+  less: LessOperatorBoolean
+  lessOrEqual: LessOrEqualOperatorBoolean
+  null: NullOperatorBoolean
+  group: GroupOperatorBoolean
 }
 
-"""Type to specify a condition on a specific field"""
+input LikeOperatorBoolean {
+  value: Boolean!
+  not: Boolean = false
+}
+
+input BetweenOperatorBoolean {
+  from: Boolean!
+  to: Boolean!
+  not: Boolean = false
+}
+
+input EqualOperatorBoolean {
+  value: Boolean!
+  not: Boolean = false
+}
+
+input GreaterOperatorBoolean {
+  value: Boolean!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorBoolean {
+  value: Boolean!
+  not: Boolean = false
+}
+
+input InOperatorBoolean {
+  values: [Boolean!]!
+  not: Boolean = false
+}
+
+input LessOperatorBoolean {
+  value: Boolean!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorBoolean {
+  value: Boolean!
+  not: Boolean = false
+}
+
+input NullOperatorBoolean {
+  not: Boolean = false
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while still allowing him to enter arbitrary values.
+"""
+input GroupOperatorBoolean {
+  "This field is never used and can be ignored"
+  value: Boolean = null
+}
+
+"Type to specify a condition on a specific field"
 input UserFilterGroupConditionId {
   like: LikeOperatorID
   between: BetweenOperatorID
@@ -614,21 +571,19 @@ input UserFilterGroupConditionId {
   modulo: ModuloOperatorInt
 }
 
-"""Type to specify a condition on a specific field"""
-input UserFilterGroupConditionIsAdministrator {
-  like: LikeOperatorBoolean
-  between: BetweenOperatorBoolean
-  equal: EqualOperatorBoolean
-  greater: GreaterOperatorBoolean
-  greaterOrEqual: GreaterOrEqualOperatorBoolean
-  in: InOperatorBoolean
-  less: LessOperatorBoolean
-  lessOrEqual: LessOrEqualOperatorBoolean
-  null: NullOperatorBoolean
-  group: GroupOperatorBoolean
+"Type to specify a condition on a specific field"
+input UserFilterGroupConditionPosts {
+  have: HaveOperatorID
+  empty: EmptyOperatorID
 }
 
-"""Type to specify a condition on a specific field"""
+"Type to specify a condition on a specific field"
+input UserFilterGroupConditionFavoritePosts {
+  have: HaveOperatorID
+  empty: EmptyOperatorID
+}
+
+"Type to specify a condition on a specific field"
 input UserFilterGroupConditionManager {
   have: HaveOperatorID
   empty: EmptyOperatorID
@@ -643,33 +598,61 @@ input UserFilterGroupConditionManager {
   group: GroupOperatorID
 }
 
-"""Type to specify a condition on a specific field"""
-input UserFilterGroupConditionName {
-  like: LikeOperatorString
-  between: BetweenOperatorString
-  equal: EqualOperatorString
-  greater: GreaterOperatorString
-  greaterOrEqual: GreaterOrEqualOperatorString
-  in: InOperatorString
-  less: LessOperatorString
-  lessOrEqual: LessOrEqualOperatorString
-  null: NullOperatorString
-  group: GroupOperatorString
-}
-
-"""Type to specify a condition on a specific field"""
-input UserFilterGroupConditionPosts {
-  have: HaveOperatorID
-  empty: EmptyOperatorID
-}
-
-"""Type to specify join tables in a filter"""
+"Type to specify join tables in a filter"
 input UserFilterGroupJoin {
   posts: JoinOnPost
   favoritePosts: JoinOnPost
   manager: JoinOnUser
 }
 
-type query {
-  defaultField(defaultArg: PostFilter): Boolean
+input JoinOnPost {
+  type: JoinType = innerJoin
+
+  "Conditions to be applied on fields"
+  conditions: [PostFilterGroupCondition!]
+
+  "Optional joins to either filter the query or fetch related objects from DB in a single query"
+  joins: PostFilterGroupJoin
+}
+
+input JoinOnNoInversedBy {
+  type: JoinType = innerJoin
+
+  "Conditions to be applied on fields"
+  conditions: [NoInversedByFilterGroupCondition!]
+}
+
+"Type to specify conditions on fields"
+input NoInversedByFilterGroupCondition {
+  creationDate: NoInversedByFilterGroupConditionCreationDate
+  id: NoInversedByFilterGroupConditionId
+}
+
+"Type to specify a condition on a specific field"
+input NoInversedByFilterGroupConditionCreationDate {
+  like: LikeOperatorDateTime
+  between: BetweenOperatorDateTime
+  equal: EqualOperatorDateTime
+  greater: GreaterOperatorDateTime
+  greaterOrEqual: GreaterOrEqualOperatorDateTime
+  in: InOperatorDateTime
+  less: LessOperatorDateTime
+  lessOrEqual: LessOrEqualOperatorDateTime
+  null: NullOperatorDateTime
+  group: GroupOperatorDateTime
+}
+
+"Type to specify a condition on a specific field"
+input NoInversedByFilterGroupConditionId {
+  like: LikeOperatorID
+  between: BetweenOperatorID
+  equal: EqualOperatorID
+  greater: GreaterOperatorID
+  greaterOrEqual: GreaterOrEqualOperatorID
+  in: InOperatorID
+  less: LessOperatorID
+  lessOrEqual: LessOrEqualOperatorID
+  null: NullOperatorID
+  group: GroupOperatorID
+  modulo: ModuloOperatorInt
 }

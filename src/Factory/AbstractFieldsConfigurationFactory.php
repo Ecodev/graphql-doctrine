@@ -134,6 +134,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
             $type = Type::nonNull($type);
         }
 
+        // @phpstan-ignore-next-line
         return $type;
     }
 
@@ -227,7 +228,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
         }
 
         if ($type instanceof WrappingType) {
-            $type = $type->getWrappedType(true);
+            $type = $type->getInnermostType();
         }
 
         if (!($type instanceof InputType)) {

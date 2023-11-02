@@ -44,10 +44,8 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
      *
      * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
-     *
-     * @return InputObjectType
      */
-    public function create(string $className, string $typeName): Type
+    public function create(string $className, string $typeName): InputObjectType
     {
         $type = new InputObjectType([
             'name' => $typeName,
@@ -247,8 +245,14 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
      */
     private function getFieldType(string $typeName, string $fieldName, array $operators): InputObjectType
     {
+        $fieldTypeName = $typeName . ucfirst($fieldName);
+        if ($this->types->has($fieldTypeName)) {
+            // @phpstan-ignore-next-line
+            return $this->types->get($fieldTypeName);
+        }
+
         $fieldType = new InputObjectType([
-            'name' => $typeName . ucfirst($fieldName),
+            'name' => $fieldTypeName,
             'description' => 'Type to specify a condition on a specific field',
             'fields' => $this->getOperatorConfiguration($operators),
         ]);

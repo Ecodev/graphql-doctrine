@@ -2,35 +2,29 @@ schema {
   query: query
 }
 
+type query {
+  defaultField(defaultArg: [ModelWithTraitsSorting!]): Boolean
+}
+
 input ModelWithTraitsSorting {
   field: ModelWithTraitsSortingField!
 
-  """
-  If true `NULL` values will be considered as the highest value, so appearing
-  last in a `ASC` order, and first in a `DESC` order.
-  """
+  "If true `NULL` values will be considered as the highest value, so appearing last in a `ASC` order, and first in a `DESC` order."
   nullAsHighest: Boolean = false
 
-  """
-  If true empty strings (`""`) will be considered as the highest value, so
-  appearing last in a `ASC` order, and first in a `DESC` order.
-  """
+  "If true empty strings (`\"\"`) will be considered as the highest value, so appearing last in a `ASC` order, and first in a `DESC` order."
   emptyStringAsHighest: Boolean = false
   order: SortingOrder = ASC
 }
 
-"""Fields available for `ModelWithTraitsSorting`"""
+"Fields available for `ModelWithTraitsSorting`"
 enum ModelWithTraitsSortingField {
   id
   userName
 }
 
-"""Order to be used in DQL"""
+"Order to be used in DQL"
 enum SortingOrder {
   ASC
   DESC
-}
-
-type query {
-  defaultField(defaultArg: [ModelWithTraitsSorting!]): Boolean
 }

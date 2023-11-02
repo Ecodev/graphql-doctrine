@@ -9,9 +9,11 @@ parameters:
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
-        - '~^Parameter #1 \$wrappedType of static method GraphQL\\Type\\Definition\\Type::~'
         - '~^Parameter #2 \$type of static method GraphQL\\Doctrine\\Utils::getOperatorTypeName~'
         - '~^Parameter #1 \$method of method GraphQL\\Doctrine\\Factory\\AbstractFieldsConfigurationFactory\:\:getMethodFullName\(\) expects ReflectionMethod, ReflectionFunctionAbstract given\.$~'
         - '~^Parameter #3 \$subject of function preg_replace expects array\|string, string\|null given\.$~'
         - '~^Parameter #2 \$type of method GraphQL\\Doctrine\\Factory\\AbstractFactory::adjustNamespace\(\) expects string, string\|null given\.$~'
         - '~^Parameter #1 \$driver of method Doctrine\\Persistence\\Mapping\\Driver\\MappingDriverChain\:\:setDefaultDriver\(\) expects Doctrine\\Persistence\\Mapping\\Driver\\MappingDriver, Doctrine\\Persistence\\Mapping\\Driver\\MappingDriver\|null given\.$~'
+        - '~^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects~'
+        - '~^Parameter \#1 \$config of class GraphQL\\Type\\Definition\\InputObjectType constructor expects~'
+        - '~^Parameter \#1 \$config of method GraphQL\\Type\\Definition\\InputObjectType\:\:__construct~'

@@ -29,10 +29,8 @@ final class FilterTypeFactory extends AbstractTypeFactory
      *
      * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
-     *
-     * @return InputObjectType
      */
-    public function create(string $className, string $typeName): Type
+    public function create(string $className, string $typeName): InputObjectType
     {
         $description = 'To be used as a filter for objects of type `' . Utils::getTypeName($className) . '`';
 
@@ -64,6 +62,12 @@ final class FilterTypeFactory extends AbstractTypeFactory
      */
     private function getGroupType(string $className, string $typeName): InputObjectType
     {
+        $groupTypeName = $typeName . 'Group';
+        if ($this->types->has($groupTypeName)) {
+            // @phpstan-ignore-next-line
+            return $this->types->get($groupTypeName);
+        }
+
         $fields = [
             [
                 'name' => 'groupLogic',
@@ -86,7 +90,7 @@ final class FilterTypeFactory extends AbstractTypeFactory
         }
 
         $conditionType = new InputObjectType([
-            'name' => $typeName . 'Group',
+            'name' => $groupTypeName,
             'description' => 'Specify a set of joins and conditions to filter `' . Utils::getTypeName($className) . '`',
             'fields' => $fields,
         ]);

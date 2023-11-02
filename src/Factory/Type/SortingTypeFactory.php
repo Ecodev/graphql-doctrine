@@ -31,20 +31,13 @@ final class SortingTypeFactory extends AbstractTypeFactory
      *
      * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
-     *
-     * @return InputObjectType
      */
-    public function create(string $className, string $typeName): Type
+    public function create(string $className, string $typeName): InputObjectType
     {
         $type = new InputObjectType([
             'name' => $typeName,
             'fields' => function () use ($className, $typeName): array {
-                $fieldsEnum = new EnumType([
-                    'name' => $typeName . 'Field',
-                    'values' => $this->getPossibleValues($className),
-                    'description' => 'Fields available for `' . $typeName . '`',
-                ]);
-                $this->types->registerInstance($fieldsEnum);
+                $fieldsEnum = $this->getEnumType($typeName, $className);
 
                 return [
                     [
@@ -157,5 +150,26 @@ final class SortingTypeFactory extends AbstractTypeFactory
         }
 
         return $result;
+    }
+
+    /**
+     * @param class-string $className
+     */
+    private function getEnumType(string $typeName, string $className): EnumType
+    {
+        $enumTypeName = $typeName . 'Field';
+        if ($this->types->has($enumTypeName)) {
+            // @phpstan-ignore-next-line
+            return $this->types->get($enumTypeName);
+        }
+
+        $fieldsEnum = new EnumType([
+            'name' => $enumTypeName,
+            'values' => $this->getPossibleValues($className),
+            'description' => 'Fields available for `' . $typeName . '`',
+        ]);
+        $this->types->registerInstance($fieldsEnum);
+
+        return $fieldsEnum;
     }
 }

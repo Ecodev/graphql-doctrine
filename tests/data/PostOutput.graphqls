@@ -1,19 +1,20 @@
-"""A blog post with title and body."""
+"A blog post with title and body."
 type Post {
-  """Title."""
+  "Title."
   title: String!
 
-  """The post content."""
+  "The post content."
   content: String!
 
-  """Status."""
+  "Status."
   status: PostStatus!
 
-  """Author of post."""
+  "Author of post."
   user: User!
 
-  """Date of publication."""
+  "Date of publication."
   publicationDate: DateTime!
+
   words: [String!]!
   hasWords(words: [String!]!): Boolean!
   isLong(wordLimit: Int = 50): Boolean!

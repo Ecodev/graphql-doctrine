@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace GraphQLTests\Doctrine;
 
+use ArrayObject;
 use GraphQL\Doctrine\DefaultFieldResolver;
 use GraphQL\Doctrine\Definition\EntityID;
+use GraphQL\Language\AST\OperationDefinitionNode;
 use GraphQL\Type\Definition\FieldDefinition;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -55,8 +57,8 @@ final class DefaultFieldResolverTest extends TestCase
     public function testDefaultFieldResolver(mixed $expected, array|object $source, string $fieldName, array $args = []): void
     {
         $resolver = new DefaultFieldResolver();
-        $fieldDefinition = FieldDefinition::create(['name' => $fieldName, 'type' => Type::boolean()]);
-        $info = new ResolveInfo($fieldDefinition, [], new ObjectType(['name' => 'foo']), [], new Schema([]), [], null, null, []);
+        $fieldDefinition = new FieldDefinition(['name' => $fieldName, 'type' => Type::boolean()]);
+        $info = new ResolveInfo($fieldDefinition, new ArrayObject(), new ObjectType(['name' => 'foo', 'fields' => []]), [], new Schema([]), [], null, new OperationDefinitionNode([]), []);
         $actual = $resolver($source, $args, null, $info);
         self::assertSame($expected, $actual);
     }

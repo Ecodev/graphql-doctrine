@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use GraphQL\Doctrine\Attribute\Exclude;
 use GraphQL\Doctrine\Attribute\Reader\Reader;
 use GraphQL\Doctrine\Types;
+use GraphQL\Type\Definition\NamedType;
 use GraphQL\Type\Definition\Type;
 use ReflectionClass;
 use ReflectionProperty;
@@ -48,7 +49,7 @@ abstract class AbstractFactory
      *  - `MyType[]|null`
      *  - `Collection<MyType>`
      */
-    final protected function getTypeFromPhpDeclaration(ReflectionClass $class, null|string|Type $typeDeclaration, bool $isEntityId = false): ?Type
+    final protected function getTypeFromPhpDeclaration(ReflectionClass $class, null|string|Type $typeDeclaration, bool $isEntityId = false): null|Type
     {
         if ($typeDeclaration === null || $typeDeclaration instanceof Type) {
             return $typeDeclaration;
@@ -70,6 +71,7 @@ abstract class AbstractFactory
             $type = Type::nonNull($type);
         }
 
+        // @phpstan-ignore-next-line
         return $type;
     }
 
@@ -97,7 +99,7 @@ abstract class AbstractFactory
     /**
      * Returns a type from our registry.
      */
-    final protected function getTypeFromRegistry(string $type, bool $isEntityId): Type
+    final protected function getTypeFromRegistry(string $type, bool $isEntityId): NamedType
     {
         if ($this->types->isEntity($type) && $isEntityId) {
             // @phpstan-ignore-next-line

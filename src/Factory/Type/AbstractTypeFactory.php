@@ -6,6 +6,7 @@ namespace GraphQL\Doctrine\Factory\Type;
 
 use GraphQL\Doctrine\Exception;
 use GraphQL\Doctrine\Factory\AbstractFactory;
+use GraphQL\Type\Definition\NamedType;
 use GraphQL\Type\Definition\Type;
 use ReflectionClass;
 
@@ -20,7 +21,7 @@ abstract class AbstractTypeFactory extends AbstractFactory
      * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
      */
-    abstract public function create(string $className, string $typeName): Type;
+    abstract public function create(string $className, string $typeName): NamedType;
 
     /**
      * Get the description of a class from the doc block.
