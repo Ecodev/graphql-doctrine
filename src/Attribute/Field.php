@@ -22,7 +22,7 @@ final class Field implements ApiAttribute
 
     /**
      * @param null|string $name Can be used to alias the field
-     * @param null|string $type FQCN of PHP class implementing the GraphQL type
+     * @param null|string $type FQCN of PHP class implementing the GraphQL type, see README.md#type-syntax
      */
     public function __construct(
         public ?string $name = null,

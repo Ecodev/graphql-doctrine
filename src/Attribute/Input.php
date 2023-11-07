@@ -16,7 +16,7 @@ use Attribute;
 final class Input extends AbstractAttribute
 {
     /**
-     * @param null|string $type FQCN of PHP class implementing the GraphQL type
+     * @param null|string $type FQCN of PHP class implementing the GraphQL type, see README.md#type-syntax
      */
     public function __construct(
         ?string $type = null,

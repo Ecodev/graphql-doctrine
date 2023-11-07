@@ -23,7 +23,7 @@ abstract class AbstractAttribute implements ApiAttribute
     private bool $hasDefaultValue = false;
 
     /**
-     * @param null|string $type FQCN of PHP class implementing the GraphQL type
+     * @param null|string $type FQCN of PHP class implementing the GraphQL type, see README.md#type-syntax
      */
     public function __construct(
         private ?string $name,

@@ -197,24 +197,28 @@ public function getStatus(): string
 }
 ```
 
-The type must be the PHP class implementing the GraphQL type (see
-[limitations](#limitations)). The declaration can be defined as nullable and/or as
-an array with one the following syntaxes (PHP style or GraphQL style):
+### Type syntax
 
-- `?MyType`
-- `null|MyType`
-- `MyType|null`
-- `MyType[]`
-- `?MyType[]`
-- `null|MyType[]`
-- `MyType[]|null`
-- `Collection<MyType>`
+In most cases, the type must use the `::class` notation to specify the PHP class that is either implementing the GraphQL
+type or the entity itself (see [limitations](#limitations)). Use string literals only if you must define it as nullable
+and/or as an array. Never use the short name of an entity (it is only possible for user-defined custom types).
+
+Supported syntaxes (PHP style or GraphQL style) are:
+
+- `MyType::class`
+- `'?Application\MyType'`
+- `'null|Application\MyType'`
+- `'Application\MyType|null'`
+- `'Application\MyType[]'`
+- `'?Application\MyType[]'`
+- `'null|Application\MyType[]'`
+- `'Application\MyType[]|null'`
+- `'Collection<Application\MyType>'`
 
 This attribute can be used to override other things, such as `name`, `description`
 and `args`.
 
-
-#### Override arguments
+### Override arguments
 
 Similarly to `#[API\Field]`, `#[API\Argument]` allows to override the type of argument
 if the PHP type hint is not enough:
@@ -292,7 +296,6 @@ implementation configured according to your needs. In the following example, we 
 [laminas/laminas-servicemanager](https://github.com/laminas/laminas-servicemanager),
 because it offers useful concepts such as: invokables, aliases, factories and abstract
 factories. But any other PSR-11 container implementation could be used instead.
-
 
 The keys should be the whatever you use to refer to the type in your model. Typically,
 that would be either the FQCN of a PHP class "native" type such as `DateTimeImmutable`, or the
@@ -431,7 +434,7 @@ possible to write custom filters and sorting.
 
 #### Custom filters
 
-A custom filer must extend `AbstractOperator`.  This will allow to define custom arguments for
+A custom filer must extend `AbstractOperator`. This will allow to define custom arguments for
 the API, and then a method to build the DQL condition corresponding to the argument.
 
 This would also allow to filter on joined relations by carefully adding joins when necessary.
@@ -472,12 +475,13 @@ use GraphQLTests\Doctrine\Blog\Sorting\UserName;
 #[API\Sorting([UserName::class])]
 final class Post extends AbstractModel
 ```
+
 ## Limitations
 
 ### Namespaces
 
-The `use` statement is not supported. So types in attributes or doc blocks should
-either be the FQCN or in the same namespace as the getter.
+The `use` statement is not supported. So types in attributes or doc blocks must
+be the FQCN, or the name of a user-defined custom types (but never the short name of an entity).
 
 ### Composite identifiers
 
@@ -512,7 +516,6 @@ WHERE cond1 OR (cond2 AND (cond3 OR cond4)) OR ...
 Those cases would probably end up being too complex to handle on the client-side. And we recommend
 instead to implement them as a custom filter on the server side, in order to hide complexity
 from the client and benefit from Doctrine's QueryBuilder full flexibility.
-
 
 ### Sorting on join
 
