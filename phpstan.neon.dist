@@ -17,3 +17,6 @@ parameters:
         - '~^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects~'
         - '~^Parameter \#1 \$config of class GraphQL\\Type\\Definition\\InputObjectType constructor expects~'
         - '~^Parameter \#1 \$config of method GraphQL\\Type\\Definition\\InputObjectType\:\:__construct~'
+
+includes:
+    - phpstan-baseline.neon

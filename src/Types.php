@@ -39,7 +39,7 @@ use UnexpectedValueException;
 final class Types implements TypesInterface
 {
     /**
-     * @var array mapping of type name to type instances
+     * @var array<string, NamedType&Type> mapping of type name to type instances
      */
     private array $types = [];
 
@@ -84,10 +84,10 @@ final class Types implements TypesInterface
         return $this->customTypes && $this->customTypes->has($key) || array_key_exists($key, $this->types);
     }
 
-    public function get(string $key): NamedType
+    public function get(string $key): Type&NamedType
     {
         if ($this->customTypes && $this->customTypes->has($key)) {
-            /** @var NamedType $t */
+            /** @var NamedType&Type $t */
             $t = $this->customTypes->get($key);
             $this->registerInstance($t);
 
@@ -106,7 +106,7 @@ final class Types implements TypesInterface
      *
      * @param class-string $className
      */
-    private function getViaFactory(string $className, string $typeName, AbstractTypeFactory $factory): Type
+    private function getViaFactory(string $className, string $typeName, AbstractTypeFactory $factory): Type&NamedType
     {
         $this->throwIfNotEntity($className);
 
@@ -239,7 +239,7 @@ final class Types implements TypesInterface
      *
      * This is for internal use only. You should declare custom types via the constructor, not this method.
      */
-    public function registerInstance(NamedType $instance): void
+    public function registerInstance(Type&NamedType $instance): void
     {
         $this->types[$instance->name()] = $instance;
     }
@@ -293,5 +293,40 @@ final class Types implements TypesInterface
     public function createFilteredQueryBuilder(string $className, array $filter, array $sorting): QueryBuilder
     {
         return $this->filteredQueryBuilderFactory->create($className, $filter, $sorting);
+    }
+
+    public function loadType(string $typeName, string $namespace): ?Type
+    {
+        if ($this->has($typeName)) {
+            return $this->get($typeName);
+        }
+
+        if (preg_match('~^(?<shortName>.*)(?<kind>PartialInput)$~', $typeName, $m)
+            || preg_match('~^(?<shortName>.*)(?<kind>Input|PartialInput|Filter|Sorting|FilterGroupJoin|FilterGroupCondition|ID)$~', $typeName, $m)
+            || preg_match('~^(?<kind>JoinOn)(?<shortName>.*)$~', $typeName, $m)
+            || preg_match('~^(?<shortName>.*)$~', $typeName, $m)) {
+            $shortName = $m['shortName'];
+            $kind = $m['kind'] ?? '';
+
+            /** @var class-string $className */
+            $className = $namespace . '\\' . $shortName;
+
+            if ($this->isEntity($className)) {
+                return match ($kind) {
+                    'Input' => $this->getViaFactory($className, $typeName, $this->inputTypeFactory),
+                    'PartialInput' => $this->getViaFactory($className, $typeName, $this->partialInputTypeFactory),
+                    'Filter' => $this->getViaFactory($className, $typeName, $this->filterTypeFactory),
+                    'Sorting' => $this->getViaFactory($className, $typeName, $this->sortingTypeFactory),
+                    'JoinOn' => $this->getViaFactory($className, $typeName, $this->joinOnTypeFactory),
+                    'FilterGroupJoin' => $this->getViaFactory($className, $typeName, $this->filterGroupJoinTypeFactory),
+                    'FilterGroupCondition' => $this->getViaFactory($className, $typeName, $this->filterGroupConditionTypeFactory),
+                    'ID' => $this->getViaFactory($className, $typeName, $this->entityIDTypeFactory),
+                    '' => $this->getViaFactory($className, $typeName, $this->objectTypeFactory),
+                    default => throw new Exception("Unsupported kind of type `$kind` when trying to load type `$typeName`"),
+                };
+            }
+        }
+
+        return null;
     }
 }

@@ -21,7 +21,7 @@ abstract class AbstractTypeFactory extends AbstractFactory
      * @param class-string $className class name of Doctrine entity
      * @param string $typeName GraphQL type name
      */
-    abstract public function create(string $className, string $typeName): NamedType;
+    abstract public function create(string $className, string $typeName): Type&NamedType;
 
     /**
      * Get the description of a class from the doc block.

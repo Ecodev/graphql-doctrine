@@ -10,6 +10,7 @@ use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\ListOfType;
 use GraphQL\Type\Definition\NamedType;
 use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\Type;
 
 /**
  * Registry of types to manage all GraphQL types.
@@ -33,7 +34,7 @@ interface TypesInterface
      *
      * @param string $key the key the type was registered with (eg: "Post", "PostInput", "PostPartialInput" or "PostStatus")
      */
-    public function get(string $key): NamedType;
+    public function get(string $key): Type&NamedType;
 
     /**
      * Returns an output type for the given entity.
@@ -116,4 +117,25 @@ interface TypesInterface
      * @param class-string $className
      */
     public function createFilteredQueryBuilder(string $className, array $filter, array $sorting): QueryBuilder;
+
+    /**
+     * Load a type from its name.
+     *
+     * This should be used to declare typeLoader in `GraphQL\Type\Schema` with something similar to:
+     *
+     * ```php
+     * $types = new Types(...);
+     * $schema = new GraphQL\Type\Schema([
+     *     'typeLoader' => fn (string $name) => $types->loadType($name, 'Application\Model') ?? $types->loadType($name, 'OtherApplication\Model')
+     *     // ...
+     * ]);
+     * ```
+     *
+     * While this method could technically replace of uses of dedicated `get*()` methods, we suggest to only use
+     * `loadType` with the `typeLoader`. Because dedicated `get*()` methods are easier to use, and provide
+     * stronger typing.
+     *
+     * @return null|(Type&NamedType)
+     */
+    public function loadType(string $typeName, string $namespace): ?Type;
 }

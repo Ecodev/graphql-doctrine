@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method GraphQL\\\\Doctrine\\\\Types\\:\\:getOperator\\(\\) should return GraphQL\\\\Doctrine\\\\Definition\\\\Operator\\\\AbstractOperator but returns GraphQL\\\\Type\\\\Definition\\\\NamedType&GraphQL\\\\Type\\\\Definition\\\\Type\\.$#"
+			count: 1
+			path: src/Types.php

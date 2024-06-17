@@ -156,4 +156,40 @@ final class TypesTest extends TestCase
         $this->types->get(stdClass::class);
         self::assertTrue($this->types->has('customName'), 'should have custom registered type by its name, even if custom key was different, once type is created');
     }
+
+    /**
+     * @dataProvider provideLoadType
+     */
+    public function testLoadType(string $typeName): void
+    {
+        $type = $this->types->loadType($typeName, 'GraphQLTests\Doctrine\Blog\Model');
+        self::assertNotNull($type, 'should be able to lazy load a generated type by its name only');
+        self::assertSame($typeName, $type->name(), 'loaded type must have same name');
+    }
+
+    public static function provideLoadType(): iterable
+    {
+        yield 'PostInput' => ['PostInput'];
+        yield 'PostPartialInput' => ['PostPartialInput'];
+        yield 'Post' => ['Post'];
+        yield 'PostID' => ['PostID'];
+        yield 'PostFilter' => ['PostFilter'];
+        yield 'PostFilterGroupJoin' => ['PostFilterGroupJoin'];
+        yield 'PostSorting' => ['PostSorting'];
+        yield 'PostStatus' => ['PostStatus'];
+        yield 'PostFilterGroupCondition' => ['PostFilterGroupCondition'];
+        yield 'JoinOnPost' => ['JoinOnPost'];
+    }
+
+    public function testLoadUnknownType(): void
+    {
+        $type = $this->types->loadType('unknown-type-name', 'GraphQLTests\Doctrine\Blog\Model');
+        self::assertNull($type, 'should return null if type is not found to be chainable');
+    }
+
+    public function testLoadTypeInUnknownNamespace(): void
+    {
+        $type = $this->types->loadType('Post', 'Unknown\Model');
+        self::assertNull($type, 'should return null if namespace is not found to be chainable');
+    }
 }
