@@ -129,7 +129,8 @@ final class User extends AbstractModel
      * @param null|string $status the status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post
      */
     public function getPosts(
-        #[API\Argument(type: '?GraphQLTests\Doctrine\Blog\Types\PostStatusType')] ?string $status = Post::STATUS_PUBLIC
+        #[API\Argument(type: '?GraphQLTests\Doctrine\Blog\Types\PostStatusType')]
+        ?string $status = Post::STATUS_PUBLIC
     ): Collection {
         // Return unfiltered collection
         if ($status === null) {

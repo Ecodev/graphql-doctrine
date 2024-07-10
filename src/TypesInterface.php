@@ -135,7 +135,7 @@ interface TypesInterface
      * `loadType` with the `typeLoader`. Because dedicated `get*()` methods are easier to use, and provide
      * stronger typing.
      *
-     * @return null|(Type&NamedType)
+     * @return null|(NamedType&Type)
      */
     public function loadType(string $typeName, string $namespace): ?Type;
 }

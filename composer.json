@@ -39,7 +39,7 @@
         "php": "^8.2",
         "doctrine/orm": "^3.2",
         "psr/container": "^1.1 || ^2.0",
-        "webonyx/graphql-php": "^15.7"
+        "webonyx/graphql-php": "^15.12"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "@stable",
