@@ -16,6 +16,9 @@ use GraphQL\Type\Definition\Type;
 #[Attribute(Attribute::TARGET_METHOD)]
 final class Field implements ApiAttribute
 {
+    /**
+     * @var Argument[]
+     */
     public array $args = [];
 
     public null|string|Type $type = null;

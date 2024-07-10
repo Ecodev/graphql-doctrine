@@ -32,7 +32,7 @@ final class EmptyOperatorType extends AbstractAssociationOperatorType
         return $null->getDqlCondition($uniqueNameFactory, $metadata, $queryBuilder, $alias, $field, $args);
     }
 
-    protected function getCollectionValuedDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): ?string
+    protected function getCollectionValuedDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): string
     {
         $not = $args['not'] ? 'NOT ' : '';
 

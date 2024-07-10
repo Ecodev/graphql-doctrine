@@ -1,6 +1,235 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method GraphQL\\\\Doctrine\\\\Types\\:\\:getOperator\\(\\) should return GraphQL\\\\Doctrine\\\\Definition\\\\Operator\\\\AbstractOperator but returns GraphQL\\\\Type\\\\Definition\\\\NamedType&GraphQL\\\\Type\\\\Definition\\\\Type\\.$#"
+			message: '#^Parameter \#1 \$isNot of method GraphQL\\Doctrine\\Definition\\Operator\\AbstractSimpleOperator\:\:getDqlOperator\(\) expects bool, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Definition/Operator/AbstractSimpleOperator.php
+
+		-
+			message: '#^Parameter \#3 \$subject of function preg_replace expects array\<float\|int\|string\>\|string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/DocBlockReader.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 3
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Binary operation "\." between non\-falsy\-string and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Cannot access offset ''conditions'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 3
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Cannot access offset ''emptyStringAsHighest'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Cannot access offset ''field'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Cannot access offset ''joins'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 3
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Cannot access offset ''nullAsHighest'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Cannot access offset ''order'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 4
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Cannot access offset ''type'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Parameter \#1 \$group of method GraphQL\\Doctrine\\Factory\\FilteredQueryBuilderFactory\:\:applyCollectedDqlConditions\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Parameter \#1 \$name of method GraphQL\\Type\\Definition\\InputObjectType\:\:getField\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Parameter \#2 \$name of method GraphQL\\Doctrine\\Factory\\Type\\SortingTypeFactory\:\:getCustomSorting\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Parameter \#2 \$order of method Doctrine\\ORM\\QueryBuilder\:\:addOrderBy\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Parameter \#3 \$joinType of method GraphQL\\Doctrine\\Factory\\FilteredQueryBuilderFactory\:\:createJoin\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Parameter \#4 \$joins of method GraphQL\\Doctrine\\Factory\\FilteredQueryBuilderFactory\:\:applyJoinsAndFilters\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Parameter \#5 \$conditions of method GraphQL\\Doctrine\\Factory\\FilteredQueryBuilderFactory\:\:applyJoinsAndFilters\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Parameter \#5 \$field of method GraphQL\\Doctrine\\Definition\\Operator\\AbstractOperator\:\:getDqlCondition\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Parameter \#5 \$order of callable GraphQL\\Doctrine\\Sorting\\SortingInterface expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Parameter \#6 \$args of method GraphQL\\Doctrine\\Definition\\Operator\\AbstractOperator\:\:getDqlCondition\(\) expects array\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/FilteredQueryBuilderFactory.php
+
+		-
+			message: '#^Parameter \#3 \$subject of function preg_replace expects array\<float\|int\|string\>\|string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/Type/AbstractTypeFactory.php
+
+		-
+			message: '#^PHPDoc tag @var with type GraphQL\\Type\\Definition\\LeafType is not subtype of native type GraphQL\\Type\\Definition\\NamedType&GraphQL\\Type\\Definition\\Type\.$#'
+			identifier: varTag.nativeType
+			count: 3
+			path: src/Factory/Type/FilterGroupConditionTypeFactory.php
+
+		-
+			message: '#^Parameter \#1 \$property of method GraphQL\\Doctrine\\Factory\\AbstractFactory\:\:isPropertyExcluded\(\) expects ReflectionProperty, ReflectionProperty\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/Type/FilterGroupConditionTypeFactory.php
+
+		-
+			message: '#^Parameter \#1 \$property of method GraphQL\\Doctrine\\Factory\\Type\\FilterGroupConditionTypeFactory\:\:getLeafType\(\) expects ReflectionProperty, ReflectionProperty\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/Type/FilterGroupConditionTypeFactory.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Factory/Type/PartialInputTypeFactory.php
+
+		-
+			message: '#^Cannot access offset ''defaultValue'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/Type/PartialInputTypeFactory.php
+
+		-
+			message: '#^Cannot access offset ''type'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Factory/Type/PartialInputTypeFactory.php
+
+		-
+			message: '#^Property GraphQL\\Type\\Definition\\InputObjectType\:\:\$config \(array\{name\?\: string\|null, description\?\: string\|null, fields\: \(callable\(\)\: iterable\<array\{name\?\: string, type\: callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\), defaultValue\?\: mixed, description\?\: string\|null, deprecationReason\?\: string\|null, astNode\?\: GraphQL\\Language\\AST\\InputValueDefinitionNode\|null\}\|callable\(\)\: \(array\{name\?\: string, type\: callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\), defaultValue\?\: mixed, description\?\: string\|null, deprecationReason\?\: string\|null, astNode\?\: GraphQL\\Language\\AST\\InputValueDefinitionNode\|null\}\|GraphQL\\Type\\Definition\\InputObjectField\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\)\|GraphQL\\Type\\Definition\\InputObjectField\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\>\)\|iterable\<array\{name\?\: string, type\: \(callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\), defaultValue\?\: mixed, description\?\: string\|null, deprecationReason\?\: string\|null, astNode\?\: GraphQL\\Language\\AST\\InputValueDefinitionNode\|null\}\|\(callable\(\)\: \(array\{name\?\: string, type\: callable\(\)\: \(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\), defaultValue\?\: mixed, description\?\: string\|null, deprecationReason\?\: string\|null, astNode\?\: GraphQL\\Language\\AST\\InputValueDefinitionNode\|null\}\|GraphQL\\Type\\Definition\\InputObjectField\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\)\)\|GraphQL\\Type\\Definition\\InputObjectField\|\(GraphQL\\Type\\Definition\\InputType&GraphQL\\Type\\Definition\\Type\)\>, parseValue\?\: callable\(array\<string, mixed\>\)\: mixed, astNode\?\: GraphQL\\Language\\AST\\InputObjectTypeDefinitionNode\|null, extensionASTNodes\?\: array\<GraphQL\\Language\\AST\\InputObjectTypeExtensionNode\>\|null\}\) does not accept array\{name\?\: string\|null, description\?\: string\|null, fields\: Closure\(\)\: list, parseValue\?\: callable\(array\<string, mixed\>\)\: mixed, astNode\?\: GraphQL\\Language\\AST\\InputObjectTypeDefinitionNode\|null, extensionASTNodes\?\: array\<GraphQL\\Language\\AST\\InputObjectTypeExtensionNode\>\|null\}\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Factory/Type/PartialInputTypeFactory.php
+
+		-
+			message: '#^Parameter \#1 \$property of method GraphQL\\Doctrine\\Factory\\AbstractFactory\:\:isPropertyExcluded\(\) expects ReflectionProperty, ReflectionProperty\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Factory/Type/SortingTypeFactory.php
+
+		-
+			message: '#^Match arm comparison between '''' and '''' is always true\.$#'
+			identifier: match.alwaysTrue
 			count: 1
 			path: src/Types.php
+
+		-
+			message: '#^Method GraphQL\\Doctrine\\Types\:\:getOperator\(\) should return GraphQL\\Doctrine\\Definition\\Operator\\AbstractOperator but returns GraphQL\\Type\\Definition\\NamedType&GraphQL\\Type\\Definition\\Type\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Types.php
+
+		-
+			message: '#^Binary operation "\." between mixed and '' LIKE \:'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: tests/Blog/Filtering/SearchOperatorType.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: tests/Blog/Filtering/SearchOperatorType.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true and ''passed validation…'' will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 1
+			path: tests/TypesTest.php
+
+		-
+			message: '#^Cannot access offset ''filter'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/TypesTest.php
+
+		-
+			message: '#^Cannot access offset ''sorting'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: tests/TypesTest.php
+
+		-
+			message: '#^Parameter \#2 \$filter of method GraphQL\\Doctrine\\Types\:\:createFilteredQueryBuilder\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/TypesTest.php
+
+		-
+			message: '#^Parameter \#3 \$sorting of method GraphQL\\Doctrine\\Types\:\:createFilteredQueryBuilder\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: tests/TypesTest.php

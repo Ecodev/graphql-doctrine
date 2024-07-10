@@ -26,7 +26,7 @@ final class OutputFieldsConfigurationFactory extends AbstractFieldsConfiguration
     /**
      * Get the entire configuration for a method.
      */
-    protected function methodToConfiguration(ReflectionMethod $method): ?array
+    protected function methodToConfiguration(ReflectionMethod $method): array
     {
         // Get a field from attribute, or an empty one
         $field = $this->reader->getAttribute($method, Field::class) ?? new Field();

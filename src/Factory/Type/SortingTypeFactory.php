@@ -132,7 +132,7 @@ final class SortingTypeFactory extends AbstractTypeFactory
     /**
      * Get all instance of custom sorting from the attribute.
      *
-     * @return SortingInterface[]
+     * @return array<string, SortingInterface>
      */
     private function getFromAttribute(ReflectionClass $class): array
     {

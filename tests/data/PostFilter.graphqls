@@ -34,15 +34,89 @@ enum LogicalOperator {
 
 "Type to specify conditions on fields"
 input PostFilterGroupCondition {
+  id: PostFilterGroupConditionId
   creationDate: PostFilterGroupConditionCreationDate
   title: PostFilterGroupConditionTitle
   body: PostFilterGroupConditionBody
   publicationDate: PostFilterGroupConditionPublicationDate
   status: PostFilterGroupConditionStatus
-  id: PostFilterGroupConditionId
   user: PostFilterGroupConditionUser
   noInversedBy: PostFilterGroupConditionNoInversedBy
   custom: PostFilterGroupConditionCustom
+}
+
+"Type to specify a condition on a specific field"
+input PostFilterGroupConditionId {
+  like: LikeOperatorID
+  between: BetweenOperatorID
+  equal: EqualOperatorID
+  greater: GreaterOperatorID
+  greaterOrEqual: GreaterOrEqualOperatorID
+  in: InOperatorID
+  less: LessOperatorID
+  lessOrEqual: LessOrEqualOperatorID
+  null: NullOperatorID
+  group: GroupOperatorID
+  modulo: ModuloOperatorInt
+}
+
+input LikeOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input BetweenOperatorID {
+  from: ID!
+  to: ID!
+  not: Boolean = false
+}
+
+input EqualOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input GreaterOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input InOperatorID {
+  values: [ID!]!
+  not: Boolean = false
+}
+
+input LessOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input NullOperatorID {
+  not: Boolean = false
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while still allowing him to enter arbitrary values.
+"""
+input GroupOperatorID {
+  "This field is never used and can be ignored"
+  value: Boolean = null
+}
+
+input ModuloOperatorInt {
+  value: Int!
 }
 
 "Type to specify a condition on a specific field"
@@ -288,80 +362,6 @@ input GroupOperatorPostStatus {
 }
 
 "Type to specify a condition on a specific field"
-input PostFilterGroupConditionId {
-  like: LikeOperatorID
-  between: BetweenOperatorID
-  equal: EqualOperatorID
-  greater: GreaterOperatorID
-  greaterOrEqual: GreaterOrEqualOperatorID
-  in: InOperatorID
-  less: LessOperatorID
-  lessOrEqual: LessOrEqualOperatorID
-  null: NullOperatorID
-  group: GroupOperatorID
-  modulo: ModuloOperatorInt
-}
-
-input LikeOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-input BetweenOperatorID {
-  from: ID!
-  to: ID!
-  not: Boolean = false
-}
-
-input EqualOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-input GreaterOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-input GreaterOrEqualOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-input InOperatorID {
-  values: [ID!]!
-  not: Boolean = false
-}
-
-input LessOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-input LessOrEqualOperatorID {
-  value: ID!
-  not: Boolean = false
-}
-
-input NullOperatorID {
-  not: Boolean = false
-}
-
-"""
-Will apply a `GROUP BY` on the field to select unique values existing in database.
-
-This is typically useful to present a list of suggestions to the end-user, while still allowing him to enter arbitrary values.
-"""
-input GroupOperatorID {
-  "This field is never used and can be ignored"
-  value: Boolean = null
-}
-
-input ModuloOperatorInt {
-  value: Int!
-}
-
-"Type to specify a condition on a specific field"
 input PostFilterGroupConditionUser {
   have: HaveOperatorID
   empty: EmptyOperatorID
@@ -435,14 +435,29 @@ enum JoinType {
 
 "Type to specify conditions on fields"
 input UserFilterGroupCondition {
+  id: UserFilterGroupConditionId
   creationDate: UserFilterGroupConditionCreationDate
   name: UserFilterGroupConditionName
   email: UserFilterGroupConditionEmail
   isAdministrator: UserFilterGroupConditionIsAdministrator
-  id: UserFilterGroupConditionId
   posts: UserFilterGroupConditionPosts
   favoritePosts: UserFilterGroupConditionFavoritePosts
   manager: UserFilterGroupConditionManager
+}
+
+"Type to specify a condition on a specific field"
+input UserFilterGroupConditionId {
+  like: LikeOperatorID
+  between: BetweenOperatorID
+  equal: EqualOperatorID
+  greater: GreaterOperatorID
+  greaterOrEqual: GreaterOrEqualOperatorID
+  in: InOperatorID
+  less: LessOperatorID
+  lessOrEqual: LessOrEqualOperatorID
+  null: NullOperatorID
+  group: GroupOperatorID
+  modulo: ModuloOperatorInt
 }
 
 "Type to specify a condition on a specific field"
@@ -557,21 +572,6 @@ input GroupOperatorBoolean {
 }
 
 "Type to specify a condition on a specific field"
-input UserFilterGroupConditionId {
-  like: LikeOperatorID
-  between: BetweenOperatorID
-  equal: EqualOperatorID
-  greater: GreaterOperatorID
-  greaterOrEqual: GreaterOrEqualOperatorID
-  in: InOperatorID
-  less: LessOperatorID
-  lessOrEqual: LessOrEqualOperatorID
-  null: NullOperatorID
-  group: GroupOperatorID
-  modulo: ModuloOperatorInt
-}
-
-"Type to specify a condition on a specific field"
 input UserFilterGroupConditionPosts {
   have: HaveOperatorID
   empty: EmptyOperatorID
@@ -624,22 +624,8 @@ input JoinOnNoInversedBy {
 
 "Type to specify conditions on fields"
 input NoInversedByFilterGroupCondition {
-  creationDate: NoInversedByFilterGroupConditionCreationDate
   id: NoInversedByFilterGroupConditionId
-}
-
-"Type to specify a condition on a specific field"
-input NoInversedByFilterGroupConditionCreationDate {
-  like: LikeOperatorDateTime
-  between: BetweenOperatorDateTime
-  equal: EqualOperatorDateTime
-  greater: GreaterOperatorDateTime
-  greaterOrEqual: GreaterOrEqualOperatorDateTime
-  in: InOperatorDateTime
-  less: LessOperatorDateTime
-  lessOrEqual: LessOrEqualOperatorDateTime
-  null: NullOperatorDateTime
-  group: GroupOperatorDateTime
+  creationDate: NoInversedByFilterGroupConditionCreationDate
 }
 
 "Type to specify a condition on a specific field"
@@ -655,4 +641,18 @@ input NoInversedByFilterGroupConditionId {
   null: NullOperatorID
   group: GroupOperatorID
   modulo: ModuloOperatorInt
+}
+
+"Type to specify a condition on a specific field"
+input NoInversedByFilterGroupConditionCreationDate {
+  like: LikeOperatorDateTime
+  between: BetweenOperatorDateTime
+  equal: EqualOperatorDateTime
+  greater: GreaterOperatorDateTime
+  greaterOrEqual: GreaterOrEqualOperatorDateTime
+  in: InOperatorDateTime
+  less: LessOperatorDateTime
+  lessOrEqual: LessOrEqualOperatorDateTime
+  null: NullOperatorDateTime
+  group: GroupOperatorDateTime
 }

@@ -78,8 +78,6 @@ final class Reader
 
         foreach ($attributes as $attribute) {
             $instance = $attribute->newInstance();
-            assert($instance instanceof ApiAttribute);
-
             $instances[] = $instance;
         }
 

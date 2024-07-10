@@ -6,7 +6,6 @@ namespace GraphQL\Doctrine\Factory\Type;
 
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\NonNull;
-use GraphQL\Type\Definition\Type;
 
 /**
  * A factory to create an InputObjectType from a Doctrine entity but with
@@ -24,12 +23,12 @@ final class PartialInputTypeFactory extends AbstractTypeFactory
     public function create(string $className, string $typeName): InputObjectType
     {
         $type = clone $this->types->getInput($className);
-        /** @var callable $fieldsGetter */
         $fieldsGetter = $type->config['fields'];
 
         $optionalFieldsGetter = function () use ($fieldsGetter): array {
             $optionalFields = [];
-            foreach ($fieldsGetter() as $field) {
+            $fields = is_callable($fieldsGetter) ? $fieldsGetter() : $fieldsGetter;
+            foreach ($fields as $field) {
                 if ($field['type'] instanceof NonNull) {
                     $field['type'] = $field['type']->getWrappedType();
                 }

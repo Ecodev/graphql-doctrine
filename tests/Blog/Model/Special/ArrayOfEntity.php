@@ -21,7 +21,7 @@ final class ArrayOfEntity extends AbstractModel
     }
 
     /**
-     * @return Collection<int, \GraphQLTests\Doctrine\Blog\Model\User>
+     * @return Collection<int, User>
      */
     public function getOtherUsers(): Collection
     {
