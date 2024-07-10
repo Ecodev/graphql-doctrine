@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace GraphQL\Doctrine\Factory\Type;
 
+use Doctrine\ORM\Mapping\FieldMapping;
 use GraphQL\Doctrine\Attribute\Filter;
 use GraphQL\Doctrine\Attribute\FilterGroupCondition;
 use GraphQL\Doctrine\Definition\Operator\AbstractOperator;
@@ -60,7 +61,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
 
                 // Get all scalar fields
                 foreach ($metadata->fieldMappings as $mapping) {
-                    $fieldName = $mapping['fieldName'];
+                    $fieldName = $mapping->fieldName;
                     $property = $metadata->getReflectionProperty($fieldName);
 
                     // Skip exclusion specified by user
@@ -76,7 +77,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
 
                 // Get all collection fields
                 foreach ($metadata->associationMappings as $mapping) {
-                    $fieldName = $mapping['fieldName'];
+                    $fieldName = $mapping->fieldName;
                     $operators = $this->getOperators($fieldName, Type::id(), true, $metadata->isCollectionValuedAssociation($fieldName));
 
                     $filters[] = $this->getFieldConfiguration($typeName, $fieldName, $operators);
@@ -105,9 +106,9 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
     /**
      * Read the type of the filterGroupCondition, either from Doctrine mapping type, or the override via attribute.
      */
-    private function getLeafType(ReflectionProperty $property, array $mapping): LeafType
+    private function getLeafType(ReflectionProperty $property, FieldMapping $mapping): LeafType
     {
-        if ($mapping['id'] ?? false) {
+        if ($mapping->id ?? false) {
             return Type::id();
         }
 
@@ -127,7 +128,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
         }
 
         /** @var LeafType $leafType */
-        $leafType = $this->types->get($mapping['type']);
+        $leafType = $this->types->get($mapping->type);
 
         return $leafType;
     }
