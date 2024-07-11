@@ -18,10 +18,7 @@ trait EntityManagerTrait
     private function setUpEntityManager(): void
     {
         $config = ORMSetup::createAttributeMetadataConfiguration([__DIR__ . '/Blog/Model'], true);
-        $connection = DriverManager::getConnection([
-            'driver' => 'sqlite3',
-            'memory' => true,
-        ]);
+        $connection = DriverManager::getConnection(['url' => 'sqlite:///:memory:']);
 
         $this->entityManager = new EntityManager($connection, $config);
     }

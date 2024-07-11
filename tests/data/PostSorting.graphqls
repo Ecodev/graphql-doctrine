@@ -19,12 +19,12 @@ input PostSorting {
 
 "Fields available for `PostSorting`"
 enum PostSortingField {
-  id
   creationDate
   title
   body
   publicationDate
   status
+  id
   userName
   postType
   pseudoRandom

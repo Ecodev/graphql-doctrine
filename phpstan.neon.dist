@@ -6,6 +6,8 @@ parameters:
     excludePaths:
         - tests/Blog/Model/*
         - tests/AttributeBlog/Model/*
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
         - '~^Parameter #2 \$type of static method GraphQL\\Doctrine\\Utils::getOperatorTypeName~'
         - '~^Parameter #1 \$method of method GraphQL\\Doctrine\\Factory\\AbstractFieldsConfigurationFactory\:\:getMethodFullName\(\) expects ReflectionMethod, ReflectionFunctionAbstract given\.$~'
@@ -15,10 +17,6 @@ parameters:
         - '~^Parameter \#1 \$type of static method GraphQL\\Type\\Definition\\Type\:\:nonNull\(\) expects~'
         - '~^Parameter \#1 \$config of class GraphQL\\Type\\Definition\\InputObjectType constructor expects~'
         - '~^Parameter \#1 \$config of method GraphQL\\Type\\Definition\\InputObjectType\:\:__construct~'
-        -
-            identifier: missingType.iterableValue
-        -
-            identifier: missingType.generics
 
 includes:
     - phpstan-baseline.neon

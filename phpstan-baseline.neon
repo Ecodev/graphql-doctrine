@@ -1,26 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Cannot call method getMethods\\(\\) on ReflectionClass\\<object\\>\\|null\\.$#"
-			count: 1
-			path: src/Factory/AbstractFieldsConfigurationFactory.php
-
-		-
-			message: "#^Parameter \\#1 \\$property of method GraphQL\\\\Doctrine\\\\Factory\\\\AbstractFactory\\:\\:isPropertyExcluded\\(\\) expects ReflectionProperty, ReflectionProperty\\|null given\\.$#"
-			count: 1
-			path: src/Factory/Type/FilterGroupConditionTypeFactory.php
-
-		-
-			message: "#^Parameter \\#1 \\$property of method GraphQL\\\\Doctrine\\\\Factory\\\\Type\\\\FilterGroupConditionTypeFactory\\:\\:getLeafType\\(\\) expects ReflectionProperty, ReflectionProperty\\|null given\\.$#"
-			count: 1
-			path: src/Factory/Type/FilterGroupConditionTypeFactory.php
-
-		-
-			message: "#^Parameter \\#1 \\$property of method GraphQL\\\\Doctrine\\\\Factory\\\\AbstractFactory\\:\\:isPropertyExcluded\\(\\) expects ReflectionProperty, ReflectionProperty\\|null given\\.$#"
-			count: 1
-			path: src/Factory/Type/SortingTypeFactory.php
-
-		-
 			message: "#^Method GraphQL\\\\Doctrine\\\\Types\\:\\:getOperator\\(\\) should return GraphQL\\\\Doctrine\\\\Definition\\\\Operator\\\\AbstractOperator but returns GraphQL\\\\Type\\\\Definition\\\\NamedType&GraphQL\\\\Type\\\\Definition\\\\Type\\.$#"
 			count: 1
 			path: src/Types.php

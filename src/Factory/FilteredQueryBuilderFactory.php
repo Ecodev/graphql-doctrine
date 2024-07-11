@@ -127,7 +127,7 @@ final class FilteredQueryBuilderFactory extends AbstractFactory
             $joinedAlias = $this->createJoin($alias, $field, $join['type']);
 
             if (isset($join['joins']) || isset($join['conditions'])) {
-                $targetClassName = $metadata->getAssociationMapping($field)->targetEntity;
+                $targetClassName = $metadata->getAssociationMapping($field)['targetEntity'];
                 $targetMetadata = $this->entityManager->getClassMetadata($targetClassName);
                 $type = $this->types->getFilterGroupCondition($targetClassName);
                 $this->applyJoinsAndFilters($targetMetadata, $joinedAlias, $type, $join['joins'] ?? [], $join['conditions'] ?? []);

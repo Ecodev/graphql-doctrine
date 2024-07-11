@@ -65,8 +65,8 @@ final class SearchOperatorType extends AbstractOperator
         $fields = [];
         $textType = ['string', 'text'];
         foreach ($metadata->fieldMappings as $g) {
-            if (in_array($g->type, $textType, true)) {
-                $fields[] = $alias . '.' . $g->fieldName;
+            if (in_array($g['type'], $textType, true)) {
+                $fields[] = $alias . '.' . $g['fieldName'];
             }
         }
 

@@ -60,8 +60,8 @@ final class FilterGroupJoinTypeFactory extends AbstractTypeFactory
         $associations = $this->entityManager->getClassMetadata($className)->associationMappings;
         foreach ($associations as $association) {
             $field = [
-                'name' => $association->fieldName,
-                'type' => $this->types->getJoinOn($association->targetEntity),
+                'name' => $association['fieldName'],
+                'type' => $this->types->getJoinOn($association['targetEntity']),
             ];
 
             $fields[] = $field;
