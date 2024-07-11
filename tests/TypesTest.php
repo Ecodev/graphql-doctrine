@@ -15,6 +15,7 @@ use GraphQLTests\Doctrine\Blog\Model\Post;
 use GraphQLTests\Doctrine\Blog\Types\CustomType;
 use GraphQLTests\Doctrine\Blog\Types\DateTimeType;
 use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
@@ -157,9 +158,7 @@ final class TypesTest extends TestCase
         self::assertTrue($this->types->has('customName'), 'should have custom registered type by its name, even if custom key was different, once type is created');
     }
 
-    /**
-     * @dataProvider provideLoadType
-     */
+    #[DataProvider('provideLoadType')]
     public function testLoadType(string $typeName): void
     {
         $type = $this->types->loadType($typeName, 'GraphQLTests\Doctrine\Blog\Model');
