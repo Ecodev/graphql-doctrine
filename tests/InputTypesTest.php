@@ -47,6 +47,12 @@ final class InputTypesTest extends TestCase
         $this->assertType('tests/data/NamespaceSupportInput.graphqls', $actual);
     }
 
+    public function testInputWithId(): void
+    {
+        $actual = $this->types->getInput(Blog\Model\Special\InputWithId::class);
+        $this->assertType('tests/data/InputWithId.graphqls', $actual);
+    }
+
     public function testInputWithoutTypeMustThrow(): void
     {
         $type = $this->types->getInput(Blog\Model\Special\NoTypeInput::class);

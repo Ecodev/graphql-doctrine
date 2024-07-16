@@ -101,6 +101,10 @@ abstract class AbstractFactory
      */
     final protected function getTypeFromRegistry(string $type, bool $isEntityId): NamedType
     {
+        if ($type === 'ID') {
+            return Type::id();
+        }
+
         if ($this->types->isEntity($type) && $isEntityId) {
             // @phpstan-ignore-next-line
             return $this->types->getId($type);

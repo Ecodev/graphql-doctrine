@@ -1,0 +1,4 @@
+input InputWithIdInput {
+  ids: [ID!]!
+  creationDate: DateTime!
+}
