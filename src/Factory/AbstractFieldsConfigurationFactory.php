@@ -147,8 +147,8 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
     {
         $this->metadata = $this->entityManager->getClassMetadata($className);
         foreach ($this->metadata->fieldMappings as $meta) {
-            if ($meta['id'] ?? false) {
-                $this->identityField = $meta['fieldName'];
+            if ($meta->id ?? false) {
+                $this->identityField = $meta->fieldName;
             }
         }
     }
@@ -184,7 +184,7 @@ abstract class AbstractFieldsConfigurationFactory extends AbstractFactory
      */
     private function getTargetEntity(string $fieldName): ?string
     {
-        return $this->metadata->associationMappings[$fieldName]['targetEntity'] ?? null;
+        return $this->metadata->associationMappings[$fieldName]->targetEntity ?? null;
     }
 
     /**

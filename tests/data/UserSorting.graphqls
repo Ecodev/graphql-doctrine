@@ -19,11 +19,11 @@ input UserSorting {
 
 "Fields available for `UserSorting`"
 enum UserSortingField {
+  id
   creationDate
   name
   email
   isAdministrator
-  id
   pseudoRandom
 }
 
