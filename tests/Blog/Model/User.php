@@ -30,13 +30,13 @@ final class User extends AbstractModel
     private bool $isAdministrator = false;
 
     /**
-     * @var Collection<Post>
+     * @var Collection<int, Post>
      */
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'user')]
     private Collection $posts;
 
     /**
-     * @var Collection<Post>
+     * @var Collection<int, Post>
      */
     #[ORM\ManyToMany(targetEntity: Post::class)]
     private Collection $favoritePosts;

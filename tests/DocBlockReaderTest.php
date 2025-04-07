@@ -30,6 +30,11 @@ class DocBlockReaderTest extends TestCase
      * @return bool
      */';
 
+    private const COMMENT_GENERIC = '
+    /**
+     * @return Collection<int, Foo>
+     */';
+
     #[DataProvider('providerGetMethodDescription')]
     public function testGetMethodDescription(string|false $comment, ?string $expected): void
     {
@@ -106,6 +111,7 @@ spanning lines'],
             [false, null],
             [self::EMPTY_COMMENT, null],
             [self::COMMENT, 'bool'],
+            [self::COMMENT_GENERIC, 'Collection<int, Foo>'],
         ];
     }
 

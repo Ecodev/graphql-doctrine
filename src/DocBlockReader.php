@@ -70,7 +70,7 @@ final class DocBlockReader
      */
     public function getReturnType(): ?string
     {
-        if (preg_match('~@return\h+(\H+)(\h|\n)~', $this->comment, $m)) {
+        if (preg_match('~@return\h+([^<]+<.*>|\H+)(\h|\n)~', $this->comment, $m)) {
             return trim($m[1]);
         }
 

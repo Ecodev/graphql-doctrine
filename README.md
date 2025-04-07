@@ -213,7 +213,7 @@ Supported syntaxes (PHP style or GraphQL style) are:
 - `'?Application\MyType[]'`
 - `'null|Application\MyType[]'`
 - `'Application\MyType[]|null'`
-- `'Collection<Application\MyType>'`
+- `'Collection<int, Application\MyType>'`
 
 This attribute can be used to override other things, such as `name`, `description`
 and `args`.
@@ -231,7 +231,7 @@ use GraphQL\Doctrine\Attribute as API;
  *
  * @param string $status the status of posts as defined in \GraphQLTests\Doctrine\Blog\Model\Post
  *
- * @return Collection
+ * @return Collection<int, Post>
  */
 public function getPosts(
      #[API\Argument(type: '?GraphQLTests\Doctrine\Blog\Types\PostStatusType')]
