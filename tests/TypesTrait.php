@@ -11,14 +11,18 @@ use GraphQL\Type\Definition\BooleanType;
 use GraphQL\Type\Definition\InputType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\OutputType;
+use GraphQL\Type\Definition\PhpEnumType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\WrappingType;
 use GraphQL\Type\Schema;
 use GraphQL\Utils\SchemaPrinter;
+use GraphQLTests\Doctrine\Blog\Enum\Status;
 use GraphQLTests\Doctrine\Blog\Types\CustomType;
 use GraphQLTests\Doctrine\Blog\Types\DateTimeType;
 use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
+use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Laminas\ServiceManager\ServiceManager;
+use Psr\Container\ContainerInterface;
 use stdClass;
 
 /**
@@ -43,6 +47,19 @@ trait TypesTrait
             ],
             'aliases' => [
                 'datetime_immutable' => DateTimeImmutable::class, // Declare alias for Doctrine type to be used for filters
+            ],
+            'abstract_factories' => [
+                new class() implements AbstractFactoryInterface {
+                    public function canCreate(ContainerInterface $container, string $requestedName): bool
+                    {
+                        return $requestedName === Status::class;
+                    }
+
+                    public function __invoke(ContainerInterface $container, string $requestedName, ?array $options = null): PhpEnumType
+                    {
+                        return new PhpEnumType(Status::class);
+                    }
+                },
             ],
         ]);
 

@@ -1,0 +1,5 @@
+type EnumSupport {
+  status: Status!
+  id: ID!
+  creationDate: DateTime!
+}

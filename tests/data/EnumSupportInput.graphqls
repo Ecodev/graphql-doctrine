@@ -1,0 +1,4 @@
+input EnumSupportInput {
+  status: Status!
+  creationDate: DateTime!
+}

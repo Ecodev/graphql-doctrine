@@ -41,6 +41,12 @@ final class InputTypesTest extends TestCase
         $this->assertType('tests/data/SelfSupportInput.graphqls', $actual);
     }
 
+    public function testEnumSupportInput(): void
+    {
+        $actual = $this->types->getInput(Blog\Model\Special\EnumSupport::class);
+        $this->assertType('tests/data/EnumSupportInput.graphqls', $actual);
+    }
+
     public function testNamespaceSupportInput(): void
     {
         $actual = $this->types->getInput(Blog\Model\Special\NamespaceSupport::class);

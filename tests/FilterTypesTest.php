@@ -7,6 +7,7 @@ namespace GraphQLTests\Doctrine;
 use Exception;
 use GraphQL\Type\Definition\Type;
 use GraphQLTests\Doctrine\Blog\Model\Post;
+use GraphQLTests\Doctrine\Blog\Model\Special\EnumSupport;
 use GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilter;
 use GraphQLTests\Doctrine\Blog\Model\Special\InvalidFilterGroupCondition;
 use GraphQLTests\Doctrine\Blog\Model\Special\ModelWithTraits;
@@ -20,7 +21,6 @@ final class FilterTypesTest extends TestCase
     public function testCanGetPostFilter(): void
     {
         $actual = $this->types->getFilter(Post::class);
-
         $this->assertAllTypes('tests/data/PostFilter.graphqls', $actual);
     }
 
@@ -28,6 +28,12 @@ final class FilterTypesTest extends TestCase
     {
         $actual = $this->types->getFilter(ModelWithTraits::class);
         $this->assertAllTypes('tests/data/ModelWithTraitsFilter.graphqls', $actual);
+    }
+
+    public function testCanUseNativeEnum(): void
+    {
+        $actual = $this->types->getFilter(EnumSupport::class);
+        $this->assertAllTypes('tests/data/EnumSupportFilter.graphqls', $actual);
     }
 
     public static function providerFilteredQueryBuilder(): array

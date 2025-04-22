@@ -1,0 +1,257 @@
+schema {
+  query: query
+}
+
+type query {
+  defaultField(defaultArg: EnumSupportFilter): Boolean
+}
+
+"To be used as a filter for objects of type `EnumSupport`"
+input EnumSupportFilter {
+  groups: [EnumSupportFilterGroup!]
+}
+
+"Specify a set of joins and conditions to filter `EnumSupport`"
+input EnumSupportFilterGroup {
+  "The logic operator to be used to append this group"
+  groupLogic: LogicalOperator = AND
+
+  "The logic operator to be used within all conditions in this group"
+  conditionsLogic: LogicalOperator = AND
+
+  "Conditions to be applied on fields"
+  conditions: [EnumSupportFilterGroupCondition!]
+}
+
+"Logical operator to be used in conditions"
+enum LogicalOperator {
+  AND
+  OR
+}
+
+"Type to specify conditions on fields"
+input EnumSupportFilterGroupCondition {
+  id: EnumSupportFilterGroupConditionId
+  creationDate: EnumSupportFilterGroupConditionCreationDate
+  status: EnumSupportFilterGroupConditionStatus
+}
+
+"Type to specify a condition on a specific field"
+input EnumSupportFilterGroupConditionId {
+  like: LikeOperatorID
+  between: BetweenOperatorID
+  equal: EqualOperatorID
+  greater: GreaterOperatorID
+  greaterOrEqual: GreaterOrEqualOperatorID
+  in: InOperatorID
+  less: LessOperatorID
+  lessOrEqual: LessOrEqualOperatorID
+  null: NullOperatorID
+  group: GroupOperatorID
+  modulo: ModuloOperatorInt
+}
+
+input LikeOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input BetweenOperatorID {
+  from: ID!
+  to: ID!
+  not: Boolean = false
+}
+
+input EqualOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input GreaterOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input InOperatorID {
+  values: [ID!]!
+  not: Boolean = false
+}
+
+input LessOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorID {
+  value: ID!
+  not: Boolean = false
+}
+
+input NullOperatorID {
+  not: Boolean = false
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while still allowing him to enter arbitrary values.
+"""
+input GroupOperatorID {
+  "This field is never used and can be ignored"
+  value: Boolean = null
+}
+
+input ModuloOperatorInt {
+  value: Int!
+}
+
+"Type to specify a condition on a specific field"
+input EnumSupportFilterGroupConditionCreationDate {
+  like: LikeOperatorDateTime
+  between: BetweenOperatorDateTime
+  equal: EqualOperatorDateTime
+  greater: GreaterOperatorDateTime
+  greaterOrEqual: GreaterOrEqualOperatorDateTime
+  in: InOperatorDateTime
+  less: LessOperatorDateTime
+  lessOrEqual: LessOrEqualOperatorDateTime
+  null: NullOperatorDateTime
+  group: GroupOperatorDateTime
+}
+
+input LikeOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+scalar DateTime
+
+input BetweenOperatorDateTime {
+  from: DateTime!
+  to: DateTime!
+  not: Boolean = false
+}
+
+input EqualOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input GreaterOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input InOperatorDateTime {
+  values: [DateTime!]!
+  not: Boolean = false
+}
+
+input LessOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorDateTime {
+  value: DateTime!
+  not: Boolean = false
+}
+
+input NullOperatorDateTime {
+  not: Boolean = false
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while still allowing him to enter arbitrary values.
+"""
+input GroupOperatorDateTime {
+  "This field is never used and can be ignored"
+  value: Boolean = null
+}
+
+"Type to specify a condition on a specific field"
+input EnumSupportFilterGroupConditionStatus {
+  like: LikeOperatorStatus
+  between: BetweenOperatorStatus
+  equal: EqualOperatorStatus
+  greater: GreaterOperatorStatus
+  greaterOrEqual: GreaterOrEqualOperatorStatus
+  in: InOperatorStatus
+  less: LessOperatorStatus
+  lessOrEqual: LessOrEqualOperatorStatus
+  null: NullOperatorStatus
+  group: GroupOperatorStatus
+}
+
+input LikeOperatorStatus {
+  value: Status!
+  not: Boolean = false
+}
+
+enum Status {
+  New
+  Active
+  Archived
+}
+
+input BetweenOperatorStatus {
+  from: Status!
+  to: Status!
+  not: Boolean = false
+}
+
+input EqualOperatorStatus {
+  value: Status!
+  not: Boolean = false
+}
+
+input GreaterOperatorStatus {
+  value: Status!
+  not: Boolean = false
+}
+
+input GreaterOrEqualOperatorStatus {
+  value: Status!
+  not: Boolean = false
+}
+
+input InOperatorStatus {
+  values: [Status!]!
+  not: Boolean = false
+}
+
+input LessOperatorStatus {
+  value: Status!
+  not: Boolean = false
+}
+
+input LessOrEqualOperatorStatus {
+  value: Status!
+  not: Boolean = false
+}
+
+input NullOperatorStatus {
+  not: Boolean = false
+}
+
+"""
+Will apply a `GROUP BY` on the field to select unique values existing in database.
+
+This is typically useful to present a list of suggestions to the end-user, while still allowing him to enter arbitrary values.
+"""
+input GroupOperatorStatus {
+  "This field is never used and can be ignored"
+  value: Boolean = null
+}

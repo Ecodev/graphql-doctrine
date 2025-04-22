@@ -55,6 +55,12 @@ final class OutputTypesTest extends TestCase
         $this->assertType('tests/data/SelfSupport.graphqls', $actual);
     }
 
+    public function testEnumSupportOutput(): void
+    {
+        $actual = $this->types->getOutput(Blog\Model\Special\EnumSupport::class);
+        $this->assertType('tests/data/EnumSupport.graphqls', $actual);
+    }
+
     public function testNamespaceSupportOutput(): void
     {
         $actual = $this->types->getOutput(Blog\Model\Special\NamespaceSupport::class);

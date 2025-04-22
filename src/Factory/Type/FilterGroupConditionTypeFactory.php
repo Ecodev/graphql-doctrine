@@ -128,7 +128,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
         }
 
         /** @var LeafType $leafType */
-        $leafType = $this->types->get($mapping->type);
+        $leafType = $this->types->get($mapping->enumType ?? $mapping->type);
 
         return $leafType;
     }
