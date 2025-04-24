@@ -25,15 +25,15 @@ final class SearchOperatorType extends AbstractOperator
         ];
     }
 
-    public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, ?array $args): ?string
+    public function getDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, ?array $args): string
     {
         if (!$args) {
-            return null;
+            return '';
         }
 
         $words = preg_split('/[[:space:]]+/', (string) $args['term'], -1, PREG_SPLIT_NO_EMPTY);
         if (!$words) {
-            return null;
+            return '';
         }
 
         $fields = $this->getSearchableFields($metadata, $alias);

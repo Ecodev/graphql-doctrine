@@ -32,7 +32,7 @@ final class OperatorsTest extends TestCase
      * @param class-string<AbstractOperator> $className
      */
     #[DataProvider('providerOperator')]
-    public function testOperator(?string $expected, string $className, ?array $args, string $field = 'field'): void
+    public function testOperator(string $expected, string $className, ?array $args, string $field = 'field'): void
     {
         $operator = new $className($this->types, Type::string());
         $uniqueNameFactory = new UniqueNameFactory();
@@ -60,7 +60,7 @@ final class OperatorsTest extends TestCase
     {
         return [
             [
-                null,
+                '',
                 BetweenOperatorType::class,
                 null,
             ],
@@ -82,7 +82,7 @@ final class OperatorsTest extends TestCase
                 ],
             ],
             [
-                null,
+                '',
                 HaveOperatorType::class,
                 null,
                 'posts',
@@ -106,7 +106,7 @@ final class OperatorsTest extends TestCase
                 'posts',
             ],
             [
-                null,
+                '',
                 HaveOperatorType::class,
                 null,
                 'manager',
@@ -148,7 +148,7 @@ final class OperatorsTest extends TestCase
                 'favoritePosts',
             ],
             [
-                null,
+                '',
                 EmptyOperatorType::class,
                 null,
                 'posts',
@@ -170,7 +170,7 @@ final class OperatorsTest extends TestCase
                 'posts',
             ],
             [
-                null,
+                '',
                 EmptyOperatorType::class,
                 null,
                 'manager',
@@ -192,7 +192,7 @@ final class OperatorsTest extends TestCase
                 'manager',
             ],
             [
-                null,
+                '',
                 EqualOperatorType::class,
                 null,
             ],
@@ -213,7 +213,7 @@ final class OperatorsTest extends TestCase
                 ],
             ],
             [
-                null,
+                '',
                 GreaterOperatorType::class,
                 null,
             ],
@@ -234,7 +234,7 @@ final class OperatorsTest extends TestCase
                 ],
             ],
             [
-                null,
+                '',
                 GreaterOrEqualOperatorType::class,
                 null,
             ],
@@ -255,7 +255,7 @@ final class OperatorsTest extends TestCase
                 ],
             ],
             [
-                null,
+                '',
                 InOperatorType::class,
                 null,
             ],
@@ -276,7 +276,7 @@ final class OperatorsTest extends TestCase
                 ],
             ],
             [
-                null,
+                '',
                 LessOperatorType::class,
                 null,
             ],
@@ -297,7 +297,7 @@ final class OperatorsTest extends TestCase
                 ],
             ],
             [
-                null,
+                '',
                 LessOrEqualOperatorType::class,
                 null,
             ],
@@ -318,7 +318,7 @@ final class OperatorsTest extends TestCase
                 ],
             ],
             [
-                null,
+                '',
                 LikeOperatorType::class,
                 null,
             ],
@@ -339,7 +339,7 @@ final class OperatorsTest extends TestCase
                 ],
             ],
             [
-                null,
+                '',
                 NullOperatorType::class,
                 null,
             ],
@@ -360,19 +360,19 @@ final class OperatorsTest extends TestCase
                 ],
             ],
             [
-                null,
+                '',
                 GroupOperatorType::class,
                 null,
             ],
             [
-                null,
+                '',
                 GroupOperatorType::class,
                 [
                     'value' => null,
                 ],
             ],
             [
-                null,
+                '',
                 GroupOperatorType::class,
                 [
                     'value' => true,

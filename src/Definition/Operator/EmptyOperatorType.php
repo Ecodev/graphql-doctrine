@@ -25,7 +25,7 @@ final class EmptyOperatorType extends AbstractAssociationOperatorType
         ];
     }
 
-    protected function getSingleValuedDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): ?string
+    protected function getSingleValuedDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): string
     {
         $null = $this->types->getOperator(NullOperatorType::class, self::id());
 

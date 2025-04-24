@@ -30,7 +30,7 @@ final class HaveOperatorType extends AbstractAssociationOperatorType
         ];
     }
 
-    protected function getSingleValuedDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): ?string
+    protected function getSingleValuedDqlCondition(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $field, array $args): string
     {
         $in = $this->types->getOperator(InOperatorType::class, self::id());
 
