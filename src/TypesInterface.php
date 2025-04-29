@@ -123,7 +123,7 @@ interface TypesInterface
      *
      * This should be used to declare typeLoader in `GraphQL\Type\Schema` with something similar to:
      *
-     * ```php
+     * ```
      * $types = new Types(...);
      * $schema = new GraphQL\Type\Schema([
      *     'typeLoader' => fn (string $name) => $types->loadType($name, 'Application\Model') ?? $types->loadType($name, 'OtherApplication\Model')
