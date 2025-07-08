@@ -43,7 +43,7 @@ class DocBlockReaderTest extends TestCase
         self::assertSame($expected, $actual);
     }
 
-    public static function providerGetMethodDescription(): array
+    public static function providerGetMethodDescription(): iterable
     {
         return [
             [false, null],
@@ -64,7 +64,7 @@ spanning lines'],
         self::assertSame($expected, $actual);
     }
 
-    public static function providerGetParameterDescription(): array
+    public static function providerGetParameterDescription(): iterable
     {
         return [
             [false, 'foo', null],
@@ -84,7 +84,7 @@ spanning lines'],
         self::assertSame($expected, $actual);
     }
 
-    public static function providerGetParameterType(): array
+    public static function providerGetParameterType(): iterable
     {
         return [
             [false, 'foo', null],
@@ -105,7 +105,7 @@ spanning lines'],
         self::assertSame($expected, $actual);
     }
 
-    public static function providerGetReturnType(): array
+    public static function providerGetReturnType(): iterable
     {
         return [
             [false, null],
@@ -118,9 +118,9 @@ spanning lines'],
     private function create(string|false $comment): DocBlockReader
     {
         $method = new class($comment) extends ReflectionMethod {
-            public function __construct(private readonly string|false $comment)
-            {
-            }
+            public function __construct(
+                private readonly string|false $comment,
+            ) {}
 
             public function getDocComment(): string|false
             {
@@ -134,9 +134,9 @@ spanning lines'],
     private function createParameter(string $name): ReflectionParameter
     {
         return new class($name) extends ReflectionParameter {
-            public function __construct(public string $mockedName)
-            {
-            }
+            public function __construct(
+                public string $mockedName,
+            ) {}
 
             public function getName(): string
             {

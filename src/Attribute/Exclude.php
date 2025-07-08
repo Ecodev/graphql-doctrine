@@ -12,6 +12,4 @@ use Attribute;
  * This should be used to hide sensitive data such as passwords.
  */
 #[Attribute(Attribute::TARGET_METHOD | Attribute::TARGET_PROPERTY)]
-final class Exclude implements ApiAttribute
-{
-}
+final class Exclude implements ApiAttribute {}

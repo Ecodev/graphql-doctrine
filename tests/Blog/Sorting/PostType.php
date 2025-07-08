@@ -11,9 +11,7 @@ use GraphQL\Doctrine\Sorting\SortingInterface;
 
 final class PostType implements SortingInterface
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function __invoke(UniqueNameFactory $uniqueNameFactory, ClassMetadata $metadata, QueryBuilder $queryBuilder, string $alias, string $order): void
     {

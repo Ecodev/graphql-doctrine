@@ -20,8 +20,10 @@ abstract class AbstractFactory
 {
     protected readonly Reader $reader;
 
-    public function __construct(protected Types $types, protected EntityManager $entityManager)
-    {
+    public function __construct(
+        protected Types $types,
+        protected EntityManager $entityManager,
+    ) {
         $this->reader = new Reader();
     }
 
@@ -49,7 +51,7 @@ abstract class AbstractFactory
      *  - `MyType[]|null`
      *  - `Collection<int, MyType>`
      */
-    final protected function getTypeFromPhpDeclaration(ReflectionClass $class, null|string|Type $typeDeclaration, bool $isEntityId = false): null|Type
+    final protected function getTypeFromPhpDeclaration(ReflectionClass $class, null|string|Type $typeDeclaration, bool $isEntityId = false): ?Type
     {
         if ($typeDeclaration === null || $typeDeclaration instanceof Type) {
             return $typeDeclaration;

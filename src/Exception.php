@@ -7,6 +7,4 @@ namespace GraphQL\Doctrine;
 /**
  * Exception specific to GraphQL Doctrine.
  */
-final class Exception extends \Exception
-{
-}
+final class Exception extends \Exception {}

@@ -14,7 +14,7 @@ use GraphQLTests\Doctrine\Blog\Model\User;
 #[ORM\Entity]
 final class ArrayOfEntity extends AbstractModel
 {
-    #[API\Field(type: 'GraphQLTests\\Doctrine\\Blog\\Model\\User[]')]
+    #[API\Field(type: 'GraphQLTests\Doctrine\Blog\Model\User[]')]
     public function getUsers(): array
     {
         return [new User(), new User()];

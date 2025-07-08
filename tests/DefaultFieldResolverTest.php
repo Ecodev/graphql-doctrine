@@ -21,13 +21,23 @@ use PHPUnit\Framework\TestCase;
 
 final class DefaultFieldResolverTest extends TestCase
 {
-    public static function providerDefaultFieldResolver(): array
+    #[DataProvider('providerDefaultFieldResolver')]
+    public function testDefaultFieldResolver(mixed $expected, array|object $source, string $fieldName, array $args = []): void
+    {
+        $resolver = new DefaultFieldResolver();
+        $fieldDefinition = new FieldDefinition(['name' => $fieldName, 'type' => Type::boolean()]);
+        $info = new ResolveInfo($fieldDefinition, new ArrayObject(), new ObjectType(['name' => 'foo', 'fields' => []]), [], new Schema([]), [], null, new OperationDefinitionNode([]), []);
+        $actual = $resolver($source, $args, null, $info);
+        self::assertSame($expected, $actual);
+    }
+
+    public static function providerDefaultFieldResolver(): iterable
     {
         $fakeEntity = new User();
         $entityID = new class($fakeEntity) extends EntityID {
-            public function __construct(private readonly User $fakeEntity)
-            {
-            }
+            public function __construct(
+                private readonly User $fakeEntity,
+            ) {}
 
             public function getEntity(): User
             {
@@ -51,15 +61,5 @@ final class DefaultFieldResolverTest extends TestCase
             ['jane', new DefaultValue(), 'nameWithDefaultValueOnArgument', ['name' => 'jane']],
             ['bar', ['foo' => 'bar'], 'foo'],
         ];
-    }
-
-    #[DataProvider('providerDefaultFieldResolver')]
-    public function testDefaultFieldResolver(mixed $expected, array|object $source, string $fieldName, array $args = []): void
-    {
-        $resolver = new DefaultFieldResolver();
-        $fieldDefinition = new FieldDefinition(['name' => $fieldName, 'type' => Type::boolean()]);
-        $info = new ResolveInfo($fieldDefinition, new ArrayObject(), new ObjectType(['name' => 'foo', 'fields' => []]), [], new Schema([]), [], null, new OperationDefinitionNode([]), []);
-        $actual = $resolver($source, $args, null, $info);
-        self::assertSame($expected, $actual);
     }
 }

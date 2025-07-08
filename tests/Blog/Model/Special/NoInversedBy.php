@@ -8,6 +8,4 @@ use Doctrine\ORM\Mapping as ORM;
 use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 
 #[ORM\Entity]
-final class NoInversedBy extends AbstractModel
-{
-}
+final class NoInversedBy extends AbstractModel {}

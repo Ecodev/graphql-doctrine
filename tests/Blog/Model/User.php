@@ -130,7 +130,7 @@ final class User extends AbstractModel
      */
     public function getPosts(
         #[API\Argument(type: '?GraphQLTests\Doctrine\Blog\Types\PostStatusType')]
-        ?string $status = Post::STATUS_PUBLIC
+        ?string $status = Post::STATUS_PUBLIC,
     ): Collection {
         // Return unfiltered collection
         if ($status === null) {

@@ -16,7 +16,7 @@ final class Sorting implements ApiAttribute
     /**
      * @param class-string<SortingInterface> $class FQCN of PHP class implementing `SortingInterface`
      */
-    public function __construct(public readonly string $class)
-    {
-    }
+    public function __construct(
+        public readonly string $class,
+    ) {}
 }

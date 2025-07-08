@@ -44,6 +44,6 @@ final class BetweenOperatorType extends AbstractOperator
         $queryBuilder->setParameter($to, $args['to']);
         $not = $args['not'] ? 'NOT ' : '';
 
-        return $alias . '.' . $field . ' ' . $not . 'BETWEEN :' . $from . ' AND ' . ':' . $to;
+        return $alias . '.' . $field . ' ' . $not . 'BETWEEN :' . $from . ' AND :' . $to;
     }
 }

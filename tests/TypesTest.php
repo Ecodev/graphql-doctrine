@@ -158,7 +158,7 @@ final class TypesTest extends TestCase
         self::assertTrue($this->types->has('customName'), 'should have custom registered type by its name, even if custom key was different, once type is created');
     }
 
-    #[DataProvider('provideLoadType')]
+    #[DataProvider('providerLoadType')]
     public function testLoadType(string $typeName): void
     {
         $type = $this->types->loadType($typeName, 'GraphQLTests\Doctrine\Blog\Model');
@@ -166,7 +166,7 @@ final class TypesTest extends TestCase
         self::assertSame($typeName, $type->name(), 'loaded type must have same name');
     }
 
-    public static function provideLoadType(): iterable
+    public static function providerLoadType(): iterable
     {
         yield 'PostInput' => ['PostInput'];
         yield 'PostPartialInput' => ['PostPartialInput'];

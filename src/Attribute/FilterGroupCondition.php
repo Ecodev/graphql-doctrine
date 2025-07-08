@@ -18,7 +18,7 @@ final class FilterGroupCondition implements ApiAttribute
     /**
      * @param string $type FQCN of PHP class implementing the GraphQL type, see README.md#type-syntax
      */
-    public function __construct(public readonly string $type)
-    {
-    }
+    public function __construct(
+        public readonly string $type,
+    ) {}
 }

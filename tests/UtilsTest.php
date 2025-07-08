@@ -10,16 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 final class UtilsTest extends TestCase
 {
-    public static function providerGetTypeName(): array
-    {
-        return [
-            ['\Blog\Model\Post', 'Post'],
-            ['Blog\Model\Post', 'Post'],
-            ['\Post', 'Post'],
-            ['Post', 'Post'],
-        ];
-    }
-
     /**
      * @param class-string $className
      */
@@ -27,5 +17,15 @@ final class UtilsTest extends TestCase
     public function testGetTypeName(string $className, string $expected): void
     {
         self::assertSame($expected, Utils::getTypeName($className));
+    }
+
+    public static function providerGetTypeName(): iterable
+    {
+        return [
+            ['\Blog\Model\Post', 'Post'],
+            ['Blog\Model\Post', 'Post'],
+            ['\Post', 'Post'],
+            ['Post', 'Post'],
+        ];
     }
 }

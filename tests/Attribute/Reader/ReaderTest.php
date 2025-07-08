@@ -55,7 +55,7 @@ class ReaderTest extends TestCase
     {
         self::assertInstanceOf(
             Filter::class,
-            $this->reader->getAttribute(new ReflectionClass(Post::class), Filter::class)
+            $this->reader->getAttribute(new ReflectionClass(Post::class), Filter::class),
         );
     }
 
@@ -63,7 +63,7 @@ class ReaderTest extends TestCase
     {
         self::assertInstanceOf(
             FilterGroupCondition::class,
-            $this->reader->getAttribute(new ReflectionProperty(Post::class, 'status'), FilterGroupCondition::class)
+            $this->reader->getAttribute(new ReflectionProperty(Post::class, 'status'), FilterGroupCondition::class),
         );
     }
 
@@ -71,7 +71,7 @@ class ReaderTest extends TestCase
     {
         self::assertInstanceOf(
             Field::class,
-            $this->reader->getAttribute(new ReflectionMethod(Post::class, 'getBody'), Field::class)
+            $this->reader->getAttribute(new ReflectionMethod(Post::class, 'getBody'), Field::class),
         );
     }
 
@@ -79,7 +79,7 @@ class ReaderTest extends TestCase
     {
         self::assertInstanceOf(
             Argument::class,
-            $this->reader->getAttribute((new ReflectionMethod(User::class, 'getPosts'))->getParameters()[0], Argument::class)
+            $this->reader->getAttribute((new ReflectionMethod(User::class, 'getPosts'))->getParameters()[0], Argument::class),
         );
     }
 
@@ -106,9 +106,7 @@ class ReaderTest extends TestCase
              * @phpstan-ignore-next-line
              */
             #[ReturnTypeWillChange]
-            private function foo(): void
-            {
-            }
+            private function foo(): void {}
         };
 
         $this->expectExceptionMessage('GraphQL\Doctrine\Attribute\Reader\Reader cannot be used for attribute than are not part of `ecodev/graphql-doctrine`.');

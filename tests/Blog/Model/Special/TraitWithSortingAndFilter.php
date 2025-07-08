@@ -10,6 +10,4 @@ use GraphQLTests\Doctrine\Blog\Sorting\UserName;
 
 #[API\Sorting(UserName::class)]
 #[API\Filter(field: 'customFromTrait', operator: SearchOperatorType::class, type: 'string')]
-trait TraitWithSortingAndFilter
-{
-}
+trait TraitWithSortingAndFilter {}

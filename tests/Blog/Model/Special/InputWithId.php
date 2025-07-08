@@ -12,7 +12,5 @@ use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 final class InputWithId extends AbstractModel
 {
     #[API\Input(type: 'ID[]')]
-    public function setIds(array $ids): void
-    {
-    }
+    public function setIds(array $ids): void {}
 }

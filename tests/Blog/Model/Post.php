@@ -156,7 +156,5 @@ final class Post extends AbstractModel
     /**
      * This should be silently ignored.
      */
-    public function setNothing(): void
-    {
-    }
+    public function setNothing(): void {}
 }

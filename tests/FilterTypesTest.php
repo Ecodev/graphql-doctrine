@@ -36,7 +36,21 @@ final class FilterTypesTest extends TestCase
         $this->assertAllTypes('tests/data/EnumSupportFilter.graphqls', $actual);
     }
 
-    public static function providerFilteredQueryBuilder(): array
+    /**
+     * @param class-string $className
+     */
+    #[DataProvider('providerFilteredQueryBuilder')]
+    public function testFilteredQueryBuilder(string $expected, string $className, array $filter, array $sorting): void
+    {
+        $queryBuilder = $this->types->createFilteredQueryBuilder($className, $filter, $sorting);
+        $actual = $queryBuilder->getDQL();
+
+        self::assertSame($expected, $actual);
+        // @phpstan-ignore-next-line
+        self::assertStringStartsWith('SELECT ', $queryBuilder->getQuery()->getSQL(), 'should be able to generate valid SQL without throwing exceptions');
+    }
+
+    public static function providerFilteredQueryBuilder(): iterable
     {
         $values = [];
         $files = glob('tests/data/query-builder/*.php');
@@ -51,20 +65,6 @@ final class FilterTypesTest extends TestCase
         }
 
         return $values;
-    }
-
-    /**
-     * @param class-string $className
-     */
-    #[DataProvider('providerFilteredQueryBuilder')]
-    public function testFilteredQueryBuilder(string $expected, string $className, array $filter, array $sorting): void
-    {
-        $queryBuilder = $this->types->createFilteredQueryBuilder($className, $filter, $sorting);
-        $actual = $queryBuilder->getDQL();
-
-        self::assertSame($expected, $actual);
-        // @phpstan-ignore-next-line
-        self::assertStringStartsWith('SELECT ', $queryBuilder->getQuery()->getSQL(), 'should be able to generate valid SQL without throwing exceptions');
     }
 
     public function testInvalidOperatorTypeMustThrow(): void

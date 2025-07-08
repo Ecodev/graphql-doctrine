@@ -7,6 +7,4 @@ namespace GraphQL\Doctrine\Attribute;
 /**
  * A marker interface for API attributes.
  */
-interface ApiAttribute
-{
-}
+interface ApiAttribute {}

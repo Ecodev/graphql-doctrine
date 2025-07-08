@@ -56,7 +56,7 @@ final class OperatorsTest extends TestCase
         }
     }
 
-    public static function providerOperator(): array
+    public static function providerOperator(): iterable
     {
         return [
             [

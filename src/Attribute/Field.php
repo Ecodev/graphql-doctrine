@@ -29,7 +29,7 @@ final class Field implements ApiAttribute
      */
     public function __construct(
         public ?string $name = null,
-        null|string $type = null,
+        ?string $type = null,
         public ?string $description = null,
     ) {
         $this->type = $type;

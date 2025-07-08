@@ -16,27 +16,21 @@ final class DefaultValue extends AbstractModel
     #[ORM\Column(type: 'string')]
     private string $nameWithDefaultValueOnArgumentOverrideField = 'field';
 
-    public function setNameWithoutDefault(string $name): void
-    {
-    }
+    public function setNameWithoutDefault(string $name): void {}
 
     public function setNameWithDefaultValueOnField(string $name): void
     {
         $this->nameWithDefaultValueOnField = $name;
     }
 
-    public function setNameWithDefaultValueOnArgument(string $name = 'john'): void
-    {
-    }
+    public function setNameWithDefaultValueOnArgument(string $name = 'john'): void {}
 
     public function setNameWithDefaultValueOnArgumentOverrideField(string $name = 'argument'): void
     {
         $this->nameWithDefaultValueOnArgumentOverrideField = $name;
     }
 
-    public function setNameWithDefaultValueOnArgumentNullable(?string $name = null): void
-    {
-    }
+    public function setNameWithDefaultValueOnArgumentNullable(?string $name = null): void {}
 
     public function getNameWithoutDefault(string $name): string
     {

@@ -120,7 +120,7 @@ final class FilterGroupConditionTypeFactory extends AbstractTypeFactory
                 if (!$leafType instanceof LeafType) {
                     $propertyFullName = '`' . $property->getDeclaringClass()->getName() . '::$' . $property->getName() . '`';
 
-                    throw new Exception('On property ' . $propertyFullName . ' the attribute `#[API\\FilterGroupCondition]` expects a, possibly wrapped, `' . LeafType::class . '`, but instead got: ' . $leafType::class);
+                    throw new Exception('On property ' . $propertyFullName . ' the attribute `#[API\FilterGroupCondition]` expects a, possibly wrapped, `' . LeafType::class . '`, but instead got: ' . $leafType::class);
                 }
 
                 return $leafType;

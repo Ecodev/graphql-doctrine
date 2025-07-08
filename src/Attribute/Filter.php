@@ -25,6 +25,5 @@ final class Filter implements ApiAttribute
         public readonly string $field,
         public readonly string $operator,
         public readonly string $type,
-    ) {
-    }
+    ) {}
 }

@@ -63,8 +63,10 @@ final class Types implements TypesInterface
 
     private readonly FilterGroupConditionTypeFactory $filterGroupConditionTypeFactory;
 
-    public function __construct(private readonly EntityManager $entityManager, private readonly ?ContainerInterface $customTypes = null)
-    {
+    public function __construct(
+        private readonly EntityManager $entityManager,
+        private readonly ?ContainerInterface $customTypes = null,
+    ) {
         $this->objectTypeFactory = new ObjectTypeFactory($this, $entityManager);
         $this->inputTypeFactory = new InputTypeFactory($this, $entityManager);
         $this->partialInputTypeFactory = new PartialInputTypeFactory($this, $entityManager);

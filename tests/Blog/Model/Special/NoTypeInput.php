@@ -10,7 +10,5 @@ use GraphQLTests\Doctrine\Blog\Model\AbstractModel;
 #[ORM\Entity]
 final class NoTypeInput extends AbstractModel
 {
-    public function setFoo($bar): void
-    {
-    }
+    public function setFoo($bar): void {}
 }

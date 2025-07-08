@@ -21,9 +21,8 @@ class EntityID
     public function __construct(
         private readonly EntityManager $entityManager,
         private readonly string $className,
-        private readonly ?string $id
-    ) {
-    }
+        private readonly ?string $id,
+    ) {}
 
     /**
      * Get the ID.

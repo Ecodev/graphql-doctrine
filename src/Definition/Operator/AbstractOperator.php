@@ -21,7 +21,7 @@ abstract class AbstractOperator extends InputObjectType
 {
     final public function __construct(
         protected Types $types,
-        LeafType $leafType
+        LeafType $leafType,
     ) {
         $config = $this->getConfiguration($leafType);
 

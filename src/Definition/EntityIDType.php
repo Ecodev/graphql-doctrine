@@ -23,7 +23,7 @@ final class EntityIDType extends ScalarType
     public function __construct(
         private readonly EntityManager $entityManager,
         private readonly string $className,
-        string $typeName
+        string $typeName,
     ) {
         $this->name = $typeName;
         $this->description = 'Automatically generated type to be used as input where an object of type `' . Utils::getTypeName($className) . '` is needed';

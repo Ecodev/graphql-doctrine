@@ -19,7 +19,7 @@ final class FilterTypeFactory extends AbstractTypeFactory
         Types $types,
         EntityManager $entityManager,
         private readonly FilterGroupJoinTypeFactory $filterGroupJoinTypeFactory,
-        private readonly FilterGroupConditionTypeFactory $filterGroupConditionTypeFactory
+        private readonly FilterGroupConditionTypeFactory $filterGroupConditionTypeFactory,
     ) {
         parent::__construct($types, $entityManager);
     }
