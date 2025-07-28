@@ -135,7 +135,7 @@ spanning lines'],
     {
         return new class($name) extends ReflectionParameter {
             public function __construct(
-                public string $mockedName,
+                public readonly string $mockedName,
             ) {}
 
             public function getName(): string

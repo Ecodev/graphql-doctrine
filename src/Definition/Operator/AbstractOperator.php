@@ -20,7 +20,7 @@ use GraphQL\Type\Definition\LeafType;
 abstract class AbstractOperator extends InputObjectType
 {
     final public function __construct(
-        protected Types $types,
+        protected readonly Types $types,
         LeafType $leafType,
     ) {
         $config = $this->getConfiguration($leafType);

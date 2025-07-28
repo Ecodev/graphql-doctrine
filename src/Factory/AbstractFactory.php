@@ -21,8 +21,8 @@ abstract class AbstractFactory
     protected readonly Reader $reader;
 
     public function __construct(
-        protected Types $types,
-        protected EntityManager $entityManager,
+        protected readonly Types $types,
+        protected readonly EntityManager $entityManager,
     ) {
         $this->reader = new Reader();
     }
