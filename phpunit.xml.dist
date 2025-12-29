@@ -3,13 +3,8 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="./vendor/autoload.php"
          colors="true"
-         cacheDirectory="/tmp/.graphql-doctrine.phpunit.cache"
-         displayDetailsOnIncompleteTests="true"
-         displayDetailsOnSkippedTests="true"
-         displayDetailsOnTestsThatTriggerDeprecations="true"
-         displayDetailsOnTestsThatTriggerErrors="true"
-         displayDetailsOnTestsThatTriggerNotices="true"
-         displayDetailsOnTestsThatTriggerWarnings="true"
+         cacheDirectory="/tmp/.phpunit.cache.graphql-doctrine"
+         displayDetailsOnAllIssues="true"
 >
     <testsuites>
         <testsuite name="graphql-doctrine tests">

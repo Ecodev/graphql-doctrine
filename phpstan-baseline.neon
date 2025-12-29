@@ -193,6 +193,18 @@ parameters:
 			path: src/Types.php
 
 		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertContainsOnlyInstancesOf\(\) with ''GraphQL\\\\Doctrine\\\\Attribute\\\\Filter'' and array\<GraphQL\\Doctrine\\Attribute\\Filter\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 2
+			path: tests/Attribute/Reader/ReaderTest.php
+
+		-
+			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertContainsOnlyInstancesOf\(\) with ''GraphQL\\\\Doctrine\\\\Attribute\\\\Sorting'' and array\<GraphQL\\Doctrine\\Attribute\\Sorting\> will always evaluate to true\.$#'
+			identifier: staticMethod.alreadyNarrowedType
+			count: 2
+			path: tests/Attribute/Reader/ReaderTest.php
+
+		-
 			message: '#^Binary operation "\." between mixed and '' LIKE \:'' results in an error\.$#'
 			identifier: binaryOp.invalid
 			count: 1
