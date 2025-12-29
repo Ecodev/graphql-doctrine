@@ -37,9 +37,9 @@
     },
     "require": {
         "php": "^8.2",
-        "doctrine/orm": "^3.3",
+        "doctrine/orm": "^3.6",
         "psr/container": "^1.1 || ^2.0",
-        "webonyx/graphql-php": "^15.20"
+        "webonyx/graphql-php": "^15.29"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "@stable",
