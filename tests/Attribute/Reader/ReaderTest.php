@@ -79,7 +79,7 @@ class ReaderTest extends TestCase
     {
         self::assertInstanceOf(
             Argument::class,
-            $this->reader->getAttribute((new ReflectionMethod(User::class, 'getPosts'))->getParameters()[0], Argument::class),
+            $this->reader->getAttribute(new ReflectionMethod(User::class, 'getPosts')->getParameters()[0], Argument::class),
         );
     }
 
