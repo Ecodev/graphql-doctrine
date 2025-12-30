@@ -17,7 +17,8 @@ trait EntityManagerTrait
 
     private function setUpEntityManager(): void
     {
-        $config = ORMSetup::createAttributeMetadataConfiguration([__DIR__ . '/Blog/Model'], true);
+        $config = ORMSetup::createAttributeMetadataConfig([__DIR__ . '/Blog/Model'], true);
+        $config->enableNativeLazyObjects(true);
         $connection = DriverManager::getConnection([
             'driver' => 'sqlite3',
             'memory' => true,
