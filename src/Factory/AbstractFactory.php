@@ -63,7 +63,7 @@ abstract class AbstractFactory
         $isList = 0;
         $name = preg_replace_callback(
             '~^([^<]*)\[]$|^Collection<(.*),(.*)>$~',
-            fn (array $m) => $m[1] . trim($m[3] ?? ''),
+            fn (array $m) => $m[1] . mb_trim($m[3] ?? ''),
             $name ?? '',
             count: $isList,
         );

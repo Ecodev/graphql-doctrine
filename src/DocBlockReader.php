@@ -29,7 +29,7 @@ final class DocBlockReader
         $description = preg_replace('~^\s*(/\*\*|\* ?|\*/)~m', '', $description);
 
         // Keep everything before the first annotation
-        $description = trim(explode('@', $description ?? '')[0]);
+        $description = mb_trim(explode('@', $description ?? '')[0]);
 
         // Drop common "Get" or "Return" in front of comment
         $description = ucfirst(preg_replace('~^(set|get|return)s? ~i', '', $description) ?? '');
@@ -45,7 +45,7 @@ final class DocBlockReader
         $name = preg_quote($param->getName());
 
         if (preg_match('~@param\h+\H+\h+\$' . $name . '\h+(.*)~', $this->comment, $m)) {
-            return ucfirst(trim($m[1]));
+            return ucfirst(mb_trim($m[1]));
         }
 
         return null;
@@ -59,7 +59,7 @@ final class DocBlockReader
         $name = preg_quote($param->getName());
 
         if (preg_match('~@param\h+(\H+)\h+\$' . $name . '(\h|\n)~', $this->comment, $m)) {
-            return trim($m[1]);
+            return mb_trim($m[1]);
         }
 
         return null;
@@ -71,7 +71,7 @@ final class DocBlockReader
     public function getReturnType(): ?string
     {
         if (preg_match('~@return\h+([^<]+<.*>|\H+)(\h|\n)~', $this->comment, $m)) {
-            return trim($m[1]);
+            return mb_trim($m[1]);
         }
 
         return null;
