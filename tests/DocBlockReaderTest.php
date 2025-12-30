@@ -12,11 +12,11 @@ use ReflectionParameter;
 
 class DocBlockReaderTest extends TestCase
 {
-    private const EMPTY_COMMENT = '
+    private const string EMPTY_COMMENT = '
     /**
      */';
 
-    private const COMMENT = '
+    private const string COMMENT = '
     /**
      * Get interesting data
      *
@@ -30,7 +30,7 @@ class DocBlockReaderTest extends TestCase
      * @return bool
      */';
 
-    private const COMMENT_GENERIC = '
+    private const string COMMENT_GENERIC = '
     /**
      * @return Collection<int, Foo>
      */';

@@ -22,8 +22,8 @@ use GraphQLTests\Doctrine\Blog\Types\PostStatusType;
 #[API\Filter(field: 'custom', operator: SearchOperatorType::class, type: 'string')]
 final class Post extends AbstractModel
 {
-    public const STATUS_PRIVATE = 'private';
-    public const STATUS_PUBLIC = 'public';
+    public const string STATUS_PRIVATE = 'private';
+    public const string STATUS_PUBLIC = 'public';
 
     #[ORM\Column(type: 'string', length: 50, options: ['default' => ''])]
     private string $title = '';
