@@ -278,7 +278,7 @@ return (new PhpCsFixer\Config())
         'static_private_method' => false, // In PHP we'd rather avoid static as a rule of thumb
         'strict_comparison' => true,
         'strict_param' => true,
-        'string_implicit_backslashes' => true,
+        'string_implicit_backslashes' => false, // It's incompatible with generated code
         'string_length_to_empty' => true,
         'string_line_ending' => true,
         'switch_case_semicolon_to_colon' => true,
