@@ -1,5 +1,8 @@
 name: main
 on: [ push, pull_request ]
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -13,6 +16,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+            persist-credentials: false
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
@@ -44,6 +49,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+            persist-credentials: false
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
@@ -70,6 +77,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+            persist-credentials: false
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
@@ -96,13 +105,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.ref }} # Otherwise our annotated tag is not fetched and we cannot get correct version
+          persist-credentials: false
+          ref: ${{ github.ref }} # Otherwise our annotated tag is not fetched, and we cannot get correct version
 
-      - name: Get release info
-        run: git tag --format '%(contents:body)' --points-at > release-body.txt
-
-      - uses: ncipollo/release-action@v1
+      # Create release
+      - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          bodyFile: release-body.txt
+        run: gh release create "$GITHUB_REF_NAME" --verify-tag --notes "$(git tag --format '%(contents:body)' --points-at)"
