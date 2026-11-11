@@ -7,6 +7,14 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/package-versions-deprecated": true
+        },
+        "policy": {
+            "cooldown": {
+                "period": "1 day",
+                "ignore": {
+                    "ecodev/*": "We trust the code in our own packages"
+                }
+            }
         }
     },
     "keywords": [
