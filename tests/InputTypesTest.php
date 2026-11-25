@@ -35,6 +35,30 @@ final class InputTypesTest extends TestCase
         $this->assertType('tests/data/DefaultValuePartialInput.graphqls', $actual);
     }
 
+    public function testPartialInputIsPartialWhenInputFieldsAreAlreadyResolved(): void
+    {
+        $input = $this->types->getInput(Blog\Model\Special\DefaultValue::class);
+        $input->getFields();
+
+        $partialInput = $this->types->getPartialInput(Blog\Model\Special\DefaultValue::class);
+        $this->assertType('tests/data/DefaultValuePartialInput.graphqls', $partialInput);
+    }
+
+    public function testInputIsNotPartialWhenPartialInputFieldsAreAlreadyResolved(): void
+    {
+        $partialInput = $this->types->getPartialInput(Blog\Model\Special\DefaultValue::class);
+        $partialInput->getFields();
+
+        $input = $this->types->getInput(Blog\Model\Special\DefaultValue::class);
+        $this->assertType('tests/data/DefaultValueInput.graphqls', $input);
+    }
+
+    public function testPartialInputHasSameDescriptionAsInput(): void
+    {
+        $partialInput = $this->types->getPartialInput(Post::class);
+        self::assertSame('A blog post with title and body.', $partialInput->description);
+    }
+
     public function testSelfSupportInput(): void
     {
         $actual = $this->types->getInput(Blog\Model\Special\SelfSupport::class);
