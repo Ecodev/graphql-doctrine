@@ -22,8 +22,8 @@ final class PartialInputTypeFactory extends AbstractTypeFactory
      */
     public function create(string $className, string $typeName): InputObjectType
     {
-        $type = clone $this->types->getInput($className);
-        $fieldsGetter = $type->config['fields'];
+        $config = $this->types->getInput($className)->config;
+        $fieldsGetter = $config['fields'];
 
         $optionalFieldsGetter = function () use ($fieldsGetter): array {
             $optionalFields = [];
@@ -40,9 +40,9 @@ final class PartialInputTypeFactory extends AbstractTypeFactory
 
             return $optionalFields;
         };
-        $type->config['fields'] = $optionalFieldsGetter;
-        $type->name = $typeName;
+        $config['name'] = $typeName;
+        $config['fields'] = $optionalFieldsGetter;
 
-        return $type;
+        return new InputObjectType($config);
     }
 }

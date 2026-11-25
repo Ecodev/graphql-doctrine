@@ -35,6 +35,16 @@ final class InputTypesTest extends TestCase
         $this->assertType('tests/data/DefaultValuePartialInput.graphqls', $actual);
     }
 
+    public function testPartialInputIsPartialWhenInputFieldsAreAlreadyResolved(): void
+    {
+        $input = $this->types->getInput(Blog\Model\Special\DefaultValue::class);
+        $input->getFields();
+
+        $partialInput = $this->types->getPartialInput(Blog\Model\Special\DefaultValue::class);
+        $this->assertType('tests/data/DefaultValuePartialInput.graphqls', $partialInput);
+        $this->assertType('tests/data/DefaultValueInput.graphqls', $input);
+    }
+
     public function testSelfSupportInput(): void
     {
         $actual = $this->types->getInput(Blog\Model\Special\SelfSupport::class);
